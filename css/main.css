@@ -1,0 +1,72 @@
+/* Style des listes */
+
+#snippets h2, #results h2 {
+  font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+ 
+#snippets ul, #results ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+ 
+#snippets li, #results li {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+}
+ 
+#snippets li:last-child , #results li:last-child {
+  border: none;
+}
+ 
+#snippets li a, #results li a{
+  text-decoration: none;
+  color: #000;
+  display: block;
+ 
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+ 
+#snippets li a:hover, #results li a:hover {
+  background: #f6f6f6;
+}
+
+/* Style du jumbotron */
+
+  /* Style de scenario */
+
+      /* Style de player */
+      #player{
+        background-color: green;
+      }
+      
+      /* Style de episode */
+      #episode{
+        background-color: blue;
+      }
+  /* Style de snippets */
+
+  /* Style de console */
+  #console{
+    padding-top: 15px; 
+  }
+
+/* Style de vision */
+
+  /* Style de results */
+  #results{
+    display: none;
+  }
+  .displayed{
+    background-color:yellow;
+  }
+  /* Style de display-results */
+  #result-pic{
+    width: 100%;
+  }
