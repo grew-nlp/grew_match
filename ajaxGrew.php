@@ -1,5 +1,11 @@
 <?php
 	if (isset($_POST['pattern'])) {
+		session_start();
+		error_log(session_id());
+		$historyFile = fopen("data/sessions/" + session_id(),"w");
+		fwrite($historyFile, $_POST['pattern']); 
+		fclose($historyFile);
+
 		$dir = "data";
 		$count = count(scandir($dir)) - 2;
 		$id = $count + 1;
