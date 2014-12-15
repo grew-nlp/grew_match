@@ -56,7 +56,9 @@
   #console{
     padding-top: 15px; 
   }
-
+  #next-results{
+    display: none;
+  }
 /* Style de vision */
 
   /* Style de results */
@@ -68,5 +70,9 @@
   }
   /* Style de display-results */
   #result-pic{
-    width: 100%;
+    height: 100%;
+  }
+  #display-results{
+    overflow: auto;
+    /*display: none;*/
   }

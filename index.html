@@ -19,6 +19,7 @@
         </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="js/vendor/sweet-alert.css">
 
         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
       
@@ -65,6 +66,7 @@
           <div class="col-md-6" id="console">
             <textarea id="pattern-input" rows="7" cols="50"></textarea>
             <p><button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern()" >Rechercher</button></p>
+             <p><button class="btn btn-primary btn-lg" id="next-results" onclick="javascript:next_results()" >Suivant</button></p>
           </div>
         </div>
       </div>
@@ -74,18 +76,21 @@
       <div class="row">
         <div class="col-md-2" id="results">
           <h2>Resultats</h2>
+          <h3 id="progress-txt"></h3>
           <ul id="list-results"></ul>
         </div>
           
         <div class="col-md-10" id="display-results">
-          <img id="result-pic" src="">
+          <object id="result-pic" type="image/svg+xml" class="logo">
+          
+          </object>
         </div>
       </div>
     </div>
 
         <script src="js/vendor/jquery-2.1.1.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
-
+        <script src="js/vendor/sweet-alert.js"></script>
         <script src="js/main.js"></script>
 
     </body>
