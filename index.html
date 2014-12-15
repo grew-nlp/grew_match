@@ -22,15 +22,15 @@
         <link rel="stylesheet" href="js/vendor/sweet-alert.css">
 
         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-      
-        
+
+
     </head>
     <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Grew</a>
         </div>
@@ -39,7 +39,7 @@
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-md-4" id="scenario">
             <div id="player">
@@ -64,7 +64,7 @@
             </ul>
           </div>
           <div class="col-md-6" id="console">
-            <textarea id="pattern-input" rows="7" cols="50"></textarea>
+            <textarea id="pattern-input" rows="7" cols="100"></textarea>
             <p><button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern()" >Rechercher</button></p>
              <p><button class="btn btn-primary btn-lg" id="next-results" onclick="javascript:next_results()" >Suivant</button></p>
           </div>
@@ -72,17 +72,17 @@
       </div>
     </div>
 
-    <div class="container" id="vision">
+    <div class="container-fluid" id="vision">
       <div class="row">
         <div class="col-md-2" id="results">
           <h2>Resultats</h2>
           <h3 id="progress-txt"></h3>
           <ul id="list-results"></ul>
         </div>
-          
+
         <div class="col-md-10" id="display-results">
           <object id="result-pic" type="image/svg+xml" class="logo">
-          
+
           </object>
         </div>
       </div>
