@@ -3,14 +3,20 @@
 		session_start();
 
 		//Historique
-		// $hFile = "data/sessions/";
-		// $hFile .=  (string)session_id();
-		// $historyFile = fopen($hFile,"w");
-		// fwrite($historyFile, $_POST['pattern'] . "\n<+>\n");
-		// fclose($historyFile);
+		$hFile = "data/sessions/";
+		$hFile .=  (string)session_id();
+		$historyFile = fopen($hFile,"a");
+		fwrite($historyFile, $_POST['pattern'] . "\n<+>\n");
+		fclose($historyFile);
 
 		//Création du dossier de données et écriture du pattern dans le dossier correspondant
-        $dir = "/data/semagramme/www/grew/data/";
+		if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
+			$dir = "/opt/lampp/htdocs/grew/data/";
+		}else{
+			$dir = "/data/semagramme/www/grew/data/";
+		}
+       
+        
 		$id = uniqid();
 		$old = umask(0);
 		mkdir($dir . $id,0777);
@@ -32,7 +38,11 @@
 		fclose($client);
 		echo $id;
 	}elseif (isset($_POST['id'])) {
-        $dir = "/data/semagramme/www/grew/data/";
+        if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
+			$dir = "/opt/lampp/htdocs/grew/data/";
+		}else{
+			$dir = "/data/semagramme/www/grew/data/";
+		}
 		$addr = gethostbyname("localhost");
 		$client = stream_socket_client("tcp://$addr:8181", $errno, $errorMessage);
 

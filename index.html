@@ -64,9 +64,9 @@
             </ul>
           </div>
           <div class="col-md-6" id="console">
-            <textarea id="pattern-input" rows="7" cols="100"></textarea>
+            <textarea id="pattern-input" rows="7" cols="75"></textarea>
             <p><button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern()" >Rechercher</button></p>
-             <p><button class="btn btn-primary btn-lg" id="next-results" onclick="javascript:next_results()" >Suivant</button></p>
+             <p></p>
           </div>
         </div>
       </div>
@@ -77,6 +77,7 @@
         <div class="col-md-2" id="results">
           <h2>Resultats</h2>
           <h3 id="progress-txt"></h3>
+          <button class="btn btn-primary btn-lg" id="next-results" onclick="javascript:next_results()" >Suivant</button>
           <ul id="list-results"></ul>
         </div>
 
