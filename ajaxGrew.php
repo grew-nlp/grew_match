@@ -27,15 +27,24 @@
 
 		//Comunication avec l'application via le port 8080
 		$addr = gethostbyname("localhost");
+		error_reporting(0);
 		$client = stream_socket_client("tcp://$addr:8181", $errno, $errorMessage);
 
 		if ($client === false) {
-    		throw new UnexpectedValueException("Failed to connect: $errorMessage");
+			$list = fopen($dir . $id . "/list","w");
+			fwrite($list, "<!>");
+			fclose($list);
+
+			$error = fopen($dir . $id . "/error","w");
+    		fwrite($error, "Le daemon Grew n'est pas lancé actuellement sur le serveur.");
+			fclose($error);
+		}else{
+			fwrite($client, $dir . $id . "#NEW");
+			$result = stream_get_contents($client);
+			fclose($client);
 		}
 
-		fwrite($client, $dir . $id . "#NEW");
-		$result = stream_get_contents($client);
-		fclose($client);
+		error_reporting(E_ALL & ~E_NOTICE);
 		echo $id;
 	}elseif (isset($_POST['id'])) {
         if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
@@ -44,15 +53,25 @@
 			$dir = "/data/semagramme/www/grew/data/";
 		}
 		$addr = gethostbyname("localhost");
+		error_reporting(0);
 		$client = stream_socket_client("tcp://$addr:8181", $errno, $errorMessage);
 
 		if ($client === false) {
-    		throw new UnexpectedValueException("Failed to connect: $errorMessage");
-		}
+			$list = fopen($dir . $id . "/list","w");
+			fwrite($list, "<!>");
+			fclose($list);
 
-		fwrite($client, $dir . $_POST['id'] . "#NEXT");
-		$result = stream_get_contents($client);
-		fclose($client);
+			$error = fopen($dir . $id . "/error","w");
+    		fwrite($error, "Le daemon Grew n'est pas lancé actuellement sur le serveur.");
+			fclose($error);
+		}else{
+			fwrite($client, $dir . $_POST['id'] . "#NEXT");
+			$result = stream_get_contents($client);
+			fclose($client);
+		}
+		error_reporting(E_ALL & ~E_NOTICE);
+		
+		
 		echo false;
 	}
 ?>

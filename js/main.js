@@ -59,6 +59,11 @@ function request_pattern(){
 									$("#list-results").append('<li id="list-' + i + '"><a href="#" >' +  lines[i] + '</a></li>');
 									url = './data/' + id + '/' + lines[i];
 									$('#list-' + i).click({url:url,i:i},display_picture);
+									if (line == 1) {
+										// alert(lines[i]);
+										$('#result-pic').attr('data',url);
+										$('#list-' + i).addClass('displayed');
+									};
 								}
 							};
 							resultsNumber = line;
