@@ -76,3 +76,6 @@
     overflow: auto;
     /*display: none;*/
   }
+  #pattern-input{
+    width: 95%;
+  }

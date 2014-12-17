@@ -71,7 +71,7 @@ function request_pattern(){
 									if (line == 1) {
 										$('#result-pic').attr('data',url);
 										$('#list-' + i).addClass('displayed');
-										$("#display-results").animate({scrollLeft:pieces[2]},"fast");
+										$("#display-results").animate({scrollLeft:pieces[2] - 150},"fast");
 									};
 								}
 							};
@@ -158,5 +158,5 @@ function display_picture(event){
 	$('#result-pic').attr('data',event.data.url);
 	$('#list-results li').removeClass('displayed');
 	$('#list-' + event.data.i).addClass('displayed');
-	$("#display-results").animate({scrollLeft:event.data.coord},"fast");
+	$("#display-results").animate({scrollLeft:event.data.coord - 150},"fast");
 }
