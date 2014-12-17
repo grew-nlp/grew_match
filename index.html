@@ -41,17 +41,10 @@
     <div class="jumbotron">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-4" id="scenario">
-            <div id="player">
-              <h3>Leçon <span id="lesson-id">1</span></h3>
-            </div>
-            <div id="episode">
-              Blablabla
-              <br>
-              Blablabla
-              <br>
-              Blablabla
-            </div>
+          <div class="col-md-6" id="console">
+            <textarea id="pattern-input" rows="7" ></textarea>
+            <p><button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern()" >Rechercher</button></p>
+             <p></p>
           </div>
           <div class="col-md-2" id="snippets">
             <h2>Snippets</h2>
@@ -63,10 +56,17 @@
               <li><a href="#">E</a></li>
             </ul>
           </div>
-          <div class="col-md-6" id="console">
-            <textarea id="pattern-input" rows="7" ></textarea>
-            <p><button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern()" >Rechercher</button></p>
-             <p></p>
+          <div class="col-md-4" id="scenario">
+            <div id="player">
+              <h3>Leçon <span id="lesson-id">1</span></h3>
+            </div>
+            <div id="episode">
+              Blablabla
+              <br>
+              Blablabla
+              <br>
+              Blablabla
+            </div>
           </div>
         </div>
       </div>

@@ -8,6 +8,10 @@ $(function(){
 		var content = $(this).attr('snippet');
 		$("#pattern-input").val(content);
 	});
+
+	$.get( "./corpora/list", function( data ) {
+ 		$( ".navbar-header" ).append( data );
+	});
 });
 
 function request_pattern(){
@@ -21,7 +25,7 @@ function request_pattern(){
 
 	$.ajax({url:'ajaxGrew.php',
 		dataType:'text',
-		data: {pattern: $('#pattern-input').val()},
+		data: {pattern: $('#pattern-input').val(),corpus:$("#corpus-select").val()},
 		type: 'post',
 		success: function(output){
 			id = output;
@@ -94,7 +98,7 @@ function next_results(){
 
 	$.ajax({url:'ajaxGrew.php',
 		dataType:'text',
-		data: {id: id},
+		data: {id: id,corpus:$("#corpus-select").val()},
 		type: 'post',
 		success: function(output){
 			var file = "./data/" + id + "/list";
