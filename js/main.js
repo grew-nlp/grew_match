@@ -2,6 +2,14 @@ var id = "";
 var resultsNumber = 0;
 var watcher = undefined;
 var line = 0;
+
+$(function(){
+	$(".interactive").click(function(){
+		var content = $(this).attr('snippet');
+		$("#pattern-input").val(content);
+	});
+});
+
 function request_pattern(){
 	$('#results').show();
 	//Reset de la liste 
@@ -56,13 +64,14 @@ function request_pattern(){
 									$('#progress-txt').text(lines[i] + '% du corpus parcourus');
 									i = lines.length;
 								}else{
-									$("#list-results").append('<li id="list-' + i + '"><a href="#" >' +  lines[i] + '</a></li>');
-									url = './data/' + id + '/' + lines[i];
-									$('#list-' + i).click({url:url,i:i},display_picture);
+									var pieces = lines[i].split("@");
+									$("#list-results").append('<li id="list-' + i + '"><a href="#" >' +  pieces[1] + '</a></li>');
+									url = './data/' + id + '/' + pieces[0];
+									$('#list-' + i).click({url:url,i:i,coord:pieces[2]},display_picture);
 									if (line == 1) {
-										// alert(lines[i]);
 										$('#result-pic').attr('data',url);
 										$('#list-' + i).addClass('displayed');
+										$("#display-results").animate({scrollLeft:pieces[2]},"fast");
 									};
 								}
 							};
@@ -127,9 +136,10 @@ function next_results(){
 									$('#progress-txt').text(lines[i] + '% du corpus parcourus');
 									i = lines.length;
 								}else{
-									$("#list-results").append('<li id="list-' + i + '"><a href="#" >' +  lines[i] + '</a></li>');
-									url = './data/' + id + '/' + lines[i];
-									$('#list-' + i).click({url:url,i:i},display_picture);
+									var pieces = lines[i].split("@");
+									$("#list-results").append('<li id="list-' + i + '"><a href="#" >' +  pieces[1] + '</a></li>');
+									url = './data/' + id + '/' + pieces[0];
+									$('#list-' + i).click({url:url,i:i,coord:pieces[2]},display_picture);
 								}
 							};
 							resultsNumber = line;
@@ -148,4 +158,5 @@ function display_picture(event){
 	$('#result-pic').attr('data',event.data.url);
 	$('#list-results li').removeClass('displayed');
 	$('#list-' + event.data.i).addClass('displayed');
+	$("#display-results").animate({scrollLeft:event.data.coord},"fast");
 }
