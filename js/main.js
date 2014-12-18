@@ -20,7 +20,9 @@ function request_pattern(){
 	$('#submit-pattern').prop('disabled',true);
 	$('#list-results').empty();
 	$('#progress-txt').empty();
-	$("#next-results").hide();
+	$('#progress-num').empty();
+	$("#next-results").prop('disabled',true);
+	$('#result-pic').removeAttr('data');
 	resultsNumber = 0;
 
 	$.ajax({url:'ajaxGrew.php',
@@ -48,8 +50,8 @@ function request_pattern(){
 									watcher = undefined;
 									$('#submit-pattern').prop('disabled',false);
 									i= lines.length;
-									$("#next-results").hide();
-									$('#progress-txt').text('100% du corpus parcourus');
+									$("#next-results").prop('disabled',true);
+									$('#progress-txt').text('100% du corpus parcourus :');
 								}else if (lines[i] == '<!>'){
 									clearInterval(watcher);
 									watcher = undefined;
@@ -58,14 +60,14 @@ function request_pattern(){
 									});
 									i= lines.length;
 									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").hide();
+									$("#next-results").prop('disabled',true);
 								}else if (lines[i] == '<?>'){
 									progression = 1;
 								}else if (progression == 1){
 									clearInterval(watcher);
 									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").show();
-									$('#progress-txt').text(lines[i] + '% du corpus parcourus');
+									$("#next-results").prop('disabled',false);
+									$('#progress-txt').text(lines[i] + '% du corpus parcourus :');
 									i = lines.length;
 								}else{
 									var pieces = lines[i].split("@");
@@ -81,6 +83,7 @@ function request_pattern(){
 							};
 							resultsNumber = line;
                 			previous = ajax.responseText;
+                			$("#progress-num").text($("#list-results li").size() + " results");
             			}
         			}
     			};
@@ -94,7 +97,7 @@ function request_pattern(){
 function next_results(){
 	//Reset de la liste 
 	$('#submit-pattern').prop('disabled',true);
-	$("#next-results").hide();
+	$("#next-results").prop('disabled',true);
 
 	$.ajax({url:'ajaxGrew.php',
 		dataType:'text',
@@ -119,9 +122,9 @@ function next_results(){
 									clearInterval(watcher);
 									watcher = undefined;
 									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").hide();
+									$("#next-results").prop('disabled',true);
 									i= lines.length;
-									$('#progress-txt').text('100% du corpus parcourus');
+									$('#progress-txt').text('100% du corpus parcourus :');
 								}else if (lines[i] == '<!>'){
 									clearInterval(watcher);
 									watcher = undefined;
@@ -130,14 +133,14 @@ function next_results(){
 									});
 									i= lines.length;
 									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").hide();
+									$("#next-results").prop('disabled',true);
 								}else if (lines[i] == '<?>'){
 									progression = 1;
 								}else if (progression == 1){
 									clearInterval(watcher);
 									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").show();
-									$('#progress-txt').text(lines[i] + '% du corpus parcourus');
+									$("#next-results").prop('disabled',false);
+									$('#progress-txt').text(lines[i] + '% du corpus parcourus :');
 									i = lines.length;
 								}else{
 									var pieces = lines[i].split("@");
@@ -148,6 +151,7 @@ function next_results(){
 							};
 							resultsNumber = line;
                 			previous = ajax.responseText;
+                			$("#progress-num").text($("#list-results li").size() + " results");
             			}
         			}
     			};

@@ -7,7 +7,7 @@
 
 	$dir = $root . "corpora/";
 	
-	$corpora = array_diff(scandir($dir),array("..",".","list"));
+	$corpora = array_diff(scandir($dir),array("..",".","list",".svn"));
 
 	$html = '<select id="corpus-select">';
 	$i = true;
