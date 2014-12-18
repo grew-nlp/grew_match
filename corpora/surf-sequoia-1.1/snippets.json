@@ -1,0 +1,5 @@
+ "snippets":[
+    {"name":"Recherche par lemme", "content":"match { N [lemma=\"XXX\"] }"},
+    {"name":"Recherche par POS", "content":"match { N [cat=\"XXX\"] }"},
+    {"name":"Recherche par relation", "content":"match {\n  GOV [];\n  DEP [];\n  GOV -[XXX]-> DEP\n}"},
+]
