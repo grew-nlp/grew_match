@@ -10,12 +10,16 @@ $(function(){
 	});
 
 	$.get( "./corpora/list", function( data ) {
- 		$( ".navbar-header" ).append( data );
+ 		$( "#corpus-select" ).append( data );
+	});
+
+	$('#corpus-select').change(function(){
+		$('#vision').hide();
 	});
 });
 
 function request_pattern(){
-	$('#results').show();
+	$('#vision').show();
 	//Reset de la liste 
 	$('#submit-pattern').prop('disabled',true);
 	$('#list-results').empty();
@@ -51,12 +55,12 @@ function request_pattern(){
 									$('#submit-pattern').prop('disabled',false);
 									i= lines.length;
 									$("#next-results").prop('disabled',true);
-									$('#progress-txt').text('100% du corpus parcourus :');
+									$('#progress-txt').text('100% of corpus browsed :');
 								}else if (lines[i] == '<!>'){
 									clearInterval(watcher);
 									watcher = undefined;
 									$.get('./data/' + id + '/error',function(errors){
-										sweetAlert("Une erreur est survenue", errors, "error");
+										sweetAlert("An error occured", errors, "error");
 									});
 									i= lines.length;
 									$('#submit-pattern').prop('disabled',false);
@@ -67,7 +71,7 @@ function request_pattern(){
 									clearInterval(watcher);
 									$('#submit-pattern').prop('disabled',false);
 									$("#next-results").prop('disabled',false);
-									$('#progress-txt').text(lines[i] + '% du corpus parcourus :');
+									$('#progress-txt').text(lines[i] + '% of corpus browsed :');
 									i = lines.length;
 								}else{
 									var pieces = lines[i].split("@");
@@ -124,12 +128,12 @@ function next_results(){
 									$('#submit-pattern').prop('disabled',false);
 									$("#next-results").prop('disabled',true);
 									i= lines.length;
-									$('#progress-txt').text('100% du corpus parcourus :');
+									$('#progress-txt').text('100% of corpus browsed :');
 								}else if (lines[i] == '<!>'){
 									clearInterval(watcher);
 									watcher = undefined;
 									$.get('./data/' + id + '/error',function(errors){
-										sweetAlert("Une erreur est survenue", errors, "error");
+										sweetAlert("An error occured", errors, "error");
 									});
 									i= lines.length;
 									$('#submit-pattern').prop('disabled',false);
@@ -140,7 +144,7 @@ function next_results(){
 									clearInterval(watcher);
 									$('#submit-pattern').prop('disabled',false);
 									$("#next-results").prop('disabled',false);
-									$('#progress-txt').text(lines[i] + '% du corpus parcourus :');
+									$('#progress-txt').text(lines[i] + '% of corpus browsed :');
 									i = lines.length;
 								}else{
 									var pieces = lines[i].split("@");

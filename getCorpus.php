@@ -9,7 +9,7 @@
 	
 	$corpora = array_diff(scandir($dir),array("..",".","list",".svn"));
 
-	$html = '<select id="corpus-select">';
+	$html = '';
 	$i = true;
 	foreach ($corpora as $corpus) {
 		if ($i) {
@@ -21,7 +21,6 @@
 		
 
 	}
-	$html .= '</select>';
 
 	$listCorpus = $dir . 'list';
 	$corpusFile = fopen($listCorpus,"w");

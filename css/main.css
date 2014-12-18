@@ -60,7 +60,7 @@
 /* Style de vision */
 
   /* Style de results */
-  #results{
+  #vision{
     display: none;
   }
   .displayed{
@@ -70,7 +70,10 @@
   #result-pic{
     height: 100%;
   }
-  #display-results{
+  #list-results{
+    height: 400px;
+  }
+  #display-results,#list-results{
     overflow: auto;
     /*display: none;*/
   }

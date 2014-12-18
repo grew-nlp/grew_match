@@ -9,6 +9,11 @@
 		// fwrite($historyFile, $_POST['pattern'] . "\n<+>\n");
 		// fclose($historyFile);
 
+		$hFile = "data/log";
+		$historyFile = fopen($hFile,"a");
+		fwrite($historyFile, date("d-m-Y H:i" ) . "|" . $_POST['corpus'] . "=>" . $_POST['pattern'] . "\n<+>\n");
+		fclose($historyFile);
+
 		//Création du dossier de données et écriture du pattern dans le dossier correspondant
 		if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
 			$dir = "/opt/lampp/htdocs/grew/data/";
@@ -42,7 +47,7 @@
 			fclose($list);
 
 			$error = fopen($dir . $id . "/error","w");
-    		fwrite($error, "Le daemon Grew n'est pas lancé actuellement sur le serveur.");
+    		fwrite($error, "Grew daemon is not running on the server at the moment.");
 			fclose($error);
 		}else{
 			fwrite($client, $dir . $id . "#NEW");
@@ -74,7 +79,7 @@
 			fclose($list);
 
 			$error = fopen($dir . $id . "/error","w");
-    		fwrite($error, "Le daemon Grew n'est pas lancé actuellement sur le serveur.");
+    		fwrite($error, "Grew daemon is not running on the server at the moment.");
 			fclose($error);
 		}else{
 			fwrite($client, $dir . $_POST['id'] . "#NEXT");
