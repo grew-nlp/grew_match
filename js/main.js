@@ -20,7 +20,7 @@ $(function(){
 
 function request_pattern(){
 	$('#vision').show();
-	//Reset de la liste 
+	//Reset de la liste
 	$('#submit-pattern').prop('disabled',true);
 	$('#list-results').empty();
 	$('#progress-txt').empty();
@@ -93,13 +93,13 @@ function request_pattern(){
     			};
     			ajax.open("POST", "./data/" + id + "/list", true); //Use POST to avoid caching
     			ajax.send();
-			}, 1000);
+			}, 300);
 		}
 	});
 }
 
 function next_results(){
-	//Reset de la liste 
+	//Reset de la liste
 	$('#submit-pattern').prop('disabled',true);
 	$("#next-results").prop('disabled',true);
 
@@ -119,7 +119,7 @@ function next_results(){
             			if (ajax.responseText != previous) {
             				var progression = 0;
            					var lines = ajax.responseText.split("\n");
-           					
+
 							for (var i = resultsNumber,len = lines.length; i < len;i++) {
 								line++;
 								if (lines[i] == '<#>') {
@@ -161,7 +161,7 @@ function next_results(){
     			};
     			ajax.open("POST", "./data/" + id + "/list", true); //Use POST to avoid caching
     			ajax.send();
-			}, 1000);
+			}, 300);
 		}
 	});
 }
