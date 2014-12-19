@@ -51,16 +51,34 @@
           <div class="col-md-2" id="snippets">
             <h2>Snippets</h2>
             <ul>
-              <li><a class="interactive" snippet="match{N[lemma=vache]}" href="#">A</a></li>
-              <li><a class="interactive" snippet="match{N[lemma=chevre]}"href="#">B</a></li>
-              <li><a href="#">C</a></li>
-              <li><a href="#">D</a></li>
-              <li><a href="#">E</a></li>
+              <li><a class="interactive" snippet='match { N[lemma = "vendre"] }' href="#">Recherche par lemme</a></li>
+              <li><a class="interactive" snippet="match { N[cat = PRO] }" href="#">Recherche par catégorie</a></li>
+              <li><a class="interactive" snippet="% Recherche de la relation [mod.rel]
+match {
+  GOV [];
+  DEP [];
+  GOV -[mod.rel]-> DEP
+}" href="#">Recherche par relation</a></li>
+              <li><a class="interactive" snippet="% Recherche de sujets phrastiques (à rechercher dans surf-sequoia)
+match {
+  SUJ [cat=V];
+  V [cat=V];
+  V -[suj]-> SUJ;
+}
+" href="#">Recherche combinée</a></li>
+
+              <li><a class="interactive" snippet="% (à rechercher sur surf-sequoia)
+% Recherche de verbes: 1/ dont le mode n'est ni infinitf, ni participe, 2/ qui n'a pas de sujet et 3/ qui n'est pas un auxiliaire
+match {  V [cat =  V, m<>inf|part]; }
+without { V -[suj]-> * }
+without { * -[aux.pass|aux.tps]-> V }
+" href="#">Clauses négatives</a></li>
+
             </ul>
           </div>
           <div class="col-md-4" id="scenario">
             <div id="player">
-              <h3>Lessons <span id="lesson-id">1</span></h3>
+              <h3>Lesson <span id="lesson-id">1</span></h3>
             </div>
             <div id="episode">
               Blablabla
