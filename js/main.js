@@ -14,13 +14,15 @@ $(function(){
  		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
 			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
 			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
-			$('#pattern-input').val(pattern);
-		});
-	};
+				$('#pattern-input').val(pattern);
+			});
+		};
+		$('#corpus-select').after('<a href="./corpora/'+ $("#corpus-select").val() + '/doc.html" class="fancybox" target="_blank" id="corpus-desc">?</a>');
 	});
 
 	$('#corpus-select').change(function(){
 		$('#vision').hide();
+		$("#corpus-desc").prop("href",'./corpora/'+ $("#corpus-select").val() + '/doc.html');
 	});
 
 	
