@@ -4,10 +4,6 @@ var watcher = undefined;
 var line = 0;
 
 $(function(){
-	$(".interactive").click(function(){
-		var content = $(this).attr('snippet');
-		$("#pattern-input").val(content);
-	});
 
 	$.get( "./corpora/list", function( data ) {
  		$( "#corpus-select" ).append( data );
@@ -18,11 +14,13 @@ $(function(){
 			});
 		};
 		$('#corpus-select').after('<a href="./corpora/'+ $("#corpus-select").val() + '/doc.html" class="fancybox" target="_blank" id="corpus-desc">?</a>');
+		snippets_extract();
 	});
 
 	$('#corpus-select').change(function(){
 		$('#vision').hide();
 		$("#corpus-desc").prop("href",'./corpora/'+ $("#corpus-select").val() + '/doc.html');
+		snippets_extract();
 	});
 
 	
@@ -224,4 +222,19 @@ function getParameterByName(name) {
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function snippets_extract(){
+	$("#snippets ul").empty();
+	$.get( './corpora/'+ $("#corpus-select").val() + '/snippets.json', function( data ) {
+  		jsonSnippet = JSON.parse(data);
+ 		
+  		$.each( jsonSnippet, function( key, val ) {
+    		$("#snippets ul").append("<li><a class='interactive' snippet='"+ val.content +"' href='#'>"+ val.name +"</a></li>");
+  		});
+ 		$(".interactive").click(function(){
+			var content = $(this).attr('snippet');
+			$("#pattern-input").val(content);
+		});
+});
 }
