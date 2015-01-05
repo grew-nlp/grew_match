@@ -45,8 +45,9 @@
         <div class="row">
           <div class="col-md-6" id="console">
             <textarea id="pattern-input" rows="7" ></textarea>
-            <p><button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern()" >Rechercher</button></p>
-             <p></p>
+            <p><button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern()" >Search</button>
+            <button class="btn btn-primary btn-lg" id="save-pattern" onclick="javascript:save_pattern()" >Save</button></p>
+             <p><span id='custom-display'>You custom pattern URL is the following: <span id="custom-url"></span></span></p>
           </div>
           <div class="col-md-2" id="snippets">
             <h2>Snippets</h2>

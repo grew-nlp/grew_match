@@ -11,11 +11,19 @@ $(function(){
 
 	$.get( "./corpora/list", function( data ) {
  		$( "#corpus-select" ).append( data );
+ 		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
+			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
+			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
+			$('#pattern-input').val(pattern);
+		});
+	};
 	});
 
 	$('#corpus-select').change(function(){
 		$('#vision').hide();
 	});
+
+	
 });
 
 function request_pattern(){
@@ -171,4 +179,47 @@ function display_picture(event){
 	$('#list-results li').removeClass('displayed');
 	$('#list-' + event.data.i).addClass('displayed');
 	$("#display-results").animate({scrollLeft:event.data.coord - 150},"fast");
+}
+
+function save_pattern(num){
+	if ($('#pattern-input').val().length > 0) {
+		corpus = $("#corpus-select").prop('selectedIndex');
+		$.ajax({url:'shorten.php',
+			dataType:'text',
+			data: {pattern: $('#pattern-input').val()},
+			type: 'post',
+			success: function(output){
+				history.pushState({id:output},"Grew - Custom saved pattern", "?custom=" + output + "&corpus=" + corpus);
+				$('#custom-url').text(window.location.href);
+				$('#custom-display').show();
+				SelectText("custom-url");
+			}
+		});
+	} else {
+		sweetAlert("An error occured", "You can't save an empty pattern", "error");
+	}
+}
+
+function SelectText(element) {
+    var doc = document
+        , text = doc.getElementById(element)
+        , range, selection
+    ;    
+    if (doc.body.createTextRange) {
+        range = document.body.createTextRange();
+        range.moveToElementText(text);
+        range.select();
+    } else if (window.getSelection) {
+        selection = window.getSelection();        
+        range = document.createRange();
+        range.selectNodeContents(text);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+}
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
