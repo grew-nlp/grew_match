@@ -2,13 +2,6 @@
 	if (isset($_POST['pattern'])) {
 		session_start();
 
-		//Historique
-		// $hFile = "data/sessions/";
-		// $hFile .=  (string)session_id();
-		// $historyFile = fopen($hFile,"a");
-		// fwrite($historyFile, $_POST['pattern'] . "\n<+>\n");
-		// fclose($historyFile);
-
 		$hFile = "data/log";
 		$historyFile = fopen($hFile,"a");
 		fwrite($historyFile, date("d-m-Y H:i" ) . "|" . $_POST['corpus'] . "=>" . $_POST['pattern'] . "\n<+>\n");

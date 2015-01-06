@@ -227,8 +227,9 @@ function getParameterByName(name) {
 function snippets_extract(){
 	$("#snippets ul").empty();
 	$.get( './corpora/'+ $("#corpus-select").val() + '/snippets.json', function( data ) {
+  		console.log(data);
   		jsonSnippet = JSON.parse(data);
- 		
+ 		console.log("BOB");
   		$.each( jsonSnippet, function( key, val ) {
     		$("#snippets ul").append("<li><a class='interactive' snippet='"+ val.content +"' href='#'>"+ val.name +"</a></li>");
   		});
