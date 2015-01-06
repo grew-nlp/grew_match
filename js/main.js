@@ -23,6 +23,7 @@ $(function(){
 		snippets_extract();
 	});
 
+	var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("pattern-input"));
 	
 });
 
