@@ -18,6 +18,7 @@ $(function(){
 	});
 
 	$('#corpus-select').change(function(){
+		$('#custom-display').hide();
 		$('#vision').hide();
 		$("#corpus-desc").prop("href",'./corpora/'+ $("#corpus-select").val() + '/doc.html');
 		snippets_extract();
@@ -28,6 +29,7 @@ $(function(){
 });
 
 function request_pattern(){
+	$('#custom-display').hide();
 	$('#vision').show();
 	//Reset de la liste
 	$('#submit-pattern').prop('disabled',true);
