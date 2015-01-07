@@ -1,3 +1,18 @@
-[{"name":"Recherche par lemme", "content":"match { N [lemma=\"XXX\"] }"},
-{"name":"Recherche par POS", "content":"match { N [cat=\"XXX\"] }"},
-{"name":"Recherche par relation", "content":"match {\n  GOV [];\n  DEP [];\n  GOV -[XXX]-> DEP\n}"}]
+[
+  {
+        "name":"Recherche par lemme",
+        "content":"% Recherche d&#39;une unité lexicale par son lemme\n\nmatch { N [lemma=\"écouter\"] }"
+  },
+  {
+        "name":"Recherche par catégorie",
+        "content":"% Recherche d&#39;une unité lexicale par sa catégorie\n% Les catégories disponibles&nbsp;: V, N, C, CL, P, I, PONCT, A, ADV, PRO, D, ET, P+D, P+PRO, PREF\n\nmatch { N [cat=\"P+PRO\"] }"
+  },
+  {
+        "name":"Recherche par relation",
+        "content":"% Recherche par type de relation (par exemple ici l&#39;auxiliaire causatif [aux.caus])\n\nmatch {\n  GOV [];\n  DEP [];\n  GOV -[aux.caus]-> DEP\n}"
+  },
+  {
+        "name":"Recherche combinée",
+        "content":"% Recherche mixte catégorie/relation (par exemple ici une préposition utilisée comme un déterminant)\n\nmatch {\n  PREP [cat=P];\n  X [];\n  X -[det]-> PREP\n}"
+  }
+]
