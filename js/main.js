@@ -15,15 +15,22 @@ $(function(){
 
 			});
 		};
-		$('#corpus-select').after('<a href="./corpora/'+ $("#corpus-select").val() + '/doc.html" class="fancybox" target="_blank" id="corpus-desc">?</a>');
-		snippets_extract();
+		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
+			$('#corpus-select').after('<span href="" class="tooltip-desc" id="corpus-desc">?</span>');
+			snippets_extract();
+			$('.tooltip-desc').tooltipster({content:data,contentAsHTML:true,theme:'tooltipster-noir'});
+		});
+		
 	});
 
 	$('#corpus-select').change(function(){
 		$('#custom-display').hide();
 		$('#vision').hide();
-		$("#corpus-desc").prop("href",'./corpora/'+ $("#corpus-select").val() + '/doc.html');
-		snippets_extract();
+		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
+			$('.tooltip-desc').tooltipster('content',data);
+			snippets_extract();
+		});
+
 	});
 
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"));
