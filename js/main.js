@@ -2,6 +2,7 @@ var id = "";
 var resultsNumber = 0;
 var watcher = undefined;
 var line = 0;
+var cmEditor = undefined;
 
 $(function(){
 
@@ -24,7 +25,7 @@ $(function(){
 		snippets_extract();
 	});
 
-	var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("pattern-input"));
+	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"));
 	
 });
 
@@ -236,9 +237,10 @@ function snippets_extract(){
   		$.each( jsonSnippet, function( key, val ) {
     		$("#snippets ul").append("<li><a class='interactive' snippet='"+ val.content +"' href='#'>"+ val.name +"</a></li>");
   		});
+
  		$(".interactive").click(function(){
 			var content = $(this).attr('snippet');
-			$("#pattern-input").val(content);
+			cmEditor.setValue(content);
 		});
 });
 }
