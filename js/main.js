@@ -33,7 +33,9 @@ $(function(){
 
 	});
 
-	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"));
+	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
+    	lineNumbers: true,
+  	});
 	
 });
 
