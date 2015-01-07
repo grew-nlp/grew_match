@@ -11,7 +11,8 @@ $(function(){
  		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
 			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
 			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
-				$('#pattern-input').val(pattern);
+				cmEditor.setValue(pattern);
+
 			});
 		};
 		$('#corpus-select').after('<a href="./corpora/'+ $("#corpus-select").val() + '/doc.html" class="fancybox" target="_blank" id="corpus-desc">?</a>');
@@ -43,7 +44,7 @@ function request_pattern(){
 
 	$.ajax({url:'ajaxGrew.php',
 		dataType:'text',
-		data: {pattern: $('#pattern-input').val(),corpus:$("#corpus-select").val()},
+		data: {pattern: cmEditor.getValue(),corpus:$("#corpus-select").val()},
 		type: 'post',
 		success: function(output){
 			id = output;
@@ -186,11 +187,11 @@ function display_picture(event){
 }
 
 function save_pattern(num){
-	if ($('#pattern-input').val().length > 0) {
+	if (cmEditor.getValue().length > 0) {
 		corpus = $("#corpus-select").prop('selectedIndex');
 		$.ajax({url:'shorten.php',
 			dataType:'text',
-			data: {pattern: $('#pattern-input').val()},
+			data: {pattern: cmEditor.getValue()},
 			type: 'post',
 			success: function(output){
 				history.pushState({id:output},"Grew - Custom saved pattern", "?custom=" + output + "&corpus=" + corpus);
