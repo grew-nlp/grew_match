@@ -14,5 +14,10 @@
   {
         "name":"Recherche combinée",
         "content":"% Recherche mixte catégorie/relation (par exemple ici une préposition utilisée comme un déterminant)\n\nmatch {\n  PREP [cat=P];\n  X [];\n  X -[det]-> PREP\n}"
+  },
+  {
+        "name":"Contrainte négative",
+        "content":"% Recherche avec une contrainte négative.\n% Par exemple, recherche d&#39;une conjonction de coordination qui n&#39;est pas dominée par un relation \"coord\" \n\nmatch {\n  CC [cat=C, s=c]\n}\nwithout {\n  X [];\n  X -[coor\
+d|root]-> CC;\n}"
   }
 ]
