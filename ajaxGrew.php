@@ -9,12 +9,12 @@
 
 		//Création du dossier de données et écriture du pattern dans le dossier correspondant
 		if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
-			$dir = "/opt/lampp/htdocs/grew/data/";
+			$dir = "/Users/guillaum/forge/semagramme/grew_web/data/";
 		}else{
 			$dir = "/data/semagramme/www/grew/data/";
 		}
-       
-        
+
+
 		$id = uniqid();
 		$old = umask(0);
 		mkdir($dir . $id,0777);
