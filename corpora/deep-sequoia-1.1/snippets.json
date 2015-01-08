@@ -1,5 +1,15 @@
 [
-    {"name":"Recherche par lemme", "content":"match { N [lemma=\"XXX\"] }"},
-    {"name":"Recherche par POS", "content":"match { N [cat=\"XXX\"] }"},
-    {"name":"Recherche par relation", "content":"match {\n  GOV [];\n  DEP [];\n  GOV -[XXX]-> DEP\n}"}
+  {
+        "name":"Recherche par lemme",
+        "content":"% Recherche d&#39;une unité lexicale par son lemme\n\nmatch { N [lemma=\"écouter\"] }"
+  },
+  {
+        "name":"Recherche par catégorie",
+        "content":"% Recherche d&#39;une unité lexicale par sa catégorie\n% Les catégories disponibles&nbsp;: V, N, C, CL, P, I, PONCT, A, ADV, PRO, D, ET, P+D, P+PRO, PREF\n\nmatch { N [cat=\"P+PRO\"] }"
+  },
+  {
+        "name":"Recherche par relation",
+        "content":"% Recherche par type de relation (par exemple ici l&#39;auxiliaire causatif [aux.caus])\n% Attention, dans Deep-sequoia&nbsp;:\n% - les relations de surface sont prefixées par &quot;S:&quot;\n% - les relations profondes sont préfixées par &quot;D:&quot;\n\nmatch {\n  GOV [];\n  DEP [];\n  GOV -[S:aux.caus]-> DEP\n}"
+  }
 ]
+
