@@ -20,7 +20,7 @@ $(function(){
 			snippets_extract();
 			$('.tooltip-desc').tooltipster({content:data,contentAsHTML:true,theme:'tooltipster-noir'});
 		});
-		
+
 	});
 
 	$('#corpus-select').change(function(){
@@ -36,7 +36,7 @@ $(function(){
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
     	lineNumbers: true,
   	});
-	
+    
 });
 
 function request_pattern(){
@@ -101,7 +101,11 @@ function request_pattern(){
 									url = './data/' + id + '/' + pieces[0];
 									$('#list-' + i).click({url:url,i:i,coord:pieces[2]},display_picture);
 									if (line == 1) {
-										$('#result-pic').attr('data',url);
+
+										//$('#result-pic').attr('data',url);
+										var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
+										document.getElementById('display-results').innerHTML = newHtml;
+
 										$('#list-' + i).addClass('displayed');
 										$("#display-results").animate({scrollLeft:pieces[2] - 150},"fast");
 									};
@@ -189,7 +193,10 @@ function next_results(){
 }
 
 function display_picture(event){
-	$('#result-pic').attr('data',event.data.url);
+//	$('#result-pic').attr('data',event.data.url);
+	var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url +"\" > </object>";
+	document.getElementById('display-results').innerHTML = newHtml;
+
 	$('#list-results li').removeClass('displayed');
 	$('#list-' + event.data.i).addClass('displayed');
 	$("#display-results").animate({scrollLeft:event.data.coord - 150},"fast");
@@ -218,13 +225,13 @@ function SelectText(element) {
     var doc = document
         , text = doc.getElementById(element)
         , range, selection
-    ;    
+    ;
     if (doc.body.createTextRange) {
         range = document.body.createTextRange();
         range.moveToElementText(text);
         range.select();
     } else if (window.getSelection) {
-        selection = window.getSelection();        
+        selection = window.getSelection();
         range = document.createRange();
         range.selectNodeContents(text);
         selection.removeAllRanges();
@@ -241,9 +248,9 @@ function getParameterByName(name) {
 function snippets_extract(){
 	$("#snippets ul").empty();
 	$.get( './corpora/'+ $("#corpus-select").val() + '/snippets.json', function( data ) {
-  		
+
   		jsonSnippet = data;
- 		
+
   		$.each( jsonSnippet, function( key, val ) {
     		$("#snippets ul").append("<li><a class='interactive' snippet='"+ val.content +"' href='#'>"+ val.name +"</a></li>");
   		});
