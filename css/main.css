@@ -41,14 +41,14 @@
 
   /* Style de scenario */
 
-      /* Style de player */
-      #player{
-        background-color: green;
+      /* Style de lesson */
+      #lesson{
+        background-color: #FDFDA0;
       }
       
       /* Style de episode */
       #episode{
-        background-color: blue;
+        background-color: #FDFDC8;
       }
   /* Style de snippets */
 
