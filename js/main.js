@@ -280,15 +280,15 @@ function previous_lesson(){
 }
 
 function previous_svg(){
-	tabId = $('#list-results li.displayed').getAttr('id').split("-");
+	tabId = $('#list-results .displayed').getAttr('id').split("-");
 	id = tabId[i];
 	id = id - 1;
-	$('#list-' + id).click();
+	$('#list-' + id).trigger("click");
 }
 
 function next_svg(){
-	tabId = $('#list-results li.displayed').getAttr('id').split("-");
+	tabId = $('#list-results .displayed').getAttr('id').split("-");
 	id = tabId[i];
 	id = id + 1;
-	$('#list-' + id).click();
+	$('#list-' + id).trigger("click");
 }
