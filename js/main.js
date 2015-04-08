@@ -278,3 +278,17 @@ function previous_lesson(){
 	if (lesson < 1 ) {lesson = 1};
 	$("#scenario").load("lesson"+ lesson +".html");
 }
+
+function previous_svg(){
+	tabId = $('#list-results li.displayed').getAttr('id').split("-");
+	id = tabId[i];
+	id = id - 1;
+	$('#list-' + id).click();
+}
+
+function next_svg(){
+	tabId = $('#list-results li.displayed').getAttr('id').split("-");
+	id = tabId[i];
+	id = id + 1;
+	$('#list-' + id).click();
+}

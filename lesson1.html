@@ -54,7 +54,10 @@ match { N [  cat=V, p=* ] }' href="#">[TRY IT!]</a>
 match { N [  cat=V, !p ] }' href="#">[TRY IT!]</a>
               </li>
             </ul>
+            <button class="btn btn-primary btn-lg" id="prev-lesson" onclick="javascript:previous_lesson()" >Previous</button>
+          <button class="btn btn-primary btn-lg" id="next-lesson" onclick="javascript:next_lesson()" >Next</button></p>
             </div> <!-- id="episode" -->
+
             <script type="text/javascript">
             $(".interactive").click(function(){
       var content = $(this).attr('snippet');
