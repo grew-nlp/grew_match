@@ -280,14 +280,14 @@ function previous_lesson(){
 }
 
 function previous_svg(){
-	tabId = $('#list-results .displayed').getAttr('id').split("-");
+	tabId = $('#list-results .displayed').attr('id').split("-");
 	id = tabId[i];
 	id = id - 1;
 	$('#list-' + id).trigger("click");
 }
 
 function next_svg(){
-	tabId = $('#list-results .displayed').getAttr('id').split("-");
+	tabId = $('#list-results .displayed').attr('id').split("-");
 	id = tabId[i];
 	id = id + 1;
 	$('#list-' + id).trigger("click");
