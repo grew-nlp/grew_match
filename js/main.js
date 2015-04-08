@@ -281,14 +281,16 @@ function previous_lesson(){
 
 function previous_svg(){
 	tabId = $('#list-results .displayed').attr('id').split("-");
-	id = tabId[i];
+	id = tabId[1];
 	id = id - 1;
+	if (id < 0) {id = 0};
 	$('#list-' + id).trigger("click");
 }
 
 function next_svg(){
 	tabId = $('#list-results .displayed').attr('id').split("-");
-	id = tabId[i];
+	id = tabId[1];
 	id = id + 1;
+	if (id > $('ul#list-results li').length - 1) {id = $('ul#list-results li').length - 1};
 	$('#list-' + id).trigger("click");
 }
