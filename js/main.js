@@ -290,7 +290,7 @@ function previous_svg(){
 function next_svg(){
 	tabId = $('#list-results .displayed').attr('id').split("-");
 	id = tabId[1];
-	id = id + 1;
+	id = parseInt(id) + 1;
 	if (id > $('ul#list-results li').length - 1) {id = $('ul#list-results li').length - 1};
 	$('#list-' + id).trigger("click");
 }
