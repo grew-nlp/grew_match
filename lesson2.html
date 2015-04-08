@@ -1,0 +1,103 @@
+<!-- =================================== Lesson 2 =================================== -->
+            <div id="lesson">
+              <h3>Lesson <span id="lesson-id">2</span>: How to search for relations</h3>
+            </div>
+
+            <div id="episode">
+              <ul>
+              <li>
+              Match any relation between any two nodes.
+              <a class="interactive" snippet="% Match any relation between any two nodes
+
+match {
+  N [];
+  M [];
+  N -> M;
+}" href="#">[TRY IT!]
+              </a>
+              <li>
+              Match a specifique relation.
+              <a class="interactive" snippet="% Match a specifique relation.
+
+match {
+  N [];
+  M [];
+  N -[suj]-> M;
+}" href="#">[TRY IT!]
+              </a>
+
+              <li>
+              Match a disjunction of relations.
+              <a class="interactive" snippet="% Match a disjunction of relations.
+
+match {
+  N [];
+  M [];
+  N -[suj|obj]-> M;
+}" href="#">[TRY IT!]
+              </a>
+
+              </li>
+
+              <li>
+              Match any relation except a given disjunction.
+              <a class="interactive" snippet="% Match any relation except a given disjunction.
+
+match {
+  N [];
+  M [];
+  N -[^suj|obj]-> M;
+}" href="#">[TRY IT!]
+              </a>
+
+              </li>
+
+              <li>
+              Use the * joker to replace any substring.
+              <a class="interactive" snippet='% Use the * joker to replace any substring.
+
+match {
+  N [];
+  M [];
+  N -[aux.*]-> M;
+}' href="#">[TRY IT!]
+              </a>
+
+              </li>
+              <li>
+
+              Combine search on nodes and search on relation.
+              <a class="interactive" snippet='% Combine search on nodes and search on relation.
+
+match {
+  N [ cat=A ];
+  M [];
+  N -[a_obj]-> M;
+}' href="#">[TRY IT!]
+              </a>
+
+              </li>
+
+              <li>
+
+              Search for a larger pattern.
+              <a class="interactive" snippet='% Search for a larger pattern.
+
+match {
+  ADJ [ cat=A ];
+  PREP [ cat=P ];
+  ADJ -[a_obj]-> PREP;
+  OBJ [ s<>c ];
+  PREP -[obj.p]-> OBJ;
+}' href="#">[TRY IT!]
+              </a>
+
+              </li>
+
+              </ul>
+            </div> <!-- id="episode" -->
+            <script type="text/javascript">
+            $(".interactive").click(function(){
+      var content = $(this).attr('snippet');
+      cmEditor.setValue(content);
+    });</script>

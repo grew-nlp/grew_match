@@ -3,6 +3,7 @@ var resultsNumber = 0;
 var watcher = undefined;
 var line = 0;
 var cmEditor = undefined;
+var lesson = 1;
 
 $(function(){
 
@@ -22,6 +23,10 @@ $(function(){
 		});
 
 	});
+
+
+      $("#scenario").load("lesson"+ lesson+".html");
+
 
 	$('#corpus-select').change(function(){
 		$('#custom-display').hide();
@@ -260,4 +265,16 @@ function snippets_extract(){
 			cmEditor.setValue(content);
 		});
 });
+}
+
+function next_lesson(){
+	lesson = lesson + 1 ;
+	if (lesson > 2 ) {lesson = 2};
+	$("#scenario").load("lesson"+ lesson +".html");
+}
+
+function previous_lesson(){
+	lesson = lesson - 1 ;
+	if (lesson < 1 ) {lesson = 1};
+	$("#scenario").load("lesson"+ lesson +".html");
 }
