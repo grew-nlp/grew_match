@@ -4,6 +4,7 @@ var watcher = undefined;
 var line = 0;
 var cmEditor = undefined;
 var lesson = 1;
+var incrementResult = 0;
 
 $(function(){
 
@@ -72,6 +73,7 @@ function request_pattern(){
         			if (ajax.readyState == 4) {
             			if (ajax.responseText != previous) {
             				var progression = 0;
+            				incrementResult = 0;
            					var lines = ajax.responseText.split("\n");
            					line = 0;
 							for (var i = resultsNumber,len = lines.length; i < len;i++) {
@@ -102,7 +104,8 @@ function request_pattern(){
 									i = lines.length;
 								}else{
 									var pieces = lines[i].split("@");
-									$("#list-results").append('<li id="list-' + i + '"><a href="#" >' +  pieces[1] + '</a></li>');
+									$("#list-results").append('<li id="list-' + incrementResult + '"><a href="#" >' +  pieces[1] + '</a></li>');
+									incrementResult++;
 									url = './data/' + id + '/' + pieces[0];
 									$('#list-' + i).click({url:url,i:i,coord:pieces[2]},display_picture);
 									if (line == 1) {
@@ -179,7 +182,9 @@ function next_results(){
 									i = lines.length;
 								}else{
 									var pieces = lines[i].split("@");
-									$("#list-results").append('<li id="list-' + i + '"><a href="#" >' +  pieces[1] + '</a></li>');
+
+									$("#list-results").append('<li id="list-' + incrementResult + '"><a href="#" >' +  pieces[1] + '</a></li>');
+									incrementResult++;
 									url = './data/' + id + '/' + pieces[0];
 									$('#list-' + i).click({url:url,i:i,coord:pieces[2]},display_picture);
 								}
