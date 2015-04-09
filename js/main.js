@@ -105,9 +105,10 @@ function request_pattern(){
 								}else{
 									var pieces = lines[i].split("@");
 									$("#list-results").append('<li id="list-' + incrementResult + '"><a href="#" >' +  pieces[1] + '</a></li>');
-									incrementResult++;
+									
 									url = './data/' + id + '/' + pieces[0];
 									$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
+
 									if (line == 1) {
 
 										//$('#result-pic').attr('data',url);
@@ -117,6 +118,7 @@ function request_pattern(){
 										$('#list-' + incrementResult).addClass('displayed');
 										$("#display-results").animate({scrollLeft:pieces[2] - 150},"fast");
 									};
+									incrementResult++;
 								}
 							};
 							resultsNumber = line;
@@ -184,9 +186,10 @@ function next_results(){
 									var pieces = lines[i].split("@");
 
 									$("#list-results").append('<li id="list-' + incrementResult + '"><a href="#" >' +  pieces[1] + '</a></li>');
-									incrementResult++;
+									
 									url = './data/' + id + '/' + pieces[0];
 									$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
+									incrementResult++;
 								}
 							};
 							resultsNumber = line;
@@ -296,6 +299,6 @@ function next_svg(){
 	tabId = $('#list-results .displayed').attr('id').split("-");
 	lid = tabId[1];
 	lid = parseInt(lid) + 1;
-	if (lid > incrementResult) {lid = incrementResult};
+	if (lid > incrementResult) {lid = incrementResult - 1};
 	$('#list-' + lid).trigger("click");
 }
