@@ -296,6 +296,6 @@ function next_svg(){
 	tabId = $('#list-results .displayed').attr('id').split("-");
 	lid = tabId[1];
 	lid = parseInt(lid) + 1;
-	if (lid > $('ul#list-results li').length - 1) {lid = $('ul#list-results li').length - 1};
+	if (lid > incrementResult) {lid = incrementResult};
 	$('#list-' + lid).trigger("click");
 }
