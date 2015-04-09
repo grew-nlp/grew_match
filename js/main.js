@@ -1,22 +1,29 @@
-var id = "";
-var resultsNumber = 0;
-var watcher = undefined;
-var line = 0;
-var cmEditor = undefined;
-var lesson = 1;
-var incrementResult = 0;
+var id = "";//L'id de la requête
+var cursor = 0;//Etat d'avancement global dans le fichier texte (nombre total de lignes parcourues )
+var watcher = undefined;//Variable surveillant les modifications dans un fichier texte
+var line = 0;//Etat d'avancement dans le fichier texte (nombre de lignes parcourues en une itération)
+var cmEditor = undefined;//Contenu de la textarea
+var lesson = 1;//Numéro de la lesson en cours
+var incrementResult = 0;//Nombre de résultats affichés
 
 $(function(){
 
+	//Récupération de la liste de corpus
 	$.get( "./corpora/list", function( data ) {
  		$( "#corpus-select" ).append( data );
+
+ 		//On vérifie si on est sur une recherche sauvegardée via les paramètres get
  		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
 			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
 			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
+				//On affiche le contenu de la recherche
 				cmEditor.setValue(pattern);
+				//On simule un click pour lancer la recherche et afficher diréctement les résultats
 				$('#submit-pattern').trigger("click");
 			});
 		};
+
+		//On récupère les snippets de chaque corpus et les informations le concernant
 		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
 			$('#corpus-select').after('<span href="" class="tooltip-desc" id="corpus-desc">?</span>');
 			snippets_extract();
@@ -25,10 +32,10 @@ $(function(){
 
 	});
 
+	//On charge la première leçon
+    $("#scenario").load("lesson"+ lesson+".html");
 
-      $("#scenario").load("lesson"+ lesson+".html");
-
-
+    //On lie l'événement de changement de corpus à la liste déroulante
 	$('#corpus-select').change(function(){
 		$('#custom-display').hide();
 		$('#vision').hide();
@@ -39,30 +46,39 @@ $(function(){
 
 	});
 
+	//On initialise CodeMirror
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
     	lineNumbers: true,
   	});
     
 });
 
-function request_pattern(){
-	$('#custom-display').hide();
-	$('#vision').show();
+function request_pattern(next){
+	if (!next) {
+		$('#custom-display').hide();
+		$('#vision').show();
+		$('#list-results').empty();
+		$('#progress-txt').empty();
+		$('#progress-num').empty();
+		$('#result-pic').removeAttr('data');
+		cursor = 0;
+		var data= {pattern: cmEditor.getValue(),corpus:$("#corpus-select").val()};
+	}else{
+		var data= {id:id,corpus:$("#corpus-select").val()};
+	}
 	//Reset de la liste
 	$('#submit-pattern').prop('disabled',true);
-	$('#list-results').empty();
-	$('#progress-txt').empty();
-	$('#progress-num').empty();
 	$("#next-results").prop('disabled',true);
-	$('#result-pic').removeAttr('data');
-	resultsNumber = 0;
-
+	
 	$.ajax({url:'ajaxGrew.php',
 		dataType:'text',
-		data: {pattern: cmEditor.getValue(),corpus:$("#corpus-select").val()},
+		data: data,
 		type: 'post',
 		success: function(output){
-			id = output;
+			if (!next) {
+				id = output;
+			}
+			
 			var file = "./data/" + id + "/list";
 
 			var previous = "";
@@ -72,11 +88,15 @@ function request_pattern(){
     			ajax.onreadystatechange = function() {
         			if (ajax.readyState == 4) {
             			if (ajax.responseText != previous) {
+            				if (!next) {
+            					line = 0;
+            					incrementResult = 0;
+            				}
+            				
             				var progression = 0;
-            				incrementResult = 0;
            					var lines = ajax.responseText.split("\n");
-           					line = 0;
-							for (var i = resultsNumber,len = lines.length; i < len;i++) {
+           					
+							for (var i = cursor,len = lines.length; i < len;i++) {
 								line++;
 								if (lines[i] == '<#>') {
 									clearInterval(watcher);
@@ -121,7 +141,7 @@ function request_pattern(){
 									incrementResult++;
 								}
 							};
-							resultsNumber = line;
+							cursor = line;
                 			previous = ajax.responseText;
                 			$("#progress-num").text($("#list-results li").size() + " results");
             			}
@@ -134,76 +154,6 @@ function request_pattern(){
 	});
 }
 
-function next_results(){
-	//Reset de la liste
-	$('#submit-pattern').prop('disabled',true);
-	$("#next-results").prop('disabled',true);
-
-	$.ajax({url:'ajaxGrew.php',
-		dataType:'text',
-		data: {id: id,corpus:$("#corpus-select").val()},
-		type: 'post',
-		success: function(output){
-			var file = "./data/" + id + "/list";
-
-			var previous = "";
-
-			watcher = setInterval(function() {
-    			var ajax = new XMLHttpRequest();
-    			ajax.onreadystatechange = function() {
-        			if (ajax.readyState == 4) {
-            			if (ajax.responseText != previous) {
-            				var progression = 0;
-           					var lines = ajax.responseText.split("\n");
-
-							for (var i = resultsNumber,len = lines.length; i < len;i++) {
-								line++;
-								if (lines[i] == '<#>') {
-									clearInterval(watcher);
-									watcher = undefined;
-									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").prop('disabled',true);
-									i= lines.length;
-									$('#progress-txt').text('100% of corpus browsed :');
-								}else if (lines[i] == '<!>'){
-									clearInterval(watcher);
-									watcher = undefined;
-									$.get('./data/' + id + '/error',function(errors){
-										sweetAlert("An error occured", errors, "error");
-									});
-									i= lines.length;
-									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").prop('disabled',true);
-								}else if (lines[i] == '<?>'){
-									progression = 1;
-								}else if (progression == 1){
-									clearInterval(watcher);
-									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").prop('disabled',false);
-									$('#progress-txt').text(lines[i] + '% of corpus browsed :');
-									i = lines.length;
-								}else{
-									var pieces = lines[i].split("@");
-
-									$("#list-results").append('<li id="list-' + incrementResult + '"><a href="#" >' +  pieces[1] + '</a></li>');
-									
-									url = './data/' + id + '/' + pieces[0];
-									$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
-									incrementResult++;
-								}
-							};
-							resultsNumber = line;
-                			previous = ajax.responseText;
-                			$("#progress-num").text($("#list-results li").size() + " results");
-            			}
-        			}
-    			};
-    			ajax.open("POST", "./data/" + id + "/list", true); //Use POST to avoid caching
-    			ajax.send();
-			}, 300);
-		}
-	});
-}
 
 function display_picture(event){
 //	$('#result-pic').attr('data',event.data.url);
