@@ -14,7 +14,7 @@ $(function(){
 			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
 			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
 				cmEditor.setValue(pattern);
-
+				$('#submit-pattern').trigger("click");
 			});
 		};
 		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
