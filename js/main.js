@@ -281,16 +281,16 @@ function previous_lesson(){
 
 function previous_svg(){
 	tabId = $('#list-results .displayed').attr('id').split("-");
-	id = tabId[1];
-	id = id - 1;
-	if (id < 0) {id = 0};
-	$('#list-' + id).trigger("click");
+	lid = tabId[1];
+	lid = lid - 1;
+	if (lid < 0) {lid = 0};
+	$('#list-' + lid).trigger("click");
 }
 
 function next_svg(){
 	tabId = $('#list-results .displayed').attr('id').split("-");
-	id = tabId[1];
-	id = parseInt(id) + 1;
-	if (id > $('ul#list-results li').length - 1) {id = $('ul#list-results li').length - 1};
-	$('#list-' + id).trigger("click");
+	lid = tabId[1];
+	lid = parseInt(lid) + 1;
+	if (lid > $('ul#list-results li').length - 1) {lid = $('ul#list-results li').length - 1};
+	$('#list-' + lid).trigger("click");
 }
