@@ -107,14 +107,14 @@ function request_pattern(){
 									$("#list-results").append('<li id="list-' + incrementResult + '"><a href="#" >' +  pieces[1] + '</a></li>');
 									incrementResult++;
 									url = './data/' + id + '/' + pieces[0];
-									$('#list-' + i).click({url:url,i:i,coord:pieces[2]},display_picture);
+									$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
 									if (line == 1) {
 
 										//$('#result-pic').attr('data',url);
 										var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
 										document.getElementById('display-results').innerHTML = newHtml;
 
-										$('#list-' + i).addClass('displayed');
+										$('#list-' + incrementResult).addClass('displayed');
 										$("#display-results").animate({scrollLeft:pieces[2] - 150},"fast");
 									};
 								}
@@ -186,7 +186,7 @@ function next_results(){
 									$("#list-results").append('<li id="list-' + incrementResult + '"><a href="#" >' +  pieces[1] + '</a></li>');
 									incrementResult++;
 									url = './data/' + id + '/' + pieces[0];
-									$('#list-' + i).click({url:url,i:i,coord:pieces[2]},display_picture);
+									$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
 								}
 							};
 							resultsNumber = line;
