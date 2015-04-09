@@ -52,7 +52,7 @@
           <div class="col-md-6" id="console">
             <textarea id="pattern-input" rows="7" ></textarea>
             <p><button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern(false)" >Search</button>
-            <button class="btn btn-primary btn-lg" id="save-pattern" onclick="javascript:request_pattern(true)" >Save</button></p>
+            <button class="btn btn-primary btn-lg" id="save-pattern" onclick="javascript:save_pattern()" >Save</button></p>
              <p><span id='custom-display'>Your custom pattern URL is the following: <span id="custom-url"></span></span></p>
           </div>
           <div class="col-md-2" id="snippets">
@@ -74,7 +74,7 @@
           <h2>Results</h2>
           <h3 id="progress-txt"></h3>
           <h3 id="progress-num"></h3>
-          <button class="btn btn-primary btn-lg" id="next-results" onclick="javascript:next_results()" >Next</button>
+          <button class="btn btn-primary btn-lg" id="next-results" onclick="javascript:request_pattern(true)" >Next</button>
           <br>
           <button class="btn btn-primary btn-lg" id="p-svg" onclick="javascript:previous_svg()" >-</button>
           <button class="btn btn-primary btn-lg" id="n-svg" onclick="javascript:next_svg()" >+</button>
