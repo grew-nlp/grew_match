@@ -27,7 +27,7 @@ $(function(){
 		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
 			$('#corpus-select').after('<span href="" class="tooltip-desc" id="corpus-desc">(?)</span>');
 			$.get( "./corpora/"+ $("#corpus-select").val() + "/short.html", function( data ) {
-				$('#corpus-desc').after(data);
+				$('#short-desc').append(data);
 			});
 			snippets_extract();
 			$('.tooltip-desc').tooltipster({content:data,contentAsHTML:true,theme:'tooltipster-noir'});
@@ -42,6 +42,7 @@ $(function(){
 	$('#corpus-select').change(function(){
 		$('#custom-display').hide();
 		$('#vision').hide();
+		$('#short-desc').empty();
 		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
 			$('.tooltip-desc').tooltipster('content',data);
 			snippets_extract();
