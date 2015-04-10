@@ -57,6 +57,7 @@ function request_pattern(next){
 	if (!next) {
 		$('#custom-display').hide();
 		$('#vision').show();
+		$('#result-pic').hide();
 		$('#list-results').empty();
 		$('#progress-txt').empty();
 		$('#progress-num').empty();
