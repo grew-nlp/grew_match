@@ -38,9 +38,7 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Grew</a>
-          <select id="corpus-select">
-          </select>
-
+          
         </div>
       </div>
     </nav>
@@ -50,6 +48,10 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-6" id="console">
+            <h3>Corpus: <select id="corpus-select">
+          </select></h3>
+          
+
             <textarea id="pattern-input" rows="7" ></textarea>
             <p><button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern(false)" >Search</button>
             <button class="btn btn-primary btn-lg" id="save-pattern" onclick="javascript:save_pattern()" >Save</button></p>

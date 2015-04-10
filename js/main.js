@@ -25,7 +25,10 @@ $(function(){
 
 		//On récupère les snippets de chaque corpus et les informations le concernant
 		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
-			$('#corpus-select').after('<span href="" class="tooltip-desc" id="corpus-desc">?</span>');
+			$('#corpus-select').after('<span href="" class="tooltip-desc" id="corpus-desc">(?)</span>');
+			$.get( "./corpora/"+ $("#corpus-select").val() + "/short.html", function( data ) {
+				$('#corpus-desc').after(data);
+			}
 			snippets_extract();
 			$('.tooltip-desc').tooltipster({content:data,contentAsHTML:true,theme:'tooltipster-noir'});
 		});
