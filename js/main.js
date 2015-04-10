@@ -45,6 +45,9 @@ $(function(){
 		$('#short-desc').empty();
 		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
 			$('.tooltip-desc').tooltipster('content',data);
+			$.get( "./corpora/"+ $("#corpus-select").val() + "/short.html", function( data ) {
+				$('#short-desc').append(data);
+			});
 			snippets_extract();
 		});
 
