@@ -1,5 +1,9 @@
 <?php
-  	require 'config.php';
+  	if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
+      $dir = "/Users/guillaum/forge/semagramme/grew_web/data/";
+    }else{
+      $dir =  "/data/semagramme/www/grew/data/";
+    }
 
   	$folders = glob($dir ."*");
     $time  = time();
