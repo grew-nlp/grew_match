@@ -1,6 +1,6 @@
 <?php*
 
-include 'config.php';
+require 'config.php';
 if (isset($_POST['pattern'])) {
 	$alphabet = '23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_';
     $base = 51; // strlen(self::ALPHABET)

@@ -1,5 +1,5 @@
 <?php
-  	include 'config.php';
+  	require 'config.php';
 
   	$folders = glob($dir ."*");
     $time  = time();

@@ -1,6 +1,6 @@
 <?php
 
-	include 'config.php';
+	require 'config.php';
 	if (isset($_POST['pattern'])) {
 		session_start();
 
