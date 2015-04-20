@@ -73,13 +73,14 @@
     <div class="container-fluid" id="vision">
       <div class="row">
         <div class="col-md-2" id="results">
-          <h2>Results</h2>
           <h3 id="progress-txt"></h3>
-          <h3 id="progress-num"></h3>
-          <button class="btn btn-primary btn-lg" id="next-results" onclick="javascript:request_pattern(true)" >Next</button>
+          <button class="btn btn-primary" id="next-results" onclick="javascript:request_pattern(true)" >Get more results</button>
           <br>
-          <button class="btn btn-primary btn-lg" id="p-svg" onclick="javascript:previous_svg()" >-</button>
-          <button class="btn btn-primary btn-lg" id="n-svg" onclick="javascript:next_svg()" >+</button>
+          <button class="btn btn-primary" onclick="javascript:first_svg()" >⇤</button>
+          <button class="btn btn-primary" onclick="javascript:previous_svg()" >←</button>
+          <span style="font-size: 150%" id="progress-num"></span>
+          <button class="btn btn-primary" onclick="javascript:next_svg()" >→</button>
+          <button class="btn btn-primary" onclick="javascript:last_svg()" >⇥</button>
           <ul id="list-results"></ul>
         </div>
 

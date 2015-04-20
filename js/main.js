@@ -5,8 +5,10 @@ var line = 0;//Etat d'avancement dans le fichier texte (nombre de lignes parcour
 var cmEditor = undefined;//Contenu de la textarea
 var lesson = 1;//Numéro de la lesson en cours
 var incrementResult = 0;//Nombre de résultats affichés
+var current_view = 0; //Numéro du résultat actuellement affiché
 
 $(function(){
+// exécuter une fois à la fin du chargement de la page
 
 	//Récupération de la liste de corpus
 	$.get( "./corpora/list", function( data ) {
@@ -112,7 +114,7 @@ function request_pattern(next){
 									$('#submit-pattern').prop('disabled',false);
 									i= lines.length;
 									$("#next-results").prop('disabled',true);
-									$('#progress-txt').text('100% of corpus browsed :');
+									$('#progress-txt').text('100% scanned');
 								}else if (lines[i] == '<!>'){
 									clearInterval(watcher);
 									watcher = undefined;
@@ -128,11 +130,11 @@ function request_pattern(next){
 									clearInterval(watcher);
 									$('#submit-pattern').prop('disabled',false);
 									$("#next-results").prop('disabled',false);
-									$('#progress-txt').text(lines[i] + '% of corpus browsed :');
+									$('#progress-txt').text(lines[i] + '% scanned');
 									i = lines.length;
 								}else{
 									var pieces = lines[i].split("@");
-									$("#list-results").append('<li id="list-' + incrementResult + '"><a href="#" >' +  pieces[1] + '</a></li>');
+									$("#list-results").append('<li class="item" id="list-' + incrementResult + '"><a>' +  pieces[1] + '</a></li>');
 									
 									url = './data/' + id + '/' + pieces[0];
 									$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
@@ -151,7 +153,7 @@ function request_pattern(next){
 							};
 							cursor = line;
                 			previous = ajax.responseText;
-                			$("#progress-num").text($("#list-results li").size() + " results");
+                			update_progress_num();
             			}
         			}
     			};
@@ -171,6 +173,8 @@ function display_picture(event){
 	$('#list-results li').removeClass('displayed');
 	$('#list-' + event.data.i).addClass('displayed');
 	$("#display-results").animate({scrollLeft:event.data.coord - 150},"fast");
+	current_view = event.data.i;
+	update_progress_num();
 }
 
 function save_pattern(num){
@@ -245,18 +249,39 @@ function previous_lesson(){
 	$("#scenario").load("lesson"+ lesson +".html");
 }
 
+function update_progress_num() {
+	$("#progress-num").text((current_view+1) + " / 	" + incrementResult);
+}
+
+function update_view() {
+	$('#list-' + current_view).trigger("click");
+	update_progress_num();
+}
+
+function first_svg(){
+	if (current_view > 0) {
+		current_view = 0;
+		update_view();
+	}
+}
+
 function previous_svg(){
-	tabId = $('#list-results .displayed').attr('id').split("-");
-	lid = tabId[1];
-	lid = lid - 1;
-	if (lid < 0) {lid = 0};
-	$('#list-' + lid).trigger("click");
+	if (current_view > 0) {
+		current_view -= 1;
+		update_view();
+	}
 }
 
 function next_svg(){
-	tabId = $('#list-results .displayed').attr('id').split("-");
-	lid = tabId[1];
-	lid = parseInt(lid) + 1;
-	if (lid > incrementResult) {lid = incrementResult - 1};
-	$('#list-' + lid).trigger("click");
+	if (current_view < incrementResult - 1) {
+		current_view += 1;
+		update_view();
+ 	}
+}
+
+function last_svg(){
+	if (current_view < incrementResult - 1) {
+		current_view = incrementResult - 1;
+		update_view();
+ 	}
 }

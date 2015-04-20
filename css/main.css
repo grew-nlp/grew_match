@@ -87,3 +87,11 @@
   #corpus-desc{
     color: white;
   }
+
+.item{
+  cursor : pointer;
+}
+
+body {
+    padding-top: 0px;
+}
