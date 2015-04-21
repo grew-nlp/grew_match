@@ -72,6 +72,7 @@ function request_pattern(next){
 		$('#progress-num').empty();
 		$('#result-pic').removeAttr('data');
 		cursor = 0;
+		current_view = 0;
 		var data= {pattern: cmEditor.getValue(),corpus:$("#corpus-select").val()};
 	}else{
 		var data= {id:id,corpus:$("#corpus-select").val()};
