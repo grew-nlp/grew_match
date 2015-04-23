@@ -5,35 +5,35 @@
   margin: 0;
   padding: 0;
   }*/
-  
+
   #snippets ul, #results ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  
+
   #snippets li, #results li {
     border-bottom: 1px solid #ccc;
   }
-  
+
   #snippets li:last-child , #results li:last-child {
     border: none;
   }
-  
+
   #snippets li a, #results li a{
     text-decoration: none;
     color: #000;
     display: block;
-    
+
     -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
     -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
     -o-transition: font-size 0.3s ease, background-color 0.3s ease;
     -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
     transition: font-size 0.3s ease, background-color 0.3s ease;
   }
-  
+
   #snippets li a:hover, #results li a:hover {
-    background: #f6f6f6;
+    background: #F5D76E;
   }
 
   /* Style du jumbotron */
@@ -42,12 +42,12 @@
 
   /* Style de lesson */
   #lesson{
-    background-color: #FDFDA0;
+    background-color: #F5D76E;
   }
-  
+
   /* Style de episode */
   #episode{
-    background-color: #FDFDC8;
+    background-color: #F5D76E;
   }
   /* Style de snippets */
 
@@ -101,4 +101,21 @@
     border-width: 1px;
     border-color: #ccc;
     margin-bottom: 10px;
+  }
+
+  #navbar-grew{
+    background-image: none;
+    background-color: #003171;
+  }
+
+  #jumbo-grew{
+    background-color: #ECF0F1;
+  }
+  #title-grew{
+    color: #ECF0F1;
+  }
+  .btn-primary{
+    background-image: none;
+    background-color: #003171;
+    color: #ECF0F1;
   }
