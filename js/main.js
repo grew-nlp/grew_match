@@ -256,12 +256,9 @@ function previous_lesson(){
 }
 
 function update_progress_num() {
-	if (incrementResult == 0) {
-		$("#progress-num").text('No results');
-	}else{
+	if (incrementResult != 0) {
 		$("#progress-num").text((current_view+1) + " / 	" + incrementResult);
 	}
-	
 }
 
 function update_view() {
