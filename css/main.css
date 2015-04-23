@@ -13,7 +13,6 @@
 }
  
 #snippets li, #results li {
-  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
   border-bottom: 1px solid #ccc;
 }
  
@@ -95,6 +94,6 @@
 .CodeMirror{
   border-style: solid;
   border-width: 1px;
-  border-color: #B0C4DE;
+  border-color: #ccc;
   margin-bottom: 10px;
 }
