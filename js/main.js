@@ -64,6 +64,7 @@ $(function(){
 
 function request_pattern(next){
 	if (!next) {
+		$('.btn-results').show();
 		$('#custom-display').hide();
 		$('#vision').show();
 		$('#result-pic').hide();
@@ -116,6 +117,10 @@ function request_pattern(next){
 									i= lines.length;
 									$("#next-results").prop('disabled',true);
 									$('#progress-txt').text('100% scanned');
+									if (incrementResult == 0) {
+										$('#progress-txt').text('No results found');
+										$('.btn-results').hide();
+									};
 								}else if (lines[i] == '<!>'){
 									clearInterval(watcher);
 									watcher = undefined;
@@ -251,7 +256,12 @@ function previous_lesson(){
 }
 
 function update_progress_num() {
-	$("#progress-num").text((current_view+1) + " / 	" + incrementResult);
+	if (incrementResult == 0) {
+		$("#progress-num").text('No results');
+	}else{
+		$("#progress-num").text((current_view+1) + " / 	" + incrementResult);
+	}
+	
 }
 
 function update_view() {
