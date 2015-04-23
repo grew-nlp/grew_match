@@ -36,7 +36,7 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
+      <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Grew</a>
           
@@ -46,11 +46,11 @@
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <div class="container-fluid">
+      <div class="container">
         <div class="row">
-          <div class="col-md-6" id="console">
-            <h3>Corpus: <select id="corpus-select">
-          </select></h3>
+          <div class="col-md-5" id="console">
+            <h2>Corpus: <select id="corpus-select">
+          </select></h2>
           <span id="short-desc"></span>
 
             <textarea id="pattern-input" rows="7" ></textarea>
@@ -58,8 +58,8 @@
             <button class="btn btn-primary btn-lg" id="save-pattern" onclick="javascript:save_pattern()" >Save</button></p>
              <p><span id='custom-display'>Your custom pattern URL is the following: <span id="custom-url"></span></span></p>
           </div>
-          <div class="col-md-2" id="snippets">
-            <h3>Snippets</h3>
+          <div class="col-md-3" id="snippets">
+            <h2>Snippets</h2>
             <ul></ul>
           </div>
           <div class="col-md-4" id="scenario">
@@ -71,10 +71,10 @@
       </div>
     </div>
 
-    <div class="container-fluid" id="vision">
+    <div class="container" id="vision">
       <div class="row">
-        <div class="col-md-2" id="results">
-          <h3 id="progress-txt"></h3>
+        <div class="col-md-3" id="results">
+          <h2 id="progress-txt"></h2>
           <button class="btn btn-primary" id="next-results" onclick="javascript:request_pattern(true)" >Get more results</button>
           <br>
           <button class="btn btn-primary" onclick="javascript:first_svg()" >⇤</button>
@@ -84,8 +84,8 @@
           <button class="btn btn-primary" onclick="javascript:last_svg()" >⇥</button>
           <ul id="list-results"></ul>
         </div>
-
-        <div class="col-md-10" id="display-results">
+        <div class="col-md-1"></div>
+        <div class="col-md-8" id="display-results">
           <object id="result-pic" type="image/svg+xml" class="logo">
 
           </object>
