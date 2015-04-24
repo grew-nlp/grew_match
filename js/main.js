@@ -72,6 +72,7 @@ function request_pattern(next){
 		$('#progress-txt').empty();
 		$('#progress-num').empty();
 		$('#result-pic').removeAttr('data');
+		$('#result-ok').hide();
 		cursor = 0;
 		current_view = 0;
 		var data= {pattern: cmEditor.getValue(),corpus:$("#corpus-select").val()};
@@ -120,6 +121,7 @@ function request_pattern(next){
 									if (incrementResult == 0) {
 										$('#progress-txt').text('No results found');
 										$('.btn-results').hide();
+										$('#result-ok').hide();
 									};
 								}else if (lines[i] == '<!>'){
 									clearInterval(watcher);
@@ -130,6 +132,11 @@ function request_pattern(next){
 									i= lines.length;
 									$('#submit-pattern').prop('disabled',false);
 									$("#next-results").prop('disabled',true);
+									if (incrementResult == 0) {
+										$('#progress-txt').text('No results found');
+										$('.btn-results').hide();
+										$('#result-ok').hide();
+									};
 								}else if (lines[i] == '<?>'){
 									progression = 1;
 								}else if (progression == 1){
@@ -257,6 +264,7 @@ function previous_lesson(){
 
 function update_progress_num() {
 	if (incrementResult != 0) {
+		$('#result-ok').show();
 		$("#progress-num").text((current_view+1) + " / 	" + incrementResult);
 	}
 }
