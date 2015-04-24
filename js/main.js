@@ -122,6 +122,7 @@ function request_pattern(next){
 										$('#progress-txt').text('No results found');
 										$('.btn-results').hide();
 										$('#result-ok').hide();
+										$('#display-results').hide();
 									};
 								}else if (lines[i] == '<!>'){
 									clearInterval(watcher);
@@ -136,6 +137,7 @@ function request_pattern(next){
 										$('#progress-txt').text('No results found');
 										$('.btn-results').hide();
 										$('#result-ok').hide();
+										$('#display-results').hide();
 									};
 								}else if (lines[i] == '<?>'){
 									progression = 1;
@@ -265,6 +267,7 @@ function previous_lesson(){
 function update_progress_num() {
 	if (incrementResult != 0) {
 		$('#result-ok').show();
+		$('#display-results').show();
 		$("#progress-num").text((current_view+1) + " / 	" + incrementResult);
 	}
 }
