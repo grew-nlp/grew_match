@@ -1,9 +1,9 @@
 <?php
 
 if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
-      $dir = "/Users/guillaum/forge/semagramme/grew_web/data/shorten";
+      $dir = "/Users/guillaum/forge/semagramme/grew_web/data/shorten/";
     }else{
-      $dir =  "/data/semagramme/www/grew/data/shorten";
+      $dir =  "/data/semagramme/www/grew/data/shorten/";
     }
 
 if (isset($_POST['pattern'])) {

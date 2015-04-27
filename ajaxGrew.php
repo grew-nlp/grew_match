@@ -14,11 +14,6 @@ if (isset($_POST['pattern'])) {
 	fclose($historyFile);
 
 		//Création du dossier de données et écriture du pattern dans le dossier correspondant
-	if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
-		$dir = "/Users/guillaum/forge/semagramme/grew_web/data/";
-	}else{
-		$dir = "/data/semagramme/www/grew/data/";
-	}
 
 
 	$id = uniqid();
