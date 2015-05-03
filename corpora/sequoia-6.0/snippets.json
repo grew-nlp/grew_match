@@ -1,0 +1,22 @@
+[
+  {
+        "name":"Search for a lemma",
+        "content":"% Search for a given lemma, for instancer \"écouter\"\n\nmatch { N [lemma=\"écouter\"] }"
+  },
+  {
+        "name":"Search by grammatical category",
+        "content":"% Search for a lexical unit of a given grammatical category\n% Available categories: V, N, C, CL, P, I, PONCT, A, ADV, PRO, D, ET, P+D, P+PRO, PREF\n\nmatch { N [cat=\"P+PRO\"] }"
+  },
+  {
+        "name":"Search for a dependency relation",
+        "content":"% Search for causative auxialiaries ([aux.caus])\n\nmatch {\n  GOV [];\n  DEP [];\n  GOV -[aux.caus]-> DEP\n}"
+  },
+  {
+        "name":"Mixed search",
+        "content":"% Search for both a category and a relation (for instance, a preposition used as a determiner)\n\nmatch {\n  PREP [cat=P];\n  X [];\n  X -[det]-> PREP\n}"
+  },
+  {
+        "name":"Negative constraint",
+        "content":"% For instance, search for a coordination lexical unitre which is not the dependent of a \"coord\" relation\n\nmatch {\n  CC [cat=C, s=c]\n}\nwithout {\n  X [];\n  X -[coord|root]-> CC;\n}"
+  }
+]
