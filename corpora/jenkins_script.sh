@@ -2,9 +2,6 @@
 sudo killall grew_daemon || true
 sleep 5
 
-# run a daemon for each corpus
-cd corpora
-
 # deep-sequoia
 cd deep-sequoia-1.1
 PORT=`cat port`
