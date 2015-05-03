@@ -1,0 +1,133 @@
+<div id="lesson">
+  <h2>Example</span>: Search for errors in deep-sequoia</h2>
+</div>
+
+<div id="episode">
+  <p>Select the corpus "deep-sequoia-1.1" to run this example.</p>
+  <p>The goal of this example is to search for number agreement errors between verbs and their subject.</p>
+  <ol>
+    <li>
+    First, we search for two nodes linked by a "subject" relation.
+      <a class="interactive" snippet='% Search for two nodes linked by a "subject" relation.
+% Note that, due to distinction between final and canonical relations,
+% we use a disjunction to match each surface subject
+
+match {
+  S [n=*];                                       % <--- a node S with a feature n
+  V [cat=V, n=*];                                % <--- a node V with a feature cat=V and a feature n
+  V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;  % <--- a dependency from V to S with a final function "subject"
+}
+' href="#">[TRY IT!]
+      </a>
+    </li>
+    <li>
+    Add a constraint to select only cases where the number feature "n" of the verb is different from the subject "n" feature
+      <a class="interactive" snippet='% Select only cases where the number feature is different in the two nodes.
+% When a "without" clause is added, each pattern selected by the "match" clause is rejected if it respects conditions of the "without" clause
+% In our case, we reject all cases where the subject and the verb have the same "n" feature.
+
+match {
+  S [n=*];
+  V [cat=V, n=*];
+  V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;
+}
+without {
+  S.n = V.n;                 % <--- NEW constraint on "n" features
+}
+' href="#">[TRY IT!]
+      </a>
+    </li>
+    <li>
+    Take into account the "avoir" auxiliary.
+      <a class="interactive" snippet='% The previous pattern returns occurence that are corretly annotated:
+% for instance, in [annodis.er_00048], the verb is a past participle used with "avoir" auxiliary
+% in this case, most of the times, there is no agreement. Here, we avoid theses cases.
+
+match {
+  S [n=*];
+  V [cat=V, n=*];
+  V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;
+}
+without {
+  S.n = V.n;
+}
+without {
+  V[m=part, t=past];         % <--- The verb is a past participle
+  A[cat=V];                  % <--- There is a new node A with cat=V
+  V -[S:aux.tps]-> A;        % <--- And there is a link "tense auxiliary" from V to A
+}
+' href="#">[TRY IT!]
+      </a>
+    </li>
+    <li>
+    Take coordination into account.
+      <a class="interactive" snippet='% The previous pattern still returns occurence that are corretly annotated:
+% for instance, in [annodis.er_00130], the subject is a coordination.
+% Here, we avoid theses cases.
+
+match {
+  S [n=*];
+  V [cat=V, n=*];
+  V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;
+}
+without {
+  S.n = V.n;
+}
+without {
+  V[m=part, t=past];
+  A[cat=V];
+  V -[S:aux.tps]-> A;
+}
+without {
+  S[n=s];                    % <--- a singular subject
+  V[n=p];                    % <--- a plural verb
+  S -[coord]-> *;            % <--- the subject is a coordination
+}
+' href="#">[TRY IT!]
+      </a>
+    </li>
+    <li>
+    take lexical exceptions into account.
+      <a class="interactive" snippet='% Finaly, we avoid also some lexical exceptions.
+% In [annodis.er_00386], "…une douzaine d&#39;homme étaient mobilisés…" is correctly annotated.
+% The matching below rules out this kind of lexical exceptions.
+
+match {
+  S [n=*];
+  V [cat=V, n=*];
+  V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;
+}
+without {
+  S.n = V.n;
+}
+without {
+  V[m=part, t=past];
+  A[cat=V];
+  V -[S:aux.tps]-> A;
+}
+without {
+  S[n=s];
+  V[n=p];
+  S -[coord]-> *;
+}
+without {
+  S[cat=N, lemma="minorité"|"majorité"|"ensemble"|"nombre"|"dizaine"|"douzaine"|"quinzaine"|"vingtaine"|"trentaine"|"quarantaine"]     % <--- the NEW without clause referring to lexical information
+}
+' href="#">[TRY IT!]
+      </a>
+    </li>
+  </ol>
+With the last pattern, we find 21 occurences in the deep-sequoia-1.1 corpus, see the page <a href="http://wikilligramme.loria.fr/doku.php/grew:agreement_analyses">Error analyses for agreement in deep-sequoia-1.1</a> for details.
+</div> <!-- id="episode" -->
+
+
+
+<button class="btn btn-primary btn-lg" id="prev-lesson" onclick="javascript:previous_lesson()" >Previous</button>
+<button class="btn btn-primary btn-lg" id="next-lesson" onclick="javascript:next_lesson()" >Next</button></p>
+
+<script type="text/javascript">
+  $(".interactive").click(function(){
+    var content = $(this).attr('snippet');
+    cmEditor.setValue(content);
+  });
+</script>

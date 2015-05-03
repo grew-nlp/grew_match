@@ -1,65 +1,68 @@
-<!-- =================================== Lesson 1 =================================== -->
-            <div id="lesson">
-              <h2>Lesson <span id="lesson-id">1</span>: How to search nodes</h2>
-            </div>
-            <div id="episode">
-              <ul>
-              <li>
-              Match any node and give it the name N.
-              <a class="interactive" snippet="% Match any node and give it the name N
+<div id="lesson">
+  <h2>Tutorial 1: How to search nodes</h2>
+</div>
+
+<div id="episode">
+  Please select the corpus "sequoia-6.0" to follow the tutorial (some pattern may be invalid with other corpora).
+  <ul>
+    <li>
+    Match any node and give it the name N.
+      <a class="interactive" snippet="% Match any node and give it the name N
 
 match { N [] }" href="#">[TRY IT!]
-              </a>
-              </li>
-              <li>
-              Impose some restriction on the feature structure
-              <a class="interactive" snippet='% Impose some restriction on the feature structure
+      </a>
+    </li>
+    <li>
+    Impose some restriction on the feature structure
+      <a class="interactive" snippet='% Impose some restriction on the feature structure
 
 match { N [ cat=V ] }' href="#">[TRY IT!]</a>
-              </li>
-              <li>
-              Use quote around values if they contain special characters
-              <a class="interactive" snippet='% Use quote around values if they contain special characters
+    </li>
+    <li>
+    Use quote around values if they contain special characters
+      <a class="interactive" snippet='% Use quote around values if they contain special characters
 
 match { N [ lemma="écouter" ] }' href="#">[TRY IT!]</a>
-              </li>
-              <li>
-              Impose several restrictions on the feature structure
-              <a class="interactive" snippet='% Impose several restrictions on the feature structure
+    </li>
+    <li>
+    Impose several restrictions on the feature structure
+      <a class="interactive" snippet='% Impose several restrictions on the feature structure
 
 match { N [ cat=V, m=part, p=2, n=s ] }' href="#">[TRY IT!]</a>
-              </li>
-              <li>
-              Use disjunction on feature values
-              <a class="interactive" snippet='% Use disjunction on the feature values
+    </li>
+    <li>
+    Use disjunction on feature values
+      <a class="interactive" snippet='% Use disjunction on the feature values
 
 match { N [  cat=V, lemma="demander"|"élaborer", m=inf|imp ] }' href="#">[TRY IT!]</a>
-              </li>
-              <li>
-              Use negation on feature values
-              <a class="interactive" snippet='% Use negation on feature values
+    </li>
+    <li>
+    Use negation on feature values
+      <a class="interactive" snippet='% Use negation on feature values
 
 match { N [  cat=N, s <> c|p ] }' href="#">[TRY IT!]</a>
-              </li>
-              <li>
-              Require a feature to be there (without restriction on the value)
-              <a class="interactive" snippet='% Require a feature to be there (without restriction on the value)
+    </li>
+    <li>
+    Require a feature to be there (without restriction on the value)
+      <a class="interactive" snippet='% Require a feature to be there (without restriction on the value)
 
 match { N [  cat=V, p=* ] }' href="#">[TRY IT!]</a>
-              </li>
-              <li>
-              Require a feature not to be there
-              <a class="interactive" snippet='% Require a feature not to be there
+    </li>
+    <li>
+    Require a feature not to be there
+      <a class="interactive" snippet='% Require a feature not to be there
 
 match { N [  cat=V, !p ] }' href="#">[TRY IT!]</a>
-              </li>
-            </ul>
-            </div> <!-- id="episode" -->
-            <button class="btn btn-primary btn-lg" id="prev-lesson" onclick="javascript:previous_lesson()" >Previous</button>
-          <button class="btn btn-primary btn-lg" id="next-lesson" onclick="javascript:next_lesson()" >Next</button></p>
+    </li>
+  </ul>
+</div> <!-- id="episode" -->
 
-            <script type="text/javascript">
-            $(".interactive").click(function(){
-      var content = $(this).attr('snippet');
-      cmEditor.setValue(content);
-    });</script>
+<button class="btn btn-primary btn-lg" id="prev-lesson" onclick="javascript:previous_lesson()" >Previous</button>
+<button class="btn btn-primary btn-lg" id="next-lesson" onclick="javascript:next_lesson()" >Next</button></p>
+
+<script type="text/javascript">
+  $(".interactive").click(function(){
+    var content = $(this).attr('snippet');
+    cmEditor.setValue(content);
+  });
+</script>

@@ -1,87 +1,79 @@
-<!-- =================================== Lesson 2 =================================== -->
-            <div id="lesson">
-              <h2>Lesson <span id="lesson-id">2</span>: How to search for relations</h2>
-            </div>
+<div id="lesson">
+  <h2>Tutorial 2</span>: How to search for relations</h2>
+</div>
 
-            <div id="episode">
-              <ul>
-              <li>
-              Match any relation between any two nodes.
-              <a class="interactive" snippet="% Match any relation between any two nodes
+<div id="episode">
+  Please select the corpus "sequoia-6.0" to follow the tutorial (some pattern may be invalid with other corpora).
+  <ul>
+    <li>
+    Match any relation between any two nodes.
+      <a class="interactive" snippet="% Match any relation between any two nodes
 
 match {
   N [];
   M [];
   N -> M;
 }" href="#">[TRY IT!]
-              </a>
-              <li>
-              Match a specifique relation.
-              <a class="interactive" snippet="% Match a specifique relation.
+      </a>
+    </li>
+    <li>
+    Match a given relation.
+      <a class="interactive" snippet="% Match a given relation.
 
 match {
   N [];
   M [];
   N -[suj]-> M;
 }" href="#">[TRY IT!]
-              </a>
-
-              <li>
-              Match a disjunction of relations.
-              <a class="interactive" snippet="% Match a disjunction of relations.
+      </a>
+    </li>
+    <li>
+    Match a disjunction of relations.
+      <a class="interactive" snippet="% Match a disjunction of relations.
 
 match {
   N [];
   M [];
   N -[suj|obj]-> M;
 }" href="#">[TRY IT!]
-              </a>
-
-              </li>
-
-              <li>
-              Match any relation except a given disjunction.
-              <a class="interactive" snippet="% Match any relation except a given disjunction.
+      </a>
+    </li>
+    <li>
+    Match any relation except a given disjunction.
+      <a class="interactive" snippet="% Match any relation except a given disjunction.
 
 match {
   N [];
   M [];
   N -[^suj|obj]-> M;
 }" href="#">[TRY IT!]
-              </a>
-
-              </li>
-
-              <li>
-              Use the * joker to replace any substring.
-              <a class="interactive" snippet='% Use the * joker to replace any substring.
+      </a>
+    </li>
+    <li>
+    Use the * joker to replace any substring.
+      <a class="interactive" snippet='% Use the * joker to replace any substring.
 
 match {
   N [];
   M [];
   N -[aux.*]-> M;
 }' href="#">[TRY IT!]
-              </a>
-
-              </li>
-              <li>
-
-              Combine search on nodes and search on relation.
-              <a class="interactive" snippet='% Combine search on nodes and search on relation.
+      </a>
+    </li>
+    <li>
+    Combine search on nodes and search on relation.
+      <a class="interactive" snippet='% Combine search on nodes and search on relation.
 
 match {
   N [ cat=A ];
   M [];
   N -[a_obj]-> M;
 }' href="#">[TRY IT!]
-              </a>
-
-              </li>
-
-              <li>
-
-              Search for a larger pattern.
-              <a class="interactive" snippet='% Search for a larger pattern.
+      </a>
+    </li>
+    <li>
+    Search for a larger pattern.
+      <a class="interactive" snippet='% Search for a larger pattern.
 
 match {
   ADJ [ cat=A ];
@@ -90,16 +82,17 @@ match {
   OBJ [ s<>c ];
   PREP -[obj.p]-> OBJ;
 }' href="#">[TRY IT!]
-              </a>
+      </a>
+    </li>
+  </ul>
+</div> <!-- id="episode" -->
 
-              </li>
+<button class="btn btn-primary btn-lg" id="prev-lesson" onclick="javascript:previous_lesson()" >Previous</button>
+<button class="btn btn-primary btn-lg" id="next-lesson" onclick="javascript:next_lesson()" >Next</button></p>
 
-              </ul>
-            </div> <!-- id="episode" -->
-            <button class="btn btn-primary btn-lg" id="prev-lesson" onclick="javascript:previous_lesson()" >Previous</button>
-          <button class="btn btn-primary btn-lg" id="next-lesson" onclick="javascript:next_lesson()" >Next</button></p>
-            <script type="text/javascript">
-            $(".interactive").click(function(){
-      var content = $(this).attr('snippet');
-      cmEditor.setValue(content);
-    });</script>
+<script type="text/javascript">
+  $(".interactive").click(function(){
+    var content = $(this).attr('snippet');
+    cmEditor.setValue(content);
+  });
+</script>

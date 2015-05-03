@@ -254,7 +254,7 @@ function snippets_extract(){
 
 function next_lesson(){
 	lesson = lesson + 1 ;
-	if (lesson > 2 ) {lesson = 2};
+	if (lesson > 3 ) {lesson = 3};
 	$("#scenario").load("lesson"+ lesson +".html");
 }
 
