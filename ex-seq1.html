@@ -1,0 +1,48 @@
+<div id="scenario">
+  <h2>Example</span>: Basic searches in sequoia</h2>
+</div>
+
+<div id="episode">
+  <ol>
+    <li>
+    Search for a given sub-categorisation frame
+      <a class="interactive" snippet='% Search for a given subcategorisation frame
+% We search for a verb with at the same time a de_obj and an a_obj argument.
+
+match {
+  V [cat=V]; A []; DE [];
+  V -[a_obj]-> A; V -[de_obj]-> DE;
+}
+' href="#">[TRY IT]
+      </a>
+    </li>
+
+    <li>
+    Search for verb "prendre" with an determiner-free object (light verb construction)
+      <a class="interactive" snippet='% Search for verb "prendre" with an determiner-free object (light verb construction)
+
+match {
+  V[lemma="prendre"]; 
+  OBJ[cat=N]; 
+  V -[obj]-> OBJ 
+}
+without { 
+  D[]; N -[det]-> D
+}
+' href="#">[TRY IT]
+      </a>
+    </li>
+  </ol>
+</div> <!-- id="episode" -->
+
+
+
+<button class="btn btn-primary btn-lg" id="prev-scenario" onclick="javascript:previous_scenario()" >Previous</button>
+<button class="btn btn-primary btn-lg" id="next-scenario" onclick="javascript:next_scenario()" >Next</button></p>
+
+<script type="text/javascript">
+  $(".interactive").click(function(){
+    var content = $(this).attr('snippet');
+    cmEditor.setValue(content);
+  });
+</script>
