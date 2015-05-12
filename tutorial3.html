@@ -1,0 +1,48 @@
+<div id="scenario">
+  <h2>Tutorial 3</span>: Add positive constraints</h2>
+</div>
+
+<div id="episode">
+  <ol>
+    <li>
+    Requires for an out-edge from a given node.
+      <a class="interactive" snippet="% Requires for an out-edge from a given node.
+% Search for a verb node V with an aux.pass A, such that V has an out-edge p_obj.agt
+% Note that the dependant of the p_obj.agt relation is not matched.
+
+match {
+  V [cat=V];
+  A [cat=V];
+  V -[aux.caus]-> A;
+  V -[p_obj.agt]-> *;
+}" href="#">[TRY IT]
+      </a>
+    </li>
+    <li>
+    Requires for an in-edge from a given node.
+      <a class="interactive" snippet='% Requires for an in-edge from a given node.
+% Search for a noun node N with lemma "lettre" and with an in-edge suj
+% Again, note that the governor of the subj relation is not matched.
+
+match {
+  N [cat=N, lemma="lettre"];
+  * -[suj]-> N;
+}' href="#">[TRY IT]
+      </a>
+    </li>
+
+
+
+
+  </ol>
+</div> <!-- id="episode" -->
+
+<button class="btn btn-primary btn-lg" id="prev-scenario" onclick="javascript:previous_scenario()" >Previous</button>
+<button class="btn btn-primary btn-lg" id="next-scenario" onclick="javascript:next_scenario()" >Next</button></p>
+
+<script type="text/javascript">
+  $(".interactive").click(function(){
+    var content = $(this).attr('snippet');
+    cmEditor.setValue(content);
+  });
+</script>

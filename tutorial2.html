@@ -1,10 +1,9 @@
-<div id="lesson">
+<div id="scenario">
   <h2>Tutorial 2</span>: How to search for relations</h2>
 </div>
 
 <div id="episode">
-  Please select the corpus "sequoia-6.0" to follow the tutorial (some pattern may be invalid with other corpora).
-  <ul>
+  <ol>
     <li>
     Match any relation between any two nodes.
       <a class="interactive" snippet="% Match any relation between any two nodes
@@ -13,7 +12,7 @@ match {
   N [];
   M [];
   N -> M;
-}" href="#">[TRY IT!]
+}" href="#">[TRY IT]
       </a>
     </li>
     <li>
@@ -24,7 +23,7 @@ match {
   N [];
   M [];
   N -[suj]-> M;
-}" href="#">[TRY IT!]
+}" href="#">[TRY IT]
       </a>
     </li>
     <li>
@@ -35,7 +34,7 @@ match {
   N [];
   M [];
   N -[suj|obj]-> M;
-}" href="#">[TRY IT!]
+}" href="#">[TRY IT]
       </a>
     </li>
     <li>
@@ -46,7 +45,7 @@ match {
   N [];
   M [];
   N -[^suj|obj]-> M;
-}" href="#">[TRY IT!]
+}" href="#">[TRY IT]
       </a>
     </li>
     <li>
@@ -57,7 +56,7 @@ match {
   N [];
   M [];
   N -[aux.*]-> M;
-}' href="#">[TRY IT!]
+}' href="#">[TRY IT]
       </a>
     </li>
     <li>
@@ -68,7 +67,7 @@ match {
   N [ cat=A ];
   M [];
   N -[a_obj]-> M;
-}' href="#">[TRY IT!]
+}' href="#">[TRY IT]
       </a>
     </li>
     <li>
@@ -81,14 +80,14 @@ match {
   ADJ -[a_obj]-> PREP;
   OBJ [ s<>c ];
   PREP -[obj.p]-> OBJ;
-}' href="#">[TRY IT!]
+}' href="#">[TRY IT]
       </a>
     </li>
-  </ul>
+  </ol>
 </div> <!-- id="episode" -->
 
-<button class="btn btn-primary btn-lg" id="prev-lesson" onclick="javascript:previous_lesson()" >Previous</button>
-<button class="btn btn-primary btn-lg" id="next-lesson" onclick="javascript:next_lesson()" >Next</button></p>
+<button class="btn btn-primary btn-lg" id="prev-scenario" onclick="javascript:previous_scenario()" >Previous</button>
+<button class="btn btn-primary btn-lg" id="next-scenario" onclick="javascript:next_scenario()" >Next</button></p>
 
 <script type="text/javascript">
   $(".interactive").click(function(){

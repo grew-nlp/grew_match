@@ -1,14 +1,590 @@
+<style>
+<!--table
+@page
+	{margin:1.0in .75in 1.0in .75in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;}
+.style0
+	{mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	white-space:nowrap;
+	mso-rotate:0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	color:black;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	mso-font-charset:0;
+	border:none;
+	mso-protection:locked visible;
+	mso-style-name:Normal;
+	mso-style-id:0;}
+td
+	{mso-style-parent:style0;
+	padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Calibri, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	border:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	mso-protection:locked visible;
+	white-space:nowrap;
+	mso-rotate:0;}
+.xl65
+	{mso-style-parent:style0;
+	font-weight:700;
+	text-align:center;}
+.xl66
+	{mso-style-parent:style0;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	white-space:normal;}
+.bold_trbl
+	{mso-style-parent:style0;
+  background:#DDD;
+	font-weight:700;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;}
+.grey_trbl
+	{mso-style-parent:style0;
+	text-align:center;
+  background:#DDD;
+	border:.5pt solid windowtext;}
+.norm_trbl
+  {mso-style-parent:style0;
+  text-align:center;
+  border:.5pt solid windowtext;}
+.xl71
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;}
+.xl72
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;}
+.xl73
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;}
+.norm_trb
+  {mso-style-parent:style0;
+  text-align:center;
+  border-top:.5pt solid windowtext;
+  border-right:.5pt solid windowtext;
+  border-bottom:.5pt solid windowtext;
+  border-left:none;}
+.xl74
+	{mso-style-parent:style0;
+	font-weight:700;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	background:#DDD;
+	mso-pattern:black none;}
+.xl75
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	background:DDD;
+	mso-pattern:black none;}
+.xl76
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	background:DDD;
+	mso-pattern:black none;}
+.xl77
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;
+	mso-pattern:black none;}
+-->
+</style>
 <h1>Deep-sequoia</h1>
-<p>Le corpus <b>Deep-sequoia</b> est un corpus de phrases en français, annotées avec des représentations en syntaxe de dépendances profondes.</p>
-<p>Pour plus d'information, voir <a href="http://deep-sequoia.inria.fr">http://deep-sequoia.inria.fr</a>.</p>
+<p><b>Deep-sequoia</b> (<a href="http://deep-sequoia.inria.fr">http://deep-sequoia.inria.fr</a>) is a corpus of French sentences, annotated with deep syntactic relations.</p>
 
-<h2>Les relations</h2>
-<p>S:aux_tps, S:aux_pass, S:aux_caus, …</p>
+<h2>Dependency relations</h2>
+The table below gives the list of relations that are implied in alternation (final function / canonical function):
+<table border=0 cellpadding=0 cellspacing=0 style='border-collapse:collapse;table-layout:fixed'>
+ <col width=65 span=2 style='width:65pt'>
+ <col class=xl65 width=65 style='width:65pt'>
+ <col span=8 style='width:91pt'>
+ <tr height=15 style='mso-height-source:userset;height:15.0pt'>
+  <td height=15 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td colspan=8 class=norm_trbl>Canonical function</td>
+ </tr>
+ <tr class=xl65 height=36 style='mso-height-source:userset;height:36.0pt'>
+  <td class=xl65></td>
+  <td class=xl65></td>
+  <td class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:suj&corpus=1'>suj</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:obj&corpus=1'>obj</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:a_obj&corpus=1'>a_obj</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:de_obj&corpus=1'>de_obj</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:ats&corpus=1'>ats</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:ato&corpus=1'>ato</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:argc&corpus=1'>argc</a></td>
+  <td class=xl74 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:_&corpus=1'>_</a></td>
+ </tr>
+ <tr height=15 style='mso-height-source:userset;height:15.0pt'>
+  <td rowspan=26 class=xl66 width=65 style='border-bottom:.5pt solid black;
+  width:65pt'>Final function</td>
+  <td rowspan=4 class=bold_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*suj:*&corpus=1'>suj</a></td>
+  <td class=xl71 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=suj:suj&corpus=1'>suj:suj</a></td>
+  <td class=xl71 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=suj:obj&corpus=1'>suj:obj</a></td>
+  <td class=xl71 style='border-top:none;border-left:none'>&nbsp;</td>
+  <td class=xl71 style='border-top:none;border-left:none'>&nbsp;</td>
+  <td class=xl71 style='border-top:none;border-left:none'>&nbsp;</td>
+  <td class=xl71 style='border-top:none;border-left:none'>&nbsp;</td>
+  <td class=xl71 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=suj:argc&corpus=1'>suj:argc</a></td>
+  <td class=xl75 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=suj:_&corpus=1'>suj:_</a></td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:suj:suj&corpus=1'>S:suj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:suj:obj&corpus=1'>S:suj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=S:suj:_&corpus=1'>S:suj:_</a></td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:suj:suj&corpus=1'>D:suj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:suj:obj&corpus=1'>D:suj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:suj:argc&corpus=1'>D:suj:argc</a></td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl73><a href='http://talc2.loria.fr/grew/index.html?relation=I:suj:suj&corpus=1'>I:suj:suj</a></td>
+  <td class=xl73><a href='http://talc2.loria.fr/grew/index.html?relation=I:suj:obj&corpus=1'>I:suj:obj</a></td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=4 class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*obj:*&corpus=1'>obj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=obj:suj&corpus=1'>obj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=obj:obj&corpus=1'>obj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:obj:suj&corpus=1'>S:obj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:obj:obj&corpus=1'>S:obj:obj</a></td>
+  <td></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:obj:suj&corpus=1'>D:obj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:obj:obj&corpus=1'>D:obj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=I:obj:obj&corpus=1'>I:obj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=4 class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*a_obj:*&corpus=1'>a_obj</a></td>
+  <td class=xl71><a href='http://talc2.loria.fr/grew/index.html?relation=a_obj:suj&corpus=1'>a_obj:suj</a></td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71><a href='http://talc2.loria.fr/grew/index.html?relation=a_obj:a_obj&corpus=1'>a_obj:a_obj</a></td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:a_obj:suj&corpus=1'>S:a_obj:suj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:a_obj:a_obj&corpus=1'>S:a_obj:a_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:a_obj:suj&corpus=1'>D:a_obj:suj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:a_obj:a_obj&corpus=1'>D:a_obj:a_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73><a href='http://talc2.loria.fr/grew/index.html?relation=I:a_obj:a_obj&corpus=1'>I:a_obj:a_obj</a></td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=4 class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*de_obj:*&corpus=1'>de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=de_obj:de_obj&corpus=1'>de_obj:de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:de_obj:de_obj&corpus=1'>S:de_obj:de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:de_obj:de_obj&corpus=1'>D:de_obj:de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=I:de_obj:de_obj&corpus=1'>I:de_obj:de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=3 class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*ats:*&corpus=1'>ats</a></td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71><a href='http://talc2.loria.fr/grew/index.html?relation=ats:ats&corpus=1'>ats:ats</a></td>
+  <td class=xl71><a href='http://talc2.loria.fr/grew/index.html?relation=ats:ato&corpus=1'>ats:ato</a></td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:ats:ats&corpus=1'>S:ats:ats</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73><a href='http://talc2.loria.fr/grew/index.html?relation=D:ats:ats&corpus=1'>D:ats:ats</a></td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*ato:*&corpus=1'>ato</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=ato:ato&corpus=1'>ato:ato</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=3 class=xl74 style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*p_obj.agt:*&corpus=1'>p_obj.agt</a></td>
+  <td class=xl75><a href='http://talc2.loria.fr/grew/index.html?relation=p_obj.agt:suj&corpus=1'>p_obj.agt:suj</a></td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=S:p_obj.agt:suj&corpus=1'>S:p_obj.agt:suj</a></td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl77><a href='http://talc2.loria.fr/grew/index.html?relation=D:p_obj.agt:suj&corpus=1'>D:p_obj.agt:suj</a></td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=3 class=xl74 style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*dis:*&corpus=1'>dis</a></td>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=dis:suj&corpus=1'>dis:suj</a></td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=S:dis:suj&corpus=1'>S:dis:suj</a></td>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=S:dis:obj&corpus=1'>S:dis:obj</a></td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl77><a href='http://talc2.loria.fr/grew/index.html?relation=D:dis:suj&corpus=1'>D:dis:suj</a></td>
+  <td class=xl77><a href='http://talc2.loria.fr/grew/index.html?relation=D:dis:obj&corpus=1'>D:dis:obj</a></td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+</table>
 
-<h2>Les traits</h2>
-<p>cat: V, N, A, ADJ, …</p>
-<p>g: f, m</p>
+The table below the list of others relations.
+<table border=0 cellpadding=0 cellspacing=0 style='border-collapse:collapse;table-layout:fixed'>
+ <tr>
+  <th class=norm_trbl>All</a></th>
+  <th class=norm_trb>No prefix</a></th>
+  <th class=norm_trb>S:</th>
+  <th class=norm_trb>D:</th>
+  <th class=norm_trb>I:</th>
 
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*arg&corpus=1'><b>arg</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=arg&corpus=1'>arg</a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:arg&corpus=1'>D:arg</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:arg&corpus=1'>I:arg</a></td>
+</tr>
 
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*arg.comp&corpus=1'><b>arg.comp</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:arg.comp&corpus=1'>D:arg.comp</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:arg.comp&corpus=1'>I:arg.comp</a></td>
+</tr>
 
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*arg.cons&corpus=1'><b>arg.cons</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:arg.cons&corpus=1'>D:arg.cons</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:arg.cons&corpus=1'>I:arg.cons</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=coord|*:coord&corpus=1'><b>coord</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=coord&corpus=1'>coord</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:coord&corpus=1'>S:coord</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:coord&corpus=1'>D:coord</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*dep&corpus=1'><b>dep</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=dep&corpus=1'>dep</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:dep&corpus=1'>S:dep</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:dep&corpus=1'>D:dep</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:dep&corpus=1'>I:dep</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*dep.coord&corpus=1'><b>dep.coord</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=dep.coord&corpus=1'>dep.coord</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:dep.coord&corpus=1'>S:dep.coord</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:dep.coord&corpus=1'>D:dep.coord</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*dep.de&corpus=1'><b>dep.de</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:dep.de&corpus=1'>D:dep.de</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:dep.de&corpus=1'>I:dep.de</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*det&corpus=1'><b>det</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=det&corpus=1'>det</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:det&corpus=1'>S:det</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:det&corpus=1'>D:det</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod&corpus=1'><b>mod</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=mod&corpus=1'>mod</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:mod&corpus=1'>S:mod</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod&corpus=1'>D:mod</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.app&corpus=1'><b>mod.app</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=mod.app&corpus=1'>mod.app</a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.app&corpus=1'>D:mod.app</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.comp&corpus=1'><b>mod.comp</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.comp&corpus=1'>D:mod.comp</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:mod.comp&corpus=1'>I:mod.comp</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.rel&corpus=1'><b>mod.rel</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=mod.rel&corpus=1'>mod.rel</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:mod.rel&corpus=1'>S:mod.rel</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.rel&corpus=1'>D:mod.rel</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.rel_part&corpus=1'><b>mod.rel_part</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.rel_part&corpus=1'>D:mod.rel_part</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.super&corpus=1'><b>mod.super</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.super&corpus=1'>D:mod.super</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*obj.p&corpus=1'><b>obj.p</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=obj.p&corpus=1'>obj.p</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:obj.p&corpus=1'>S:obj.p</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:obj.p&corpus=1'>D:obj.p</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*p_obj.o&corpus=1'><b>p_obj.o</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=p_obj.o&corpus=1'>p_obj.o</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:p_obj.o&corpus=1'>S:p_obj.o</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:p_obj.o&corpus=1'>D:p_obj.o</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*ponct&corpus=1'><b>ponct</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:ponct&corpus=1'>S:ponct</a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:ponct&corpus=1'>I:ponct</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*root&corpus=1'><b>root</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=root&corpus=1'>root</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:root&corpus=1'>S:root</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:root&corpus=1'>D:root</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+</table>
 

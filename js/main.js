@@ -3,12 +3,22 @@ var cursor = 0;//Etat d'avancement global dans le fichier texte (nombre total de
 var watcher = undefined;//Variable surveillant les modifications dans un fichier texte
 var line = 0;//Etat d'avancement dans le fichier texte (nombre de lignes parcourues en une itération)
 var cmEditor = undefined;//Contenu de la textarea
-var lesson = 1;//Numéro de la lesson en cours
+
+var scenario_basename = "undefined"
+var scenario = 1; //Numéro do scenario actuel
+var max_scenario = 0; // nombre max de scenario
+
 var incrementResult = 0;//Nombre de résultats affichés
 var current_view = 0; //Numéro du résultat actuellement affiché
 
+var corpus_dir = "undefined"
+
 $(function(){
 // exécuter une fois à la fin du chargement de la page
+	$('#scenario').hide();		
+	$('#corpus-select').prop('disabled',false);
+
+	$('.tooltip-desc').tooltipster({contentAsHTML:true,theme:'tooltipster-noir',interactive:true,position:'bottom'});
 
 	//Récupération de la liste de corpus
 	$.get( "./corpora/list", function( data ) {
@@ -20,47 +30,126 @@ $(function(){
 			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
 				//On affiche le contenu de la recherche
 				cmEditor.setValue(pattern);
-				//On simule un click pour lancer la recherche et afficher diréctement les résultats
+				//On simule un click pour lancer la recherche et afficher directement les résultats
 				$('#submit-pattern').trigger("click");
 			});
 		};
 
-		//On récupère les snippets de chaque corpus et les informations le concernant
-		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
-			$('#corpus-select').after('<span href="" class="tooltip-desc" id="corpus-desc">(?)</span>');
-			$.get( "./corpora/"+ $("#corpus-select").val() + "/short.html", function( data ) {
-				$('#short-desc').append(data);
-			});
-			snippets_extract();
-			$('.tooltip-desc').tooltipster({content:data,contentAsHTML:true,theme:'tooltipster-noir',interactive:true});
-		});
+ 		//On vérifie si on est sur une recherche directe de relation via les paramètres get
+ 		if (getParameterByName("corpus").length > 0 && getParameterByName("relation").length > 0) {
+			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
+			//On affiche le contenu de la recherche
+			cmEditor.setValue("match {\n  GOV[];\n  DEP[];\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
+			//On simule un click pour lancer la recherche et afficher diréctement les résultats
+			$('#submit-pattern').trigger("click");
+		};
 
+		change_corpus();
 	});
-
-	//On charge la première leçon
-    $("#scenario").load("lesson"+ lesson+".html");
 
     //On lie l'événement de changement de corpus à la liste déroulante
-	$('#corpus-select').change(function(){
-		$('#custom-display').hide();
-		$('#vision').hide();
-		$('#short-desc').empty();
-		$.get( "./corpora/"+ $("#corpus-select").val() + "/doc.html", function( data ) {
-			$('.tooltip-desc').tooltipster('content',data);
-			$.get( "./corpora/"+ $("#corpus-select").val() + "/short.html", function( data ) {
-				$('#short-desc').append(data);
-			});
-			snippets_extract();
-		});
-
-	});
+	$('#corpus-select').change(change_corpus);
 
 	//On initialise CodeMirror
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
     	lineNumbers: true,
   	});
-    
+
+	$('#tutorial').click(function(){
+		$('#scenario').show();		
+		$('#snippets').hide();
+
+		active_navbar("tutorial");
+
+		scenario_basename = "tutorial";
+		scenario = 1;
+		max_scenario = 3;
+		$("#scenario").load(scenario_basename+ scenario +".html");
+
+		$('#corpus-select').val("sequoia-6.0");
+		change_corpus();
+		$('#corpus-select').prop('disabled',true);
+	});
+
+	$('#ex-seq').click(function(){
+		$('#scenario').show();		
+		$('#snippets').hide();
+
+		active_navbar("ex-seq");
+
+		scenario_basename = "ex-seq";
+		scenario = 1;
+		max_scenario = 1;
+		$("#scenario").load(scenario_basename+ scenario +".html");
+
+		$('#corpus-select').val("sequoia-6.0");
+		change_corpus();
+		$('#corpus-select').prop('disabled',true);
+	});
+
+	$('#ex-deep').click(function(){
+		$('#scenario').show();		
+		$('#snippets').hide();
+
+		active_navbar("ex-deep");
+
+		scenario_basename = "ex-deep";
+		scenario = 1;
+		max_scenario = 1;
+		$("#scenario").load(scenario_basename+ scenario +".html");
+
+		$('#corpus-select').val("deep-sequoia-1.1");
+		change_corpus();
+		$('#corpus-select').prop('disabled',true);
+	});
+
+	$('#search').click(function(){
+		$('#snippets').show();
+		$('#scenario').hide();
+
+		active_navbar("search");
+
+		$('#corpus-select').prop('disabled',false);
+	});
 });
+
+function active_navbar(id){
+	$("#li-search").removeClass("active");
+	$("#li-tutorial").removeClass("active");
+	$("#li-examples").removeClass("active");
+	$("#li-ex").removeClass("active");
+	$("#li-ex-seq").removeClass("active");
+	$("#li-ex-deep").removeClass("active");
+	$("#li-"+id).addClass("active");
+	if (id == "ex-deep" || id == "ex-seq") {
+		$("#li-ex").addClass("active");
+	}
+}
+
+function change_corpus(){
+	$('#custom-display').hide();
+	$('#vision').hide();
+	$('#short-desc').empty();
+
+	corpus_dir = "./corpora/"+ $("#corpus-select").val() + "/";
+
+	// On met à jour la short doc
+	$.get(corpus_dir + "short.html", function(data) {
+		$('#short-desc').append(data);
+	});
+
+	// On met à jour la long doc (tooltip)
+	$.get(corpus_dir + "doc.html", function( data ) {
+//		cmEditor.setValue (corpus_dir); //DEBUG
+        $('.tooltip-desc').tooltipster('content',data);
+	});
+
+	// Mise à jour du lien (?)
+	$('#a-corpus').attr("href", corpus_dir + "doc.html");
+
+	// Mise à jour snippets
+	snippets_extract();
+}
 
 function request_pattern(next){
 	if (!next) {
@@ -252,17 +341,18 @@ function snippets_extract(){
 });
 }
 
-function next_lesson(){
-	lesson = lesson + 1 ;
-	if (lesson > 3 ) {lesson = 3};
-	$("#scenario").load("lesson"+ lesson +".html");
+function next_scenario(){
+	scenario = scenario + 1 ;
+	if (scenario > max_scenario ) {scenario = max_scenario};
+	$("#scenario").load(scenario_basename+ scenario +".html");
 }
 
-function previous_lesson(){
-	lesson = lesson - 1 ;
-	if (lesson < 1 ) {lesson = 1};
-	$("#scenario").load("lesson"+ lesson +".html");
+function previous_scenario(){
+	scenario = scenario - 1 ;
+	if (scenario < 1 ) {scenario = 1};
+	$("#scenario").load(scenario_basename+ scenario +".html");
 }
+
 
 function update_progress_num() {
 	if (incrementResult != 0) {

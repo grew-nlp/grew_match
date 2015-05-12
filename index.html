@@ -35,22 +35,44 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
-            <nav id="navbar-grew" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-              <div class="container-fluid">
-                <div class="navbar-header">
-                  <a class="navbar-brand" id="title-grew" href="#">Grew</a>
+<nav id="navbar-grew" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <a class="navbar-brand" id="title-grew" href="#">Grew-web</a>
+      <ul class="nav navbar-nav">
+        <li id="li-search" class="active"><a id="search" href="#">Search in corpus</a></li>
 
-                </div>
-              </div>
-            </nav>
+<!--         <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Search in corpus<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a id="sequoia-6.0" href="#">sequoia-6.0</a></li>
+            <li><a href="#">deep-sequoia-1.1</a></li>
+            <li><a href="#">Tiger-2.2</a></li>
+          </ul>
+        </li> -->
+        <li id="li-tutorial"><a id="tutorial" href="#">Tutorial</a></li>
+        <li id="li-ex" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Examples<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li id="li-ex-seq"><a id="ex-seq" href="#">sequoia-6.0</a></li>
+            <li id="li-ex-deep"><a id="ex-deep" href="#">deep-sequoia-1.1</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://grew.loria.fr">Grew website</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 
             <!-- Main jumbotron for a primary marketing message or call to action -->
             <div class="jumbotron" id="jumbo-grew">
               <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-6" id="console">
+                  <div class="col-md-8" id="console">
                     <h2>Corpus: <select id="corpus-select">
-                    </select></h2>
+                    </select><span href="" class="tooltip-desc" id="corpus-desc"><a href="#" id="a-corpus">(?)</a></span></h2>
                     <span id="short-desc"></span>
 
                     <textarea id="pattern-input" rows="7" ></textarea>
@@ -58,12 +80,12 @@
                       <button class="btn btn-primary btn-lg" id="save-pattern" onclick="javascript:save_pattern()" >Save</button></p>
                       <p><span id='custom-display'>Your custom pattern URL is the following: <span id="custom-url"></span></span></p>
                     </div>
-                    <div class="col-md-2" id="snippets">
+                    <div class="col-md-4" id="snippets">
                       <h2>Snippets</h2>
                       <ul></ul>
                     </div>
                     <div class="col-md-4" id="scenario">
-
+                      <h2>Scenario</h2>
                     </div>
 
                   </div>

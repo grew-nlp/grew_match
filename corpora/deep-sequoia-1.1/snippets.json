@@ -1,15 +1,15 @@
 [
   {
-        "name":"Recherche par lemme",
-        "content":"% Recherche d&#39;une unité lexicale par son lemme\n\nmatch { N [lemma=\"écouter\"] }"
+        "name":"Search for a lemma",
+        "content":"% Search for a given lemma, for instancer \"écouter\"\n\nmatch { N [lemma=\"écouter\"] }"
   },
   {
-        "name":"Recherche par catégorie",
-        "content":"% Recherche d&#39;une unité lexicale par sa catégorie\n% Les catégories disponibles&nbsp;: V, N, C, CL, P, I, PONCT, A, ADV, PRO, D, ET, P+D, P+PRO, PREF\n\nmatch { N [cat=\"P+PRO\"] }"
+        "name":"Search by grammatical category",
+        "content":"% Search for a lexical unit of a given grammatical category\n% Available categories: V, N, C, CL, P, I, PONCT, A, ADV, PRO, D, ET, P+D, P+PRO, PREF\n\nmatch { N [cat=\"P+PRO\"] }"
   },
   {
-        "name":"Recherche par relation",
-        "content":"% Recherche par type de relation (par exemple ici l&#39;auxiliaire causatif [aux.caus])\n% Attention, dans Deep-sequoia&nbsp;:\n% - les relations de surface sont prefixées par &quot;S:&quot;\n% - les relations profondes sont préfixées par &quot;D:&quot;\n\nmatch {\n  GOV [];\n  DEP [];\n  GOV -[S:aux.caus]-> DEP\n}"
+        "name":"Search for a dependency relation",
+        "content":"% Search for causative auxialiaries ([aux.caus])\n% Warning: in deep-sequoia, relation names may be prefixed (with &quot;S:&quot; for surface and with &quot;D:&quot; for deep relations)\nmatch {\n  GOV [];\n  DEP [];\n  GOV -[S:aux.caus]-> DEP\n}"
   }
 ]
 
