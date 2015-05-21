@@ -30,7 +30,7 @@ echo "/home/guillaum/.opam/4.02.0/bin/grew_daemon -p ${PORT} -c ${FILE} -d ../un
 cd ..
 
 # Universal Treebank v2.0- Korean
-cd uni-dep-tb-fr-2.0
+cd uni-dep-tb-ko-2.0
 PORT=`cat port`  # 8184
 FILE=/data/semagramme/resources/uni-dep-tb-ko-2.0.conll
 LOG=/data/semagramme/log/grew_daemon_uni-dep-tb-ko.log
