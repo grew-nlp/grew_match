@@ -15,13 +15,14 @@ var corpus_dir = "undefined"
 
 $(function(){
 // exécuter une fois à la fin du chargement de la page
-	$('#scenario').hide();		
-	$('#corpus-select').prop('disabled',false);
+	$('#scenario').hide();
+
+	$('#corpus-fixed').hide();		
 
 	$('.tooltip-desc').tooltipster({contentAsHTML:true,theme:'tooltipster-noir',interactive:true,position:'bottom'});
 
 	//Récupération de la liste de corpus
-	$.get( "./corpora/list", function( data ) {
+	$.get( "./corpora/corpora_list", function( data ) {
  		$( "#corpus-select" ).append( data );
 
  		//On vérifie si on est sur une recherche sauvegardée via les paramètres get
@@ -59,6 +60,9 @@ $(function(){
 		$('#scenario').show();		
 		$('#snippets').hide();
 
+		$('#corpus-fixed').show();
+		$('#corpus-select').hide();
+
 		active_navbar("tutorial");
 
 		scenario_basename = "tutorial";
@@ -68,12 +72,14 @@ $(function(){
 
 		$('#corpus-select').val("sequoia-6.0");
 		change_corpus();
-		$('#corpus-select').prop('disabled',true);
 	});
 
 	$('#ex-seq').click(function(){
 		$('#scenario').show();		
 		$('#snippets').hide();
+
+		$('#corpus-fixed').show();
+		$('#corpus-select').hide();
 
 		active_navbar("ex-seq");
 
@@ -84,12 +90,14 @@ $(function(){
 
 		$('#corpus-select').val("sequoia-6.0");
 		change_corpus();
-		$('#corpus-select').prop('disabled',true);
 	});
 
 	$('#ex-deep').click(function(){
 		$('#scenario').show();		
 		$('#snippets').hide();
+
+		$('#corpus-fixed').show();
+		$('#corpus-select').hide();
 
 		active_navbar("ex-deep");
 
@@ -100,16 +108,17 @@ $(function(){
 
 		$('#corpus-select').val("deep-sequoia-1.1");
 		change_corpus();
-		$('#corpus-select').prop('disabled',true);
 	});
 
 	$('#search').click(function(){
 		$('#snippets').show();
 		$('#scenario').hide();
 
+		$('#corpus-fixed').hide();
+		$('#corpus-select').show();
+
 		active_navbar("search");
 
-		$('#corpus-select').prop('disabled',false);
 	});
 });
 
@@ -140,7 +149,6 @@ function change_corpus(){
 
 	// On met à jour la long doc (tooltip)
 	$.get(corpus_dir + "doc.html", function( data ) {
-//		cmEditor.setValue (corpus_dir); //DEBUG
         $('.tooltip-desc').tooltipster('content',data);
 	});
 
@@ -149,6 +157,8 @@ function change_corpus(){
 
 	// Mise à jour snippets
 	snippets_extract();
+
+	$('#corpus-fixed').html($("#corpus-select").val());
 }
 
 function request_pattern(next){

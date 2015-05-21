@@ -13,9 +13,7 @@ if (isset($_POST['pattern'])) {
 	fwrite($historyFile, date("d-m-Y H:i" ) . "|" . $_POST['corpus'] . "=>" . $_POST['pattern'] . "\n<+>\n");
 	fclose($historyFile);
 
-		//Création du dossier de données et écriture du pattern dans le dossier correspondant
-
-
+	// Création du dossier de données et écriture du pattern dans le dossier correspondant
 	$id = uniqid();
 	$old = umask(0);
 	mkdir($dir . $id,0777);
@@ -30,7 +28,7 @@ if (isset($_POST['pattern'])) {
 	fclose($handlePort);
 
 
-		//Comunication avec l'application via le port 8080
+	// Communication avec l'application via le port $port
 	$addr = gethostbyname("localhost");
 	error_reporting(0);
 	$client = stream_socket_client("tcp://$addr:$port", $errno, $errorMessage);
@@ -54,7 +52,7 @@ if (isset($_POST['pattern'])) {
 	echo $id;
 }elseif (isset($_POST['id'])) {
 	if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
-		$dir = "/opt/lampp/htdocs/grew/data/";
+	$dir = "/Users/guillaum/forge/semagramme/grew_web/data/";
 	}else{
 		$dir = "/data/semagramme/www/grew/data/";
 	}
@@ -105,16 +103,16 @@ function demonDown($corpus,$idReq){
     $message_txt .= "Le deamon correspondant à ce corpus n'est pas en train de tourner sur le serveur ." .$passage_ligne;
     //=====Création du message.
     $message = $passage_ligne."--".$boundary.$passage_ligne;
-//=====Ajout du message au format texte.
+    //=====Ajout du message au format texte.
     $message.= "Content-Type: text/plain; charset=\"ISO-8859-1\"".$passage_ligne;
     $message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
     $message.= $passage_ligne.$message_txt.$passage_ligne;
-//==========
+	//==========
     $message.= $passage_ligne."--".$boundary."--".$passage_ligne;
     $message.= $passage_ligne."--".$boundary."--".$passage_ligne;
-//==========
+	//==========
  
-//=====Envoi de l'e-mail.
+	//=====Envoi de l'e-mail.
     mail($mail,$sujet,$message,$header);
 }
 ?>

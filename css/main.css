@@ -6,6 +6,11 @@
   padding: 0;
   }*/
 
+  body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+  }
+
   #snippets ul, #results ul {
     list-style-type: none;
     margin: 0;
@@ -107,7 +112,7 @@
   #title-grew{
     color: #ECF0F1;
   }
-  .btn-primary{
+  div.btn-primary{
     background-image: none;
     background-color: #003171;
     color: #ECF0F1;
