@@ -9,7 +9,7 @@
   },
   {
         "name":"Search for a dependency relation",
-        "content":"% Search for causative auxialiaries ([aux.caus])\n% Warning: in deep-sequoia, relation names may be prefixed (with &quot;S:&quot; for surface and with &quot;D:&quot; for deep relations)\nmatch {\n  GOV [];\n  DEP [];\n  GOV -[S:aux.caus]-> DEP\n}"
+        "content":"% Search for causative auxiliaries ([aux.caus])\n% Warning: in deep-sequoia, relation names may be prefixed (with &quot;S:&quot; for surface and with &quot;D:&quot; for deep relations)\n\nmatch {\n  GOV [];\n  DEP [];\n  GOV -[S:aux.caus]-> DEP\n}"
   }
 ]
 

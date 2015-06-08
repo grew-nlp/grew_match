@@ -260,7 +260,8 @@ function request_pattern(next){
 										document.getElementById('display-results').innerHTML = newHtml;
 
 										$('#list-' + incrementResult).addClass('displayed');
-										$("#display-results").animate({scrollLeft:pieces[2] - 150},"fast");
+										var w = $("#display-results").width();
+										$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
 									};
 									incrementResult++;
 								}
@@ -286,7 +287,8 @@ function display_picture(event){
 
 	$('#list-results li').removeClass('displayed');
 	$('#list-' + event.data.i).addClass('displayed');
-	$("#display-results").animate({scrollLeft:event.data.coord - 150},"fast");
+	var w = $("#display-results").width();
+	$("#display-results").animate({scrollLeft:event.data.coord - w/2},"fast");
 	current_view = event.data.i;
 	update_progress_num();
 }
