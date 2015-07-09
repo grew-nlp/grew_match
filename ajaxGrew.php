@@ -1,10 +1,7 @@
 <?php
 
-if (in_array($_SERVER["REMOTE_ADDR"],array("127.0.0.1","::1"))) {
-	$dir = "/Users/guillaum/forge/semagramme/grew_web/data/";
-}else{
-	$dir =  "/data/semagramme/www/grew/data/";
-}
+$dir = "@DATADIR@";
+
 if (isset($_POST['pattern'])) {
 	session_start();
 
@@ -44,7 +41,7 @@ if (isset($_POST['pattern'])) {
 		demonDown($_POST['corpus'],$id);
 	}else{
 		fwrite($client, $dir . $id . "#NEW");
-		$result = stream_get_contents($client);
+		$result = stream_get_contents($client,1);
 		fclose($client);
 	}
 
@@ -77,7 +74,7 @@ if (isset($_POST['pattern'])) {
 		demonDown($_POST['corpus'],$_POST['id']);
 	}else{
 		fwrite($client, $dir . $_POST['id'] . "#NEXT");
-		$result = stream_get_contents($client);
+		$result = stream_get_contents($client,1);
 		fclose($client);
 	}
 	error_reporting(E_ALL & ~E_NOTICE);
