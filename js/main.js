@@ -103,7 +103,7 @@ $(function(){
 
 		scenario_basename = "ex-deep";
 		scenario = 1;
-		max_scenario = 1;
+		max_scenario = 2;
 		$("#scenario").load(scenario_basename+ scenario +".html");
 
 		$('#corpus-select').val("deep-sequoia-1.1");

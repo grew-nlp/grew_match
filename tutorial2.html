@@ -5,8 +5,9 @@
 <div id="episode">
   <ol>
     <li>
-    Match any relation between any two nodes.
-      <a class="interactive" snippet="% Match any relation between any two nodes
+    Search a relation without restriction.
+      <a class="interactive" snippet="% Search a relation without restriction.
+% Note that nodes N and M must be defined (lines 5 and 6) before the relation declaration (line 7) 
 
 match {
   N [];
@@ -16,8 +17,8 @@ match {
       </a>
     </li>
     <li>
-    Match a given relation.
-      <a class="interactive" snippet="% Match a given relation.
+    Search for a given relation.
+      <a class="interactive" snippet="% Search for a given relation.
 
 match {
   N [];
@@ -27,8 +28,8 @@ match {
       </a>
     </li>
     <li>
-    Match a disjunction of relations.
-      <a class="interactive" snippet="% Match a disjunction of relations.
+    Search for a disjunction of relations.
+      <a class="interactive" snippet="% Search for a disjunction of relations.
 
 match {
   N [];
@@ -38,8 +39,8 @@ match {
       </a>
     </li>
     <li>
-    Match any relation except a given disjunction.
-      <a class="interactive" snippet="% Match any relation except a given disjunction.
+    Search for a relation different from a given disjunction.
+      <a class="interactive" snippet="% Search for a relation different from a given disjunction.
 
 match {
   N [];
@@ -60,8 +61,9 @@ match {
       </a>
     </li>
     <li>
-    Combine search on nodes and search on relation.
-      <a class="interactive" snippet='% Combine search on nodes and search on relation.
+    Combine restriction on nodes and restriction on relations.
+      <a class="interactive" snippet='% Combine restriction on nodes and restriction on relations.
+% For instance, search for an adjective which is governor of an a_obj relation.
 
 match {
   N [ cat=A ];
@@ -73,12 +75,13 @@ match {
     <li>
     Search for a larger pattern.
       <a class="interactive" snippet='% Search for a larger pattern.
+% For instance, search for an adjective with an a_obj argument which is a noun but not a common noun.
 
 match {
   ADJ [ cat=A ];
   PREP [ cat=P ];
   ADJ -[a_obj]-> PREP;
-  OBJ [ s<>c ];
+  OBJ [ cat=N, s<>c ];
   PREP -[obj.p]-> OBJ;
 }' href="#">[TRY IT]
       </a>

@@ -4,25 +4,25 @@
 
 <div id="episode">
   <ol>
+<!-- ======================================================================================== -->
     <li>
-    Requires for an out-edge from a given node.
-      <a class="interactive" snippet="% Requires for an out-edge from a given node.
-% Search for a verb node V with an aux.pass A, such that V has an out-edge p_obj.agt
-% Note that the dependant of the p_obj.agt relation is not matched.
+    Constraint for an out-edge from a given node.
+      <a class="interactive" snippet="% Constraint for an out-edge from a given node.
+% Search for a verb node V with an passive auxiliary A, such that V has an out-edge 'p_obj.agt'
 
 match {
   V [cat=V];
   A [cat=V];
-  V -[aux.caus]-> A;
+  V -[aux.pass]-> A;
   V -[p_obj.agt]-> *;
 }" href="#">[TRY IT]
       </a>
     </li>
+<!-- ======================================================================================== -->
     <li>
-    Requires for an in-edge from a given node.
-      <a class="interactive" snippet='% Requires for an in-edge from a given node.
+    Constraint for an in-edge from a given node.
+      <a class="interactive" snippet='% Constraint for an in-edge from a given node.
 % Search for a noun node N with lemma "lettre" and with an in-edge suj
-% Again, note that the governor of the subj relation is not matched.
 
 match {
   N [cat=N, lemma="lettre"];
@@ -30,9 +30,50 @@ match {
 }' href="#">[TRY IT]
       </a>
     </li>
+<!-- ======================================================================================== -->
+    <li>
+    Constraint for the equality of two features.
+      <a class="interactive" snippet="% Constraint for the equality of two features.
+% Below, we search for an adjective modifying a noun add such that the 'n' feature are identical in the two nodes
 
+match {
+  N [ cat=N, n=* ];
+  A [ cat=A, n=* ];
+  N -[mod]-> A;
+  N.n = A.n;
+}" href="#">[TRY IT]
+      </a>
+    </li>
+<!-- ======================================================================================== -->
+    <li>
+    Constraint for the inequality of two features.
+      <a class="interactive" snippet="% Constraint for the equality of two features.
+% Below, we search for an adjective modifying a noun add such that the 'n' feature are different in the two nodes
 
+match {
+  N [ cat=N, n=* ];
+  A [ cat=A, n=* ];
+  N -[mod]-> A;
+  N.n <> A.n;
+}" href="#">[TRY IT]
+      </a>
+    </li>
+<!-- ======================================================================================== -->
+    <li>
+    Constraint on position.
+      <a class="interactive" snippet="% Constraint on position.
+% Below, we search for a verb with a postponed subject
 
+match {
+  V [ cat=V ];
+  S [ ];
+  V -[suj]-> S;
+  S.position > V.position;
+
+}" href="#">[TRY IT]
+      </a>
+    </li>
+<!-- ======================================================================================== -->
 
   </ol>
 </div> <!-- id="episode" -->

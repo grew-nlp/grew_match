@@ -1,7 +1,7 @@
 [
   {
         "name":"Search for a lemma",
-        "content":"% Search a lexical unit from its lemma\n\nmatch { N [lemma=\"écouter\"] }"
+        "content":"% Search a lexical unit from its lemma\n\nmatch { N [lemma=\"arbeiten\"] }"
   },
   {
         "name":"Search for a category",
