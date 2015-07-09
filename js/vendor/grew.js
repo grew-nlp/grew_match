@@ -41,7 +41,8 @@
             }
 
 	    if (ch === '-') {
-		if (stream.eat('[')) {
+	    	var next_ch = stream.next();
+	    	if ((next_ch === '[') || (next_ch === ">")) {
 		    return 'quote';
 		}
 	    }
