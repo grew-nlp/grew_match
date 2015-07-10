@@ -85,23 +85,21 @@ if (isset($_POST['pattern'])) {
 
 function demonDown($corpus,$idReq){
 	$mail = "bruno.guillaume@inria.fr";
-    $sujet = $corpus . " not running";
+    $sujet = "Grew-daemon is not running";
 
     $boundary = "-----=".md5(rand());
     $passage_ligne = "\n";
     $header = "From: \"Grew\"<grew@inria.fr>".$passage_ligne;
-    $header .= "Reply-to: \"Antoine Chemardin\"<antoine.chemardin@inria.fr>".$passage_ligne;
     $header .= "MIME-Version: 1.0".$passage_ligne;
     $header .= "Content-Type: multipart/alternative;".$passage_ligne." boundary=\"$boundary\"".$passage_ligne;
 
-    $message_txt = "Bonjour Bruno," .$passage_ligne;
-    $message_txt .= "Un utilisateur a essayé de faire une requête Grew sur le corpus " . $corpus . "." .$passage_ligne;
-    $message_txt .= "Sa requête a l'ID suivante : " . $idReq . " ." .$passage_ligne;
-    $message_txt .= "Le deamon correspondant à ce corpus n'est pas en train de tourner sur le serveur ." .$passage_ligne;
+    $message_txt .= "Corpus: " . $corpus .$passage_ligne;
+    $message_txt .= "Id_req: " . $idReq .$passage_ligne;
+    $message_txt .= "Hostname: " . gethostname() . $passage_ligne;
     //=====Création du message.
     $message = $passage_ligne."--".$boundary.$passage_ligne;
     //=====Ajout du message au format texte.
-    $message.= "Content-Type: text/plain; charset=\"ISO-8859-1\"".$passage_ligne;
+    $message.= "Content-Type: text/plain; charset=\"UTF8\"".$passage_ligne;
     $message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
     $message.= $passage_ligne.$message_txt.$passage_ligne;
 	//==========

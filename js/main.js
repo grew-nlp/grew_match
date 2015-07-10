@@ -47,6 +47,8 @@ $(function(){
 			$('#submit-pattern').trigger("click");
 		};
 
+	snippets_extract();
+
 	});
 
     //On lie l'événement de changement de corpus à la liste déroulante
