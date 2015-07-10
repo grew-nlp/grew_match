@@ -28,6 +28,7 @@ $(function(){
  		//On vérifie si on est sur une recherche sauvegardée via les paramètres get
  		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
 			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
+			change_corpus();
 			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
 				//On affiche le contenu de la recherche
 				cmEditor.setValue(pattern);
@@ -39,13 +40,13 @@ $(function(){
  		//On vérifie si on est sur une recherche directe de relation via les paramètres get
  		if (getParameterByName("corpus").length > 0 && getParameterByName("relation").length > 0) {
 			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
+			change_corpus();
 			//On affiche le contenu de la recherche
 			cmEditor.setValue("match {\n  GOV[];\n  DEP[];\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
-			//On simule un click pour lancer la recherche et afficher diréctement les résultats
+			//On simule un click pour lancer la recherche et afficher directement les résultats
 			$('#submit-pattern').trigger("click");
 		};
 
-		change_corpus();
 	});
 
     //On lie l'événement de changement de corpus à la liste déroulante
