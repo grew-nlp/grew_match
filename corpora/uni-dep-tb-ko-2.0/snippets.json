@@ -13,7 +13,7 @@
   },
   {
         "name":"Search for both relations and categories",
-        "content":"% Search for a \"det\" dependency relation\n% such that the govenor is neither a NOUN nor an ADV\n\nmatch {\n  GOV [cat <> NOUN|ADJ];\n  DEP [];\n  GOV -[det]-> DEP\n}"
+        "content":"% Search for a \"det\" dependency relation\n% such that the governor is neither a NOUN nor an ADV\n\nmatch {\n  GOV [cat <> NOUN|ADJ];\n  DEP [];\n  GOV -[det]-> DEP\n}"
   }
 
 ]
