@@ -48,3 +48,12 @@ ERROR_LOG=/data/semagramme/log/grew_daemon_tiger_error.log
 echo "/home/guillaum/.opam/4.02.0/bin/grew_daemon -p ${PORT} -c ${FILE} -d tiger_decl.grs > ${LOG} 2> ${ERROR_LOG}" | at now +1 minute
 cd ..
 
+# deep-sequoia-trunk
+cd deep-sequoia-trunk
+PORT=`cat port` # 8186
+FILE=/data/semagramme/resources/deep-sequoia.conll
+LOG=/data/semagramme/log/grew_daemon_deep-sequoia.log
+ERROR_LOG=/data/semagramme/log/grew_daemon_deep-sequoia_error.log
+echo "/home/guillaum/.opam/4.02.0/bin/grew_daemon -p ${PORT} -c ${FILE} -d ../sequoia_decl.grs > ${LOG} 2> ${ERROR_LOG}" | at now +1 minute
+cd ..
+
