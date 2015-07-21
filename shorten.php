@@ -1,5 +1,5 @@
 <?php
-  $dir = "@DATADIR@";
+  $dir = "@DATADIR@/shorten/";
 
   if (isset($_POST['pattern'])) {
 	  $alphabet = '23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_';
