@@ -1,5 +1,16 @@
+<script type="text/javascript">
+  $(".interactive").click(function(){
+    var content = $(this).attr('snippet');
+    cmEditor.setValue(content);
+  });
+</script>
+
+<button class="btn btn-primary btn-lg" id="prev-scenario" onclick="javascript:previous_scenario()" >Previous</button>
+<span style="font-size:140%">Tutorial 3/3</span>
+<button class="btn btn-primary btn-lg" id="next-scenario" disabled="" >Next</button>
+
 <div id="scenario">
-  <h2>Tutorial 3</span>: Add positive constraints</h2>
+  <h2>Add positive constraints</h2>
 </div>
 
 <div id="episode">
@@ -77,13 +88,3 @@ match {
 
   </ol>
 </div> <!-- id="episode" -->
-
-<button class="btn btn-primary btn-lg" id="prev-scenario" onclick="javascript:previous_scenario()" >Previous</button>
-<button class="btn btn-primary btn-lg" id="next-scenario" onclick="javascript:next_scenario()" >Next</button></p>
-
-<script type="text/javascript">
-  $(".interactive").click(function(){
-    var content = $(this).attr('snippet');
-    cmEditor.setValue(content);
-  });
-</script>
