@@ -1,0 +1,84 @@
+% this file "uni-dep-tb-all-2.0.grs" contains the declarations of POS, CAT and relations used in universal dependency treebanks
+% May 21, 2015 -> fr + ko
+
+% ====================================================================================================
+features {
+
+  % field 2 of CONLL format is interpreted as the "phon" feature
+  phon: *;
+
+  % field 3 of CONLL format is interpreted as the "lemma" feature
+  lemma: *;
+
+  % field 4 of CONLL format is interpreted as the "cat" feature
+  cat: ADJ, ADP, ADV, AUX, CONJ, DET, INTJ, NOUN, NUM, PART, PRON, PROPN, PUNCT, SCONJ, SYM, VERB, X, _;
+
+  % field 5 of CONLL format is interpreted as the "pos" feature, unused in tiger
+  pos: *;
+
+  % In Tiger, sentence identifier are given through a identifer "id_pos", and transfomed to a feature sentid on the first node in this CONLL description.
+  sentid: *;
+
+
+  % Features grepped from the English Corpus
+  Case: Acc, Nom;
+  Definite: Def, Ind;
+  Degree: Cmp, Pos, Sup;
+  Gender: Fem, Masc, Neut;
+  Mood: Imp, Ind;
+  NumType: Card, Mult, Ord;
+  Number: Plur, Sing;
+  Person: 1, 2, 3;
+  Poss: Yes;
+  PronType: Art, Dem, Int, Prs, Rel;
+  Reflex: Yes;
+  Tense: Past, Pres;
+  VerbForm: Fin, Ger, Inf, Part;
+  Voice: Pass;
+}
+
+% ====================================================================================================
+labels {
+  % list of labels taken from the corpora [cat *.conll | cut -f 8 | sort -u]  
+  acl, acl:relcl,
+  advcl, advmod, 
+  amod, 
+  appos, 
+  aux, auxpass, 
+  case, 
+  cc, 
+  ccomp,
+  compound, compound:prt,
+  conj, conj:preconj,
+  cop, 
+  csubj, csubjpass, 
+  dep, 
+  det, det:predet, 
+  discourse,
+  dislocated,
+  dobj,
+  expl,
+  foreign,
+  goeswith,
+  iobj,
+  list,
+  mark,
+  mwe,
+  name,
+  neg,
+  nmod, nmod:npmod, nmod:poss, nmod:tmod,
+  nsubj, nsubjpass,
+  nummod,
+  parataxis,
+  punct,
+  remnant,
+  reparandum,
+  root,
+  vocative,
+  xcomp,
+}
+
+sequences { main {} }
+
+
+

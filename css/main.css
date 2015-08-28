@@ -7,8 +7,10 @@
   }*/
 
   body {
-    padding-top: 50px;
+    padding-top: 70px;
     padding-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
   #snippets ul, #results ul {
@@ -68,7 +70,7 @@
     height: 100%;
   }
   #list-results{
-    height: 400px;
+    max-height: 400px;
   }
   #display-results,#list-results{
     overflow: auto;
@@ -111,6 +113,10 @@
   }
   #title-grew{
     color: #ECF0F1;
+  }
+  #url-grew{
+    color: #ECF0F1;
+    margin-right: 20px; 
   }
   div.btn-primary{
     background-image: none;
