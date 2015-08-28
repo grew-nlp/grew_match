@@ -24,7 +24,7 @@ features {
   def:y;
   intrinsimp: y;
   se: ppdc;
-  cltype : int, imp;
+  cltype : int, imp, excl;
   lexicalisation: causi_fige, caust_fige;
 
   % fctpath encode information needed to deal with non-projectivity of some sentences
