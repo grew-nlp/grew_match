@@ -19,6 +19,8 @@ $(function(){
 
 	$('#corpus-fixed').hide();		
 
+	$('#save-pattern').prop('disabled',true);
+
 	$('.tooltip-desc').tooltipster({contentAsHTML:true,theme:'tooltipster-noir',interactive:true,position:'bottom'});
 
 	//Récupération de la liste de corpus
@@ -59,6 +61,11 @@ $(function(){
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
     	lineNumbers: true,
   	});
+
+	cmEditor.on ("change", function () {
+		$('#save-pattern').prop('disabled',true);
+		$('#custom-display').hide();		
+	});
 
 	$('#tutorial').click(function(){
 		$('#scenario').show();		
@@ -165,6 +172,11 @@ function change_corpus(){
 }
 
 function request_pattern(next){
+	if (cmEditor.getValue().length == 0) {
+		sweetAlert("An error occured", "You can't search for an empty pattern.", "error");
+		return false;
+	}
+
 	if (!next) {
 		$('.btn-results').show();
 		$('#custom-display').hide();
@@ -193,6 +205,8 @@ function request_pattern(next){
 			if (!next) {
 				id = output;
 			}
+
+			$('#save-pattern').prop('disabled',false);
 			
 			var file = "./data/" + id + "/list";
 
@@ -257,8 +271,6 @@ function request_pattern(next){
 									$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
 
 									if (line == 1) {
-
-										//$('#result-pic').attr('data',url);
 										var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
 										document.getElementById('display-results').innerHTML = newHtml;
 
@@ -284,7 +296,6 @@ function request_pattern(next){
 
 
 function display_picture(event){
-//	$('#result-pic').attr('data',event.data.url);
 	var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url +"\" > </object>";
 	document.getElementById('display-results').innerHTML = newHtml;
 
@@ -297,11 +308,11 @@ function display_picture(event){
 }
 
 function save_pattern(num){
-	if (cmEditor.getValue().length > 0) {
+	if (cmEditor.getValue().length > 0 && id.length > 0) {
 		corpus = $("#corpus-select").prop('selectedIndex');
 		$.ajax({url:'shorten.php',
 			dataType:'text',
-			data: {pattern: cmEditor.getValue()},
+			data: {pattern: cmEditor.getValue(), id:id},
 			type: 'post',
 			success: function(output){
 				history.pushState({id:output},"Grew - Custom saved pattern", "?custom=" + output + "&corpus=" + corpus);
@@ -311,7 +322,7 @@ function save_pattern(num){
 			}
 		});
 	} else {
-		sweetAlert("An error occured", "You can't save an empty pattern", "error");
+		sweetAlert("An error occured", "You can't save pattern before searching for it.", "error");
 	}
 }
 
