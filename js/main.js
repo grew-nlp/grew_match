@@ -29,7 +29,7 @@ $(function(){
 
  		//On vérifie si on est sur une recherche sauvegardée via les paramètres get
  		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
-			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
+			$("#corpus-select").val(getParameterByName("corpus"));
 			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
 				//On affiche le contenu de la recherche
 				cmEditor.setValue(pattern);
@@ -40,11 +40,16 @@ $(function(){
 
  		//On vérifie si on est sur une recherche directe de relation via les paramètres get
  		if (getParameterByName("corpus").length > 0 && getParameterByName("relation").length > 0) {
-			$("#corpus-select").prop('selectedIndex',getParameterByName("corpus"));
+			$("#corpus-select").val(getParameterByName("corpus"));
 			//On affiche le contenu de la recherche
 			cmEditor.setValue("match {\n  GOV[];\n  DEP[];\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
 			//On simule un click pour lancer la recherche et afficher directement les résultats
 			$('#submit-pattern').trigger("click");
+		};
+
+ 		//On vérifie si un corpus est préselectionné
+ 		if (getParameterByName("corpus").length > 0) {
+			$("#corpus-select").val(getParameterByName("corpus"));
 		};
 
 	change_corpus();
@@ -309,7 +314,7 @@ function display_picture(event){
 
 function save_pattern(num){
 	if (cmEditor.getValue().length > 0 && id.length > 0) {
-		corpus = $("#corpus-select").prop('selectedIndex');
+		corpus = $("#corpus-select").val();
 		$.ajax({url:'shorten.php',
 			dataType:'text',
 			data: {pattern: cmEditor.getValue(), id:id},
