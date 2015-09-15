@@ -1,7 +1,11 @@
 [
   {
         "name":"Search for a lexical unit",
-        "content":"% Search for a given lexical unit, for instance: \"milieu\"\n\nmatch { N [phon=\"milieu\"] }"
+        "content":"% Search for a given lexical unit, for instance: \"ran\"\n\nmatch { N [phon=\"ran\"] }"
+  },
+  {
+        "name":"Search for a lexical lemma",
+        "content":"% Search for a given lemma, for instance: \"run\"\n\nmatch { N [phon=\"run\"] }"
   },
   {
         "name":"Search by grammatical category",
@@ -9,11 +13,15 @@
   },
   {
         "name":"Search for a dependency relation",
-        "content":"% Search for a dependency relation\n% Available relations are:\n% acl, acl:relcl, advcl, advmod, amod, appos, aux, auxpass, case, cc, ccomp,\n% compound, conj, cop, csubj, dep, det, discourse, dobj, expl, iobj, mark,\n% mwe, name, neg, nmod, nmod:poss, nsubj, nsubjpass, nummod, parataxis, punct, root, xcomp\nmatch {\n  GOV [];\n  DEP [];\n  GOV -[advcl]-> DEP\n}"
+        "content":"% Search for a dependency relation\n% Available relations are:\n%   acl, acl:relcl, advcl, advmod, amod, appos, aux, auxpass, case, cc, ccomp,\n%   compound, conj, cop, csubj, dep, det, discourse, dobj, expl, iobj, mark,\n%   mwe, name, neg, nmod, nmod:poss, nsubj, nsubjpass, nummod, parataxis, punct, root, xcomp\nmatch {\n  GOV [];\n  DEP [];\n  GOV -[advcl]-> DEP\n}"
   },
   {
         "name":"Search for both relations and categories",
-        "content":"% Search for a \"det\" dependency relation\n% such that the governor is neither a NOUN nor an ADV\n\nmatch {\n  GOV [cat <> NOUN|ADJ];\n  DEP [];\n  GOV -[det]-> DEP\n}"
+        "content":"% Search for a \"det\" dependency relation\n% such that the governor is different from a NOUN, a PROPN and an ADV\n\nmatch {\n  GOV [cat <> NOUN|ADJ|PROPN];\n  DEP [];\n  GOV -[det]-> DEP\n}"
+  },
+  {
+        "name":"Filter with NAP (Negative Application Patterns)",
+        "content":"% Search for verbs without subject\n\nmatch { V [cat=\"VERB\", VerbForm <> Ger|Inf|Part, Mood <> Imp] } % basic pattern: a verb with some constraints on VerbForm and Mood \nwithout { S[]; V -[nsubj|csubj|nsubjpass]-> S}                  % first negative pattern: there is no \"subject\" node\nwithout { N[]; N -[cop|aux|auxpass|conj]-> V}                   % second negative pattern: the verb if not a dependent of a relation \"cop\", \"aux\", …\n"
   }
 
 ]
