@@ -142,7 +142,7 @@ function selectCorpus(corpus){
 	if ($("#corpus-select option[value='"+ corpus +"']").length > 0) {
 		$("#corpus-select").val(corpus);	
 	}else{
-		$("#corpus-select").[0].selectedIndex = 0;
+		$("#corpus-select").selectedIndex = 0;
 	}
 	
 }
