@@ -13,6 +13,8 @@ var current_view = 0; //Numéro du résultat actuellement affiché
 
 var corpus_dir = "undefined"
 
+var corpus_list = []
+
 $(function(){
 // exécuter une fois à la fin du chargement de la page
 	$('#scenario').hide();
@@ -26,6 +28,9 @@ $(function(){
 	//Récupération de la liste de corpus
 	$.get( "./corpora/corpora_list", function( data ) {
  		$( "#corpus-select" ).append( data );
+
+ 		// On construit une liste de corpus sans les balises html
+ 		corpus_list = data.replace(/<[^>]+>/g, "").split("\n");
 
  		//On vérifie si on est sur une recherche sauvegardée via les paramètres get
  		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
@@ -139,12 +144,16 @@ $(function(){
 });
 
 function selectCorpus(corpus){
-	if ($("#corpus-select option[value='"+ corpus +"']").length > 0) {
-		$("#corpus-select").val(corpus);	
-	}else{
-		$("#corpus-select").selectedIndex = 0;
+	// Recherche du premier dans liste qui a un nom qui commence par [corpus] ...
+	for	(index = 0; index < corpus_list.length; index++) {
+		console.log(corpus_list[index].substring(0,corpus.length));
+		if (corpus_list[index].substring(0,corpus.length) == corpus) {
+			$("#corpus-select").val(corpus_list[index]);
+			return;
+		}
 	}
-	
+	// ... Si aucun n'est trouvé, le premier est selectionné.
+	$("#corpus-select").selectedIndex = 0;
 }
 
 function active_navbar(id){
