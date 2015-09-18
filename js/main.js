@@ -13,8 +13,6 @@ var current_view = 0; //Numéro du résultat actuellement affiché
 
 var corpus_dir = "undefined"
 
-var corpus_list = []
-
 $(function(){
 // exécuter une fois à la fin du chargement de la page
 	$('#scenario').hide();
@@ -28,9 +26,6 @@ $(function(){
 	//Récupération de la liste de corpus
 	$.get( "./corpora/corpora_list", function( data ) {
  		$( "#corpus-select" ).append( data );
-
- 		// On construit une liste de corpus sans les balises html
- 		corpus_list = data.replace(/<[^>]+>/g, "").split("\n");
 
  		//On vérifie si on est sur une recherche sauvegardée via les paramètres get
  		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
@@ -144,16 +139,27 @@ $(function(){
 });
 
 function selectCorpus(corpus){
-	// Recherche du premier dans liste qui a un nom qui commence par [corpus] ...
-	for	(index = 0; index < corpus_list.length; index++) {
-		console.log(corpus_list[index].substring(0,corpus.length));
-		if (corpus_list[index].substring(0,corpus.length) == corpus) {
-			$("#corpus-select").val(corpus_list[index]);
-			return;
-		}
-	}
-	// ... Si aucun n'est trouvé, le premier est selectionné.
-	$("#corpus-select").selectedIndex = 0;
+	//On crée un tableau regroupant toutes les options présentes dans le selecteur de corpus
+    options = [];
+	$("#corpus-select option").each(function(){
+    	options.push($(this).val());
+	});
+	
+	//On crée un regexp qui cherchera le nom de corpus commençant à la première posistion (^) et ignorant la casse (mode i)
+	var regexp = new RegExp('^' + corpus, "i"); 
+
+	//On boucle sur le tableau d'options pour tester s'il y a un match avec le regexp
+    for (i = 0; i < options.length; i++) {
+        if (options[i].match(regexp)) {
+        	//On a trouvé un correspondance, on change l'index et on stoppe la fonction
+            $("#corpus-select")[0].selectedIndex = i;
+            return;
+        }
+    }
+
+    //On a pas trouvé de match donc on selectionne par défaut le premier choix et on stoppe la fonction
+    $("#corpus-select")[0].selectedIndex = 0;	
+	return;
 }
 
 function active_navbar(id){
