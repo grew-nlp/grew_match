@@ -5,18 +5,18 @@ sleep 5
 EXEC=/home/guillaum/.opam/last/bin/grew_daemon
 
 # sequoia
-cd sequoia-6.0
+cd sequoia-7.0
 PORT=`cat port` # 8181
-FILE=/data/semagramme/resources/sequoia-6.0.conll
+FILE=/data/semagramme/resources/sequoia-7.0.conll
 LOG=/data/semagramme/log/grew_daemon_sequoia.log
 ERROR_LOG=/data/semagramme/log/grew_daemon_sequoia_error.log
 echo "${EXEC} -p ${PORT} -c ${FILE} -d ../sequoia_decl.grs > ${LOG} 2> ${ERROR_LOG}" | at now +1 minute
 cd ..
 
 # deep-sequoia
-cd deep-sequoia-1.1
+cd deep-sequoia-7.0
 PORT=`cat port` # 8182
-FILE=/data/semagramme/resources/deep-sequoia-1.1.conll
+FILE=/data/semagramme/resources/deep-sequoia-7.0.conll
 LOG=/data/semagramme/log/grew_daemon_deep-sequoia.log
 ERROR_LOG=/data/semagramme/log/grew_daemon_deep-sequoia_error.log
 echo "${EXEC} -p ${PORT} -c ${FILE} -d ../sequoia_decl.grs > ${LOG} 2> ${ERROR_LOG}" | at now +1 minute

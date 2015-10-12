@@ -1,0 +1,590 @@
+<style>
+<!--table
+@page
+	{margin:1.0in .75in 1.0in .75in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;}
+.style0
+	{mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	white-space:nowrap;
+	mso-rotate:0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	color:black;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	mso-font-charset:0;
+	border:none;
+	mso-protection:locked visible;
+	mso-style-name:Normal;
+	mso-style-id:0;}
+td
+	{mso-style-parent:style0;
+	padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Calibri, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	border:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	mso-protection:locked visible;
+	white-space:nowrap;
+	mso-rotate:0;}
+.xl65
+	{mso-style-parent:style0;
+	font-weight:700;
+	text-align:center;}
+.xl66
+	{mso-style-parent:style0;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	white-space:normal;}
+.bold_trbl
+	{mso-style-parent:style0;
+  background:#DDD;
+	font-weight:700;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;}
+.grey_trbl
+	{mso-style-parent:style0;
+	text-align:center;
+  background:#DDD;
+	border:.5pt solid windowtext;}
+.norm_trbl
+  {mso-style-parent:style0;
+  text-align:center;
+  border:.5pt solid windowtext;}
+.xl71
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;}
+.xl72
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;}
+.xl73
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;}
+.norm_trb
+  {mso-style-parent:style0;
+  text-align:center;
+  border-top:.5pt solid windowtext;
+  border-right:.5pt solid windowtext;
+  border-bottom:.5pt solid windowtext;
+  border-left:none;}
+.xl74
+	{mso-style-parent:style0;
+	font-weight:700;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	background:#DDD;
+	mso-pattern:black none;}
+.xl75
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	background:DDD;
+	mso-pattern:black none;}
+.xl76
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	background:DDD;
+	mso-pattern:black none;}
+.xl77
+	{mso-style-parent:style0;
+	text-align:center;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;
+	mso-pattern:black none;}
+-->
+</style>
+<h1>Deep-sequoia</h1>
+<p><b>Deep-sequoia</b> (<a href="http://deep-sequoia.inria.fr">http://deep-sequoia.inria.fr</a>) is a corpus of French sentences, annotated with deep syntactic relations.</p>
+
+<h2>Dependency relations</h2>
+The table below gives the list of relations that are implied in alternation (final function / canonical function):
+<table border=0 cellpadding=0 cellspacing=0 style='border-collapse:collapse;table-layout:fixed'>
+ <col width=65 span=2 style='width:65pt'>
+ <col class=xl65 width=65 style='width:65pt'>
+ <col span=8 style='width:91pt'>
+ <tr height=15 style='mso-height-source:userset;height:15.0pt'>
+  <td height=15 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td colspan=8 class=norm_trbl>Canonical function</td>
+ </tr>
+ <tr class=xl65 height=36 style='mso-height-source:userset;height:36.0pt'>
+  <td class=xl65></td>
+  <td class=xl65></td>
+  <td class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:suj&corpus=deep-sequoia'>suj</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:obj&corpus=deep-sequoia'>obj</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:a_obj&corpus=deep-sequoia'>a_obj</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:de_obj&corpus=deep-sequoia'>de_obj</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:ats&corpus=deep-sequoia'>ats</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:ato&corpus=deep-sequoia'>ato</a></td>
+  <td class=bold_trbl style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:argc&corpus=deep-sequoia'>argc</a></td>
+  <td class=xl74 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*:_&corpus=deep-sequoia'>_</a></td>
+ </tr>
+ <tr height=15 style='mso-height-source:userset;height:15.0pt'>
+  <td rowspan=26 class=xl66 width=65 style='border-bottom:.5pt solid black;
+  width:65pt'>Final function</td>
+  <td rowspan=4 class=bold_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*suj:*&corpus=deep-sequoia'>suj</a></td>
+  <td class=xl71 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=suj:suj&corpus=deep-sequoia'>suj:suj</a></td>
+  <td class=xl71 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=suj:obj&corpus=deep-sequoia'>suj:obj</a></td>
+  <td class=xl71 style='border-top:none;border-left:none'>&nbsp;</td>
+  <td class=xl71 style='border-top:none;border-left:none'>&nbsp;</td>
+  <td class=xl71 style='border-top:none;border-left:none'>&nbsp;</td>
+  <td class=xl71 style='border-top:none;border-left:none'>&nbsp;</td>
+  <td class=xl71 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=suj:argc&corpus=deep-sequoia'>suj:argc</a></td>
+  <td class=xl75 style='border-top:none;border-left:none'><a href='http://talc2.loria.fr/grew/index.html?relation=suj:_&corpus=deep-sequoia'>suj:_</a></td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:suj:suj&corpus=deep-sequoia'>S:suj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:suj:obj&corpus=deep-sequoia'>S:suj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=S:suj:_&corpus=deep-sequoia'>S:suj:_</a></td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:suj:suj&corpus=deep-sequoia'>D:suj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:suj:obj&corpus=deep-sequoia'>D:suj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:suj:argc&corpus=deep-sequoia'>D:suj:argc</a></td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl73><a href='http://talc2.loria.fr/grew/index.html?relation=I:suj:suj&corpus=deep-sequoia'>I:suj:suj</a></td>
+  <td class=xl73><a href='http://talc2.loria.fr/grew/index.html?relation=I:suj:obj&corpus=deep-sequoia'>I:suj:obj</a></td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=4 class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*obj:*&corpus=deep-sequoia'>obj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=obj:suj&corpus=deep-sequoia'>obj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=obj:obj&corpus=deep-sequoia'>obj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:obj:suj&corpus=deep-sequoia'>S:obj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:obj:obj&corpus=deep-sequoia'>S:obj:obj</a></td>
+  <td></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:obj:suj&corpus=deep-sequoia'>D:obj:suj</a></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:obj:obj&corpus=deep-sequoia'>D:obj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td></td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=I:obj:obj&corpus=deep-sequoia'>I:obj:obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=4 class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*a_obj:*&corpus=deep-sequoia'>a_obj</a></td>
+  <td class=xl71><a href='http://talc2.loria.fr/grew/index.html?relation=a_obj:suj&corpus=deep-sequoia'>a_obj:suj</a></td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71><a href='http://talc2.loria.fr/grew/index.html?relation=a_obj:a_obj&corpus=deep-sequoia'>a_obj:a_obj</a></td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:a_obj:suj&corpus=deep-sequoia'>S:a_obj:suj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:a_obj:a_obj&corpus=deep-sequoia'>S:a_obj:a_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:a_obj:suj&corpus=deep-sequoia'>D:a_obj:suj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:a_obj:a_obj&corpus=deep-sequoia'>D:a_obj:a_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73><a href='http://talc2.loria.fr/grew/index.html?relation=I:a_obj:a_obj&corpus=deep-sequoia'>I:a_obj:a_obj</a></td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=4 class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*de_obj:*&corpus=deep-sequoia'>de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=de_obj:de_obj&corpus=deep-sequoia'>de_obj:de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:de_obj:de_obj&corpus=deep-sequoia'>S:de_obj:de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=D:de_obj:de_obj&corpus=deep-sequoia'>D:de_obj:de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=I:de_obj:de_obj&corpus=deep-sequoia'>I:de_obj:de_obj</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=3 class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*ats:*&corpus=deep-sequoia'>ats</a></td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl71><a href='http://talc2.loria.fr/grew/index.html?relation=ats:ats&corpus=deep-sequoia'>ats:ats</a></td>
+  <td class=xl71><a href='http://talc2.loria.fr/grew/index.html?relation=ats:ato&corpus=deep-sequoia'>ats:ato</a></td>
+  <td class=xl71>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=S:ats:ats&corpus=deep-sequoia'>S:ats:ats</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73><a href='http://talc2.loria.fr/grew/index.html?relation=D:ats:ats&corpus=deep-sequoia'>D:ats:ats</a></td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl73>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=bold_trbl style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*ato:*&corpus=deep-sequoia'>ato</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl72><a href='http://talc2.loria.fr/grew/index.html?relation=ato:ato&corpus=deep-sequoia'>ato:ato</a></td>
+  <td class=xl72>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=3 class=xl74 style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*p_obj.agt:*&corpus=deep-sequoia'>p_obj.agt</a></td>
+  <td class=xl75><a href='http://talc2.loria.fr/grew/index.html?relation=p_obj.agt:suj&corpus=deep-sequoia'>p_obj.agt:suj</a></td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+  <td class=xl75>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=S:p_obj.agt:suj&corpus=deep-sequoia'>S:p_obj.agt:suj</a></td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl77><a href='http://talc2.loria.fr/grew/index.html?relation=D:p_obj.agt:suj&corpus=deep-sequoia'>D:p_obj.agt:suj</a></td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+ <tr>
+  <td rowspan=3 class=xl74 style='border-top:none'><a href='http://talc2.loria.fr/grew/index.html?relation=*dis:*&corpus=deep-sequoia'>dis</a></td>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=dis:suj&corpus=deep-sequoia'>dis:suj</a></td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=S:dis:suj&corpus=deep-sequoia'>S:dis:suj</a></td>
+  <td class=xl76><a href='http://talc2.loria.fr/grew/index.html?relation=S:dis:obj&corpus=deep-sequoia'>S:dis:obj</a></td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+  <td class=xl76>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class=xl77><a href='http://talc2.loria.fr/grew/index.html?relation=D:dis:suj&corpus=deep-sequoia'>D:dis:suj</a></td>
+  <td class=xl77><a href='http://talc2.loria.fr/grew/index.html?relation=D:dis:obj&corpus=deep-sequoia'>D:dis:obj</a></td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+  <td class=xl77>&nbsp;</td>
+ </tr>
+</table>
+
+The table below the list of others relations.
+<table border=0 cellpadding=0 cellspacing=0 style='border-collapse:collapse;table-layout:fixed'>
+ <tr>
+  <th class=norm_trbl>All</a></th>
+  <th class=norm_trb>No prefix</a></th>
+  <th class=norm_trb>S:</th>
+  <th class=norm_trb>D:</th>
+  <th class=norm_trb>I:</th>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*arg&corpus=deep-sequoia'><b>arg</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=arg&corpus=deep-sequoia'>arg</a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:arg&corpus=deep-sequoia'>D:arg</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:arg&corpus=deep-sequoia'>I:arg</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*arg.comp&corpus=deep-sequoia'><b>arg.comp</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:arg.comp&corpus=deep-sequoia'>D:arg.comp</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:arg.comp&corpus=deep-sequoia'>I:arg.comp</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*arg.cons&corpus=deep-sequoia'><b>arg.cons</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:arg.cons&corpus=deep-sequoia'>D:arg.cons</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:arg.cons&corpus=deep-sequoia'>I:arg.cons</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=coord|*:coord&corpus=deep-sequoia'><b>coord</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=coord&corpus=deep-sequoia'>coord</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:coord&corpus=deep-sequoia'>S:coord</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:coord&corpus=deep-sequoia'>D:coord</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*dep&corpus=deep-sequoia'><b>dep</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=dep&corpus=deep-sequoia'>dep</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:dep&corpus=deep-sequoia'>S:dep</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:dep&corpus=deep-sequoia'>D:dep</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:dep&corpus=deep-sequoia'>I:dep</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*dep.coord&corpus=deep-sequoia'><b>dep.coord</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=dep.coord&corpus=deep-sequoia'>dep.coord</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:dep.coord&corpus=deep-sequoia'>S:dep.coord</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:dep.coord&corpus=deep-sequoia'>D:dep.coord</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*dep.de&corpus=deep-sequoia'><b>dep.de</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:dep.de&corpus=deep-sequoia'>D:dep.de</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:dep.de&corpus=deep-sequoia'>I:dep.de</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*det&corpus=deep-sequoia'><b>det</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=det&corpus=deep-sequoia'>det</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:det&corpus=deep-sequoia'>S:det</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:det&corpus=deep-sequoia'>D:det</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod&corpus=deep-sequoia'><b>mod</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=mod&corpus=deep-sequoia'>mod</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:mod&corpus=deep-sequoia'>S:mod</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod&corpus=deep-sequoia'>D:mod</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.app&corpus=deep-sequoia'><b>mod.app</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=mod.app&corpus=deep-sequoia'>mod.app</a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.app&corpus=deep-sequoia'>D:mod.app</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.comp&corpus=deep-sequoia'><b>mod.comp</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.comp&corpus=deep-sequoia'>D:mod.comp</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:mod.comp&corpus=deep-sequoia'>I:mod.comp</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.rel&corpus=deep-sequoia'><b>mod.rel</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=mod.rel&corpus=deep-sequoia'>mod.rel</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:mod.rel&corpus=deep-sequoia'>S:mod.rel</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.rel&corpus=deep-sequoia'>D:mod.rel</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.rel.part&corpus=deep-sequoia'><b>mod.rel.part</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.rel.part&corpus=deep-sequoia'>D:mod.rel.part</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*mod.super&corpus=deep-sequoia'><b>mod.super</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:mod.super&corpus=deep-sequoia'>D:mod.super</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*obj.p&corpus=deep-sequoia'><b>obj.p</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=obj.p&corpus=deep-sequoia'>obj.p</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:obj.p&corpus=deep-sequoia'>S:obj.p</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:obj.p&corpus=deep-sequoia'>D:obj.p</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*p_obj.o&corpus=deep-sequoia'><b>p_obj.o</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=p_obj.o&corpus=deep-sequoia'>p_obj.o</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:p_obj.o&corpus=deep-sequoia'>S:p_obj.o</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:p_obj.o&corpus=deep-sequoia'>D:p_obj.o</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*ponct&corpus=deep-sequoia'><b>ponct</b></a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:ponct&corpus=deep-sequoia'>S:ponct</a></td>
+  <td class=norm_trb>&nbsp;</td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=I:ponct&corpus=deep-sequoia'>I:ponct</a></td>
+</tr>
+
+ <tr>
+  <td class=grey_trbl><a href='http://talc2.loria.fr/grew/index.html?relation=*root&corpus=deep-sequoia'><b>root</b></a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=root&corpus=deep-sequoia'>root</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=S:root&corpus=deep-sequoia'>S:root</a></td>
+  <td class=norm_trb><a href='http://talc2.loria.fr/grew/index.html?relation=D:root&corpus=deep-sequoia'>D:root</a></td>
+  <td class=norm_trb>&nbsp;</td>
+</tr>
+</table>
+
