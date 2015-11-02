@@ -251,25 +251,22 @@ function request_pattern(next){
             					incrementResult = 0;
             				}
             				
-            				var progression = 0;
            					var lines = ajax.responseText.split("\n");
            					
-							for (var i = cursor,len = lines.length; i < len;i++) {
-								line++;
-								if (lines[i] == '<#>') {
+							for (var i = cursor,len = lines.length; i < len; i++) {
+								if (lines[i] == '<END>') {
 									clearInterval(watcher);
 									watcher = undefined;
 									$('#submit-pattern').prop('disabled',false);
 									i= lines.length;
 									$("#next-results").prop('disabled',true);
-									$('#progress-txt').text('100% scanned');
 									if (incrementResult == 0) {
 										$('#progress-txt').text('No results found');
 										$('.btn-results').hide();
 										$('#result-ok').hide();
 										$('#display-results').hide();
 									};
-								}else if (lines[i] == '<!>'){
+								}else if (lines[i] == '<ERROR>'){
 									clearInterval(watcher);
 									watcher = undefined;
 									$.get('./data/' + id + '/error',function(errors){
@@ -284,14 +281,23 @@ function request_pattern(next){
 										$('#result-ok').hide();
 										$('#display-results').hide();
 									};
-								}else if (lines[i] == '<?>'){
-									progression = 1;
-								}else if (progression == 1){
+								}else if (lines[i] == '<PAUSE>'){
+									$('#submit-pattern').prop('disabled',false);
+									$("#next-results").prop('disabled',false);
+									clearInterval(watcher);
+									i = lines.length;
+								}else if (lines[i] == '<TOTAL>'){
+									i++; // Read the number of occurences on the next line
 									clearInterval(watcher);
 									$('#submit-pattern').prop('disabled',false);
 									$("#next-results").prop('disabled',false);
-									$('#progress-txt').text(lines[i] + '% scanned');
-									i = lines.length;
+									$('#progress-txt').text(lines[i] + ' occurence' + ((lines[i]>1)? 's' : ''));
+								}else if (lines[i] == '<OVER>'){
+									i++; // Read the ration of of corpus scanned
+									clearInterval(watcher);
+									$('#submit-pattern').prop('disabled',false);
+									$("#next-results").prop('disabled',false);
+									$('#progress-txt').text('More than 1000 results found in ' + lines[i] + '% of the corpus');
 								}else{
 									var pieces = lines[i].split("@");
 									$("#list-results").append('<li class="item" id="list-' + incrementResult + '"><a>' +  pieces[1] + '</a></li>');
@@ -299,7 +305,7 @@ function request_pattern(next){
 									url = './data/' + id + '/' + pieces[0];
 									$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
 
-									if (line == 1) {
+									if (i == 2) { // i=2 always corresponds the first response -> fill display-result with it
 										var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
 										document.getElementById('display-results').innerHTML = newHtml;
 
@@ -310,13 +316,13 @@ function request_pattern(next){
 									incrementResult++;
 								}
 							};
-							cursor = line;
+							cursor = lines.length - 1;
                 			previous = ajax.responseText;
                 			update_progress_num();
             			}
         			}
     			};
-    			ajax.open("POST", "./data/" + id + "/list", true); //Use POST to avoid caching
+    			ajax.open("POST", "./data/" + id + "/list", true); // Use POST to avoid caching
     			ajax.send();
 			}, 300);
 		}
