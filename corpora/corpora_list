@@ -1,7 +1,7 @@
 <option value ="sequoia-7.0">sequoia-7.0</option>
 <option value ="deep-sequoia-7.0">deep-sequoia-7.0</option>
-<option value ="UD_French">UD_French</option>
-<option value ="UD_English">UD_English</option>
-<option value ="uni-dep-tb-ko-2.0">uni-dep-tb-ko-2.0</option>
+<option value ="UD_French-1.2">UD_French-1.2</option>
+<option value ="UD_English-1.2">UD_English-1.2</option>
 <option value ="tiger-2.2">tiger-2.2</option>
 <option value ="deep-sequoia-trunk">deep-sequoia-trunk</option>
+<option value ="UD_French-trunk">UD_French-trunk</option>

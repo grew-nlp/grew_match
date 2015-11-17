@@ -46,7 +46,7 @@ labels {
   appos, 
   aux, auxpass, 
   case, 
-  cc, 
+  cc, cc:preconj,
   ccomp,
   compound, compound:prt,
   conj, conj:preconj,
