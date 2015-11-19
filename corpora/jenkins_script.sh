@@ -4,7 +4,7 @@ sleep 5
 
 EXEC=/home/guillaum/.opam/last/bin/grew_daemon
 
-# sequoia
+# sequoia.surf
 cd sequoia.surf-7.0
 PORT=`cat port` # 8181
 FILE=/data/semagramme/resources/sequoia-7.0/sequoia.surf.conll
@@ -13,7 +13,7 @@ ERROR_LOG=/data/semagramme/log/grew_daemon_sequoia.surf_error.log
 echo "${EXEC} -p ${PORT} -c ${FILE} -d ../sequoia_decl.grs > ${LOG} 2> ${ERROR_LOG}" | at now +1 minute
 cd ..
 
-# deep-sequoia
+# sequoia.deep
 cd sequoia.deep_and_surf-7.0
 PORT=`cat port` # 8182
 FILE=/data/semagramme/resources/sequoia-7.0/sequoia.deep_and_surf.conll
@@ -22,7 +22,7 @@ ERROR_LOG=/data/semagramme/log/grew_daemon_sequoia.deep_and_surf_error.log
 echo "${EXEC} -p ${PORT} -c ${FILE} -d ../sequoia_decl.grs > ${LOG} 2> ${ERROR_LOG}" | at now +1 minute
 cd ..
 
-# deep-sequoia
+# sequoia.deep_and_surf
 cd sequoia.deep-7.0
 PORT=`cat port` # 8182
 FILE=/data/semagramme/resources/sequoia-7.0/sequoia.deep.conll
@@ -58,12 +58,12 @@ ERROR_LOG=/data/semagramme/log/grew_daemon_tiger_error.log
 echo "${EXEC} -p ${PORT} -c ${FILE} -d tiger_decl.grs > ${LOG} 2> ${ERROR_LOG}" | at now +1 minute
 cd ..
 
-# deep-sequoia-trunk
-cd deep-sequoia-trunk
+# sequoia.deep_and_surf-trunk
+cd sequoia.deep_and_surf-trunk
 PORT=`cat port` # 8187
-FILE=/data/semagramme/resources/deep-sequoia.conll
-LOG=/data/semagramme/log/grew_daemon_deep-sequoia.log
-ERROR_LOG=/data/semagramme/log/grew_daemon_deep-sequoia_error.log
+FILE=/data/semagramme/resources/sequoia.deep_and_surf.conll
+LOG=/data/semagramme/log/grew_daemon_sequoia.deep.log
+ERROR_LOG=/data/semagramme/log/grew_daemon_sequoia.deep_error.log
 echo "${EXEC} -p ${PORT} -c ${FILE} -d ../sequoia_decl.grs > ${LOG} 2> ${ERROR_LOG}" | at now +1 minute
 cd ..
 
