@@ -86,7 +86,7 @@ $(function(){
 		max_scenario = 3;
 		$("#scenario").load(scenario_basename+ scenario +".html");
 
-		$('#corpus-select').val("sequoia-7.0");
+		$('#corpus-select').val("sequoia.surf-7.0");
 		change_corpus();
 	});
 
@@ -104,7 +104,7 @@ $(function(){
 		max_scenario = 1;
 		$("#scenario").load(scenario_basename+ scenario +".html");
 
-		$('#corpus-select').val("sequoia-7.0");
+		$('#corpus-select').val("sequoia.surf-7.0");
 		change_corpus();
 	});
 
@@ -122,7 +122,7 @@ $(function(){
 		max_scenario = 2;
 		$("#scenario").load(scenario_basename+ scenario +".html");
 
-		$('#corpus-select').val("deep-sequoia-7.0");
+		$('#corpus-select').val("sequoia.deep_and_surf-7.0");
 		change_corpus();
 	});
 
