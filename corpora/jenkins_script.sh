@@ -15,7 +15,7 @@ cd ..
 
 # sequoia.deep
 cd sequoia.deep_and_surf-7.0
-PORT=`cat port` # 8182
+PORT=`cat port` # 8185
 FILE=/data/semagramme/resources/sequoia-7.0/sequoia.deep_and_surf.conll
 LOG=/data/semagramme/log/grew_daemon_sequoia.deep_and_surf.log
 ERROR_LOG=/data/semagramme/log/grew_daemon_sequoia.deep_and_surf_error.log

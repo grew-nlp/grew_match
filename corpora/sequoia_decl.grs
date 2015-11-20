@@ -66,6 +66,7 @@ labels {
   argc,
   mod.comp, mod.super, mod.rel.part,
   arg.comp, arg.cons, dep.de,
+  void,
 
   % --------------------------------------------------
   % mixed labels
