@@ -293,27 +293,29 @@ function request_pattern(next){
 									$("#next-results").prop('disabled',false);
 									$('#progress-txt').text(lines[i] + ' occurence' + ((lines[i]>1)? 's' : ''));
 								}else if (lines[i] == '<OVER>'){
-									i++; // Read the ration of of corpus scanned
+									i++; // Read the ratio of corpus scanned
 									clearInterval(watcher);
 									$('#submit-pattern').prop('disabled',false);
 									$("#next-results").prop('disabled',false);
 									$('#progress-txt').text('More than 1000 results found in ' + lines[i] + '% of the corpus');
 								}else{
 									var pieces = lines[i].split("@");
-									$("#list-results").append('<li class="item" id="list-' + incrementResult + '"><a>' +  pieces[1] + '</a></li>');
-									
-									url = './data/' + id + '/' + pieces[0];
-									$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
+									if (typeof pieces[1] !== "undefined" ) {
+										$("#list-results").append('<li class="item" id="list-' + incrementResult + '"><a>' +  pieces[1] + '</a></li>');
+										
+										url = './data/' + id + '/' + pieces[0];
+										$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
 
-									if (i == 2) { // i=2 always corresponds the first response -> fill display-result with it
-										var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
-										document.getElementById('display-results').innerHTML = newHtml;
+										if (i == 2) { // i=2 always corresponds the first response -> fill display-result with it
+											var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
+											document.getElementById('display-results').innerHTML = newHtml;
 
-										$('#list-' + incrementResult).addClass('displayed');
-										var w = $("#display-results").width();
-										$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
-									};
-									incrementResult++;
+											$('#list-' + incrementResult).addClass('displayed');
+											var w = $("#display-results").width();
+											$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
+										};
+										incrementResult++;
+									}
 								}
 							};
 							cursor = lines.length - 1;
