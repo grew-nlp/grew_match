@@ -35,6 +35,9 @@ features {
   Tense: Past, Pres;
   VerbForm: Fin, Ger, Inf, Part;
   Voice: Pass;
+
+  % temp features for morphology:
+  ms:y; mp:y; fs:y; fp:y; 
 }
 
 % ====================================================================================================
