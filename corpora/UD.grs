@@ -37,7 +37,8 @@ features {
   Voice: Pass;
 
   % temp features for morphology:
-  ms:y; mp:y; fs:y; fp:y; 
+  ms:y; mp:y; fs:y; fp:y;
+  m:y; f:y; s:y; p:y;
 }
 
 % ====================================================================================================
