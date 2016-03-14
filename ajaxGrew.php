@@ -3,9 +3,6 @@
 $dir = "@DATADIR@";
 
 if (isset($_POST['pattern'])) {
-// A new pattern is requested
-	session_start();
-
 	// update the log file
 	$hFile = "data/log";
 	$historyFile = fopen($hFile,"a");
@@ -21,6 +18,10 @@ if (isset($_POST['pattern'])) {
 	fwrite($pattern, $_POST['pattern']);
 	fclose($pattern);
 
+	$corpus = fopen($dir . $id . "/corpus","w");
+	fwrite($corpus, $_POST['corpus']);
+	fclose($corpus);
+
 	$msg = "#NEW";
 
 }elseif (isset($_POST['id'])) {
@@ -34,6 +35,8 @@ $portFile = $dir . "../corpora/" . $_POST['corpus'] . "/port";
 $handlePort = fopen($portFile, "r");
 $port = fread($handlePort, filesize($portFile));
 fclose($handlePort);
+
+$port=8181;
 
 // send request to the daemon
 $addr = gethostbyname("localhost");
