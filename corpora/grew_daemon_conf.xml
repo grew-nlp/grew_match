@@ -1,0 +1,49 @@
+<conf>
+
+  <corpus name = "sequoia.surf-7.0">
+    <domain>/data/semagramme/resources/sequoia_decl.grs</domain>
+    <file>/data/semagramme/resources/sequoia-7.0/sequoia.surf.conll</file>
+  </corpus>
+
+  <corpus name = "sequoia.deep-7.0">
+    <domain>/data/semagramme/resources/sequoia_decl.grs</domain>
+    <file>/data/semagramme/resources/sequoia-7.0/sequoia.deep.conll</file>
+  </corpus>
+
+  <corpus name = "sequoia.deep_and_surf-7.0">
+    <domain>/data/semagramme/resources/sequoia_decl.grs</domain>
+    <file>/data/semagramme/resources/sequoia-7.0/sequoia.deep_and_surf.conll</file>
+  </corpus>
+
+  <corpus name = "UD_French-1.2">
+    <domain>/data/semagramme/resources/UD.grs</domain>
+    <file>/data/semagramme/resources/universal-dependencies-1.2/UD_French/fr-ud-dev.conllu</file>
+    <file>/data/semagramme/resources/universal-dependencies-1.2/UD_French/fr-ud-test.conllu</file>
+    <file>/data/semagramme/resources/universal-dependencies-1.2/UD_French/fr-ud-train.conllu</file>
+  </corpus>
+
+  <corpus name = "UD_English-1.2">
+    <domain>/data/semagramme/resources/UD.grs</domain>
+    <file>/data/semagramme/resources/universal-dependencies-1.2/UD_English/en-ud-dev.conllu</file>
+    <file>/data/semagramme/resources/universal-dependencies-1.2/UD_English/en-ud-test.conllu</file>
+    <file>/data/semagramme/resources/universal-dependencies-1.2/UD_English/en-ud-train.conllu</file>
+  </corpus>
+
+  <corpus name = "tiger-2.2">
+    <domain>/data/semagramme/resources/tiger_decl.grs</domain>
+    <file>/data/semagramme/resources/tiger-2.2.conll</file>
+  </corpus>
+
+  <corpus name = "sequoia.deep_and_surf-trunk">
+    <domain>/data/semagramme/resources/sequoia_decl.grs</domain>
+    <file>/data/semagramme/resources/sequoia.deep_and_surf-trunk.conll</file>
+  </corpus>
+
+  <corpus name = "UD_French-dev">
+    <domain>/data/semagramme/resources/UD.grs</domain>
+    <file>/data/semagramme/resources/UD_French-dev/fr-ud-dev.conllu</file>
+    <file>/data/semagramme/resources/UD_French-dev/fr-ud-test.conllu</file>
+    <file>/data/semagramme/resources/UD_French-dev/fr-ud-train.conllu</file>
+  </corpus>
+</conf>
+
