@@ -30,13 +30,7 @@ if (isset($_POST['pattern'])) {
 	$msg = "#NEXT";
 }
 
-// get the port number for the given corpus
-$portFile = $dir . "../corpora/" . $_POST['corpus'] . "/port";
-$handlePort = fopen($portFile, "r");
-$port = fread($handlePort, filesize($portFile));
-fclose($handlePort);
-
-$port=8181;
+$port=@PORT@;
 
 // send request to the daemon
 $addr = gethostbyname("localhost");
