@@ -30,6 +30,13 @@
     <file>/data/semagramme/resources/universal-dependencies-1.2/UD_English/en-ud-train.conllu</file>
   </corpus>
 
+  <corpus name = "UD_Polish-1.2">
+    <domain>/data/semagramme/resources/UD.grs</domain>
+    <file>/data/semagramme/resources/universal-dependencies-1.2/UD_Polish/pl-ud-dev.conllu</file>
+    <file>/data/semagramme/resources/universal-dependencies-1.2/UD_Polish/pl-ud-test.conllu</file>
+    <file>/data/semagramme/resources/universal-dependencies-1.2/UD_Polish/pl-ud-train.conllu</file>
+  </corpus>
+
   <corpus name = "tiger-2.2">
     <domain>/data/semagramme/resources/tiger_decl.grs</domain>
     <file>/data/semagramme/resources/tiger-2.2.conll</file>
