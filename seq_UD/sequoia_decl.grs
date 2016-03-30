@@ -123,4 +123,4 @@ labels {
   D:obj.cpl@blue@bottom, S:obj.cpl@red,
 }
 
-sequences {}
+sequences { main {} }
