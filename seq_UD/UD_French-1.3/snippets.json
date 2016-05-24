@@ -5,7 +5,7 @@
   },
   {
         "name":"Search for a lexical lemma",
-        "content":"% Search for a given lemma, for instance: \"être\"\n\nmatch { N [phon=\"être\"] }"
+        "content":"% Search for a given lemma, for instance: \"être\"\n\nmatch { N [lemma=\"être\"] }"
   },
   {
         "name":"Search by grammatical category",

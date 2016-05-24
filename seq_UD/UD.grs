@@ -30,7 +30,8 @@ features {
   Number: Plur, Sing;
   Person: 1, 2, 3;
   Poss: Yes;
-  PronType: Art, Dem, Int, Prs, Rel;
+  PronType: Art, Dem, Int, Prs, Rel, Neg, Ind,
+   "Int,Rel", Tot; % needed for Polish treebank
   Reflex: Yes;
   Tense: Past, Pres;
   VerbForm: Fin, Ger, Inf, Part;
@@ -80,6 +81,7 @@ labels {
   root,
   vocative,
   xcomp,
+  det:numgov, det:nummod, % Polish treebank
 }
 
 sequences { main {} }
