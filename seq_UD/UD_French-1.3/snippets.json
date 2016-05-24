@@ -4,6 +4,10 @@
         "content":"% Search for a given lexical unit, for instance: \"milieu\"\n\nmatch { N [phon=\"milieu\"] }"
   },
   {
+        "name":"Search for a lexical lemma",
+        "content":"% Search for a given lemma, for instance: \"être\"\n\nmatch { N [phon=\"être\"] }"
+  },
+  {
         "name":"Search by grammatical category",
         "content":"% Search for a lexical unit of a given grammatical category\n% Available categories: ADJ, ADP, ADV, AUX, CONJ, DET, INTJ, NOUN, NUM, PART, PRON, PROPN, PUNCT, SCONJ, SYM, VERB, X\n\nmatch { N [cat=\"NUM\"] }"
   },
