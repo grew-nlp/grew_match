@@ -19,13 +19,12 @@ features {
   % In Tiger, sentence identifier are given through a identifer "id_pos", and transfomed to a feature sentid on the first node in this CONLL description.
   sentid: *;
 
-
   % Features grepped from the English Corpus
-  Case: Acc, Nom, Voc, Abl;
+  Case: Nom, Acc, Abs, Erg, Dat, Gen, Voc, Loc, Ins, Abl; % to be completed
   Definite: Def, Ind;
   Degree: Cmp, Pos, Sup;
   Gender: Fem, Masc, Neut;
-  Mood: Imp, Ind, Sub, Cnd;
+  Mood: Imp, Ind, Cnd, Sub;
   NumType: Card, Mult, Ord;
   Number: Plur, Sing;
   Person: 1, 2, 3;
@@ -34,12 +33,36 @@ features {
    "Int,Rel", Tot; % needed for Polish treebank
   Reflex: Yes;
   Tense: Past, Pres, Imp, Fut;
-  VerbForm: Fin, Ger, Inf, Part;
-  Voice: Pass;
+  VerbForm: Fin, Ger, Inf, Part, Trans;
+  Voice: Act, Pass;
+
+  % Polish
+  AdpType:Prep;
+  Animacy: Anim, Inan, Nhum;
+  Aspect: Perf, Imp;
+  Variant: Short, Long;
+  Negative: Pos, Neg;
+  PrepCase: Npr, Pre;
+  Abbr: Yes;
+  Hyph: Yes;
+  Typo: Yes;
 
   % temp features for morphology:
   ms:y; mp:y; fs:y; fp:y;
   m:y; f:y; s:y; p:y;
+
+  % temp features for verb morphology
+  cond_pres_1p: y; cond_pres_1s: y; cond_pres_2p: y; cond_pres_2s: y; cond_pres_3p: y; cond_pres_3s: y;
+  imparfait_1p: y; imparfait_1s: y; imparfait_2p: y; imparfait_2s: y; imparfait_3p: y; imparfait_3s: y;
+  imperatif_1p: y; imperatif_2p: y; imperatif_2s: y;
+  ind_futur_1p: y; ind_futur_1s: y; ind_futur_2p: y; ind_futur_3p: y; ind_futur_3s: y; ind_pres_1p: y;
+  ind_pres_1s: y;  ind_pres_2p: y;  ind_pres_2s: y;  ind_pres_3p: y;  ind_pres_3s: y;  
+  infinitif: y;
+  part_pass_fp: y; part_pass_fs: y; part_pass_mp: y; part_pass_ms: y;
+  participe_present: y;
+  passe_simple_1p: y; passe_simple_1s: y; passe_simple_2s: y; passe_simple_3p: y; passe_simple_3s: y;
+  subj_imp_1s: y; subj_imp_3p: y; subj_imp_3s: y; subj_pres_1p: y; subj_pres_1s: y;
+  subj_pres_2p: y; subj_pres_2s: y; subj_pres_3p: y; subj_pres_3s: y;
 }
 
 % ====================================================================================================
