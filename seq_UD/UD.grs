@@ -21,11 +21,11 @@ features {
 
 
   % Features grepped from the English Corpus
-  Case: Acc, Nom;
+  Case: Acc, Nom, Voc, Abl;
   Definite: Def, Ind;
   Degree: Cmp, Pos, Sup;
   Gender: Fem, Masc, Neut;
-  Mood: Imp, Ind;
+  Mood: Imp, Ind, Sub, Cnd;
   NumType: Card, Mult, Ord;
   Number: Plur, Sing;
   Person: 1, 2, 3;
@@ -33,7 +33,7 @@ features {
   PronType: Art, Dem, Int, Prs, Rel, Neg, Ind,
    "Int,Rel", Tot; % needed for Polish treebank
   Reflex: Yes;
-  Tense: Past, Pres;
+  Tense: Past, Pres, Imp, Fut;
   VerbForm: Fin, Ger, Inf, Part;
   Voice: Pass;
 
