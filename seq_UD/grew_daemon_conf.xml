@@ -37,11 +37,6 @@
     <file>/data/semagramme/resources/ud-treebanks-v1.3/UD_Polish/pl-ud-train.conllu</file>
   </corpus>
 
-  <corpus name = "tiger-2.2">
-    <domain>/data/semagramme/resources/tiger_decl.grs</domain>
-    <file>/data/semagramme/resources/tiger-2.2.conll</file>
-  </corpus>
-
   <corpus name = "sequoia.deep_and_surf-trunk">
     <domain>/data/semagramme/resources/sequoia_decl.grs</domain>
     <file>/data/semagramme/resources/sequoia.deep_and_surf-trunk.conll</file>
