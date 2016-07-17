@@ -18,7 +18,6 @@
     <li>
     Search a relation without restriction.
       <a class="interactive" snippet="% Search a relation without restriction.
-% Note that nodes N and M must be defined (lines 5 and 6) before the relation declaration (line 7) 
 
 match {
   N [];
@@ -27,13 +26,24 @@ match {
 }" href="#">[TRY IT]
       </a>
     </li>
+
+    <li>
+    Implicit node declaration.
+      <a class="interactive" snippet="% Implicit node declaration.
+% If a node is refered without being defined, it is implicitly declared.
+% The pattern below is the same as the previous one: searching for two nodes N and M linked by an edge
+
+match {
+  N -> M;
+}" href="#">[TRY IT]
+      </a>
+    </li>
+
     <li>
     Search for a given relation.
       <a class="interactive" snippet="% Search for a given relation.
 
 match {
-  N [];
-  M [];
   N -[suj]-> M;
 }" href="#">[TRY IT]
       </a>
@@ -43,8 +53,6 @@ match {
       <a class="interactive" snippet="% Search for a disjunction of relations.
 
 match {
-  N [];
-  M [];
   N -[suj|obj]-> M;
 }" href="#">[TRY IT]
       </a>
@@ -54,20 +62,17 @@ match {
       <a class="interactive" snippet="% Search for a relation different from a given disjunction.
 
 match {
-  N [];
-  M [];
   N -[^suj|obj]-> M;
 }" href="#">[TRY IT]
       </a>
     </li>
     <li>
-    Use the * joker to replace any substring.
-      <a class="interactive" snippet='% Use the * joker to replace any substring.
+    Use regular expression to match a set of label.
+      <a class="interactive" snippet='% Use regular expression to match a set of label.
+% Here, search for a relation whose name begins with "aux"
 
 match {
-  N [];
-  M [];
-  N -[aux.*]-> M;
+  N -[re"aux.*"]-> M;
 }' href="#">[TRY IT]
       </a>
     </li>
@@ -78,7 +83,6 @@ match {
 
 match {
   N [ cat=A ];
-  M [];
   N -[a_obj]-> M;
 }' href="#">[TRY IT]
       </a>

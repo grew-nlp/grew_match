@@ -48,8 +48,8 @@ match {
 % Below, we search for an adjective modifying a noun add such that the 'n' feature are identical in the two nodes
 
 match {
-  N [ cat=N, n=* ];
-  A [ cat=A, n=* ];
+  N [ cat=N, n ];
+  A [ cat=A, n ];
   N -[mod]-> A;
   N.n = A.n;
 }" href="#">[TRY IT]
@@ -62,8 +62,8 @@ match {
 % Below, we search for an adjective modifying a noun add such that the 'n' feature are different in the two nodes
 
 match {
-  N [ cat=N, n=* ];
-  A [ cat=A, n=* ];
+  N [ cat=N, n ];
+  A [ cat=A, n ];
   N -[mod]-> A;
   N.n <> A.n;
 }" href="#">[TRY IT]
@@ -77,13 +77,26 @@ match {
 
 match {
   V [ cat=V ];
-  S [ ];
   V -[suj]-> S;
-  S.position > V.position;
-
+  S >> V;
 }" href="#">[TRY IT]
       </a>
     </li>
+
+<!-- ======================================================================================== -->
+    <li>
+    Immediate precedence.
+      <a class="interactive" snippet='% Constraint on position.
+% We search for a verb "prendre" immediatly followed by a noun
+
+match {
+  V [lemma = "prendre"];
+  N [cat = N];
+  V < N;
+}' href="#">[TRY IT]
+      </a>
+    </li>
+
 <!-- ======================================================================================== -->
 
   </ol>
