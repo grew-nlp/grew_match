@@ -1,143 +1,135 @@
-/* Style des listes */
+body {
+  padding-top: 70px;
+  padding-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
 
-/*#snippets h2, #results h2 {
-  font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
+#snippets ul, #results ul {
+  list-style-type: none;
   margin: 0;
+  margin-left: 20px;
   padding: 0;
-  }*/
+}
 
-  body {
-    padding-top: 70px;
-    padding-bottom: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-  }
+#snippets li, #results li {
+  border-bottom: 1px solid #ccc;
+}
 
-  #snippets ul, #results ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
+#snippets li:last-child , #results li:last-child {
+  border: none;
+}
 
-  #snippets li, #results li {
-    border-bottom: 1px solid #ccc;
-  }
+#snippets li a, #results li a{
+  text-decoration: none;
+  color: #000;
+  display: block;
 
-  #snippets li:last-child , #results li:last-child {
-    border: none;
-  }
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
 
-  #snippets li a, #results li a{
-    text-decoration: none;
-    color: #000;
-    display: block;
-
-    -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
-    -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
-    -o-transition: font-size 0.3s ease, background-color 0.3s ease;
-    -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
-    transition: font-size 0.3s ease, background-color 0.3s ease;
-  }
-  .grew-label {
-    font-size: 24px;
-  }
-
-  #snippets li a:hover, #results li a:hover {
-    background: #F5D76E;
-  }
-
-  /* Style du jumbotron */
-
-  /* Style de scenario */
-
-  /* Style de lesson */
-
-  /* Style de snippets */
-
-  /* Style de console */
-  #console{
-    padding-top: 0px; 
-  }
-
-  /* Style de vision */
-
-  /* Style de results */
-  #vision{
-    display: none;
-  }
-  .displayed{
-    background-color:yellow;
-  }
-  /* Style de display-results */
-  #result-pic{
-    height: 100%;
-  }
-  #list-results{
-    max-height: 400px;
-  }
-  #display-results,#list-results{
-    overflow: auto;
-    /*display: none;*/
-  }
-  #display-results{
-    border-style: solid;
-    border-width: 1px;
-    border-color: #ccc;
-  }
-  #pattern-input{
-    width: 95%;
-  }
-  #custom-display{
-    display: none;
-    font-size: 15px;
-  }
-  #corpus-desc{
-    color: #003171;
-  }
-
-  .item{
-    cursor : pointer;
-  }
-
-  .CodeMirror{
-    border-style: solid;
-    border-width: 1px;
-    border-color: #ccc;
-    margin-bottom: 10px;
-  }
-
-  .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
-     background-color: #C3C6C7;
-     color: #000;
-   }
-
-  .nav-pills > li > a:hover, .nav-pills > li.active > a:hover {
-     background-color: #989B9C;
-     color: #000;
-  }
-
-  .nav-pills > li > a, .nav-pills > li > a:focus {
-     color: #000;
-   }
+#snippets li a:hover, #results li a:hover {
+  background: #F5D76E;
+}
 
 
-  #navbar-grew{
-    background-image: none;
-    background-color: #003171;
-  }
+.grew-label {
+  font-size: 24px;
+}
 
-  #jumbo-grew{
-    background-color: #ECF0F1;
-  }
-  #title-grew{
-    color: #ECF0F1;
-  }
-  #url-grew{
-    color: #ECF0F1;
-    margin-right: 20px; 
-  }
-  div.btn-primary{
-    background-image: none;
-    background-color: #003171;
-    color: #ECF0F1;
-  }
+
+/* Style du jumbotron */
+
+/* Style de scenario */
+
+/* Style de lesson */
+
+/* Style de snippets */
+
+/* Style de console */
+#console{
+  padding-top: 0px; 
+}
+
+/* Style de vision */
+
+/* Style de results */
+#vision{
+  display: none;
+}
+.displayed{
+  background-color:yellow;
+}
+/* Style de display-results */
+#result-pic{
+  height: 100%;
+}
+#list-results{
+  max-height: 400px;
+}
+#display-results,#list-results{
+  overflow: auto;
+  /*display: none;*/
+}
+#display-results{
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ccc;
+}
+#pattern-input{
+  width: 95%;
+}
+#custom-display{
+  display: none;
+  font-size: 15px;
+}
+
+.item{
+  cursor : pointer;
+}
+
+.CodeMirror{
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ccc;
+  margin-bottom: 10px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+   background-color: #C3C6C7;
+   color: #000;
+ }
+
+.nav-pills > li > a:hover, .nav-pills > li.active > a:hover {
+   background-color: #989B9C;
+   color: #000;
+}
+
+.nav-pills > li > a, .nav-pills > li > a:focus {
+   color: #000;
+ }
+
+
+#navbar-grew{
+  background-image: none;
+  background-color: #443171;
+}
+
+#right-navbar{
+  margin-bottom: 0px;
+}
+
+#jumbo-grew{
+  background-color: #ECF0F1;
+}
+#title-grew{
+  color: #ECF0F1;
+}
+#url-grew{
+  color: #ECF0F1;
+  margin-right: 20px; 
+}

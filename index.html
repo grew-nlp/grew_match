@@ -37,12 +37,12 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <span class="navbar-brand" id="title-grew">Grew-web</span>
       <ul class="nav navbar-nav">
-        <li id="top-ud" >                <a class="navbar-brand" style="margin-left: 0pt;" id="select-ud" href="#">Universal Dependencies</a></li>
-        <li id="top-seq">                <a class="navbar-brand" style="margin-left: 0pt;" id="select-seq" href="#">Sequoia</a></li>
-        <li id="top-ftb" class="active"> <a class="navbar-brand" style="margin-left: 0pt;" id="select-ftb" href="#">French TreeBank</a></li>
+        <li id="top-ud">  <a class="navbar-brand" style="margin-left: 0pt;" id="select-ud" href="#">Universal Dependencies</a></li>
+        <li id="top-seq"> <a class="navbar-brand" style="margin-left: 0pt;" id="select-seq" href="#">Sequoia</a></li>
+        <li id="top-ftb" style="display: none;"> <a class="navbar-brand" style="margin-left: 0pt;" id="select-ftb" href="#">French TreeBank</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li id="top-tuto"> <a class="navbar-brand" style="margin-left: 0pt;" id="url-grew" href="http://grew.loria.fr">Tutorial</a></li>
+        <li id="top-tuto"> <a class="navbar-brand" style="margin-left: 0pt;" id="select-tuto" href="#">Tutorial</a></li>
         <li>               <a class="navbar-brand" style="margin-left: 0pt;" id="url-grew" href="http://grew.loria.fr">Grew website</a></li>
       </ul>
     </div>
@@ -75,7 +75,7 @@
       <!-- Upper-right part: navbar Snippets/Examples -->
       <div class="col-md-4">
         <div class="container">
-          <span id="right-navbar"></span> <!-- Dynamically loaded code, depending of the corpus -->
+          <span id="right-pane"></span> <!-- Dynamically loaded code, depending of the corpus -->
         </div>
       </div>
 
@@ -98,6 +98,9 @@
         <button class="btn btn-primary btn-results" onclick="javascript:last_svg()" >⇥</button>
         <ul id="list-results"></ul>
       </div>
+    </div>
+    <div id="display-sentence" style="display: none;">
+      <h4 id="sentence-txt"></h4>
     </div>
     <div class="col-md-9" id="display-results">
       <object id="result-pic" type="image/svg+xml" class="logo"></object>

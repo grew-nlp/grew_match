@@ -1,0 +1,46 @@
+<div class="navbar" id="right-navbar">
+  <div class="navbar-inner">
+    <ul class="nav nav-pills">
+
+      <li class="active"><a class="grew-label" href="#snip" data-toggle="tab">Snippets</a></li>
+      <li>               <a class="grew-label" href="#agreement" data-toggle="tab">Agreement</a></li>
+      <li>               <a class="grew-label" href="#search_errors" data-toggle="tab">Search errors</a></li>
+    </ul>
+  </div>
+</div>
+<div class="tab-content" id="snippets">
+
+  <div class="tab-pane active" id="snip">
+    <ul>
+      <li><a href="#" snippet-file="snippets/search_lemma.pat" class="inter">Search for a lemma</a></li>
+      <li><a href="#" snippet-file="snippets/search_cat.pat" class="inter">Search for a grammatical category</a></li>
+      <li><a href="#" snippet-file="snippets/search_rel.pat" class="inter">Search for a dependency relation</a></li>
+      <li><a href="#" snippet-file="snippets/mixed.pat" class="inter">Mixed search</a></li>
+      <li><a href="#" snippet-file="snippets/negation.pat" class="inter">Negative constraint</a></li>
+      <li><a href="#" snippet-file="snippets/8-cycle.pat" class="inter">Search for an 8-cycle</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="agreement">
+  <h2>Search for errors in sequoia.deep_and_surf</h2>
+    The goal of this example is to search for number agreement errors between verbs and their subject.
+    <ul>
+      <li><a href="#" snippet-file="agreement/base.pat" class="inter">First, we search for two nodes linked by a "subject" relation!</a></li>
+      <li><a href="#" snippet-file="agreement/diff.pat" class="inter"> Add a constraint to select only cases where the number feature "n" of the verb is different from the subject "n" feature</a></li>
+      <li><a href="#" snippet-file="agreement/avoir.pat" class="inter">Take into account the "avoir" auxiliary</a></li>
+      <li><a href="#" snippet-file="agreement/coord.pat" class="inter">Take coordination into account</a></li>
+      <li><a href="#" snippet-file="agreement/lexicon.pat" class="inter">Take lexical exceptions into account</a></li>
+    </ul>
+     With the last pattern, we find 12 occurences in the sequoia.deep_and_surf-7.0 corpus: 6 occurences of "ce sont…", 3 errors in the input sentence, 3 correct annotations (enumeration, special construction).
+  </div>
+
+  <div class="tab-pane" id="search_errors">
+  <h2>Search for more errors in sequoia.deep_and_surf</h2>
+  The goal of this example is to search for illegal in-edges or out-edges around semantically void nodes.
+    <ul>
+      <li><a href="#" snippet-file="search_errors/check_out.pat" class="inter">Search for a void node with an out-edge not marcked as "S:"</a></li>
+      <li><a href="#" snippet-file="search_errors/check_in.pat" class="inter">Search for a void node with an in-edge not marcked as "S:" or "I:"</a></li>
+    </ul>
+  </div>
+
+</div>

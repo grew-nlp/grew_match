@@ -33,16 +33,21 @@ $(function(){ // this function is run atfer page loading
 	// $.get( "./corpora/corpora_list", function( data ) {
 	// 	$( "#corpus-select" ).append( data );
 
-	// 	//On vérifie si on est sur une recherche sauvegardée via les paramètres get
-	// 	if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
-	// 		selectCorpus(getParameterByName("corpus"));
-	// 		$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
-	// 			//On affiche le contenu de la recherche
-	// 			cmEditor.setValue(pattern);
-	// 			//On simule un click pour lancer la recherche et afficher directement les résultats
-	// 			$('#submit-pattern').trigger("click");
-	// 		});
-	// 	};
+	//On vérifie si on est sur une recherche sauvegardée via les paramètres get
+	if (getParameterByName("corpus").length > 0) {
+		requested_corpus = getParameterByName("corpus");
+		if (requested_corpus.substring(0,7) == "sequoia") { select_corpora("seq"); }
+
+
+
+		// selectCorpus(getParameterByName("corpus"));
+		// $.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
+		// 	//On affiche le contenu de la recherche
+		// 	cmEditor.setValue(pattern);
+		// 	//On simule un click pour lancer la recherche et afficher directement les résultats
+		// 	$('#submit-pattern').trigger("click");
+		//});
+ 	};
 
  // 		//On vérifie si on est sur une recherche directe de relation via les paramètres get
  // 		if (getParameterByName("corpus").length > 0 && getParameterByName("relation").length > 0) {
@@ -74,58 +79,13 @@ $(function(){ // this function is run atfer page loading
 		$('#custom-display').hide();
 
 	});
-// ----------------------------------------------------------------------------------------------------
-// Selection of the ud view
-	$('#select-ud').click(function(){
-		console.log("==ud==");
-		corpora = "ud";
-		active_navbar("ud"); // Change background in nav-bab
-
-		// update the corpus selector
-		$('#corpus-fixed').hide();
-		$('#corpus-select').show();
-		$( "#corpus-select").empty();
-
-		$.get( "./ud/corpora_list", function( data ) {
-			$( "#corpus-select" ).append( data );
-			corpus = $("#corpus-select").val()
-			change_corpus();
-		});
-	});
 
 // ----------------------------------------------------------------------------------------------------
 // Selection of the seq view
-	$('#select-seq').click(function(){
-		console.log("==seq==");
-		corpora = "seq";
-		active_navbar("seq"); // Change background in nav-bab
-
-		// update the corpus selector
-		$('#corpus-fixed').hide();
-		$('#corpus-select').show();
-		$( "#corpus-select").empty();
-
-		$.get( "./seq/corpora_list", function( data ) {
-			$( "#corpus-select" ).append( data );
-			corpus = $("#corpus-select").val()
-			change_corpus();
-		});
-	});
-
-// ----------------------------------------------------------------------------------------------------
-// Selection of the ftb view
-	$('#select-ftb').click(function(){
-		console.log("==FTB==");
-		corpora = "FTB";
-		corpus= "FTB" 
-
-		active_navbar("ftb"); // Change background in nav-bab
-
-		$('#corpus-fixed').show();
-		$('#corpus-select').hide();
-
-		change_corpus();
-	});
+	$('#select-seq').click(function(){ select_corpora ("seq") });
+	$('#select-ud').click(function(){ select_corpora ("ud") });
+	$('#select-ftb').click(function(){ select_corpora ("ftb") });
+	$('#select-tuto').click(function(){ select_corpora ("tuto") });
 
 // ----------------------------------------------------------------------------------------------------
 	$('#tutorial').click(function(){
@@ -194,9 +154,45 @@ $(function(){ // this function is run atfer page loading
 
 	});
 
-	$('#select-ud').trigger("click");
+	select_corpora ("ud");
 
+	// Hack to show FTB only with a hidden url
+	var url = window.location.href;
+	if (url.indexOf("2ksK5T") > 0)
+		{ $("#top-ftb").show() }
 });
+
+// ========================================================================================================================
+function select_corpora(dir) {
+	console.log("==function select_corpora== (dir="+dir+")");
+	corpora = dir;
+	active_navbar(dir); // Change background in nav-bab
+
+	$.get( "./"+dir+"/corpora_list", function( data ) {
+
+		$("#corpus-select").empty();
+		$( "#corpus-select" ).append( data );
+		corpus = $("#corpus-select").val()
+		change_corpus();
+
+		var count = (data.match(/<\/option>/g) || []).length;
+
+		if (count == 1) {
+			$('#corpus-select').hide();
+			$('#corpus-fixed').show();
+			var name = data.replace(/<[^>]*>/g, ""); 
+			$('#corpus-fixed').html(name);
+
+		} else {
+			$('#corpus-fixed').hide();
+			$('#corpus-select').show();
+		}
+
+	});
+};
+
+
+
 
 // ========================================================================================================================
 function bind_inter () {
@@ -241,6 +237,9 @@ function active_navbar(id){
 	$("#top-ud").removeClass("active");
 	$("#top-seq").removeClass("active");
 	$("#top-ftb").removeClass("active");
+	$("#top-tuto").removeClass("active");
+
+	$("#top-"+id).addClass("active");
 
 	$("#top-search").removeClass("active");
 	$("#top-tutorial").removeClass("active");
@@ -248,7 +247,6 @@ function active_navbar(id){
 	$("#top-ex").removeClass("active");
 	$("#top-ex-seq").removeClass("active");
 	$("#top-ex-deep").removeClass("active");
-	$("#top-"+id).addClass("active");
 	if (id == "ex-deep" || id == "ex-seq") {
 		$("#top-ex").addClass("active");
 	}
@@ -268,16 +266,18 @@ function change_corpus(){
 
 	// Update of the long doc (tooltip)
 	$.get(corpus_dir + "doc.html", function( data ) {
-        $('.tooltip-desc').tooltipster('content',data);
+		if (data.length > 0) {
+			$('#corpus-desc').show();
+			$('.tooltip-desc').tooltipster('content',data);
+			$('#a-corpus').attr("href", corpus_dir + "doc.html");
+		} else {
+			$('#corpus-desc').hide();
+		}
 	});
-	$('#a-corpus').attr("href", corpus_dir + "doc.html");
 
-	// Update snippets
-	snippets_extract();
-
-	// Update of right navbar
-	$.get(corpus_dir + "right_navbar.html", function(data) {
-		$('#right-navbar').html(data);
+	// Update of right pane
+	$.get(corpus_dir + "right_pane.html", function(data) {
+		$('#right-pane').html(data);
 		bind_inter();
 	});
 
@@ -306,6 +306,7 @@ function request_pattern(next){
 		$('#progress-num').empty();
 		$('#result-pic').removeAttr('data');
 		$('#result-ok').hide();
+		$("#display-sentence").hide();
 		cursor = 0;
 		current_view = 0;
 		var data= {pattern: cmEditor.getValue(),corpus:$("#corpus-select").val()};
@@ -394,7 +395,7 @@ function request_pattern(next){
 										$("#list-results").append('<li class="item" id="list-' + incrementResult + '"><a>' +  pieces[1] + '</a></li>');
 										
 										url = './data/' + id + '/' + pieces[0];
-										$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2]},display_picture);
+										$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2],sentence:pieces[3]},display_picture);
 
 										if (i == 2) { // i=2 always corresponds the first response -> fill display-result with it
 											var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
@@ -403,6 +404,8 @@ function request_pattern(next){
 											$('#list-' + incrementResult).addClass('displayed');
 											var w = $("#display-results").width();
 											$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
+											$("#sentence-txt").text(pieces[3]);
+											$("#display-sentence").show();
 										};
 										incrementResult++;
 									}
@@ -431,6 +434,8 @@ function display_picture(event){
 	$('#list-' + event.data.i).addClass('displayed');
 	var w = $("#display-results").width();
 	$("#display-results").animate({scrollLeft:event.data.coord - w/2},"fast");
+	$("#sentence-txt").text(event.data.sentence);
+
 	current_view = event.data.i;
 	update_progress_num();
 }
@@ -480,39 +485,6 @@ function getParameterByName(name) {
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-
-// ========================================================================================================================
-function snippets_extract(){
-// 	$("#snippets ul").empty();
-// 	$.get( './corpora/'+ $("#corpus-select").val() + '/snippets.json', function( data ) {
-
-//   		jsonSnippet = data;
-
-//   		$.each( jsonSnippet, function( key, val ) {
-//     		$("#snippets ul").append("<li><a class='interactive' snippet='"+ val.content +"' href='#'>"+ val.name +"</a></li>");
-//   		});
-
-// 		$(".interactive").click(function(){
-// 			var content = $(this).attr('snippet');
-// 			cmEditor.setValue(content);
-// 		});
-// });
-}
-
-// ========================================================================================================================
-function next_scenario(){
-	scenario = scenario + 1 ;
-	if (scenario > max_scenario ) {scenario = max_scenario};
-	$("#scenario").load(scenario_basename+ scenario +".html");
-}
-
-// ========================================================================================================================
-function previous_scenario(){
-	scenario = scenario - 1 ;
-	if (scenario < 1 ) {scenario = 1};
-	$("#scenario").load(scenario_basename+ scenario +".html");
-}
-
 
 // ========================================================================================================================
 function update_progress_num() {
