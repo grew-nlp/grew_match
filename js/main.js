@@ -4,21 +4,15 @@ var watcher = undefined;//Variable surveillant les modifications dans un fichier
 var line = 0;//Etat d'avancement dans le fichier texte (nombre de lignes parcourues en une itération)
 var cmEditor = undefined;//Contenu de la textarea
 
-var scenario_basename = "undefined"
-var scenario = 1; //Numéro do scenario actuel
-var max_scenario = 0; // nombre max de scenario
-
 var incrementResult = 0;//Nombre de résultats affichés
 var current_view = 0; //Numéro du résultat actuellement affiché
 
-var corpora = "undefined";  // name of the subset of corpora considered (selected from the navbar)
-var corpus = "undefined";   // name of the current corpus
+var collection = "ud";  // name of the subset of collection considered (selected from the navbar)
+var corpus = "UD_English-1.3";   // name of the current corpus
 
-// ----------------------------------------------------------------------------------------------------
-$(function(){ // this function is run atfer page loading
-
-//	$('#scenario').hide();
-
+// ========================================================================================================================
+// this function is run atfer page loading
+$(function(){
 	$('#corpus-fixed').hide();
 	$('#save-pattern').prop('disabled',true);
 	$('.tooltip-desc').tooltipster({contentAsHTML:true,theme:'tooltipster-noir',interactive:true,position:'bottom'});
@@ -28,152 +22,58 @@ $(function(){ // this function is run atfer page loading
 		lineNumbers: true,
 	});
 
+	// Hack to show FTB only with a hidden url
+	var url = window.location.href;
+	if (url.indexOf("2ksK5T") > 0)
+		{ $("#top-ftb").show() }
 
-	// //Récupération de la liste de corpus
-	// $.get( "./corpora/corpora_list", function( data ) {
-	// 	$( "#corpus-select" ).append( data );
-
-	//On vérifie si on est sur une recherche sauvegardée via les paramètres get
-	if (getParameterByName("corpus").length > 0) {
-		requested_corpus = getParameterByName("corpus");
-		if (requested_corpus.substring(0,7) == "sequoia") { select_corpora("seq"); }
-
-
-
-		// selectCorpus(getParameterByName("corpus"));
-		// $.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
-		// 	//On affiche le contenu de la recherche
-		// 	cmEditor.setValue(pattern);
-		// 	//On simule un click pour lancer la recherche et afficher directement les résultats
-		// 	$('#submit-pattern').trigger("click");
-		//});
- 	};
-
- // 		//On vérifie si on est sur une recherche directe de relation via les paramètres get
- // 		if (getParameterByName("corpus").length > 0 && getParameterByName("relation").length > 0) {
-	// 		selectCorpus(getParameterByName("corpus"));
-	// 		//On affiche le contenu de la recherche
-	// 		cmEditor.setValue("match {\n  GOV[];\n  DEP[];\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
-	// 		//On simule un click pour lancer la recherche et afficher directement les résultats
-	// 		$('#submit-pattern').trigger("click");
-	// 	};
-
-	// 	//On vérifie si un corpus est préselectionné
-	// 	if (getParameterByName("corpus").length > 0) {
-	// 		selectCorpus(getParameterByName("corpus"));
-	// 	};
-
-	// change_corpus();
-	// });
-
-    //On lie l'événement de changement de corpus à la liste déroulante
+	// Binding for changing corpus selection
 	$('#corpus-select').change(function(){
 		$('#vision').hide();
 		corpus = $("#corpus-select").val()
 		change_corpus ();
 	});
 
-	// ???
+	// Binding on CodeMirror change
 	cmEditor.on ("change", function () {
 		$('#save-pattern').prop('disabled',true);
 		$('#custom-display').hide();
-
 	});
 
-// ----------------------------------------------------------------------------------------------------
-// Selection of the seq view
-	$('#select-seq').click(function(){ select_corpora ("seq") });
-	$('#select-ud').click(function(){ select_corpora ("ud") });
-	$('#select-ftb').click(function(){ select_corpora ("ftb") });
-	$('#select-tuto').click(function(){ select_corpora ("tuto") });
+	// Binding for collection selection
+	$('#select-seq').click(function() { collection="seq"; change_collection () });
+	$('#select-ud').click(function() { collection="ud"; change_collection () });
+	$('#select-ftb').click(function() { collection="ftb"; change_collection () });
+	$('#select-tuto').click(function() { collection="tuto"; change_collection () });
 
-// ----------------------------------------------------------------------------------------------------
-	$('#tutorial').click(function(){
-		$('#scenario').show();
-		$('#snippets').hide();
+	// Check if some corpus is requested from the url
+	if (getParameterByName("corpus").length > 0) {
+		corpus = getParameterByName("corpus");
+		if (corpus.substring(0,7) == "sequoia") { collection="seq"; }
+		if (corpus.substring(0,3) == "ftb") { collection="ftb"; }
+	};
 
-		$('#corpus-fixed').show();
-		$('#corpus-select').hide();
+	// Update page with corpus info
+	change_collection(corpus);
+	change_corpus();
 
-		active_navbar("tutorial");
-
-		scenario_basename = "tutorial";
-		scenario = 1;
-		max_scenario = 3;
-		$("#scenario").load(scenario_basename+ scenario +".html");
-
-		$('#corpus-select').val("sequoia.surf-7.0");
-		change_corpus();
-	});
-
-// ----------------------------------------------------------------------------------------------------
-	$('#ex-seq').click(function(){
-		$('#scenario').show();		
-		$('#snippets').hide();
-
-		$('#corpus-fixed').show();
-		$('#corpus-select').hide();
-
-		active_navbar("ex-seq");
-
-		scenario_basename = "ex-seq";
-		scenario = 1;
-		max_scenario = 1;
-		$("#scenario").load(scenario_basename+ scenario +".html");
-
-		$('#corpus-select').val("sequoia.surf-7.0");
-		change_corpus();
-	});
-
-	$('#ex-deep').click(function(){
-		$('#scenario').show();		
-		$('#snippets').hide();
-
-		$('#corpus-fixed').show();
-		$('#corpus-select').hide();
-
-		active_navbar("ex-deep");
-
-		scenario_basename = "ex-deep";
-		scenario = 1;
-		max_scenario = 2;
-		$("#scenario").load(scenario_basename+ scenario +".html");
-
-		$('#corpus-select').val("sequoia.deep_and_surf-7.0");
-		change_corpus();
-	});
-
-	$('#search').click(function(){
-		$('#snippets').show();
-		$('#scenario').hide();
-
-		$('#corpus-fixed').hide();
-		$('#corpus-select').show();
-
-		active_navbar("search");
-
-	});
-
-	select_corpora ("ud");
-
-	// Hack to show FTB only with a hidden url
-	var url = window.location.href;
-	if (url.indexOf("2ksK5T") > 0)
-		{ $("#top-ftb").show() }
+	// Deal with custom argument
+	if (getParameterByName("custom").length > 0) {
+		$.get('./data/shorten/' + getParameterByName("custom"),function(pattern) {
+			cmEditor.setValue(pattern);
+			request_pattern(false);
+		});
+	};
 });
 
 // ========================================================================================================================
-function select_corpora(dir) {
-	console.log("==function select_corpora== (dir="+dir+")");
-	corpora = dir;
-	active_navbar(dir); // Change background in nav-bab
+function change_collection(requested_corpus) {
+	console.log("ENTER: change_collection");
+	active_navbar(collection); // Change background in nav-bab
+	$("#corpus-select").empty();
 
-	$.get( "./"+dir+"/corpora_list", function( data ) {
-
-		$("#corpus-select").empty();
-		$( "#corpus-select" ).append( data );
-		corpus = $("#corpus-select").val()
-		change_corpus();
+	$.get( "./"+collection+"/corpora_list", function( data ) {
+		$("#corpus-select").append( data );
 
 		var count = (data.match(/<\/option>/g) || []).length;
 
@@ -187,31 +87,22 @@ function select_corpora(dir) {
 			$('#corpus-fixed').hide();
 			$('#corpus-select').show();
 		}
-
+		if (requested_corpus === undefined) {
+			// select the default corpus
+			corpus = $("#corpus-select").val();
+			change_corpus();
+		} else {
+			selectCorpus(requested_corpus)
+		}
 	});
 };
-
-
-
-
-// ========================================================================================================================
-function bind_inter () {
-	$(".inter").click(function(){
-		var file = $(this).attr('snippet-file');
-		console.log("==FILE==>"+file);
-		// Update of the textarea
-		$.get("./"+corpora+"/"+corpus+"/"+file, function(pattern) {
-			cmEditor.setValue(pattern);
-		});
-	});
-}
 
 // ========================================================================================================================
 function selectCorpus(corpus){
 	//On crée un tableau regroupant toutes les options présentes dans le selecteur de corpus
 	options = [];
+
 	$("#corpus-select option").each(function(){
-		console.log("==XXX==>" + $(this).val());
 		options.push($(this).val());
 	});
 	
@@ -240,24 +131,14 @@ function active_navbar(id){
 	$("#top-tuto").removeClass("active");
 
 	$("#top-"+id).addClass("active");
-
-	$("#top-search").removeClass("active");
-	$("#top-tutorial").removeClass("active");
-	$("#top-examples").removeClass("active");
-	$("#top-ex").removeClass("active");
-	$("#top-ex-seq").removeClass("active");
-	$("#top-ex-deep").removeClass("active");
-	if (id == "ex-deep" || id == "ex-seq") {
-		$("#top-ex").addClass("active");
-	}
 }
 
 // ========================================================================================================================
 function change_corpus(){
-	console.log("==change_corpus==> "+ corpus);
+	console.log("ENTER: change_corpus: "+ corpus);
 
 	$('#custom-display').hide();
-	corpus_dir = "./"+corpora+"/"+corpus+"/";
+	corpus_dir = "./"+collection+"/"+corpus+"/";
 
 	// Update of the short doc
 	$.get(corpus_dir + "short.html", function(data) {
@@ -280,13 +161,18 @@ function change_corpus(){
 		$('#right-pane').html(data);
 		bind_inter();
 	});
+}
 
-
-
-	console.log ("==BEFF==>"+$('#corpus-fixed').innerHTML);
-	$('#corpus-fixed').html($("#corpus-select").val());
-	$('#corpus-fixed').html(corpus);
-	console.log ("==AFTT==>"+$('#corpus-fixed').innerHTML);
+// ========================================================================================================================
+// Binding for interactive part in snippets part
+function bind_inter () {
+	$(".inter").click(function(){
+		var file = $(this).attr('snippet-file');
+		// Update of the textarea
+		$.get("./"+collection+"/"+corpus+"/"+file, function(pattern) {
+			cmEditor.setValue(pattern);
+		});
+	});
 }
 
 // ========================================================================================================================
@@ -333,17 +219,17 @@ function request_pattern(next){
 			var previous = "";
 
 			watcher = setInterval(function() {
-    			var ajax = new XMLHttpRequest();
-    			ajax.onreadystatechange = function() {
-        			if (ajax.readyState == 4) {
-            			if (ajax.responseText != previous) {
-            				if (!next) {
-            					line = 0;
-            					incrementResult = 0;
-            				}
-            				
-           					var lines = ajax.responseText.split("\n");
-           					
+				var ajax = new XMLHttpRequest();
+				ajax.onreadystatechange = function() {
+					if (ajax.readyState == 4) {
+						if (ajax.responseText != previous) {
+							if (!next) {
+								line = 0;
+								incrementResult = 0;
+							}
+
+							var lines = ajax.responseText.split("\n");
+
 							for (var i = cursor,len = lines.length; i < len; i++) {
 								if (lines[i] == '<END>') {
 									clearInterval(watcher);
@@ -462,28 +348,28 @@ function save_pattern(num){
 
 // ========================================================================================================================
 function SelectText(element) {
-    var doc = document
-        , text = doc.getElementById(element)
-        , range, selection
-    ;
-    if (doc.body.createTextRange) {
-        range = document.body.createTextRange();
-        range.moveToElementText(text);
-        range.select();
-    } else if (window.getSelection) {
-        selection = window.getSelection();
-        range = document.createRange();
-        range.selectNodeContents(text);
-        selection.removeAllRanges();
-        selection.addRange(range);
-    }
+		var doc = document
+		, text = doc.getElementById(element)
+		, range, selection
+	;
+	if (doc.body.createTextRange) {
+		range = document.body.createTextRange();
+		range.moveToElementText(text);
+		range.select();
+	} else if (window.getSelection) {
+		selection = window.getSelection();
+		range = document.createRange();
+		range.selectNodeContents(text);
+		selection.removeAllRanges();
+		selection.addRange(range);
+	}
 }
 // ========================================================================================================================
 function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		results = regex.exec(location.search);
+	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 // ========================================================================================================================

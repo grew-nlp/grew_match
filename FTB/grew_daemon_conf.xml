@@ -1,9 +1,0 @@
-<conf>
-  <corpus name = "FTB">
-    <domain>/data/semagramme/resources/ftb/ftb.grs</domain>
-    <file>/data/semagramme/resources/ftb/ftb-dev.conll</file>
-    <file>/data/semagramme/resources/ftb/ftb-test.conll</file>
-    <file>/data/semagramme/resources/ftb/ftb-train.conll</file>
-  </corpus>
-</conf>
-
