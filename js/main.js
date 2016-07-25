@@ -11,125 +11,125 @@ var max_scenario = 0; // nombre max de scenario
 var incrementResult = 0;//Nombre de résultats affichés
 var current_view = 0; //Numéro du résultat actuellement affiché
 
-var corpus_dir = "undefined"
+var corpora = "undefined";  // name of the subset of corpora considered (selected from the navbar)
+var corpus = "undefined";   // name of the current corpus
 
-$(function(){
-// exécuter une fois à la fin du chargement de la page
+// ----------------------------------------------------------------------------------------------------
+$(function(){ // this function is run atfer page loading
 
-	$('#scenario').hide();
+//	$('#scenario').hide();
 
 	$('#corpus-fixed').hide();
-
 	$('#save-pattern').prop('disabled',true);
-
 	$('.tooltip-desc').tooltipster({contentAsHTML:true,theme:'tooltipster-noir',interactive:true,position:'bottom'});
 
-	//Récupération de la liste de corpus
-	$.get( "./corpora/corpora_list", function( data ) {
-		$( "#corpus-select" ).append( data );
-
-		//On vérifie si on est sur une recherche sauvegardée via les paramètres get
-		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
-			selectCorpus(getParameterByName("corpus"));
-			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
-				//On affiche le contenu de la recherche
-				cmEditor.setValue(pattern);
-				//On simule un click pour lancer la recherche et afficher directement les résultats
-				$('#submit-pattern').trigger("click");
-			});
-		};
-
- 		//On vérifie si on est sur une recherche directe de relation via les paramètres get
- 		if (getParameterByName("corpus").length > 0 && getParameterByName("relation").length > 0) {
-			selectCorpus(getParameterByName("corpus"));
-			//On affiche le contenu de la recherche
-			cmEditor.setValue("match {\n  GOV[];\n  DEP[];\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
-			//On simule un click pour lancer la recherche et afficher directement les résultats
-			$('#submit-pattern').trigger("click");
-		};
-
-		//On vérifie si un corpus est préselectionné
-		if (getParameterByName("corpus").length > 0) {
-			selectCorpus(getParameterByName("corpus"));
-		};
-
-	change_corpus();
-
-	});
-
-    //On lie l'événement de changement de corpus à la liste déroulante
-	$('#corpus-select').change(function(){
-		$('#vision').hide();
-		change_corpus ();
-	});
-
-	//On initialise CodeMirror
+	// Initialise CodeMirror
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
 		lineNumbers: true,
 	});
 
-	cmEditor.on ("change", function () {
-		$('#save-pattern').prop('disabled',true);
-		$('#custom-display').hide();		
+
+	// //Récupération de la liste de corpus
+	// $.get( "./corpora/corpora_list", function( data ) {
+	// 	$( "#corpus-select" ).append( data );
+
+	// 	//On vérifie si on est sur une recherche sauvegardée via les paramètres get
+	// 	if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
+	// 		selectCorpus(getParameterByName("corpus"));
+	// 		$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
+	// 			//On affiche le contenu de la recherche
+	// 			cmEditor.setValue(pattern);
+	// 			//On simule un click pour lancer la recherche et afficher directement les résultats
+	// 			$('#submit-pattern').trigger("click");
+	// 		});
+	// 	};
+
+ // 		//On vérifie si on est sur une recherche directe de relation via les paramètres get
+ // 		if (getParameterByName("corpus").length > 0 && getParameterByName("relation").length > 0) {
+	// 		selectCorpus(getParameterByName("corpus"));
+	// 		//On affiche le contenu de la recherche
+	// 		cmEditor.setValue("match {\n  GOV[];\n  DEP[];\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
+	// 		//On simule un click pour lancer la recherche et afficher directement les résultats
+	// 		$('#submit-pattern').trigger("click");
+	// 	};
+
+	// 	//On vérifie si un corpus est préselectionné
+	// 	if (getParameterByName("corpus").length > 0) {
+	// 		selectCorpus(getParameterByName("corpus"));
+	// 	};
+
+	// change_corpus();
+	// });
+
+    //On lie l'événement de changement de corpus à la liste déroulante
+	$('#corpus-select').change(function(){
+		$('#vision').hide();
+		corpus = $("#corpus-select").val()
+		change_corpus ();
 	});
 
-	$('#select-ud').click(function(){
-		console.log("==UD==");
-		active_navbar("ud");
+	// ???
+	cmEditor.on ("change", function () {
+		$('#save-pattern').prop('disabled',true);
+		$('#custom-display').hide();
 
-		$( "#corpus-select" ).empty();
+	});
+// ----------------------------------------------------------------------------------------------------
+// Selection of the ud view
+	$('#select-ud').click(function(){
+		console.log("==ud==");
+		corpora = "ud";
+		active_navbar("ud"); // Change background in nav-bab
+
+		// update the corpus selector
+		$('#corpus-fixed').hide();
+		$('#corpus-select').show();
+		$( "#corpus-select").empty();
 
 		$.get( "./ud/corpora_list", function( data ) {
 			$( "#corpus-select" ).append( data );
+			corpus = $("#corpus-select").val()
+			change_corpus();
 		});
-
-		change_corpus();
-		// $('#scenario').show();		
-		// $('#snippets').hide();
-
-		// $('#corpus-fixed').show();
-		// $('#corpus-select').hide();
-
-
-		// scenario_basename = "tutorial";
-		// scenario = 1;
-		// max_scenario = 3;
-		// $("#scenario").load(scenario_basename+ scenario +".html");
-
-		// $('#corpus-select').val("sequoia.surf-7.0");
-		// change_corpus();
 	});
 
+// ----------------------------------------------------------------------------------------------------
+// Selection of the seq view
 	$('#select-seq').click(function(){
-		console.log("==SEQ==");
-		active_navbar("seq");
+		console.log("==seq==");
+		corpora = "seq";
+		active_navbar("seq"); // Change background in nav-bab
 
-		$( "#corpus-select" ).empty();
+		// update the corpus selector
+		$('#corpus-fixed').hide();
+		$('#corpus-select').show();
+		$( "#corpus-select").empty();
+
 		$.get( "./seq/corpora_list", function( data ) {
 			$( "#corpus-select" ).append( data );
+			corpus = $("#corpus-select").val()
+			change_corpus();
 		});
-
-		change_corpus();
-		// $('#scenario').show();		
-		// $('#snippets').hide();
-
-		// $('#corpus-fixed').show();
-		// $('#corpus-select').hide();
-
-
-		// scenario_basename = "tutorial";
-		// scenario = 1;
-		// max_scenario = 3;
-		// $("#scenario").load(scenario_basename+ scenario +".html");
-
-		// $('#corpus-select').val("sequoia.surf-7.0");
-		// change_corpus();
 	});
 
+// ----------------------------------------------------------------------------------------------------
+// Selection of the ftb view
+	$('#select-ftb').click(function(){
+		console.log("==FTB==");
+		corpora = "FTB";
+		corpus= "FTB" 
 
+		active_navbar("ftb"); // Change background in nav-bab
 
+		$('#corpus-fixed').show();
+		$('#corpus-select').hide();
+
+		change_corpus();
+	});
+
+// ----------------------------------------------------------------------------------------------------
 	$('#tutorial').click(function(){
-		$('#scenario').show();		
+		$('#scenario').show();
 		$('#snippets').hide();
 
 		$('#corpus-fixed').show();
@@ -146,6 +146,7 @@ $(function(){
 		change_corpus();
 	});
 
+// ----------------------------------------------------------------------------------------------------
 	$('#ex-seq').click(function(){
 		$('#scenario').show();		
 		$('#snippets').hide();
@@ -192,13 +193,30 @@ $(function(){
 		active_navbar("search");
 
 	});
+
+	$('#select-ud').trigger("click");
+
 });
 
+// ========================================================================================================================
+function bind_inter () {
+	$(".inter").click(function(){
+		var file = $(this).attr('snippet-file');
+		console.log("==FILE==>"+file);
+		// Update of the textarea
+		$.get("./"+corpora+"/"+corpus+"/"+file, function(pattern) {
+			cmEditor.setValue(pattern);
+		});
+	});
+}
+
+// ========================================================================================================================
 function selectCorpus(corpus){
 	//On crée un tableau regroupant toutes les options présentes dans le selecteur de corpus
-    options = [];
+	options = [];
 	$("#corpus-select option").each(function(){
-    	options.push($(this).val());
+		console.log("==XXX==>" + $(this).val());
+		options.push($(this).val());
 	});
 	
 	//On crée un regexp qui cherchera le nom de corpus commençant à la première posistion (^) et ignorant la casse (mode i)
@@ -214,10 +232,11 @@ function selectCorpus(corpus){
 	}
 
 	//On a pas trouvé de match donc on selectionne par défaut le premier choix et on stoppe la fonction
-	$("#corpus-select")[0].selectedIndex = 0;	
+	$("#corpus-select")[0].selectedIndex = 0;
 	return;
 }
 
+// ========================================================================================================================
 function active_navbar(id){
 	$("#top-ud").removeClass("active");
 	$("#top-seq").removeClass("active");
@@ -235,31 +254,42 @@ function active_navbar(id){
 	}
 }
 
+// ========================================================================================================================
 function change_corpus(){
+	console.log("==change_corpus==> "+ corpus);
+
 	$('#custom-display').hide();
-	$('#short-desc').empty();
+	corpus_dir = "./"+corpora+"/"+corpus+"/";
 
-	corpus_dir = "./corpora/"+ $("#corpus-select").val() + "/";
-
-	// On met à jour la short doc
+	// Update of the short doc
 	$.get(corpus_dir + "short.html", function(data) {
-		$('#short-desc').append(data);
+		$('#short-desc').html(data);
 	});
 
-	// On met à jour la long doc (tooltip)
+	// Update of the long doc (tooltip)
 	$.get(corpus_dir + "doc.html", function( data ) {
         $('.tooltip-desc').tooltipster('content',data);
 	});
-
-	// Mise à jour du lien (?)
 	$('#a-corpus').attr("href", corpus_dir + "doc.html");
 
-	// Mise à jour snippets
+	// Update snippets
 	snippets_extract();
 
+	// Update of right navbar
+	$.get(corpus_dir + "right_navbar.html", function(data) {
+		$('#right-navbar').html(data);
+		bind_inter();
+	});
+
+
+
+	console.log ("==BEFF==>"+$('#corpus-fixed').innerHTML);
 	$('#corpus-fixed').html($("#corpus-select").val());
+	$('#corpus-fixed').html(corpus);
+	console.log ("==AFTT==>"+$('#corpus-fixed').innerHTML);
 }
 
+// ========================================================================================================================
 function request_pattern(next){
 	if (cmEditor.getValue().length == 0) {
 		sweetAlert("An error occured", "You can't search for an empty pattern.", "error");
@@ -392,6 +422,7 @@ function request_pattern(next){
 }
 
 
+// ========================================================================================================================
 function display_picture(event){
 	var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url +"\" > </object>";
 	document.getElementById('display-results').innerHTML = newHtml;
@@ -404,6 +435,7 @@ function display_picture(event){
 	update_progress_num();
 }
 
+// ========================================================================================================================
 function save_pattern(num){
 	if (cmEditor.getValue().length > 0 && id.length > 0) {
 		corpus = $("#corpus-select").val();
@@ -423,6 +455,7 @@ function save_pattern(num){
 	}
 }
 
+// ========================================================================================================================
 function SelectText(element) {
     var doc = document
         , text = doc.getElementById(element)
@@ -440,6 +473,7 @@ function SelectText(element) {
         selection.addRange(range);
     }
 }
+// ========================================================================================================================
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -447,29 +481,32 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+// ========================================================================================================================
 function snippets_extract(){
-	$("#snippets ul").empty();
-	$.get( './corpora/'+ $("#corpus-select").val() + '/snippets.json', function( data ) {
+// 	$("#snippets ul").empty();
+// 	$.get( './corpora/'+ $("#corpus-select").val() + '/snippets.json', function( data ) {
 
-  		jsonSnippet = data;
+//   		jsonSnippet = data;
 
-  		$.each( jsonSnippet, function( key, val ) {
-    		$("#snippets ul").append("<li><a class='interactive' snippet='"+ val.content +"' href='#'>"+ val.name +"</a></li>");
-  		});
+//   		$.each( jsonSnippet, function( key, val ) {
+//     		$("#snippets ul").append("<li><a class='interactive' snippet='"+ val.content +"' href='#'>"+ val.name +"</a></li>");
+//   		});
 
- 		$(".interactive").click(function(){
-			var content = $(this).attr('snippet');
-			cmEditor.setValue(content);
-		});
-});
+// 		$(".interactive").click(function(){
+// 			var content = $(this).attr('snippet');
+// 			cmEditor.setValue(content);
+// 		});
+// });
 }
 
+// ========================================================================================================================
 function next_scenario(){
 	scenario = scenario + 1 ;
 	if (scenario > max_scenario ) {scenario = max_scenario};
 	$("#scenario").load(scenario_basename+ scenario +".html");
 }
 
+// ========================================================================================================================
 function previous_scenario(){
 	scenario = scenario - 1 ;
 	if (scenario < 1 ) {scenario = 1};
@@ -477,6 +514,7 @@ function previous_scenario(){
 }
 
 
+// ========================================================================================================================
 function update_progress_num() {
 	if (incrementResult != 0) {
 		$('#result-ok').show();
@@ -485,11 +523,13 @@ function update_progress_num() {
 	}
 }
 
+// ========================================================================================================================
 function update_view() {
 	$('#list-' + current_view).trigger("click");
 	update_progress_num();
 }
 
+// ========================================================================================================================
 function first_svg(){
 	if (current_view > 0) {
 		current_view = 0;
@@ -497,6 +537,7 @@ function first_svg(){
 	}
 }
 
+// ========================================================================================================================
 function previous_svg(){
 	if (current_view > 0) {
 		current_view -= 1;
@@ -504,6 +545,7 @@ function previous_svg(){
 	}
 }
 
+// ========================================================================================================================
 function next_svg(){
 	if (current_view < incrementResult - 1) {
 		current_view += 1;
@@ -511,6 +553,7 @@ function next_svg(){
  	}
 }
 
+// ========================================================================================================================
 function last_svg(){
 	if (current_view < incrementResult - 1) {
 		current_view = incrementResult - 1;
