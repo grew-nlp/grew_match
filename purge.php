@@ -8,7 +8,7 @@
       if ($time - filemtime($folder) >= 60*60*24*7){ 
         $name = explode('/',$folder);
         echo $name[count($name) - 1];
-        if ($name[count($name) - 1] != "sessions" && $name[count($name) -1 ] != "shorten") {
+        if ($name[count($name) -1 ] != "shorten") {
           foreach (scandir($folder) as $item) {
             if ($item == "." || $item == "..") {
               continue;

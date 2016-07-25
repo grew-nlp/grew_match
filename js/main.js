@@ -15,9 +15,10 @@ var corpus_dir = "undefined"
 
 $(function(){
 // exécuter une fois à la fin du chargement de la page
+
 	$('#scenario').hide();
 
-	$('#corpus-fixed').hide();		
+	$('#corpus-fixed').hide();
 
 	$('#save-pattern').prop('disabled',true);
 
@@ -25,10 +26,10 @@ $(function(){
 
 	//Récupération de la liste de corpus
 	$.get( "./corpora/corpora_list", function( data ) {
- 		$( "#corpus-select" ).append( data );
+		$( "#corpus-select" ).append( data );
 
- 		//On vérifie si on est sur une recherche sauvegardée via les paramètres get
- 		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
+		//On vérifie si on est sur une recherche sauvegardée via les paramètres get
+		if (getParameterByName("corpus").length > 0 && getParameterByName("custom").length > 0) {
 			selectCorpus(getParameterByName("corpus"));
 			$.get('./data/shorten/' + getParameterByName("custom"),function(pattern){
 				//On affiche le contenu de la recherche
@@ -47,8 +48,8 @@ $(function(){
 			$('#submit-pattern').trigger("click");
 		};
 
- 		//On vérifie si un corpus est préselectionné
- 		if (getParameterByName("corpus").length > 0) {
+		//On vérifie si un corpus est préselectionné
+		if (getParameterByName("corpus").length > 0) {
 			selectCorpus(getParameterByName("corpus"));
 		};
 
@@ -64,13 +65,68 @@ $(function(){
 
 	//On initialise CodeMirror
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
-    	lineNumbers: true,
-  	});
+		lineNumbers: true,
+	});
 
 	cmEditor.on ("change", function () {
 		$('#save-pattern').prop('disabled',true);
 		$('#custom-display').hide();		
 	});
+
+	$('#select-ud').click(function(){
+		console.log("==UD==");
+		active_navbar("ud");
+
+		$( "#corpus-select" ).empty();
+
+		$.get( "./ud/corpora_list", function( data ) {
+			$( "#corpus-select" ).append( data );
+		});
+
+		change_corpus();
+		// $('#scenario').show();		
+		// $('#snippets').hide();
+
+		// $('#corpus-fixed').show();
+		// $('#corpus-select').hide();
+
+
+		// scenario_basename = "tutorial";
+		// scenario = 1;
+		// max_scenario = 3;
+		// $("#scenario").load(scenario_basename+ scenario +".html");
+
+		// $('#corpus-select').val("sequoia.surf-7.0");
+		// change_corpus();
+	});
+
+	$('#select-seq').click(function(){
+		console.log("==SEQ==");
+		active_navbar("seq");
+
+		$( "#corpus-select" ).empty();
+		$.get( "./seq/corpora_list", function( data ) {
+			$( "#corpus-select" ).append( data );
+		});
+
+		change_corpus();
+		// $('#scenario').show();		
+		// $('#snippets').hide();
+
+		// $('#corpus-fixed').show();
+		// $('#corpus-select').hide();
+
+
+		// scenario_basename = "tutorial";
+		// scenario = 1;
+		// max_scenario = 3;
+		// $("#scenario").load(scenario_basename+ scenario +".html");
+
+		// $('#corpus-select').val("sequoia.surf-7.0");
+		// change_corpus();
+	});
+
+
 
 	$('#tutorial').click(function(){
 		$('#scenario').show();		
@@ -149,29 +205,33 @@ function selectCorpus(corpus){
 	var regexp = new RegExp('^' + corpus, "i"); 
 
 	//On boucle sur le tableau d'options pour tester s'il y a un match avec le regexp
-    for (i = 0; i < options.length; i++) {
-        if (options[i].match(regexp)) {
-        	//On a trouvé un correspondance, on change l'index et on stoppe la fonction
-            $("#corpus-select")[0].selectedIndex = i;
-            return;
-        }
-    }
+	for (i = 0; i < options.length; i++) {
+		if (options[i].match(regexp)) {
+			//On a trouvé un correspondance, on change l'index et on stoppe la fonction
+			$("#corpus-select")[0].selectedIndex = i;
+			return;
+		}
+	}
 
-    //On a pas trouvé de match donc on selectionne par défaut le premier choix et on stoppe la fonction
-    $("#corpus-select")[0].selectedIndex = 0;	
+	//On a pas trouvé de match donc on selectionne par défaut le premier choix et on stoppe la fonction
+	$("#corpus-select")[0].selectedIndex = 0;	
 	return;
 }
 
 function active_navbar(id){
-	$("#li-search").removeClass("active");
-	$("#li-tutorial").removeClass("active");
-	$("#li-examples").removeClass("active");
-	$("#li-ex").removeClass("active");
-	$("#li-ex-seq").removeClass("active");
-	$("#li-ex-deep").removeClass("active");
-	$("#li-"+id).addClass("active");
+	$("#top-ud").removeClass("active");
+	$("#top-seq").removeClass("active");
+	$("#top-ftb").removeClass("active");
+
+	$("#top-search").removeClass("active");
+	$("#top-tutorial").removeClass("active");
+	$("#top-examples").removeClass("active");
+	$("#top-ex").removeClass("active");
+	$("#top-ex-seq").removeClass("active");
+	$("#top-ex-deep").removeClass("active");
+	$("#top-"+id).addClass("active");
 	if (id == "ex-deep" || id == "ex-seq") {
-		$("#li-ex").addClass("active");
+		$("#top-ex").addClass("active");
 	}
 }
 
@@ -319,13 +379,13 @@ function request_pattern(next){
 								}
 							};
 							cursor = lines.length - 1;
-                			previous = ajax.responseText;
-                			update_progress_num();
-            			}
-        			}
-    			};
-    			ajax.open("POST", "./data/" + id + "/list", true); // Use POST to avoid caching
-    			ajax.send();
+							previous = ajax.responseText;
+							update_progress_num();
+						}
+					}
+				};
+				ajax.open("POST", "./data/" + id + "/list", true); // Use POST to avoid caching
+				ajax.send();
 			}, 300);
 		}
 	});

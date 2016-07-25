@@ -37,17 +37,22 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <span class="navbar-brand" id="title-grew">Grew-web</span>
       <ul class="nav navbar-nav">
-        <li id="li-search" class="active"><a id="search" href="#">Search in corpus</a></li>
-        <li id="li-tutorial"><a id="tutorial" href="#">Tutorial</a></li>
-        <li id="li-ex" class="dropdown">
+        <li id="top-ud" >                <a id="select-ud" href="#">Universal Dependencies</a></li>
+        <li id="top-seq">                <a class="grew-label" id="select-seq" href="#">Sequoia</a></li>
+        <li id="top-ftb" class="active"> <a id="select-ftb" href="#">French TreeBank</a></li>
+
+        <li id="top-search" ><a id="search" href="#">Search in corpus</a></li>
+        <li id="top-tutorial"><a id="tutorial" href="#">Tutorial</a></li>
+        <li id="top-ex" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Examples<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li id="li-ex-seq"><a id="ex-seq" href="#">sequoia.surf-7.0</a></li>
-            <li id="li-ex-deep"><a id="ex-deep" href="#">sequoia.deep_and_surf-7.0</a></li>
+            <li id="top-ex-seq"><a id="ex-seq" href="#">sequoia.surf-7.0</a></li>
+            <li id="top-ex-deep"><a id="ex-deep" href="#">sequoia.deep_and_surf-7.0</a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li id="top-tuto"><a id="url-grew" href="http://grew.loria.fr">Tutorial</a></li>
         <li><a id="url-grew" href="http://grew.loria.fr">Grew website</a></li>
       </ul>
     </div>
@@ -74,10 +79,111 @@
           <span id='custom-display'>Your custom pattern URL is the following: <span id="custom-url"></span></span>
         </p>
       </div>
-      <div class="col-md-4" id="snippets">
-        <h2>Snippets</h2>
-        <ul></ul>
+      <div class="col-md-4">
+
+
+
+
+
+
+
+
+
+<div class="container" id="myWizard">
+   <div class="navbar">
+      <div class="navbar-inner">
+            <ul class="nav nav-pills">
+               <li class="active"><a class="grew-label" href="#step1" data-toggle="tab">Snippets</a></li>
+               <li><a class="grew-label" href="#step2" data-toggle="tab">Examples</a></li>
+            </ul>
       </div>
+   </div>
+   <div class="tab-content" id="snippets">
+      <div class="tab-pane active" id="step1">
+
+<ul>
+  <li>
+    <a href="#" snippet=
+"% Search for a given lemma, for instancer &quot;écouter&quot;
+
+match { N [lemma=&quot;écouter&quot;] }" class="interactive">Search for a lemma</a></li>
+
+  <li><a href="#" snippet=
+"% Search for a lexical unit of a given grammatical category
+% Available categories: V, N, C, CL, P, I, PONCT, A, ADV, PRO, D, ET, P+D, P+PRO, PREF
+
+match { N [cat=&quot;P+PRO&quot;] }"
+class="interactive">Search by grammatical category</a></li>
+
+<li><a href="#" snippet="% Search for causative auxialiaries ([aux.caus])
+
+match {
+  GOV [];
+  DEP [];
+  GOV -[aux.caus]-&gt; DEP
+}" class="interactive">Search for a dependency relation</a></li><li><a href="#" snippet="% Search for both a category and a relation (for instance, a preposition used as a determiner)
+
+match {
+  PREP [cat=P];
+  X [];
+  X -[det]-&gt; PREP
+}" class="interactive">Mixed search</a></li><li><a href="#" snippet="% For instance, search for a coordination lexical unit which is not the dependent of a &quot;coord&quot; relation
+
+match {
+  CC [cat=C, s=c]
+}
+without {
+  X [];
+  X -[coord|root]-&gt; CC;
+}" class="interactive">Negative constraint</a></li><li><a href="#" snippet="
+% Search for non-projective dependencies (punctuations are ignored)
+
+match {
+  % Search for two different relations
+  G1 [cat&lt;&gt;PONCT]; D1 [cat&lt;&gt;PONCT]; G1 -[*]-&gt; D1;
+  G2 [cat&lt;&gt;PONCT]; D2 [cat&lt;&gt;PONCT]; G2 -[*]-&gt; D2;
+
+  % There are 4 ways to impose that there is a crossing: uncomment exaclty one of the 4 next lines
+
+  % G1.position &lt; G2.position; G2.position &lt; D1.position; D1.position &lt; D2.position;
+  % G1.position &lt; D2.position; D2.position &lt; D1.position; D1.position &lt; G2.position;
+  % D1.position &lt; G2.position; G2.position &lt; G1.position; G1.position &lt; D2.position;
+  D1.position &lt; D2.position; D2.position &lt; G1.position; G1.position &lt; G2.position;
+}
+" class="interactive">Non projective dependency</a></li></ul>
+
+
+
+
+      </div>
+      <div class="tab-pane" id="step2">
+         <p>Here is the content for step 2...</p>
+         <a class="btn btn-default next" href="#">Continue</a>
+      </div>
+      <div class="tab-pane" id="step3">
+         <p>Here is the content for step 3...</p>
+         <a class="btn btn-default next" href="#">Continue</a>
+      </div>
+      <div class="tab-pane" id="step4">
+         <p>Here is the content for step 4...</p>
+         <a class="btn btn-default next" href="#">Continue</a>
+      </div>
+      <div class="tab-pane" id="step5">
+         <p>This is the last step. You're done.</p>
+         <a class="btn btn-success first" href="#">Start over</a>
+      </div>
+   </div>
+</div>
+
+
+
+
+
+
+
+<!--         <h2>Snippets</h2>
+        <ul></ul>
+ -->      </div>
       <div class="col-md-4" id="scenario">
         <h2>Scenario</h2>
       </div>
