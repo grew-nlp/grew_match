@@ -264,17 +264,17 @@ function request_pattern(next){
 									clearInterval(watcher);
 									i = lines.length;
 								}else if (lines[i] == '<TOTAL>'){
-									i++; // Read the number of occurences on the next line
 									clearInterval(watcher);
 									$('#submit-pattern').prop('disabled',false);
 									$("#next-results").prop('disabled',false);
-									$('#progress-txt').text(lines[i] + ' occurence' + ((lines[i]>1)? 's' : ''));
+									$('#progress-txt').html(lines[i+1] + ' occurence' + ((lines[i+1]>1)? 's' : '') + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
+									i += 2; // Skip the two next lines (nb of occ, time)
 								}else if (lines[i] == '<OVER>'){
-									i++; // Read the ratio of corpus scanned
 									clearInterval(watcher);
 									$('#submit-pattern').prop('disabled',false);
 									$("#next-results").prop('disabled',false);
-									$('#progress-txt').text('More than 1000 results found in ' + lines[i] + '% of the corpus');
+									$('#progress-txt').html('More than 1000 results found in ' + lines[i+1] + '% of the corpus' + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
+									i += 2; // Skip the two next lines (ratio, time)
 								}else{
 									var pieces = lines[i].split("@");
 									if (typeof pieces[1] !== "undefined" ) {
@@ -283,7 +283,7 @@ function request_pattern(next){
 										url = './data/' + id + '/' + pieces[0];
 										$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2],sentence:pieces[3]},display_picture);
 
-										if (i == 2) { // i=2 always corresponds the first response -> fill display-result with it
+										if (i == 3) { // i=2 always corresponds the first response -> fill display-result with it
 											var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
 											document.getElementById('display-results').innerHTML = newHtml;
 
