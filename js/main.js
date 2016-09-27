@@ -178,7 +178,7 @@ function bind_inter () {
 // ========================================================================================================================
 function request_pattern(next){
 	if (cmEditor.getValue().length == 0) {
-		sweetAlert("An error occured", "You can't search for an empty pattern.", "error");
+		sweetAlert("An error occurred", "You can't search for an empty pattern.", "error");
 		return false;
 	}
 
@@ -247,7 +247,7 @@ function request_pattern(next){
 									clearInterval(watcher);
 									watcher = undefined;
 									$.get('./data/' + id + '/error',function(errors){
-										sweetAlert("An error occured", errors, "error");
+										sweetAlert("An error occurred", errors, "error");
 									});
 									i= lines.length;
 									$('#submit-pattern').prop('disabled',false);
