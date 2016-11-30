@@ -8,7 +8,7 @@ var incrementResult = 0;//Nombre de résultats affichés
 var current_view = 0; //Numéro du résultat actuellement affiché
 
 var collection = "ud";  // name of the subset of collection considered (selected from the navbar)
-var corpus = "UD_English-1.3";   // name of the current corpus
+var corpus = "UD_English-1.4";   // name of the current corpus
 
 // ========================================================================================================================
 // this function is run atfer page loading
