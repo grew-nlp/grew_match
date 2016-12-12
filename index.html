@@ -40,6 +40,7 @@
         <li id="top-ud">  <a class="navbar-brand" style="margin-left: 0pt;" id="select-ud" href="#">Universal Dependencies</a></li>
         <li id="top-seq"> <a class="navbar-brand" style="margin-left: 0pt;" id="select-seq" href="#">Sequoia</a></li>
         <li id="top-ftb" style="display: none;"> <a class="navbar-brand" style="margin-left: 0pt;" id="select-ftb" href="#">French TreeBank</a></li>
+        <li id="top-tdm" style="display: none;"> <a class="navbar-brand" style="margin-left: 0pt;" id="select-tdm" href="#">Tour du monde en 80 jours</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li id="top-tuto"> <a class="navbar-brand" style="margin-left: 0pt;" id="select-tuto" href="#">Tutorial</a></li>
@@ -66,6 +67,8 @@
         <p>
           <button class="btn btn-primary btn-lg" id="submit-pattern" onclick="javascript:request_pattern(false)" >Search</button>
           <button class="btn btn-primary btn-lg" id="save-pattern" onclick="javascript:save_pattern()" >Save</button>
+          <label><input type="checkbox" id="shuffle-box" value="first_checkbox"> Shuffle sentences</label>
+          <label><input type="checkbox" id="context-box" value="first_checkbox"> Display context</label>
         </p>
         <p>
           <span id='custom-display'>Your custom pattern URL is the following: <span id="custom-url"></span></span>
@@ -99,11 +102,13 @@
         <ul id="list-results"></ul>
       </div>
     </div>
-    <div id="display-sentence" style="display: none;">
-      <h4 id="sentence-txt"></h4>
-    </div>
-    <div class="col-md-9" id="display-results">
-      <object id="result-pic" type="image/svg+xml" class="logo"></object>
+    <div class="col-md-9">
+      <div id="display-sentence" style="display: none;">
+        <h4 id="sentence-txt"></h4>
+      </div>
+      <div id="display-results">
+        <object id="result-pic" type="image/svg+xml" class="logo"></object>
+      </div>
     </div>
   </div>
 </div>

@@ -36,6 +36,15 @@ body {
   background: #F5D76E;
 }
 
+h3 {
+  margin-top: 0px;
+}
+
+.checkbos {
+  width: 50%;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+}
 
 .grew-label {
   font-size: 24px;

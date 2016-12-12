@@ -18,8 +18,13 @@ if (isset($_POST['pattern'])) {
 	fwrite($pattern, $_POST['pattern']);
 	fclose($pattern);
 
-	$corpus = fopen($dir . $id . "/corpus","w");
-	fwrite($corpus, $_POST['corpus']);
+	$infos = fopen($dir . $id . "/infos","w");
+	fwrite($infos, $_POST['corpus']);
+	fwrite($infos, "\n");
+	fwrite($infos, $_POST['shuffle']);
+	fwrite($infos, "\n");
+	fwrite($infos, $_POST['context']);
+	fwrite($infos, "\n");
 	fclose($corpus);
 
 	$msg = "#NEW";

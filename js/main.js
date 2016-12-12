@@ -25,7 +25,7 @@ $(function(){
 	// Hack to show FTB only with a hidden url
 	var url = window.location.href;
 	if (url.indexOf("2ksK5T") > 0)
-		{ $("#top-ftb").show() }
+		{ $("#top-ftb").show(); $("#top-tdm").show(); }
 
 	// Binding for changing corpus selection
 	$('#corpus-select').change(function(){
@@ -44,6 +44,7 @@ $(function(){
 	$('#select-seq').click(function() { collection="seq"; change_collection () });
 	$('#select-ud').click(function() { collection="ud"; change_collection () });
 	$('#select-ftb').click(function() { collection="ftb"; change_collection () });
+	$('#select-tdm').click(function() { collection="tdm"; change_collection () });
 	$('#select-tuto').click(function() { collection="tuto"; change_collection () });
 
 	// Check if some corpus is requested from the url
@@ -51,6 +52,7 @@ $(function(){
 		corpus = getParameterByName("corpus");
 		if (corpus.substring(0,7) == "sequoia") { collection="seq"; }
 		if (corpus.substring(0,3) == "ftb") { collection="ftb"; }
+		if (corpus.substring(0,3) == "tdm") { collection="tdm"; }
 	};
 
 	// Update page with corpus info
@@ -128,6 +130,7 @@ function active_navbar(id){
 	$("#top-ud").removeClass("active");
 	$("#top-seq").removeClass("active");
 	$("#top-ftb").removeClass("active");
+	$("#top-tdm").removeClass("active");
 	$("#top-tuto").removeClass("active");
 
 	$("#top-"+id).addClass("active");
@@ -177,6 +180,8 @@ function bind_inter () {
 
 // ========================================================================================================================
 function request_pattern(next){
+	console.log("shuffle-box: ===>" + $('#shuffle-box').prop('checked') + "<====");
+	console.log("context-box: ===>" + $('#context-box').prop('checked') + "<====");
 	if (cmEditor.getValue().length == 0) {
 		sweetAlert("An error occurred", "You can't search for an empty pattern.", "error");
 		return false;
@@ -195,7 +200,12 @@ function request_pattern(next){
 		$("#display-sentence").hide();
 		cursor = 0;
 		current_view = 0;
-		var data= {pattern: cmEditor.getValue(),corpus:$("#corpus-select").val()};
+		var data= {
+			pattern: cmEditor.getValue(),
+			corpus:$("#corpus-select").val(),
+			shuffle:$('#shuffle-box').prop('checked'),
+			context:$('#context-box').prop('checked'),
+		};
 	}else{
 		var data= {id:id,corpus:$("#corpus-select").val()};
 	}
@@ -290,7 +300,7 @@ function request_pattern(next){
 											$('#list-' + incrementResult).addClass('displayed');
 											var w = $("#display-results").width();
 											$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
-											$("#sentence-txt").text(pieces[3]);
+											$("#sentence-txt").html(pieces[3]);
 											$("#display-sentence").show();
 										};
 										incrementResult++;
@@ -320,7 +330,7 @@ function display_picture(event){
 	$('#list-' + event.data.i).addClass('displayed');
 	var w = $("#display-results").width();
 	$("#display-results").animate({scrollLeft:event.data.coord - w/2},"fast");
-	$("#sentence-txt").text(event.data.sentence);
+	$("#sentence-txt").html(event.data.sentence);
 
 	current_view = event.data.i;
 	update_progress_num();
