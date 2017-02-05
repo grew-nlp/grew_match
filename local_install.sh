@@ -4,6 +4,8 @@ cp -rf * /users/guillaum/.local/www/grew/
 
 # =========== grew ===========
 cd /users/guillaum/.local/www/grew/
+mkdir -p data/shorten
+chmod 777 data
 
 # make "corpora" link to the right place
 
