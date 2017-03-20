@@ -1,7 +1,8 @@
-% Search for a given subcategorisation frame
+% Search for a given sub-categorisation frame
 % We search for a verb with at the same time a de_obj and an a_obj argument.
 
 match {
-  V [cat=V]; A []; DE [];
-  V -[a_obj]-> A; V -[de_obj]-> DE;
+  V [cat=V];
+  V -[a_obj]-> A;
+  V -[de_obj]-> DE;
 }
