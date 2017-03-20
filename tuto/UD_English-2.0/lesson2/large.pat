@@ -2,8 +2,8 @@
 % ex: a passive construction with a nominal by-agent
 
 match {
-  V -[auxpass]-> AP;
+  V -[aux:pass]-> AP;
   BY [lemma=by];
-  V -[nmod]-> N;
+  V -[obl]-> N;
   N -[case]-> BY;
 }

@@ -3,6 +3,6 @@
 
 match {
   V [ cat=VERB ];
-  V -[nsubj|nsubjpass]-> S;
-  S >> V;
+  V -[nsubj|nsubj:pass]-> S;
+  V << S;                      % V is on the left of S
 }

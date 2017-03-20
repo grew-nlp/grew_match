@@ -8,7 +8,7 @@ var incrementResult = 0;//Nombre de résultats affichés
 var current_view = 0; //Numéro du résultat actuellement affiché
 
 var collection = "ud";  // name of the subset of collection considered (selected from the navbar)
-var corpus = "UD_English-1.4";   // name of the current corpus
+var corpus = "UD_English-2.0";   // name of the current corpus
 
 // ========================================================================================================================
 // this function is run atfer page loading
@@ -82,7 +82,7 @@ function change_collection(requested_corpus) {
 		if (count == 1) {
 			$('#corpus-select').hide();
 			$('#corpus-fixed').show();
-			var name = data.replace(/<[^>]*>/g, ""); 
+			var name = data.replace(/<[^>]*>/g, "");
 			$('#corpus-fixed').html(name);
 
 		} else {
@@ -107,9 +107,9 @@ function selectCorpus(corpus){
 	$("#corpus-select option").each(function(){
 		options.push($(this).val());
 	});
-	
+
 	//On crée un regexp qui cherchera le nom de corpus commençant à la première posistion (^) et ignorant la casse (mode i)
-	var regexp = new RegExp('^' + corpus, "i"); 
+	var regexp = new RegExp('^' + corpus, "i");
 
 	//On boucle sur le tableau d'options pour tester s'il y a un match avec le regexp
 	for (i = 0; i < options.length; i++) {
@@ -212,7 +212,7 @@ function request_pattern(next){
 	//Reset de la liste
 	$('#submit-pattern').prop('disabled',true);
 	$("#next-results").prop('disabled',true);
-	
+
 	$.ajax({url:'ajaxGrew.php',
 		dataType:'text',
 		data: data,
@@ -223,7 +223,7 @@ function request_pattern(next){
 			}
 
 			$('#save-pattern').prop('disabled',false);
-			
+
 			var file = "./data/" + id + "/list";
 
 			var previous = "";
@@ -289,7 +289,7 @@ function request_pattern(next){
 									var pieces = lines[i].split("@");
 									if (typeof pieces[1] !== "undefined" ) {
 										$("#list-results").append('<li class="item" id="list-' + incrementResult + '"><a>' +  pieces[1] + '</a></li>');
-										
+
 										url = './data/' + id + '/' + pieces[0];
 										$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2],sentence:pieces[3]},display_picture);
 
