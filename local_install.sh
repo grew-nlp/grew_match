@@ -18,3 +18,12 @@ rm -f *xxx
 sed -i xxx 's+003171+443171+' css/main.css
 rm -f css/*xxx
 
+cd seq/sequoia.deep_and_surf-7.0
+sed -i xxx 's+talc2.loria.fr+localhost+' doc.html
+rm -f *xxx
+cd ../..
+
+cd seq/sequoia.deep_and_surf-trunk
+sed -i xxx 's+talc2.loria.fr+localhost+' doc.html
+rm -f *xxx
+cd ../..
