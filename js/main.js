@@ -12,7 +12,7 @@ var corpus = "UD_English-2.0";   // name of the current corpus
 
 // ========================================================================================================================
 // this function is run atfer page loading
-$(function(){
+$(document).ready(function(){
 	$('#corpus-fixed').hide();
 	$('#save-pattern').prop('disabled',true);
 	$('.tooltip-desc').tooltipster({contentAsHTML:true,theme:'tooltipster-noir',interactive:true,position:'bottom'});
@@ -65,6 +65,13 @@ $(function(){
 			cmEditor.setValue(pattern);
 			request_pattern(false);
 		});
+	};
+
+	// If there is a get arg in the URL named "relation" -> make the request directly
+	if (getParameterByName("relation").length > 0) {
+		cmEditor.setValue("match {\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
+		// A click on the "Search" button is simulated to run the request
+		$('#submit-pattern').trigger("click");
 	};
 });
 
@@ -202,12 +209,12 @@ function request_pattern(next){
 		current_view = 0;
 		var data= {
 			pattern: cmEditor.getValue(),
-			corpus:$("#corpus-select").val(),
+			corpus:corpus,
 			shuffle:$('#shuffle-box').prop('checked'),
 			context:$('#context-box').prop('checked'),
 		};
 	}else{
-		var data= {id:id,corpus:$("#corpus-select").val()};
+		var data= {id:id,corpus:corpus};
 	}
 	//Reset de la liste
 	$('#submit-pattern').prop('disabled',true);
