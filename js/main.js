@@ -53,7 +53,13 @@ $(document).ready(function(){
 	// Check if some corpus is requested from the url
 	if (getParameterByName("corpus").length > 0) {
 		corpus = getParameterByName("corpus");
-    collection = "udm" // default value
+
+    // keep working hard link for old corpora names
+    if (corpus == "miniref") { corpus = "UD_miniref-trunk"; }
+    if (corpus == "seq-ud-trunk") { corpus = "UD_sequoia-trunk"; }
+    if (corpus == "UD_French-dev") { corpus = "UD_French-trunk"; }
+
+    collection = "udm"; // default value
     if (corpus.substring(0,3) == "UD_" && corpus.slice(4) = "-2.0") { collection="ud"};
 		if (corpus.substring(0,7) == "sequoia") { collection="seq"; }
 		if (corpus.substring(0,3) == "ftb") { collection="ftb"; }
