@@ -24,8 +24,10 @@ $(document).ready(function(){
 
 	// Hack to show FTB only with a hidden url
 	var url = window.location.href;
-	if (url.indexOf("2ksK5T") > 0)
-		{ $("#top-ftb").show(); $("#top-tdm").show(); }
+	if (url.indexOf("2ksK5T") > 0) {
+    $("#top-ftb").show();
+    $("#top-tdm").show();
+  }
 
 	// Binding for changing corpus selection
 	$('#corpus-select').change(function(){
@@ -43,6 +45,7 @@ $(document).ready(function(){
 	// Binding for collection selection
 	$('#select-seq').click(function() { collection="seq"; change_collection () });
 	$('#select-ud').click(function() { collection="ud"; change_collection () });
+  $('#select-udm').click(function() { collection="udm"; change_collection () });
 	$('#select-ftb').click(function() { collection="ftb"; change_collection () });
 	$('#select-tdm').click(function() { collection="tdm"; change_collection () });
 	$('#select-tuto').click(function() { collection="tuto"; change_collection () });
@@ -135,6 +138,7 @@ function selectCorpus(corpus){
 // ========================================================================================================================
 function active_navbar(id){
 	$("#top-ud").removeClass("active");
+	$("#top-udm").removeClass("active");
 	$("#top-seq").removeClass("active");
 	$("#top-ftb").removeClass("active");
 	$("#top-tdm").removeClass("active");
