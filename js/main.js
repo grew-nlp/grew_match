@@ -25,9 +25,9 @@ $(document).ready(function(){
 	// Hack to show FTB only with a hidden url
 	var url = window.location.href;
 	if (url.indexOf("2ksK5T") > 0) {
-    $("#top-ftb").show();
-    $("#top-tdm").show();
-  }
+		$("#top-ftb").show();
+		$("#top-tdm").show();
+	}
 
 	// Binding for changing corpus selection
 	$('#corpus-select').change(function(){
@@ -54,13 +54,13 @@ $(document).ready(function(){
 	if (getParameterByName("corpus").length > 0) {
 		corpus = getParameterByName("corpus");
 
-    // keep working hard link for old corpora names
-    if (corpus == "miniref") { corpus = "UD_miniref-trunk"; }
-    if (corpus == "seq-ud-trunk") { corpus = "UD_sequoia-trunk"; }
-    if (corpus == "UD_French-dev") { corpus = "UD_French-trunk"; }
+		// keep working hard link for old corpora names
+		if (corpus == "miniref") { corpus = "UD_miniref-trunk"; }
+		if (corpus == "seq-ud-trunk") { corpus = "UD_sequoia-trunk"; }
+		if (corpus == "UD_French-dev") { corpus = "UD_French-trunk"; }
 
-    collection = "udm"; // default value
-    if (corpus.substring(0,3) == "UD_" && corpus.slice(4) = "-2.0") { collection="ud"};
+		collection = "udm"; // default value
+		if (corpus.substring(0,3) == "UD_" && corpus.slice(4) = "-2.0") { collection="ud"};
 		if (corpus.substring(0,7) == "sequoia") { collection="seq"; }
 		if (corpus.substring(0,3) == "ftb") { collection="ftb"; }
 		if (corpus.substring(0,3) == "tdm") { collection="tdm"; }
