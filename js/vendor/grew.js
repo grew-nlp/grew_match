@@ -14,6 +14,7 @@
     CodeMirror.defineMode('mllike', function(_config, parserConfig) {
 	var words = {
 	    'match': 'builtin',
+	    'pattern': 'builtin',
 	    'without': 'builtin',
 	};
 
