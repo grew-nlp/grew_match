@@ -2,7 +2,7 @@
 % for instance, in [annodis.er_00048], the verb is a past participle used with "avoir" auxiliary
 % in this case, most of the times, there is no agreement. Here, we avoid theses cases.
 
-match {
+pattern {
   S [n=*];
   V [cat=V, n=*];
   V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;

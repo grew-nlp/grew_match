@@ -3,6 +3,6 @@
 % you can easily switch for a research with or without a sub-pattern
 % just by adding or removing a '%' character at the beginning of line 7
 
-match { M [cat="Srel-MOD"];
+pattern { M [cat="Srel-MOD"];
 } without {
 N [cat="NP-SUJ"]; M -> N }

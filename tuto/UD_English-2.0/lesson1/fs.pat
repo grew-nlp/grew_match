@@ -1,3 +1,3 @@
 % Impose some restriction on the feature structure
 
-match { N [ cat=VERB ] }
+pattern { N [ cat=VERB ] }

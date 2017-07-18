@@ -4,7 +4,7 @@
 % - left part: second char is ":" and first char is not "S" --> "I:…" and "D:…"
 % - right part: second char is not ":" --> no prefix: "suj:suj", "mod", …
 
-match {
+pattern {
  N [void=y];
  N -[re"[^S]:.*\|.[^:].*"]-> M;
 }

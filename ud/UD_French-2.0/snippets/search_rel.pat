@@ -4,4 +4,4 @@
 %   compound, conj, cop, csubj, dep, det, discourse, obj, expl, iobj, mark,
 %   flat, fixed, nmod, nmod:poss, nsubj, nsubj:pass, nummod, parataxis, punct, root, xcomp
 
-match { GOV -[advcl]-> DEP }
+pattern { GOV -[advcl]-> DEP }

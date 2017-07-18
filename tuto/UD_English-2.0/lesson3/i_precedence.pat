@@ -1,7 +1,7 @@
 % Immediate precedence
 % We search for the sequence "all the"
 
-match {
+pattern {
   A [lemma = "all"];
   T [lemma = "the"];
   A < T;

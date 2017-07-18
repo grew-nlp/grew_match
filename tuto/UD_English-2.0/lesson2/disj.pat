@@ -1,5 +1,5 @@
 % Search for a disjunction of relations.
 
-match {
+pattern {
   N -[nsubj|obj]-> M;
 }

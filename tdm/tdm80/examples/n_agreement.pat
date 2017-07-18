@@ -1,6 +1,6 @@
 % Number agreement mismatch Determiner/Noun
 
-match {
+pattern {
   N [cat=N, n=*];
   D [cat=D, n=*];
   N -[det]-> D;

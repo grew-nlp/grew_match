@@ -2,7 +2,7 @@
 % for instance, in [annodis.er_00130], the subject is a coordination.
 % Here, we avoid theses cases.
 
-match {
+pattern {
   S [n=*];
   V [cat=V, n=*];
   V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;

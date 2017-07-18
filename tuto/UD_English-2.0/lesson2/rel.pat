@@ -1,5 +1,5 @@
 % Search for a given relation.
 
-match {
+pattern {
   N -[nsubj]-> M;
 }

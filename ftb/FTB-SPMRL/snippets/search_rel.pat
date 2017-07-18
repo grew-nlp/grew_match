@@ -1,5 +1,5 @@
 % Search for causative auxialiaries ([aux.caus])
 
-match {
+pattern {
   GOV -[aux.caus]-> DEP
 }

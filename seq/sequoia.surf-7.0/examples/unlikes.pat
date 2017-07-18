@@ -1,6 +1,6 @@
 % Coordination of unlikes
 
-match {
+pattern {
   N1 [cat]; % N1
   N2 [cat];
   N1 -[coord]-> C;

@@ -1,6 +1,6 @@
 % Search for verb "prendre" with an determiner-free object (light verb construction)
 
-match {
+pattern {
   V[lemma="prendre"]; 
   OBJ[cat=N]; 
   V -[obj]-> OBJ 

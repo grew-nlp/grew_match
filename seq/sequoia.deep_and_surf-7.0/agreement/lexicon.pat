@@ -2,7 +2,7 @@
 % In [annodis.er_00386], "…une douzaine d'homme étaient mobilisés…" is correctly annotated.
 % The matching below rules out this kind of lexical exceptions.
 
-match {
+pattern {
   S [n=*];
   V [cat=V, n=*];
   V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;

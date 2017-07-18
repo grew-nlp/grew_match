@@ -1,6 +1,6 @@
 % Search a relation without restriction.
 
-match {
+pattern {
   N [];
   M [];
   N -> M;

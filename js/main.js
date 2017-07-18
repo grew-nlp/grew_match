@@ -80,7 +80,7 @@ $(document).ready(function(){
 
 	// If there is a get arg in the URL named "relation" -> make the request directly
 	if (getParameterByName("relation").length > 0) {
-		cmEditor.setValue("match {\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
+		cmEditor.setValue("pattern {\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
 		// A click on the "Search" button is simulated to run the request
 		$('#submit-pattern').trigger("click");
 	};

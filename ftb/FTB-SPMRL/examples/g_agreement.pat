@@ -1,6 +1,6 @@
 % Gender agreement mismatch Determiner/Noun
 
-match {
+pattern {
   N [cat=N, g=*];
   D [cat=D, g=*];
   N -[det]-> D;

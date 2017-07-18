@@ -1,6 +1,6 @@
 % Search for both a category and a relation (for instance, an adjective with a determiner)
 
-match {
+pattern {
   ADJ [cat=A];
   ADJ -[det]-> DET;
 }

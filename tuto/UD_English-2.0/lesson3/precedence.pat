@@ -1,7 +1,7 @@
 % Constraint on positions in the sentence
 % Below, we search for a verb with a postponed subject
 
-match {
+pattern {
   V [ cat=VERB ];
   V -[nsubj|nsubj:pass]-> S;
   V << S;                      % V is on the left of S
