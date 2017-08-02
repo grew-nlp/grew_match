@@ -60,7 +60,7 @@ $(document).ready(function(){
 		if (corpus == "UD_French-dev") { corpus = "UD_French-trunk"; }
 
 		collection = "udm"; // default value
-		if (corpus.substring(0,3) == "UD_" && corpus.slice(4) == "-2.0") { collection="ud"};
+		if (corpus.substring(0,3) == "UD_" && corpus.slice(-4) == "-2.0") { collection="ud"};
 		if (corpus.substring(0,7) == "sequoia") { collection="seq"; }
 		if (corpus.substring(0,3) == "FTB" || corpus == "UD_French-FTB") { collection="ftb"; }
 		if (corpus.substring(0,3) == "tdm") { collection="tdm"; }
