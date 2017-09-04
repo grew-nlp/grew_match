@@ -8,7 +8,7 @@ cp -rf * $dest
 # =========== build directories for local storage of the server ===========
 cd $dest
 mkdir -p data/shorten
-chmod 777 data
+chmod -R 777 data
 
 # update DATADIR and PORT metavariable in server code
 sed -i xxx "s+@DATADIR@+$dest/data/+" ajaxGrew.php
