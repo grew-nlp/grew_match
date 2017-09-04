@@ -7,8 +7,10 @@ var cmEditor = undefined;//Contenu de la textarea
 var incrementResult = 0;//Nombre de résultats affichés
 var current_view = 0; //Numéro du résultat actuellement affiché
 
-var collection = "ud";  // name of the subset of collection considered (selected from the navbar)
-var corpus = "UD_English-2.0";   // name of the current corpus
+var group_dir = undefined;    // directory of the group of corpora considered
+var corpus = undefined;   // name of the current corpus
+var get_corpus = undefined;  // record the name for later handling
+var groups;
 
 // ========================================================================================================================
 // this function is run atfer page loading
@@ -22,12 +24,27 @@ $(document).ready(function(){
 		lineNumbers: true,
 	});
 
-	// Hack to show FTB only with a hidden url
-	var url = window.location.href;
-	if (url.indexOf("2ksK5T") > 0) {
-		$("#top-ftb").show();
-		$("#top-tdm").show();
-	}
+	$.ajax({
+		url: "corpora/list",
+		success: function(data){
+			groups = JSON.parse (data);
+			console.log(groups);
+
+			$.each(groups["groups"], function( index, value ) {
+				//alert(value["id"]);
+				id = value["id"];
+				name = value["name"];
+				if (value["hidden"]) {
+					style = ' style="display: none;"';
+				} else {
+					style = '';
+				}
+				$('.groups').append('<li class="group" id="top-'+id+'"'+style+'><a class="navbar-brand" onclick="change_collection(\''+id+'\')" href="#">' + name + '</a></li>');
+			});
+			show_if_needed();
+			deal_with_get_corpus();
+		}
+	});
 
 	// Binding for changing corpus selection
 	$('#corpus-select').change(function(){
@@ -42,33 +59,12 @@ $(document).ready(function(){
 		$('#custom-display').hide();
 	});
 
-	// Binding for collection selection
-	$('#select-seq').click(function() { collection="seq"; change_collection () });
-	$('#select-ud').click(function() { collection="ud"; change_collection () });
-  $('#select-udm').click(function() { collection="udm"; change_collection () });
-	$('#select-ftb').click(function() { collection="ftb"; change_collection () });
-	$('#select-tdm').click(function() { collection="tdm"; change_collection () });
-	$('#select-tuto').click(function() { collection="tuto"; change_collection () });
+	$('#select-tuto').click(function() { change_collection ("tuto") });
 
 	// Check if some corpus is requested from the url
 	if (getParameterByName("corpus").length > 0) {
-		corpus = getParameterByName("corpus");
-
-		// keep working hard link for old corpora names
-		if (corpus == "miniref") { corpus = "UD_miniref-trunk"; }
-		if (corpus == "seq-ud-trunk") { corpus = "UD_sequoia-trunk"; }
-		if (corpus == "UD_French-dev") { corpus = "UD_French-trunk"; }
-
-		collection = "udm"; // default value
-		if (corpus.substring(0,3) == "UD_" && corpus.slice(-4) == "-2.0") { collection="ud"};
-		if (corpus.substring(0,7) == "sequoia") { collection="seq"; }
-		if (corpus.substring(0,3) == "FTB" || corpus == "UD_French-FTB") { collection="ftb"; }
-		if (corpus.substring(0,3) == "tdm") { collection="tdm"; }
-	};
-
-	// Update page with corpus info
-	change_collection(corpus);
-	change_corpus();
+		get_corpus = getParameterByName("corpus");
+	}
 
 	// Deal with custom argument
 	if (getParameterByName("custom").length > 0) {
@@ -86,13 +82,51 @@ $(document).ready(function(){
 	};
 });
 
+function show_if_needed() {
+	// Hack to show FTB only with a hidden url
+	var url = window.location.href;
+	if (url.indexOf("2ksK5T") > 0 || url.indexOf("localhost") > 0) {
+		$(".group").show();
+	}
+}
+
+function deal_with_get_corpus() {
+	if (typeof get_corpus == "undefined") {
+		console.log("No corpus in get parameters");
+		change_collection(groups["groups"][0]["id"]);
+	} else {
+		console.log("in the get parameters, corpus="+get_corpus);
+		// keep working hard link for old corpora names
+		if (get_corpus == "miniref") { get_corpus = "UD_miniref-trunk"; }
+		if (get_corpus == "seq-ud-trunk") { get_corpus = "UD_sequoia-trunk"; }
+		if (get_corpus == "UD_French-dev") { get_corpus = "UD_French-trunk"; }
+
+		group="udm"; // default value
+		if (get_corpus.substring(0,3) == "UD_" && get_corpus.slice(-4) == "-2.0") { group="ud"};
+		if (get_corpus.substring(0,7) == "sequoia") { group="seq"; }
+		if (get_corpus.substring(0,3) == "FTB" || get_corpus == "UD_French-FTB") { group="ftb"; }
+		if (get_corpus.substring(0,3) == "tdm") { group="tdm"; }
+
+		console.log("Computed group:"+group);
+		console.log("Computed corpus:"+get_corpus);
+		change_collection(group, get_corpus)
+	};
+}
+
 // ========================================================================================================================
-function change_collection(requested_corpus) {
-	console.log("ENTER: change_collection");
-	active_navbar(collection); // Change background in nav-bab
+function change_collection(group, requested_corpus) {
+
+	if (group == "tuto") {
+		group_dir = "tuto"
+	} else {
+		group_dir = "corpora/"+group
+	}
+	console.log("ENTER: change_collection: " + group);
+	$(".group").removeClass("active");
+	$("#top-"+group).addClass("active");
 	$("#corpus-select").empty();
 
-	$.get( "./"+collection+"/corpora_list", function( data ) {
+	$.get( group_dir+"/corpora_list", function( data ) {
 		$("#corpus-select").append( data );
 
 		var count = (data.match(/<\/option>/g) || []).length;
@@ -112,7 +146,9 @@ function change_collection(requested_corpus) {
 			corpus = $("#corpus-select").val();
 			change_corpus();
 		} else {
-			selectCorpus(requested_corpus)
+			selectCorpus(requested_corpus);
+			corpus = requested_corpus;
+			change_corpus();
 		}
 	});
 };
@@ -144,23 +180,11 @@ function selectCorpus(corpus){
 }
 
 // ========================================================================================================================
-function active_navbar(id){
-	$("#top-ud").removeClass("active");
-	$("#top-udm").removeClass("active");
-	$("#top-seq").removeClass("active");
-	$("#top-ftb").removeClass("active");
-	$("#top-tdm").removeClass("active");
-	$("#top-tuto").removeClass("active");
-
-	$("#top-"+id).addClass("active");
-}
-
-// ========================================================================================================================
 function change_corpus(){
 	console.log("ENTER: change_corpus: "+ corpus);
 
 	$('#custom-display').hide();
-	corpus_dir = "./"+collection+"/"+corpus+"/";
+	corpus_dir = group_dir+"/"+corpus+"/";
 
 	// Update of the short doc
 	$.get(corpus_dir + "short.html", function(data) {
@@ -191,7 +215,7 @@ function bind_inter () {
 	$(".inter").click(function(){
 		var file = $(this).attr('snippet-file');
 		// Update of the textarea
-		$.get("./"+collection+"/"+corpus+"/"+file, function(pattern) {
+		$.get(group_dir+"/"+corpus+"/"+file, function(pattern) {
 			cmEditor.setValue(pattern);
 		});
 	});

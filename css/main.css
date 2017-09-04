@@ -50,7 +50,6 @@ h3 {
   font-size: 24px;
 }
 
-
 /* Style du jumbotron */
 
 /* Style de scenario */
@@ -61,7 +60,7 @@ h3 {
 
 /* Style de console */
 #console{
-  padding-top: 0px; 
+  padding-top: 0px;
 }
 
 /* Style de vision */
@@ -138,7 +137,7 @@ h3 {
 #title-grew{
   color: #ECF0F1;
 }
-#url-grew{
-  color: #ECF0F1;
-  margin-right: 20px; 
+
+.groups > li {
+  margin-left: 10pt;
 }
