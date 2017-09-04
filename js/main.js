@@ -23,7 +23,8 @@ $(document).ready(function(){
 
 	$.getJSON({
 		url: "corpora/groups",
-		success: function(groups){
+		success: function(data){
+			groups=data;
 			console.log(groups);
 
 			$.each(groups["groups"], function( index, value ) {
