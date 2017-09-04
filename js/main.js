@@ -21,14 +21,12 @@ $(document).ready(function(){
 		lineNumbers: true,
 	});
 
-	$.ajax({
+	$.getJSON({
 		url: "corpora/groups",
-		dataType: "json",
-		success: function(data){
-			//groups = JSON.parse (data);
+		success: function(groups){
 			console.log(groups);
 
-			$.each(data["groups"], function( index, value ) {
+			$.each(groups["groups"], function( index, value ) {
 				id = value["id"];
 				name = value["name"];
 				if (value["hidden"]) {
