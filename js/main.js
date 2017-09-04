@@ -22,22 +22,22 @@ $(document).ready(function(){
 	});
 
 	$.getJSON("corpora/groups").done(function(data){
-			groups=data;
-			console.log(groups);
+		groups=data;
+		console.log(groups);
 
-			$.each(groups["groups"], function( index, value ) {
-				id = value["id"];
-				name = value["name"];
-				if (value["hidden"]) {
-					style = ' style="display: none;"';
-				} else {
-					style = '';
-				}
-				$('.groups').append('<li class="group" id="top-'+id+'"'+style+'><a class="navbar-brand" onclick="change_collection(\''+id+'\')" href="#">' + name + '</a></li>');
-			});
-			show_if_needed();
-			deal_with_get_parameters();
+		$.each(groups["groups"], function( index, value ) {
+			id = value["id"];
+			name = value["name"];
+			if (value["hidden"]) {
+				style = ' style="display: none;"';
+			} else {
+				style = '';
+			}
+			$('.groups').append('<li class="group" id="top-'+id+'"'+style+'><a class="navbar-brand" onclick="change_collection(\''+id+'\')" href="#">' + name + '</a></li>');
 		});
+		show_if_needed();
+		deal_with_get_parameters();
+	});
 
 	// Binding for changing corpus selection
 	$('#corpus-select').change(function(){
@@ -262,8 +262,6 @@ function request_pattern(next){
 			}
 
 			$('#save-pattern').prop('disabled',false);
-
-			var file = "./data/" + id + "/list";
 
 			var previous = "";
 
