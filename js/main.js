@@ -25,10 +25,10 @@ $(document).ready(function(){
 		url: "corpora/groups",
 		dataType: "json",
 		success: function(data){
-			groups = JSON.parse (data);
+			//groups = JSON.parse (data);
 			console.log(groups);
 
-			$.each(groups["groups"], function( index, value ) {
+			$.each(data["groups"], function( index, value ) {
 				id = value["id"];
 				name = value["name"];
 				if (value["hidden"]) {
