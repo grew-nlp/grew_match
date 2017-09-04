@@ -23,7 +23,7 @@ $(document).ready(function(){
 
 	$.ajax({
 		url: "corpora/groups",
-		dataType: json,
+		dataType: "json",
 		success: function(data){
 			groups = JSON.parse (data);
 			console.log(groups);
