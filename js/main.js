@@ -22,7 +22,7 @@ $(document).ready(function(){
 	});
 
 	$.ajax({
-		url: "corpora/list",
+		url: "corpora/groups",
 		success: function(data){
 			groups = JSON.parse (data);
 			console.log(groups);
