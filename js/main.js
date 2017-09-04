@@ -1,18 +1,15 @@
-var id = "";//L'id de la requête
-var cursor = 0;//Etat d'avancement global dans le fichier texte (nombre total de lignes parcourues )
-var watcher = undefined;//Variable surveillant les modifications dans un fichier texte
-var line = 0;//Etat d'avancement dans le fichier texte (nombre de lignes parcourues en une itération)
-var cmEditor = undefined;//Contenu de la textarea
+var id = "";               // id of the current request
+var watcher = undefined;   // watcher for file moidification
+var cmEditor = undefined;  // content of the textarea
 
-var incrementResult = 0;//Nombre de résultats affichés
-var current_view = 0; //Numéro du résultat actuellement affiché
+var incrementResult = 0;   // number of given results
+var current_view = 0;      // number of the result currently displayed
 
-var group_dir = undefined;    // directory of the group of corpora considered
-var corpus = undefined;   // name of the current corpus
-var get_corpus = undefined;  // record the name for later handling
+var group_dir = undefined; // directory of the group of corpora considered
+var corpus = undefined;    // name of the current corpus
+
 var groups;
 
-// ========================================================================================================================
 // this function is run atfer page loading
 $(document).ready(function(){
 	$('#corpus-fixed').hide();
@@ -31,7 +28,6 @@ $(document).ready(function(){
 			console.log(groups);
 
 			$.each(groups["groups"], function( index, value ) {
-				//alert(value["id"]);
 				id = value["id"];
 				name = value["name"];
 				if (value["hidden"]) {
@@ -42,7 +38,7 @@ $(document).ready(function(){
 				$('.groups').append('<li class="group" id="top-'+id+'"'+style+'><a class="navbar-brand" onclick="change_collection(\''+id+'\')" href="#">' + name + '</a></li>');
 			});
 			show_if_needed();
-			deal_with_get_corpus();
+			deal_with_get_parameters();
 		}
 	});
 
@@ -60,57 +56,59 @@ $(document).ready(function(){
 	});
 
 	$('#select-tuto').click(function() { change_collection ("tuto") });
-
-	// Check if some corpus is requested from the url
-	if (getParameterByName("corpus").length > 0) {
-		get_corpus = getParameterByName("corpus");
-	}
-
-	// Deal with custom argument
-	if (getParameterByName("custom").length > 0) {
-		$.get('./data/shorten/' + getParameterByName("custom"),function(pattern) {
-			cmEditor.setValue(pattern);
-			request_pattern(false);
-		});
-	};
-
-	// If there is a get arg in the URL named "relation" -> make the request directly
-	if (getParameterByName("relation").length > 0) {
-		cmEditor.setValue("pattern {\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
-		// A click on the "Search" button is simulated to run the request
-		$('#submit-pattern').trigger("click");
-	};
 });
 
+// Hack to show FTB + TDM only with a hidden url
 function show_if_needed() {
-	// Hack to show FTB only with a hidden url
 	var url = window.location.href;
 	if (url.indexOf("2ksK5T") > 0 || url.indexOf("localhost") > 0) {
 		$(".group").show();
 	}
 }
 
-function deal_with_get_corpus() {
-	if (typeof get_corpus == "undefined") {
+// force to interpret get parameters after the update of groups menus
+function deal_with_get_parameters() {
+	// corpus get parameter
+	if (getParameterByName("corpus").length == 0) {
 		console.log("No corpus in get parameters");
 		change_collection(groups["groups"][0]["id"]);
 	} else {
-		console.log("in the get parameters, corpus="+get_corpus);
+		corpus = getParameterByName("corpus");
+		console.log("in the get parameters, corpus="+corpus);
 		// keep working hard link for old corpora names
-		if (get_corpus == "miniref") { get_corpus = "UD_miniref-trunk"; }
-		if (get_corpus == "seq-ud-trunk") { get_corpus = "UD_sequoia-trunk"; }
-		if (get_corpus == "UD_French-dev") { get_corpus = "UD_French-trunk"; }
+		if (corpus == "miniref") { corpus = "UD_miniref-trunk"; }
+		if (corpus == "seq-ud-trunk") { corpus = "UD_sequoia-trunk"; }
+		if (corpus == "UD_French-dev") { corpus = "UD_French-trunk"; }
 
 		group="udm"; // default value
-		if (get_corpus.substring(0,3) == "UD_" && get_corpus.slice(-4) == "-2.0") { group="ud"};
-		if (get_corpus.substring(0,7) == "sequoia") { group="seq"; }
-		if (get_corpus.substring(0,3) == "FTB" || get_corpus == "UD_French-FTB") { group="ftb"; }
-		if (get_corpus.substring(0,3) == "tdm") { group="tdm"; }
+		if (corpus.substring(0,3) == "UD_" && corpus.slice(-4) == "-2.0") { group="ud"};
+		if (corpus.substring(0,7) == "sequoia") { group="seq"; }
+		if (corpus.substring(0,3) == "FTB" || corpus == "UD_French-FTB") { group="ftb"; }
+		if (corpus.substring(0,3) == "tdm") { group="tdm"; }
 
+		change_collection(group, corpus);
 		console.log("Computed group:"+group);
-		console.log("Computed corpus:"+get_corpus);
-		change_collection(group, get_corpus)
+		console.log("Computed corpus:"+corpus);
 	};
+
+
+
+	// custom get parameter
+	if (getParameterByName("custom").length > 0) {
+		get_custom = getParameterByName("custom");
+		console.log("get_parameter corpus: "+get_custom);
+		$.get('./data/shorten/' + get_custom,function(pattern) {
+			cmEditor.setValue(pattern);
+			request_pattern(false);
+		});
+	}
+
+	// If there is a get arg in the URL named "relation" -> make the request directly
+	if (getParameterByName("relation").length > 0) {
+		console.log("get_parameter relation: "+getParameterByName("relation"));
+		cmEditor.setValue("pattern {\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
+		request_pattern(false);
+	}
 }
 
 // ========================================================================================================================
@@ -141,6 +139,7 @@ function change_collection(group, requested_corpus) {
 			$('#corpus-fixed').hide();
 			$('#corpus-select').show();
 		}
+
 		if (requested_corpus === undefined) {
 			// select the default corpus
 			corpus = $("#corpus-select").val();
@@ -252,7 +251,7 @@ function request_pattern(next){
 	}else{
 		var data= {id:id,corpus:corpus};
 	}
-	//Reset de la liste
+	// Reset de la liste
 	$('#submit-pattern').prop('disabled',true);
 	$("#next-results").prop('disabled',true);
 
@@ -277,7 +276,6 @@ function request_pattern(next){
 					if (ajax.readyState == 4) {
 						if (ajax.responseText != previous) {
 							if (!next) {
-								line = 0;
 								incrementResult = 0;
 							}
 
