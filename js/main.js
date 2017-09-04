@@ -21,9 +21,7 @@ $(document).ready(function(){
 		lineNumbers: true,
 	});
 
-	$.getJSON({
-		url: "corpora/groups",
-		success: function(data){
+	$.getJSON("corpora/groups").done(function(data){
 			groups=data;
 			console.log(groups);
 
@@ -39,8 +37,7 @@ $(document).ready(function(){
 			});
 			show_if_needed();
 			deal_with_get_parameters();
-		}
-	});
+		});
 
 	// Binding for changing corpus selection
 	$('#corpus-select').change(function(){
