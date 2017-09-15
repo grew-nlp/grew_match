@@ -140,8 +140,8 @@
     {
       "name": "UD_sequoia-trunk",
       "files": [
-        "/data/semagramme/resources/UD_French-Sequoia-dev/fr_sequoia-ud-dev.conllu"
-        "/data/semagramme/resources/UD_French-Sequoia-dev/fr_sequoia-ud-test.conllu"
+        "/data/semagramme/resources/UD_French-Sequoia-dev/fr_sequoia-ud-dev.conllu",
+        "/data/semagramme/resources/UD_French-Sequoia-dev/fr_sequoia-ud-test.conllu",
         "/data/semagramme/resources/UD_French-Sequoia-dev/fr_sequoia-ud-train.conllu"
       ]
     },
