@@ -21,7 +21,7 @@ $(document).ready(function(){
 		lineNumbers: true,
 	});
 
-	$.getJSON("corpora/groups").done(function(data){
+	$.getJSON("corpora/groups.json").done(function(data){
 		groups=data;
 		console.log(groups);
 
