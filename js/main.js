@@ -1,8 +1,8 @@
-var id = "";               // id of the current request
+var save_id = ""           // id of the current request
 var watcher = undefined;   // watcher for file moidification
 var cmEditor = undefined;  // content of the textarea
 
-var incrementResult = 0;   // number of given results
+var result_nb = 0;         // number of given results
 var current_view = 0;      // number of the result currently displayed
 
 var group_dir = undefined; // directory of the group of corpora considered
@@ -217,145 +217,76 @@ function bind_inter () {
 	});
 }
 
-// ========================================================================================================================
-function request_pattern(next){
-	console.log("shuffle-box: ===>" + $('#shuffle-box').prop('checked') + "<====");
-	console.log("context-box: ===>" + $('#context-box').prop('checked') + "<====");
-	if (cmEditor.getValue().length == 0) {
-		sweetAlert("An error occurred", "You can't search for an empty pattern.", "error");
-		return false;
-	}
-
+// ==============================
+function request_pattern(next) {
 	if (!next) {
-		$('.btn-results').show();
-		$('#custom-display').hide();
-		$('#vision').show();
-		$('#result-pic').hide();
-		$('#list-results').empty();
-		$('#progress-txt').empty();
-		$('#progress-num').empty();
-		$('#result-pic').removeAttr('data');
-		$('#result-ok').hide();
-		$("#display-sentence").hide();
-		cursor = 0;
+		current_line_num = 0;
+		result_nb = 0;
 		current_view = 0;
 		var data= {
 			pattern: cmEditor.getValue(),
 			corpus:corpus,
 			shuffle:$('#shuffle-box').prop('checked'),
 			context:$('#context-box').prop('checked'),
-		};
+		}
+		$('#vision').show();
+		$('#list-results').empty();
 	}else{
-		var data= {id:id,corpus:corpus};
+		var data= {id:save_id,corpus:corpus};
 	}
-	// Reset de la liste
-	$('#submit-pattern').prop('disabled',true);
-	$("#next-results").prop('disabled',true);
-
-	$.ajax({url:'ajaxGrew.php',
+	$.ajax({
+		url: 'ajaxGrew.php',
 		dataType:'text',
 		data: data,
 		type: 'post',
-		success: function(output){
-			if (!next) {
-				id = output;
-			}
-
-			$('#save-pattern').prop('disabled',false);
-
-			var previous = "";
-
-			watcher = setInterval(function() {
-				var ajax = new XMLHttpRequest();
-				ajax.onreadystatechange = function() {
-					if (ajax.readyState == 4) {
-						if (ajax.responseText != previous) {
-							if (!next) {
-								incrementResult = 0;
-							}
-
-							var lines = ajax.responseText.split("\n");
-
-							for (var i = cursor,len = lines.length; i < len; i++) {
-								if (lines[i] == '<END>') {
-									clearInterval(watcher);
-									watcher = undefined;
-									$('#submit-pattern').prop('disabled',false);
-									i= lines.length;
-									$("#next-results").prop('disabled',true);
-									if (incrementResult == 0) {
-										$('#progress-txt').text('No results found');
-										$('.btn-results').hide();
-										$('#result-ok').hide();
-										$('#display-results').hide();
-									};
-								}else if (lines[i] == '<ERROR>'){
-									clearInterval(watcher);
-									watcher = undefined;
-									$.get('./data/' + id + '/error',function(errors){
-										sweetAlert("An error occurred", errors, "error");
-									});
-									i= lines.length;
-									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").prop('disabled',true);
-									if (incrementResult == 0) {
-										$('#progress-txt').text('No results found');
-										$('.btn-results').hide();
-										$('#result-ok').hide();
-										$('#display-results').hide();
-									};
-								}else if (lines[i] == '<PAUSE>'){
-									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").prop('disabled',false);
-									clearInterval(watcher);
-									i = lines.length;
-								}else if (lines[i] == '<TOTAL>'){
-									clearInterval(watcher);
-									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").prop('disabled',false);
-									$('#progress-txt').html(lines[i+1] + ' occurence' + ((lines[i+1]>1)? 's' : '') + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
-									i += 2; // Skip the two next lines (nb of occ, time)
-								}else if (lines[i] == '<OVER>'){
-									clearInterval(watcher);
-									$('#submit-pattern').prop('disabled',false);
-									$("#next-results").prop('disabled',false);
-									$('#progress-txt').html('More than 1000 results found in ' + lines[i+1] + '% of the corpus' + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
-									i += 2; // Skip the two next lines (ratio, time)
-								}else{
-									var pieces = lines[i].split("@");
-									if (typeof pieces[1] !== "undefined" ) {
-										$("#list-results").append('<li class="item" id="list-' + incrementResult + '"><a>' +  pieces[1] + '</a></li>');
-
-										url = './data/' + id + '/' + pieces[0];
-										$('#list-' + incrementResult).click({url:url,i:incrementResult,coord:pieces[2],sentence:pieces[3]},display_picture);
-
-										if (i == 3) { // i=2 always corresponds the first response -> fill display-result with it
-											var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
-											document.getElementById('display-results').innerHTML = newHtml;
-
-											$('#list-' + incrementResult).addClass('displayed');
-											var w = $("#display-results").width();
-											$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
-											$("#sentence-txt").html(pieces[3]);
-											$("#display-sentence").show();
-										};
-										incrementResult++;
-									}
-								}
+		success: function(id){
+			save_id=id;
+			$.get("./data/" + id + "/list", function(data) {
+				$('#save-pattern').prop('disabled',false);
+				lines = data.split("\n");
+				for (var i = current_line_num,len = lines.length; i < len; i++) {
+					if (lines[i] == '<END>') {
+						if (result_nb == 0) {
+							$('#progress-txt').text('No results found');
+						}
+					} else if (lines[i] == '<ERROR>') {
+						$.get('./data/' + id + '/error',function(errors){
+							sweetAlert("An error occurred", errors, "error");
+						});
+					} else if (lines[i] == '<PAUSE>') {
+					} else if (lines[i] == '<TOTAL>') {
+						$('#progress-txt').html(lines[i+1] + ' occurence' + ((lines[i+1]>1)? 's' : '') + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
+						i += 2; // Skip the two next lines (nb of occ, time)
+					} else if (lines[i] == '<OVER>') {
+						$('#progress-txt').html('More than 1000 results found in ' + lines[i+1] + '% of the corpus' + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
+						i += 2; // Skip the two next lines (ratio, time)
+					} else {
+						var pieces = lines[i].split("@");
+						if (typeof pieces[1] !== "undefined" ) {
+							$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' +  pieces[1] + '</a></li>');
+							url = './data/' + id + '/' + pieces[0];
+							$('#list-' + result_nb).click({url:url,i:result_nb,coord:pieces[2],sentence:pieces[3]},display_picture);
+							if (i == 3) { // i=2 always corresponds the first response -> fill display-result with it
+								var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
+								document.getElementById('display-results').innerHTML = newHtml;
+								$('#list-' + result_nb).addClass('displayed');
+								var w = $("#display-results").width();
+								$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
+								$("#sentence-txt").html(pieces[3]);
+								$("#display-sentence").show();
 							};
-							cursor = lines.length - 1;
-							previous = ajax.responseText;
+							result_nb++;
 							update_progress_num();
 						}
 					}
 				};
-				ajax.open("POST", "./data/" + id + "/list", true); // Use POST to avoid caching
-				ajax.send();
-			}, 300);
+				current_line_num = lines.length - 1;
+			});
+
 		}
 	});
-}
 
+}
 
 // ========================================================================================================================
 function display_picture(event){
@@ -378,7 +309,7 @@ function save_pattern(num){
 		corpus = $("#corpus-select").val();
 		$.ajax({url:'shorten.php',
 			dataType:'text',
-			data: {pattern: cmEditor.getValue(), id:id},
+			data: {pattern: cmEditor.getValue(), id:save_id},
 			type: 'post',
 			success: function(output){
 				history.pushState({id:output},"Grew - Custom saved pattern", "?custom=" + output + "&corpus=" + corpus);
@@ -420,10 +351,10 @@ function getParameterByName(name) {
 
 // ========================================================================================================================
 function update_progress_num() {
-	if (incrementResult != 0) {
+	if (result_nb != 0) {
 		$('#result-ok').show();
 		$('#display-results').show();
-		$("#progress-num").text((current_view+1) + " / 	" + incrementResult);
+		$("#progress-num").text((current_view+1) + " / 	" + result_nb);
 	}
 }
 
@@ -451,7 +382,7 @@ function previous_svg(){
 
 // ========================================================================================================================
 function next_svg(){
-	if (current_view < incrementResult - 1) {
+	if (current_view < result_nb - 1) {
 		current_view += 1;
 		update_view();
  	}
@@ -459,8 +390,8 @@ function next_svg(){
 
 // ========================================================================================================================
 function last_svg(){
-	if (current_view < incrementResult - 1) {
-		current_view = incrementResult - 1;
+	if (current_view < result_nb - 1) {
+		current_view = result_nb - 1;
 		update_view();
  	}
 }
