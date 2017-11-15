@@ -30,7 +30,7 @@ if (isset($_POST['pattern'])) {
 	$msg = "#NEW";
 
 }elseif (isset($_POST['id'])) {
-// A previous session is available	
+// A previous session is available
 	$id = $_POST['id'];
 	$msg = "#NEXT";
 }

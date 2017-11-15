@@ -229,7 +229,6 @@ function request_pattern(next) {
 			shuffle:$('#shuffle-box').prop('checked'),
 			context:$('#context-box').prop('checked'),
 		}
-		$('#vision').show();
 		$('#list-results').empty();
 	}else{
 		var data= {id:save_id,corpus:corpus};
@@ -244,42 +243,48 @@ function request_pattern(next) {
 			$.get("./data/" + id + "/list", function(data) {
 				$('#save-pattern').prop('disabled',false);
 				lines = data.split("\n");
-				for (var i = current_line_num,len = lines.length; i < len; i++) {
-					if (lines[i] == '<END>') {
-						if (result_nb == 0) {
-							$('#progress-txt').text('No results found');
+				if (lines[0] == '<!>') {
+					sweetAlert('The daemon is not running\n\nTry again in a few minutes');
+				}
+				else {
+					$('#vision').show();
+					for (var i = current_line_num,len = lines.length; i < len; i++) {
+						if (lines[i] == '<END>') {
+							if (result_nb == 0) {
+								$('#progress-txt').text('No results found');
+							}
+						} else if (lines[i] == '<ERROR>') {
+							$.get('./data/' + id + '/error',function(errors){
+								sweetAlert("An error occurred", errors, "error");
+							});
+						} else if (lines[i] == '<PAUSE>') {
+						} else if (lines[i] == '<TOTAL>') {
+							$('#progress-txt').html(lines[i+1] + ' occurence' + ((lines[i+1]>1)? 's' : '') + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
+							i += 2; // Skip the two next lines (nb of occ, time)
+						} else if (lines[i] == '<OVER>') {
+							$('#progress-txt').html('More than 1000 results found in ' + lines[i+1] + '% of the corpus' + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
+							i += 2; // Skip the two next lines (ratio, time)
+						} else {
+							var pieces = lines[i].split("@");
+							if (typeof pieces[1] !== "undefined" ) {
+								$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' +  pieces[1] + '</a></li>');
+								url = './data/' + id + '/' + pieces[0];
+								$('#list-' + result_nb).click({url:url,i:result_nb,coord:pieces[2],sentence:pieces[3]},display_picture);
+								if (i == 3) { // i=2 always corresponds the first response -> fill display-result with it
+									var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
+									document.getElementById('display-results').innerHTML = newHtml;
+									$('#list-' + result_nb).addClass('displayed');
+									var w = $("#display-results").width();
+									$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
+									$("#sentence-txt").html(pieces[3]);
+									$("#display-sentence").show();
+								};
+								result_nb++;
+								update_progress_num();
+							}
 						}
-					} else if (lines[i] == '<ERROR>') {
-						$.get('./data/' + id + '/error',function(errors){
-							sweetAlert("An error occurred", errors, "error");
-						});
-					} else if (lines[i] == '<PAUSE>') {
-					} else if (lines[i] == '<TOTAL>') {
-						$('#progress-txt').html(lines[i+1] + ' occurence' + ((lines[i+1]>1)? 's' : '') + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
-						i += 2; // Skip the two next lines (nb of occ, time)
-					} else if (lines[i] == '<OVER>') {
-						$('#progress-txt').html('More than 1000 results found in ' + lines[i+1] + '% of the corpus' + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
-						i += 2; // Skip the two next lines (ratio, time)
-					} else {
-						var pieces = lines[i].split("@");
-						if (typeof pieces[1] !== "undefined" ) {
-							$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' +  pieces[1] + '</a></li>');
-							url = './data/' + id + '/' + pieces[0];
-							$('#list-' + result_nb).click({url:url,i:result_nb,coord:pieces[2],sentence:pieces[3]},display_picture);
-							if (i == 3) { // i=2 always corresponds the first response -> fill display-result with it
-								var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
-								document.getElementById('display-results').innerHTML = newHtml;
-								$('#list-' + result_nb).addClass('displayed');
-								var w = $("#display-results").width();
-								$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
-								$("#sentence-txt").html(pieces[3]);
-								$("#display-sentence").show();
-							};
-							result_nb++;
-							update_progress_num();
-						}
-					}
-				};
+					};
+				}
 				current_line_num = lines.length - 1;
 			});
 
