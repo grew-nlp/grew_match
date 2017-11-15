@@ -247,7 +247,6 @@ function request_pattern(next) {
 					sweetAlert('The daemon is not running\n\nTry again in a few minutes');
 				}
 				else {
-					$('#vision').show();
 					for (var i = current_line_num,len = lines.length; i < len; i++) {
 						if (lines[i] == '<END>') {
 							if (result_nb == 0) {
@@ -271,6 +270,7 @@ function request_pattern(next) {
 								url = './data/' + id + '/' + pieces[0];
 								$('#list-' + result_nb).click({url:url,i:result_nb,coord:pieces[2],sentence:pieces[3]},display_picture);
 								if (i == 3) { // i=2 always corresponds the first response -> fill display-result with it
+									$('#vision').show();
 									var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
 									document.getElementById('display-results').innerHTML = newHtml;
 									$('#list-' + result_nb).addClass('displayed');

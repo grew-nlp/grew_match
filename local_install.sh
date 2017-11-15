@@ -12,7 +12,7 @@ chmod -R 777 data
 
 # update DATADIR and PORT metavariable in server code
 sed -i xxx "s+@DATADIR@+$dest/data/+" ajaxGrew.php
-sed -i xxx "s+@PORT@+8181+" ajaxGrew.php
+sed -i xxx "s+@PORT@+8282+" ajaxGrew.php
 sed -i xxx "s+@DATADIR@+$dest/data/+" purge.php
 sed -i xxx "s+@DATADIR@+$dest/data/+" shorten.php
 rm -f *xxx
