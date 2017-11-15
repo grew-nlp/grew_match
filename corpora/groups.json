@@ -3,21 +3,21 @@
   [
     {
       "id": "ud",
-      "name": "Universal Dependencies 2.0",
+      "name": "Universal Dependencies 2.1",
       "corpora": [
-         { "id": "UD_Czech-2.0" },
-         { "id": "UD_English-2.0" },
-         { "id": "UD_English-ParTUT-2.0" },
-         { "id": "UD_Finnish-2.0" },
-         { "id": "UD_French-2.0" },
-         { "id": "UD_French-ParTUT-2.0" },
-         { "id": "UD_French-Sequoia-2.0" },
-         { "id": "UD_Italian-2.0" },
-         { "id": "UD_Italian-ParTUT-2.0" },
-         { "id": "UD_Spanish-2.0" },
-         { "id": "UD_Polish-2.0" },
-         { "id": "UD_Portuguese-2.0" },
-         { "id": "UD_Russian-SynTagRus-2.0" }
+         { "id": "UD_Czech-2.1" },
+         { "id": "UD_English-2.1" },
+         { "id": "UD_English-ParTUT-2.1" },
+         { "id": "UD_Finnish-2.1" },
+         { "id": "UD_French-2.1" },
+         { "id": "UD_French-ParTUT-2.1" },
+         { "id": "UD_French-Sequoia-2.1" },
+         { "id": "UD_Italian-2.1" },
+         { "id": "UD_Italian-ParTUT-2.1" },
+         { "id": "UD_Spanish-2.1" },
+         { "id": "UD_Polish-2.1" },
+         { "id": "UD_Portuguese-2.1" },
+         { "id": "UD_Russian-SynTagRus-2.1" }
       ]
     },
     {

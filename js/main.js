@@ -78,7 +78,7 @@ function deal_with_get_parameters() {
 		if (corpus == "UD_French-dev") { corpus = "UD_French-trunk"; }
 
 		group="udm"; // default value
-		if (corpus.substring(0,3) == "UD_" && corpus.slice(-4) == "-2.0") { group="ud"};
+		if (corpus.substring(0,3) == "UD_" && corpus.slice(-4) == "-2.1") { group="ud"};
 		if (corpus.substring(0,7) == "sequoia") { group="seq"; }
 		if (corpus.substring(0,3) == "FTB" || corpus == "UD_French-FTB") { group="ftb"; }
 		if (corpus.substring(0,3) == "tdm") { group="tdm"; }
