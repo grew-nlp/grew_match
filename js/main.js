@@ -220,6 +220,10 @@ function bind_inter () {
 // ==============================
 function request_pattern(next) {
 	if (!next) {
+		if (cmEditor.getValue().length == 0) {
+			sweetAlert("An error occurred", "You can't search for an empty pattern.", "error");
+			return false;
+		}
 		current_line_num = 0;
 		result_nb = 0;
 		current_view = 0;
@@ -249,14 +253,21 @@ function request_pattern(next) {
 				else {
 					for (var i = current_line_num,len = lines.length; i < len; i++) {
 						if (lines[i] == '<END>') {
+							$("#next-results").prop('disabled',true);
 							if (result_nb == 0) {
+								$('#vision').show();
+								$('#result-ok').hide();
+								$('#display-sentence').hide();
+								$('#display-results').hide();
 								$('#progress-txt').text('No results found');
+								$("#next-results").prop('disabled',true);
 							}
 						} else if (lines[i] == '<ERROR>') {
 							$.get('./data/' + id + '/error',function(errors){
 								sweetAlert("An error occurred", errors, "error");
 							});
 						} else if (lines[i] == '<PAUSE>') {
+							$("#next-results").prop('disabled',false);
 						} else if (lines[i] == '<TOTAL>') {
 							$('#progress-txt').html(lines[i+1] + ' occurence' + ((lines[i+1]>1)? 's' : '') + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
 							i += 2; // Skip the two next lines (nb of occ, time)
