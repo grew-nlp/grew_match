@@ -2288,7 +2288,7 @@ a.list-group-item-danger.active, a.list-group-item-danger:hover, a.list-group-it
   border-bottom-color: transparent;
 }
 .panel-group .panel-heading + .panel-collapse .panel-body {
-  padding: 15px 0;
+  padding: 0;
   border-top-color: transparent;
 }
 .panel-group .panel-title a {
@@ -2318,7 +2318,7 @@ a.list-group-item-danger.active, a.list-group-item-danger:hover, a.list-group-it
      -moz-border-radius: 0 0 4px 4px;
 }
 .panel-group-lists .panel-heading + .panel-collapse .panel-body {
-  padding: 15px;
+  padding: 0px;
   border-top-color: #e6e9ed;
 }
 .panel-group-lists .panel-title a {

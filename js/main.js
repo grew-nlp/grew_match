@@ -12,6 +12,8 @@ var groups;
 
 // this function is run atfer page loading
 $(document).ready(function(){
+	init_sidebar ();
+
 	$('#corpus-fixed').hide();
 	$('#save-pattern').prop('disabled',true);
 	$('.tooltip-desc').tooltipster({contentAsHTML:true,theme:'tooltipster-noir',interactive:true,position:'bottom'});
@@ -108,7 +110,7 @@ function deal_with_get_parameters() {
 	}
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function change_collection(group, requested_corpus) {
 
 	if (group == "tuto") {
@@ -149,7 +151,7 @@ function change_collection(group, requested_corpus) {
 	});
 };
 
-// ========================================================================================================================
+// ==================================================================================
 function selectCorpus(corpus){
 	//On crée un tableau regroupant toutes les options présentes dans le selecteur de corpus
 	options = [];
@@ -175,7 +177,7 @@ function selectCorpus(corpus){
 	return;
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function change_corpus(){
 	console.log("ENTER: change_corpus: "+ corpus);
 
@@ -205,7 +207,7 @@ function change_corpus(){
 	});
 }
 
-// ========================================================================================================================
+// ==================================================================================
 // Binding for interactive part in snippets part
 function bind_inter () {
 	$(".inter").click(function(){
@@ -304,7 +306,7 @@ function request_pattern(next) {
 
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function display_picture(event){
 	var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url +"\" > </object>";
 	document.getElementById('display-results').innerHTML = newHtml;
@@ -319,7 +321,7 @@ function display_picture(event){
 	update_progress_num();
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function save_pattern(num){
 	if (cmEditor.getValue().length > 0 && id.length > 0) {
 		corpus = $("#corpus-select").val();
@@ -339,7 +341,7 @@ function save_pattern(num){
 	}
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function SelectText(element) {
 		var doc = document
 		, text = doc.getElementById(element)
@@ -357,7 +359,7 @@ function SelectText(element) {
 		selection.addRange(range);
 	}
 }
-// ========================================================================================================================
+// ==================================================================================
 function getParameterByName(name) {
 	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -365,7 +367,7 @@ function getParameterByName(name) {
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function update_progress_num() {
 	if (result_nb != 0) {
 		$('#result-ok').show();
@@ -374,13 +376,13 @@ function update_progress_num() {
 	}
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function update_view() {
 	$('#list-' + current_view).trigger("click");
 	update_progress_num();
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function first_svg(){
 	if (current_view > 0) {
 		current_view = 0;
@@ -388,7 +390,7 @@ function first_svg(){
 	}
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function previous_svg(){
 	if (current_view > 0) {
 		current_view -= 1;
@@ -396,7 +398,7 @@ function previous_svg(){
 	}
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function next_svg(){
 	if (current_view < result_nb - 1) {
 		current_view += 1;
@@ -404,10 +406,35 @@ function next_svg(){
  	}
 }
 
-// ========================================================================================================================
+// ==================================================================================
 function last_svg(){
 	if (current_view < result_nb - 1) {
 		current_view = result_nb - 1;
 		update_view();
  	}
+}
+
+// ==================================================================================
+function init_sidebar() {
+  open=true;
+  $('#sidebarCollapse').on('click', function () {
+    $('#sidebar').toggleClass('active');
+    if (open) {
+      open=false;
+      $('#but-text').html("Show corpora list");
+    } else {
+      open=true;
+      $('#but-text').html("Hide corpora list");
+    }
+  });
+}
+
+function set_corpus (c) {
+	alert (c);
+	$('#corpus-select').hide();
+	$('#corpus-fixed').show();
+	$('#corpus-fixed').html(c);
+	corpus = c;
+	change_corpus();
+
 }

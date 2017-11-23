@@ -1,8 +1,36 @@
 body {
   padding-top: 70px;
   padding-bottom: 20px;
-  margin-left: 20px;
+  margin-left: 0px;
   margin-right: 20px;
+}
+
+a {
+  color: black;
+}
+
+a:hover {
+  color: #AAA;
+}
+
+.panel-title > a {
+  color: black;
+}
+.panel-title > a:hover {
+  background: #F5D76E;
+}
+
+.glyphicon {
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.table {
+  margin-bottom: 0px;
+}
+
+.panel-body {
+  padding: 0px;
 }
 
 #snippets ul, #results ul {
@@ -133,11 +161,31 @@ h3 {
 
 #jumbo-grew{
   background-color: #ECF0F1;
+  margin-top: 15px;
 }
 #title-grew{
   color: #ECF0F1;
 }
 
+#grew-main {
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 10px;
+}
+
 .groups > li {
   margin-left: 10pt;
 }
+
+
+/*#sidebar {
+    float: left;
+    height: 100%;
+    overflow: scroll;
+}
+#grew-main {
+    float: right;
+    height: 100%;
+    overflow: scroll;
+
+}*/

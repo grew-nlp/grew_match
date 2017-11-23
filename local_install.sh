@@ -18,8 +18,8 @@ sed -i xxx "s+@DATADIR@+$dest/data/+" shorten.php
 rm -f *xxx
 
 # change color for easy distinction of prod VS dev
-sed -i xxx 's+003171+443171+' css/main.css
-rm -f css/*xxx
+# sed -i xxx 's+003171+443171+' css/main.css
+# rm -f css/*xxx
 
 cd corpora/seq/sequoia.deep_and_surf-7.0
 sed -i xxx 's+talc2.loria.fr+localhost+' doc.html
