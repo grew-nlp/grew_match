@@ -23,6 +23,11 @@ $(document).ready(function(){
 		lineNumbers: true,
 	});
 
+
+  fill_sidebar();
+
+
+
 	$.getJSON("corpora/groups.json").done(function(data){
 		groups=data;
 		console.log(groups);
@@ -436,5 +441,54 @@ function set_corpus (c) {
 	$('#corpus-fixed').html(c);
 	corpus = c;
 	change_corpus();
+}
 
+function fill_sidebar () {
+	$.getJSON("UD-2.1.json").done(function(data){
+		corpora = data["corpora"];
+		html = "";
+		$.each(corpora, function(index, value ) {
+			if ("id" in value) {
+				html += '<div class="panel-body">\n';
+				html += '<table class="table">\n';
+				html += '<tr><td class="alone">\n';
+				html += '<a nohref onclick="set_corpus(\'' + value["id"] + '\');return false;">\n';
+				html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
+				html += value["id"];
+				html += '</a>\n';
+				html += '</td></tr>\n';
+				html += '</table>\n';
+				html += '</div>\n';
+				//alert(html)
+			} else {
+				var id_acc = value["group"].replace(/ /g, "_");
+        html += '<div class="panel panel-default">\n';
+        html += '<div class="panel-heading">\n';
+        html += '<h4 class="panel-title">\n';
+        html += '<a data-toggle="collapse" href="#'+id_acc+'">\n';
+        html += '<span class="glyphicon glyphicon-folder-open"></span>\n';
+        html += value["group"]+'\n';
+        html += '</a>\n';
+        html += '</h4>\n';
+        html += '</div>\n';
+        html += '<div id="'+id_acc+'" class="panel-collapse collapse">\n';
+        html += '<div class="panel-body">\n';
+        html += '<table class="table">\n';
+				$.each(value["corpora"], function(index, value ) {
+					html += '<tr><td>\n';
+					html += '<a>\n';
+					html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
+					html += value["id"]+'\n';
+					html += '</a>\n';
+					html += '</td></tr>\n';
+				});
+        html += '</table>\n';
+        html += '</div>\n';
+        html += '</div>\n';
+        html += '</div>\n';
+				//alert("group: "+value["group"])
+			}
+		});
+		$('#accordion').html(html);
+	});
 }
