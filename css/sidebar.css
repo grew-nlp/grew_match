@@ -2,7 +2,9 @@
     DEMO STYLE
 */
 
-
+.table > tbody > tr > td.alone {
+  padding-left: 0;
+}
 
 .navbar {
     /*padding: 15px 10px;*/
@@ -32,6 +34,8 @@
 .wrapper {
     display:flex;
     align-items: stretch;
+    height: 94vh;
+
 }
 
 #sidebar {
@@ -40,6 +44,7 @@
     background: #ECF0F1;
     color: #000;
     transition: all 0.3s;
+    overflow-y: auto;
 }
 
 #sidebar.active {

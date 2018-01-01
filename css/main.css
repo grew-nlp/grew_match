@@ -3,6 +3,7 @@ body {
   padding-bottom: 20px;
   margin-left: 0px;
   margin-right: 20px;
+  overflow: hidden;
 }
 
 a {
@@ -171,6 +172,8 @@ h3 {
   width: 100%;
   padding-left: 30px;
   padding-right: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .groups > li {
