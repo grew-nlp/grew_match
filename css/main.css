@@ -180,15 +180,7 @@ h3 {
   margin-left: 10pt;
 }
 
-
-/*#sidebar {
-    float: left;
-    height: 100%;
-    overflow: scroll;
+/* fix cross position in sweet alert */
+.x-mark {
+  top: -38px;
 }
-#grew-main {
-    float: right;
-    height: 100%;
-    overflow: scroll;
-
-}*/
