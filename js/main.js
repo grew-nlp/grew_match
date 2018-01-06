@@ -435,7 +435,6 @@ function init_sidebar() {
 }
 
 function set_corpus (c) {
-	alert (c);
 	$('#corpus-select').hide();
 	$('#corpus-fixed').show();
 	$('#corpus-fixed').html(c);
@@ -449,10 +448,10 @@ function fill_sidebar () {
 		html = "";
 		$.each(corpora, function(index, value ) {
 			if ("id" in value) {
-				html += '<div class="panel-body">\n';
+				html += '<div class="corpus">\n';
 				html += '<table class="table">\n';
 				html += '<tr><td class="alone">\n';
-				html += '<a nohref onclick="set_corpus(\'' + value["id"] + '\');return false;">\n';
+				html += '<a href="#" onclick="set_corpus(\'' + value["id"] + '\');return false;">\n';
 				html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 				html += value["id"];
 				html += '</a>\n';
@@ -475,8 +474,8 @@ function fill_sidebar () {
         html += '<div class="panel-body">\n';
         html += '<table class="table">\n';
 				$.each(value["corpora"], function(index, value ) {
-					html += '<tr><td>\n';
-					html += '<a>\n';
+					html += '<tr class="corpus"><td>\n';
+					html += '<a href="#" onclick="set_corpus(\'' + value["id"] + '\');return false;">\n';
 					html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 					html += value["id"]+'\n';
 					html += '</a>\n';

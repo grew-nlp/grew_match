@@ -10,8 +10,8 @@ a {
   color: black;
 }
 
-a:hover {
-  color: #AAA;
+a:hover, a:focus {
+  color: #000;
 }
 
 .panel-title > a {
@@ -19,6 +19,10 @@ a:hover {
 }
 .panel-title > a:hover {
   background: #F5D76E;
+}
+
+.corpus:hover {
+  background: #b29dc6;
 }
 
 .glyphicon {
@@ -177,7 +181,7 @@ h3 {
 }
 
 .groups > li {
-  margin-left: 10pt;
+  margin-left: 40pt;
 }
 
 /* fix cross position in sweet alert */
