@@ -1,0 +1,195 @@
+{
+  "corpora":
+  [
+    { "id": "UD_Afrikaans" },
+    { "group": "Ancient Greek",
+      "corpora": [
+        { "id": "UD_Ancient_Greek" },
+        { "id": "UD_Ancient_Greek-PRO"}
+      ]
+    },
+    { "group": "Arabic",
+      "corpora": [
+        { "id": "UD_Arabic" },
+        { "id": "UD_Arabic-NYUAD" },
+        { "id": "UD_Arabic-PUD" }
+      ]
+    },
+    { "id": "UD_Basque" },
+    { "id": "UD_Belarusian" },
+    { "id": "UD_Bulgarian" },
+    { "id": "UD_Buryat" },
+    { "id": "UD_Cantonese" },
+    { "id": "UD_Catalan" },
+    { "group": "Chinese",
+      "corpora": [
+        { "id": "UD_Chinese" },
+        { "id": "UD_Chinese-CFL" },
+        { "id": "UD_Chinese-HK" },
+        { "id": "UD_Chinese-PUD" }
+      ]
+    },
+    { "id": "UD_Coptic" },
+    { "id": "UD_Croatian" },
+    { "group": "Czech",
+      "corpora": [
+        { "id": "UD_Czech" },
+        { "id": "UD_Czech-CAC" },
+        { "id": "UD_Czech-CLTT" },
+        { "id": "UD_Czech-FicTree" },
+        { "id": "UD_Czech-PUD" }
+      ]
+    },
+    { "id": "UD_Danish" },
+    { "group": "Dutch",
+      "corpora": [
+        { "id": "UD_Dutch" },
+        { "id": "UD_Dutch-LassySmall" }
+      ]
+    },
+    { "group": "English",
+      "corpora": [
+        { "id": "UD_English" },
+        { "id": "UD_English-LinES" },
+        { "id": "UD_English-PUD" },
+        { "id": "UD_English-ParTUT" }
+      ]
+    },
+    { "id": "UD_Estonian" },
+    { "group": "Finnish",
+      "corpora": [
+        { "id": "UD_Finnish" },
+        { "id": "UD_Finnish-FTB" },
+        { "id": "UD_Finnish-PUD" }
+      ]
+    },
+    { "group": "French",
+      "corpora": [
+        { "id": "UD_French" },
+        { "id": "UD_French-FTB" },
+        { "id": "UD_French-PUD" },
+        { "id": "UD_French-ParTUT" },
+        { "id": "UD_French-Sequoia" }
+      ]
+    },
+    { "group": "Galician",
+      "corpora": [
+        { "id": "UD_Galician" },
+        { "id": "UD_Galician-TreeGal" }
+      ]
+    },
+    { "group": "German",
+      "corpora": [
+        { "id": "UD_German" },
+        { "id": "UD_German-PUD" }
+      ]
+    },
+    { "id": "UD_Gothic" },
+    { "id": "UD_Greek" },
+    { "id": "UD_Hebrew" },
+    { "group": "Hindi",
+      "corpora": [
+        { "id": "UD_Hindi" },
+        { "id": "UD_Hindi-PUD" }
+      ]
+    },
+    { "id": "UD_Hungarian" },
+    { "id": "UD_Indonesian" },
+    { "id": "UD_Irish" },
+    { "group": "Italian",
+      "corpora": [
+        { "id": "UD_Italian" },
+        { "id": "UD_Italian-PUD" },
+        { "id": "UD_Italian-ParTUT" },
+        { "id": "UD_Italian-PoSTWITA" }
+      ]
+    },
+    { "group": "Japanese",
+      "corpora": [
+        { "id": "UD_Japanese" },
+        { "id": "UD_Japanese-PUD" }
+      ]
+    },
+    { "id": "UD_Kazakh" },
+    { "id": "UD_Korean" },
+    { "id": "UD_Kurmanji" },
+    { "group": "Latin",
+      "corpora": [
+        { "id": "UD_Latin" },
+        { "id": "UD_Latin-ITTB" },
+        { "id": "UD_Latin-PROIEL" }
+      ]
+    },
+    { "id": "UD_Latvian" },
+    { "id": "UD_Lithuanian" },
+    { "id": "UD_Marathi" },
+    { "id": "UD_North_Sami" },
+    { "group": "Norwegian",
+      "corpora": [
+        { "id": "UD_Norwegian-Bokmaal" },
+        { "id": "UD_Norwegian-Nynorsk" },
+        { "id": "UD_Norwegian-NynorskLIA" }
+      ]
+    },
+    { "id": "UD_Old_Church_Slavonic" },
+    { "id": "UD_Persian" },
+    { "id": "UD_Polish" },
+    { "group": "Portuguese",
+      "corpora": [
+        { "id": "UD_Portuguese" },
+        { "id": "UD_Portuguese-BR" },
+        { "id": "UD_Portuguese-PUD" }
+      ]
+    },
+    { "group": "Romanian",
+      "corpora": [
+        { "id": "UD_Romanian" },
+        { "id": "UD_Romanian-Nonstandard" }
+      ]
+    },
+    { "group": "Russian",
+      "corpora": [
+        { "id": "UD_Russian" },
+        { "id": "UD_Russian-PUD" },
+        { "id": "UD_Russian-SynTagRus" }
+      ]
+    },
+    { "id": "UD_Sanskrit" },
+    { "id": "UD_Serbian" },
+    { "id": "UD_Slovak" },
+    { "group": "Slovenian",
+      "corpora": [
+        { "id": "UD_Slovenian" },
+        { "id": "UD_Slovenian-SST" }
+      ]
+    },
+    { "group": "Spanish",
+      "corpora": [
+        { "id": "UD_Spanish" },
+        { "id": "UD_Spanish-AnCora" },
+        { "id": "UD_Spanish-PUD" }
+      ]
+    },
+    { "group": "Swedish",
+      "corpora": [
+        { "id": "UD_Swedish" },
+        { "id": "UD_Swedish-LinES" },
+        { "id": "UD_Swedish-PUD" }
+      ]
+    },
+    { "id": "UD_Swedish_Sign_Language" },
+    { "id": "UD_Tamil" },
+    { "id": "UD_Telugu" },
+    { "group": "Turkish",
+      "corpora": [
+        { "id": "UD_Turkish" },
+        { "id": "UD_Turkish-PUD" }
+      ]
+    },
+    { "id": "UD_Ukrainian" },
+    { "id": "UD_Upper_Sorbian" },
+    { "id": "UD_Urdu" },
+    { "id": "UD_Uyghur" },
+    { "id": "UD_Vietnamese" }
+  ]
+}
