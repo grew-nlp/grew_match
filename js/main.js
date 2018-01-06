@@ -37,21 +37,25 @@ $(document).ready(function(){
 		deal_with_get_parameters();
 	});
 
-	// Binding for changing corpus selection
-	$('#corpus-select').change(function(){
-		$('#vision').hide();
-		corpus = $("#corpus-select").val()
-		change_corpus ();
-	});
-
 	// Binding on CodeMirror change
 	cmEditor.on ("change", function () {
 		$('#save-pattern').prop('disabled',true);
 		$('#custom-display').hide();
 	});
 
-	$('#select-tuto').click(function() { change_collection ("tuto") });
+	$('#select-tuto').click(function() { tuto () });
 });
+
+function tuto () {
+	// Change background of selecte group
+	$(".group").removeClass("active");
+	$("#top-tuto").addClass("active");
+
+	$('#sidebar').removeClass('active');
+	update_but_text();
+
+	$('#sidebarCollapse').hide();
+}
 
 // Hack to show FTB + TDM only with a hidden url
 function show_if_needed() {
@@ -415,16 +419,20 @@ function init_sidebar() {
   open=true;
   $('#sidebarCollapse').on('click', function () {
     $('#sidebar').toggleClass('active');
-    if (open) {
-      open=false;
-      $('#but-text').html("Show corpora list");
-    } else {
-      open=true;
-      $('#but-text').html("Hide corpora list");
-    }
+		update_but_text ();
   });
 }
 
+// ==================================================================================
+function update_but_text () {
+	if ($('#sidebar').hasClass('active')) {
+		$('#but-text').html("Hide corpora list");
+	} else {
+		$('#but-text').html("Show corpora list");
+	}
+}
+
+// ==================================================================================
 function set_corpus (c) {
 	$('#corpus-select').hide();
 	$('#corpus-fixed').show();
@@ -435,6 +443,11 @@ function set_corpus (c) {
 
 function select_group (desc) {
 	console.log("-----------------> desc="+desc);
+	// sidebar open and button visible
+	$('#sidebar').addClass('active');
+	update_but_text();
+	$('#sidebarCollapse').show();
+
 	// Change background of selecte group
 	$(".group").removeClass("active");
 	$("#top-"+desc).addClass("active");

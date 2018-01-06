@@ -181,7 +181,12 @@ h3 {
 }
 
 .groups > li {
-  margin-left: 40pt;
+  margin-left: 10pt;
+  margin-right: 10pt;
+}
+.navbar-right > li {
+  margin-left: 10pt;
+  margin-right: 10pt;
 }
 
 /* fix cross position in sweet alert */

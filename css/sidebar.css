@@ -45,10 +45,11 @@
     color: #000;
     transition: all 0.3s;
     overflow-y: auto;
+    margin-left: -250px;
 }
 
 #sidebar.active {
-    margin-left: -250px;
+    margin-left: 0px;
 }
 
 /*
