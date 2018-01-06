@@ -23,11 +23,6 @@ $(document).ready(function(){
 		lineNumbers: true,
 	});
 
-
-  fill_sidebar();
-
-
-
 	$.getJSON("corpora/groups.json").done(function(data){
 		groups=data;
 		console.log(groups);
@@ -35,12 +30,8 @@ $(document).ready(function(){
 		$.each(groups["groups"], function( index, value ) {
 			id = value["id"];
 			name = value["name"];
-			if (value["hidden"]) {
-				style = ' style="display: none;"';
-			} else {
-				style = '';
-			}
-			$('.groups').append('<li class="group" id="top-'+id+'"'+style+'><a class="navbar-brand" onclick="change_collection(\''+id+'\')" href="#">' + name + '</a></li>');
+			desc = value["desc"];
+			$('.groups').append('<li class="group" id="top-'+desc+'"><a class="navbar-brand" onclick="select_group(\''+desc+'\')" href="#">' + name + '</a></li>');
 		});
 		show_if_needed();
 		deal_with_get_parameters();
@@ -442,12 +433,22 @@ function set_corpus (c) {
 	change_corpus();
 }
 
-function fill_sidebar () {
-	$.getJSON("UD-2.1.json").done(function(data){
+function select_group (desc) {
+	console.log("-----------------> desc="+desc);
+	// Change background of selecte group
+	$(".group").removeClass("active");
+	$("#top-"+desc).addClass("active");
+	// sidebar
+	$.getJSON("corpora/"+desc+".json").done(function(data){
 		corpora = data["corpora"];
 		html = "";
 		$.each(corpora, function(index, value ) {
-			if ("id" in value) {
+			if ("section" in value) {
+				html += '<div class="sidebar-header">\n';
+				html += '  <h3>' + value["section"] + '</h3>\n';
+				html += '</div>\n';
+			}
+			else if ("id" in value) {
 				html += '<div class="corpus">\n';
 				html += '<table class="table">\n';
 				html += '<tr><td class="alone">\n';

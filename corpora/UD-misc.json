@@ -1,0 +1,15 @@
+{
+  "corpora":
+  [
+    { "section" : "dev branches" },
+    { "group": "French",
+      "corpora": [
+        { "id": "UD_French" },
+        { "id": "UD_French-FTB" },
+        { "id": "UD_French-PUD" },
+        { "id": "UD_French-ParTUT" },
+        { "id": "UD_French-Sequoia" }
+      ]
+    }
+  ]
+}

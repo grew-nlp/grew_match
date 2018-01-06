@@ -2,64 +2,12 @@
   "groups":
   [
     {
-      "id": "ud",
       "name": "Universal Dependencies 2.1",
-      "corpora": [
-         { "id": "UD_Czech-2.1" },
-         { "id": "UD_English-2.1" },
-         { "id": "UD_English-ParTUT-2.1" },
-         { "id": "UD_Finnish-2.1" },
-         { "id": "UD_French-2.1" },
-         { "id": "UD_French-ParTUT-2.1" },
-         { "id": "UD_French-Sequoia-2.1" },
-         { "id": "UD_Italian-2.1" },
-         { "id": "UD_Italian-ParTUT-2.1" },
-         { "id": "UD_Spanish-2.1" },
-         { "id": "UD_Polish-2.1" },
-         { "id": "UD_Portuguese-2.1" },
-         { "id": "UD_Russian-SynTagRus-2.1" }
-      ]
+      "desc" : "UD-21"
     },
     {
-      "id": "udm",
       "name": "UD Misc",
-      "corpora": [
-         { "id": "UD_French-trunk" },
-         { "id": "UD_sequoia-trunk" },
-         { "id": "UD_French-1.4" },
-         { "id": "UD_French-1.3" },
-         { "id": "UD_French-1.2" },
-         { "id": "UD_French-1.1" }
-      ]
-    },
-    {
-      "id": "seq",
-      "name": "Sequoia",
-      "corpora": [
-         { "id": "sequoia.surf-7.0" },
-         { "id": "sequoia.deep_and_surf-7.0" },
-         { "id": "sequoia.deep-7.0" },
-         { "id": "sequoia.const-7.0" },
-         { "id": "sequoia.surf-trunk" },
-         { "id": "sequoia.deep_and_surf-trunk" }
-      ]
-    },
-    {
-      "id": "ftb",
-      "name": "French treebank",
-      "corpora": [
-         { "id": "FTB-SPMRL" },
-         { "id": "UD_French-FTB" }
-      ],
-      "hidden": true
-    },
-    {
-      "id": "tdm",
-      "name": "Le tour du monde en 80 jours",
-      "corpora": [
-         { "id": "tdm80", "name": "Le tour du monde en 80 jours" }
-      ],
-      "hidden": true
+      "desc" : "UD-misc"
     }
   ]
 }
