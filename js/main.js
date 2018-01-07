@@ -229,7 +229,7 @@ function request_pattern(next) {
 							$('#progress-txt').html('More than 1000 results found in ' + lines[i+1] + '% of the corpus' + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
 							i += 2; // Skip the two next lines (ratio, time)
 						} else {
-							var pieces = lines[i].split("@");
+							var pieces = lines[i].split("@@");
 							if (typeof pieces[1] !== "undefined" ) {
 								$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' +  pieces[1] + '</a></li>');
 								url = './data/' + id + '/' + pieces[0];
