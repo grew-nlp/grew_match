@@ -10,11 +10,12 @@ var corpus = undefined;    // name of the current corpus
 
 var groups;
 
+var corpus;
+
 // this function is run atfer page loading
 $(document).ready(function(){
 	init_sidebar ();
 
-	$('#corpus-fixed').hide();
 	$('#save-pattern').prop('disabled',true);
 	$('.tooltip-desc').tooltipster({contentAsHTML:true,theme:'tooltipster-noir',interactive:true,position:'bottom'});
 
@@ -55,6 +56,9 @@ function tuto () {
 	update_but_text();
 
 	$('#sidebarCollapse').hide();
+	set_corpus ("UD_English-2.1");
+
+	right_pane ("tuto");
 }
 
 // Hack to show FTB + TDM only with a hidden url
@@ -70,7 +74,7 @@ function deal_with_get_parameters() {
 	// corpus get parameter
 	if (getParameterByName("corpus").length == 0) {
 		console.log("No corpus in get parameters");
-		change_collection(groups["groups"][0]["id"]);
+		//change_collection(groups["groups"][0]["id"]);
 	} else {
 		corpus = getParameterByName("corpus");
 		console.log("in the get parameters, corpus="+corpus);
@@ -85,7 +89,7 @@ function deal_with_get_parameters() {
 		if (corpus.substring(0,3) == "FTB" || corpus == "UD_French-FTB") { group="ftb"; }
 		if (corpus.substring(0,3) == "tdm") { group="tdm"; }
 
-		change_collection(group, corpus);
+		//change_collection(group, corpus);
 		console.log("Computed group:"+group);
 		console.log("Computed corpus:"+corpus);
 	};
@@ -108,73 +112,6 @@ function deal_with_get_parameters() {
 		cmEditor.setValue("pattern {\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
 		request_pattern(false);
 	}
-}
-
-// ==================================================================================
-function change_collection(group, requested_corpus) {
-
-	if (group == "tuto") {
-		group_dir = "tuto"
-	} else {
-		group_dir = "corpora/"+group
-	}
-	console.log("ENTER: change_collection: " + group);
-	$(".group").removeClass("active");
-	$("#top-"+group).addClass("active");
-	$("#corpus-select").empty();
-
-	$.get( group_dir+"/corpora_list", function( data ) {
-		$("#corpus-select").append( data );
-
-		var count = (data.match(/<\/option>/g) || []).length;
-
-		if (count == 1) {
-			$('#corpus-select').hide();
-			$('#corpus-fixed').show();
-			var name = data.replace(/<[^>]*>/g, "");
-			$('#corpus-fixed').html(name);
-
-		} else {
-			$('#corpus-fixed').hide();
-			$('#corpus-select').show();
-		}
-
-		if (requested_corpus === undefined) {
-			// select the default corpus
-			corpus = $("#corpus-select").val();
-			change_corpus();
-		} else {
-			selectCorpus(requested_corpus);
-			corpus = requested_corpus;
-			change_corpus();
-		}
-	});
-};
-
-// ==================================================================================
-function selectCorpus(corpus){
-	//On crée un tableau regroupant toutes les options présentes dans le selecteur de corpus
-	options = [];
-
-	$("#corpus-select option").each(function(){
-		options.push($(this).val());
-	});
-
-	//On crée un regexp qui cherchera le nom de corpus commençant à la première posistion (^) et ignorant la casse (mode i)
-	var regexp = new RegExp('^' + corpus, "i");
-
-	//On boucle sur le tableau d'options pour tester s'il y a un match avec le regexp
-	for (i = 0; i < options.length; i++) {
-		if (options[i].match(regexp)) {
-			//On a trouvé un correspondance, on change l'index et on stoppe la fonction
-			$("#corpus-select")[0].selectedIndex = i;
-			return;
-		}
-	}
-
-	//On a pas trouvé de match donc on selectionne par défaut le premier choix et on stoppe la fonction
-	$("#corpus-select")[0].selectedIndex = 0;
-	return;
 }
 
 // ==================================================================================
@@ -215,6 +152,21 @@ function bind_inter () {
 		// Update of the textarea
 		$.get(group_dir+"/"+corpus+"/"+file, function(pattern) {
 			cmEditor.setValue(pattern);
+		});
+	});
+}
+
+// ==================================================================================
+// Binding for interactive part in snippets part
+function right_pane (base) {
+	$.get("corpora/" + base + "/right_pane.html", function(data) {
+		$('#right-pane').html(data);
+		$(".inter").click(function(){
+			var file = $(this).attr('snippet-file');
+			// Update of the textarea
+			$.get("corpora/" + base + "/" + file, function(pattern) {
+				cmEditor.setValue(pattern);
+			});
 		});
 	});
 }
@@ -324,7 +276,6 @@ function display_picture(event){
 // ==================================================================================
 function save_pattern(num){
 	if (cmEditor.getValue().length > 0 && id.length > 0) {
-		corpus = $("#corpus-select").val();
 		$.ajax({url:'shorten.php',
 			dataType:'text',
 			data: {pattern: cmEditor.getValue(), id:save_id},
@@ -416,7 +367,6 @@ function last_svg(){
 
 // ==================================================================================
 function init_sidebar() {
-  open=true;
   $('#sidebarCollapse').on('click', function () {
     $('#sidebar').toggleClass('active');
 		update_but_text ();
@@ -434,8 +384,6 @@ function update_but_text () {
 
 // ==================================================================================
 function set_corpus (c) {
-	$('#corpus-select').hide();
-	$('#corpus-fixed').show();
 	$('#corpus-fixed').html(c);
 	corpus = c;
 	change_corpus();
@@ -499,9 +447,9 @@ function select_group (desc) {
         html += '</div>\n';
         html += '</div>\n';
         html += '</div>\n';
-				//alert("group: "+value["group"])
 			}
 		});
 		$('#accordion').html(html);
 	});
+	right_pane(desc);
 }

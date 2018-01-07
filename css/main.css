@@ -164,9 +164,16 @@ h3 {
   margin-bottom: 0px;
 }
 
+#corpus {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 #jumbo-grew{
   background-color: #ECF0F1;
   margin-top: 15px;
+  padding-left: 0;
+  padding-right: 0;
 }
 #title-grew{
   color: #ECF0F1;
@@ -178,6 +185,10 @@ h3 {
   padding-right: 10px;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+#right-navbar {
+  margin-top: 10pt;
 }
 
 .groups > li {

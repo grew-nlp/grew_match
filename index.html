@@ -66,12 +66,11 @@
               <!-- Upper-left part: corpus selector, textarea, buttons -->
               <div class="col-md-8" id="console">
 
-                <h2 height="700pt">
+                <h2 id="corpus">
                   <button type="button" id="sidebarCollapse" class="btn btn-primary">
                     <span id="but-text">Hide corpora list</span>
                   </button>
                   Corpus:
-                  <select id="corpus-select"></select>
                   <span id="corpus-fixed"></span>
                   <span href="" class="tooltip-desc" id="corpus-desc"><a href="#" id="a-corpus">(?)</a></span>
                 </h2>
@@ -96,9 +95,7 @@
 
               <!-- Upper-right part: navbar Snippets/Examples -->
               <div class="col-md-4">
-                <div class="container">
-                  <span id="right-pane"></span> <!-- Dynamically loaded code, depending of the corpus -->
-                </div>
+                <span id="right-pane"></span> <!-- Dynamically loaded code, depending of the corpus -->
               </div>
             </div>
           </div>

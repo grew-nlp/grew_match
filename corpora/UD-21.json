@@ -6,7 +6,7 @@
     { "group": "Ancient Greek",
       "corpora": [
         { "id": "UD_Ancient_Greek" },
-        { "id": "UD_Ancient_Greek-PRO"}
+        { "id": "UD_Ancient_Greek-PROIEL"}
       ]
     },
     { "group": "Arabic",
