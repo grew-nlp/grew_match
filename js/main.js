@@ -1,5 +1,4 @@
 var save_id = ""           // id of the current request
-var watcher = undefined;   // watcher for file moidification
 var cmEditor = undefined;  // content of the textarea
 
 var result_nb = 0;         // number of given results
@@ -411,12 +410,10 @@ function select_group (desc) {
 			}
 			else if ("id" in value) {
 				html += '<div class="corpus">\n';
-				html += '<table class="table">\n';
+				html += '<table class="table" onclick="set_corpus(\'' + value["id"] + '\');return false;" href="#">\n';
 				html += '<tr><td class="alone">\n';
-				html += '<a href="#" onclick="set_corpus(\'' + value["id"] + '\');return false;">\n';
 				html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 				html += value["id"];
-				html += '</a>\n';
 				html += '</td></tr>\n';
 				html += '</table>\n';
 				html += '</div>\n';
@@ -436,8 +433,8 @@ function select_group (desc) {
         html += '<div class="panel-body">\n';
         html += '<table class="table">\n';
 				$.each(value["corpora"], function(index, value ) {
-					html += '<tr class="corpus"><td>\n';
-					html += '<a href="#" onclick="set_corpus(\'' + value["id"] + '\');return false;">\n';
+					html += '<tr class="corpus" onclick="set_corpus(\'' + value["id"] + '\');return false;"><td>\n';
+					html += '<a href="#" >\n';
 					html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 					html += value["id"]+'\n';
 					html += '</a>\n';
