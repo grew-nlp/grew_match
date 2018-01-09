@@ -183,6 +183,11 @@ function request_pattern(next) {
 		var data= {
 			pattern: cmEditor.getValue(),
 			corpus:corpus,
+			lemma:$('#lemma-box').prop('checked'),
+			upos:$('#upos-box').prop('checked'),
+			xpos:$('#xpos-box').prop('checked'),
+			features:$('#features-box').prop('checked'),
+			conllu:$('#conllu-box').prop('checked'),
 			shuffle:$('#shuffle-box').prop('checked'),
 			context:$('#context-box').prop('checked'),
 		}

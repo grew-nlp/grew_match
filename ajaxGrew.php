@@ -19,12 +19,14 @@ if (isset($_POST['pattern'])) {
 	fclose($pattern);
 
 	$infos = fopen($dir . $id . "/infos","w");
-	fwrite($infos, $_POST['corpus']);
-	fwrite($infos, "\n");
-	fwrite($infos, $_POST['shuffle']);
-	fwrite($infos, "\n");
-	fwrite($infos, $_POST['context']);
-	fwrite($infos, "\n");
+	fwrite($infos, $_POST['corpus'] . "\n");
+	fwrite($infos, $_POST['lemma'] . "\n");
+	fwrite($infos, $_POST['upos'] . "\n");
+	fwrite($infos, $_POST['xpos'] . "\n");
+	fwrite($infos, $_POST['features'] . "\n");
+	fwrite($infos, $_POST['conllu'] . "\n");
+	fwrite($infos, $_POST['shuffle'] . "\n");
+	fwrite($infos, $_POST['context'] . "\n");
 	fclose($corpus);
 
 	$msg = "#NEW";
