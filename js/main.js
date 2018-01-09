@@ -55,7 +55,7 @@ function tuto () {
 	update_but_text();
 
 	$('#sidebarCollapse').hide();
-	set_corpus ("UD_English-2.1");
+	set_corpus ("UD_English");
 
 	right_pane ("tuto");
 }
