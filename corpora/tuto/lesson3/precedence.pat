@@ -2,7 +2,7 @@
 % Below, we search for a verb with a postponed subject
 
 pattern {
-  V [ cat=VERB ];
+  V [ upos=VERB ];
   V -[nsubj|nsubj:pass]-> S;
   V << S;                      % V is on the left of S
 }

@@ -1,4 +1,4 @@
 % Search for a verb whitout a direct object
 
-pattern { V [cat=VERB]; }
+pattern { V [upos=VERB]; }
 without { V -[obj]-> O }

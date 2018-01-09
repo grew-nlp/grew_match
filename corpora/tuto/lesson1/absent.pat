@@ -1,3 +1,3 @@
 % Require a feature not to be there
 
-pattern { N [ cat=VERB, !Mood, !VerbForm ] }
+pattern { N [ upos=VERB, !Mood, !VerbForm ] }

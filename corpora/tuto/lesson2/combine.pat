@@ -1,6 +1,6 @@
 % Combine restriction on nodes and restriction on relations.
 
 pattern {
-  N [ cat=NUM ];
+  N [ upos=NUM ];
   N -[compound]-> M;
 }

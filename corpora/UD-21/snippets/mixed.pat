@@ -1,7 +1,7 @@
 % Search for a "det" dependency relation
-% such that the governor category is different from NOUN, PROPN and ADJ
+% such that the governor's tag is different from NOUN, PROPN and ADJ
 
 pattern {
-  GOV [cat <> NOUN|ADJ|PROPN];
+  GOV [upos <> NOUN|ADJ|PROPN];
   GOV -[det]-> DEP;
 }

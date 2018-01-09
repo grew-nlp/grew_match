@@ -1,3 +1,3 @@
 % Impose some restriction on the feature structure
 
-pattern { N [ cat=VERB ] }
+pattern { N [ upos=VERB ] }
