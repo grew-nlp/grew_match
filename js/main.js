@@ -6,6 +6,7 @@ var current_view = 0;      // number of the result currently displayed
 
 var group_dir = undefined; // directory of the group of corpora considered
 var corpus = undefined;    // name of the current corpus
+var current_group = undefined;
 
 var groups;
 
@@ -47,6 +48,8 @@ $(document).ready(function(){
 });
 
 function tuto () {
+	set_ud ();
+
 	// Change background of selecte group
 	$(".group").removeClass("active");
 	$("#top-tuto").addClass("active");
@@ -114,7 +117,7 @@ function deal_with_get_parameters() {
 }
 
 // ==================================================================================
-function change_corpus(){
+function change_corpus(){ // OBSOLETE
 	console.log("ENTER: change_corpus: "+ corpus);
 
 	$('#custom-display').hide();
@@ -278,17 +281,22 @@ function display_picture(event){
 }
 
 // ==================================================================================
-function save_pattern(num){
-	if (cmEditor.getValue().length > 0 && id.length > 0) {
+function save_pattern(){
+	alert (save_id)
+	if (cmEditor.getValue().length > 0 && save_id.length > 0) {
 		$.ajax({url:'shorten.php',
 			dataType:'text',
 			data: {pattern: cmEditor.getValue(), id:save_id},
 			type: 'post',
 			success: function(output){
+				alert ("success");
 				history.pushState({id:output},"Grew - Custom saved pattern", "?custom=" + output + "&corpus=" + corpus);
 				$('#custom-url').text(window.location.href);
 				$('#custom-display').show();
 				SelectText("custom-url");
+			},
+			error: function(x) {
+				alert (x)
 			}
 		});
 	} else {
@@ -387,14 +395,26 @@ function update_but_text () {
 }
 
 // ==================================================================================
-function set_corpus (c) {
+function set_corpus (c, snippets) {
 	$('#corpus-fixed').html(c);
 	corpus = c;
-	change_corpus();
+
+	if (snippets == "undefined") { sub="default"} else { sub=snippets }
+	// change_corpus();
+	right_pane (current_group+"/"+sub);
 }
 
+// ==================================================================================
 function select_group (desc) {
-	console.log("-----------------> desc="+desc);
+	current_group = desc;
+
+	// update labels
+	if (desc == "sequoia") {
+		set_sequoia();
+	} else {
+		set_ud ();
+	}
+
 	// sidebar open and button visible
 	$('#sidebar').addClass('active');
 	update_but_text();
@@ -415,7 +435,7 @@ function select_group (desc) {
 			}
 			else if ("id" in value) {
 				html += '<div class="corpus">\n';
-				html += '<table class="table" onclick="set_corpus(\'' + value["id"] + '\');return false;" href="#">\n';
+				html += '<table class="table" onclick="set_corpus(\'' + value["id"] + '\', \'' + value["snippets"] + '\');return false;" href="#">\n';
 				html += '<tr><td class="alone">\n';
 				html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 				html += value["id"];
@@ -438,7 +458,7 @@ function select_group (desc) {
         html += '<div class="panel-body">\n';
         html += '<table class="table">\n';
 				$.each(value["corpora"], function(index, value ) {
-					html += '<tr class="corpus" onclick="set_corpus(\'' + value["id"] + '\');return false;"><td>\n';
+					html += '<tr class="corpus" onclick="set_corpus(\'' + value["id"] + '\', \'' + value["snippets"] + '\');return false;"><td>\n';
 					html += '<a href="#" >\n';
 					html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 					html += value["id"]+'\n';
@@ -453,5 +473,17 @@ function select_group (desc) {
 		});
 		$('#accordion').html(html);
 	});
-	right_pane(desc);
+	//right_pane(desc);
+}
+
+function set_sequoia() {
+	$("#upos-text").html("cat");
+	$("#xpos-text").html("pos");
+	$("#conllu-label").hide();
+}
+
+function set_ud() {
+	$("#upos-text").html("upos");
+	$("#xpos-text").html("xpos");
+	$("#conllu-label").show();
 }

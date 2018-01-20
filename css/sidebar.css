@@ -52,6 +52,9 @@
     margin-left: 0px;
 }
 
+.sidebar-header {
+    top-margin: 50px;
+}
 /*
 #sidebar ul p {
     color: #fff;
