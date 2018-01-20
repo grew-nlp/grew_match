@@ -8,6 +8,10 @@
     {
       "name": "UD Misc",
       "desc" : "UD-misc"
+    },
+    {
+      "name": "Sequoia",
+      "desc" : "sequoia"
     }
   ]
 }

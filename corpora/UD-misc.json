@@ -1,15 +1,14 @@
 {
   "corpora":
   [
-    { "section" : "dev branches" },
-    { "group": "French",
-      "corpora": [
-        { "id": "UD_French" },
-        { "id": "UD_French-FTB" },
-        { "id": "UD_French-PUD" },
-        { "id": "UD_French-ParTUT" },
-        { "id": "UD_French-Sequoia" }
-      ]
-    }
+    { "section" : "Dev branches" },
+      { "id": "UD_French@dev" },
+      { "id": "UD_French-Sequoia@dev" },
+    { "section" : "Older versions" },
+      { "id": "UD_French@2.0" },
+      { "id": "UD_French@1.4" },
+      { "id": "UD_French@1.3" },
+      { "id": "UD_French@1.2" },
+      { "id": "UD_French@1.1" }
   ]
 }

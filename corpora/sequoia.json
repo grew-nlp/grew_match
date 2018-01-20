@@ -1,0 +1,17 @@
+{
+  "corpora":
+  [
+    { "section" : "Sequoia" },
+      { "id": "sequoia.surf@master", "snippets": "surf" },
+      { "id": "sequoia.surf@UD-2.1", "snippets": "surf" },
+      { "id": "sequoia.surf@8.0", "snippets": "surf" },
+      { "id": "sequoia.surf@7.0", "snippets": "surf" },
+    { "section" : "Deep and surf" },
+      { "id": "sequoia.deep_and_surf@master", "snippets": "deep_and_surf" },
+      { "id": "sequoia.deep_and_surf@UD-2.1", "snippets": "deep_and_surf"  },
+      { "id": "sequoia.deep_and_surf@8.0", "snippets": "deep_and_surf"  },
+      { "id": "sequoia.deep_and_surf@7.0", "snippets": "deep_and_surf"  },
+    { "section" : "Constituent" },
+      { "id": "sequoia.const@7.0", "snippets": "const" }
+  ]
+}
