@@ -2,19 +2,240 @@
   "groups":
   [
     {
+      "id":    "UD-21",
       "name":    "Universal Dependencies 2.1",
-      "desc":    "UD-21",
-      "default": "UD_English"
-    },
+      "default": "UD_English",
+      "corpora":
+        [
+          { "section" : "UD 2.1 Corpora" },
+          { "id": "UD_Afrikaans" },
+          { "folder": "Ancient Greek",
+            "corpora": [
+              { "id": "UD_Ancient_Greek" },
+              { "id": "UD_Ancient_Greek-PROIEL"}
+            ]
+          },
+          { "folder": "Arabic",
+            "corpora": [
+              { "id": "UD_Arabic" },
+              { "id": "UD_Arabic-NYUAD" },
+              { "id": "UD_Arabic-PUD" }
+            ]
+          },
+          { "id": "UD_Basque" },
+          { "id": "UD_Belarusian" },
+          { "id": "UD_Bulgarian" },
+          { "id": "UD_Buryat" },
+          { "id": "UD_Cantonese" },
+          { "id": "UD_Catalan" },
+          { "folder": "Chinese",
+            "corpora": [
+              { "id": "UD_Chinese" },
+              { "id": "UD_Chinese-CFL" },
+              { "id": "UD_Chinese-HK" },
+              { "id": "UD_Chinese-PUD" }
+            ]
+          },
+          { "id": "UD_Coptic" },
+          { "id": "UD_Croatian" },
+          { "folder": "Czech",
+            "corpora": [
+              { "id": "UD_Czech" },
+              { "id": "UD_Czech-CAC" },
+              { "id": "UD_Czech-CLTT" },
+              { "id": "UD_Czech-FicTree" },
+              { "id": "UD_Czech-PUD" }
+            ]
+          },
+          { "id": "UD_Danish" },
+          { "folder": "Dutch",
+            "corpora": [
+              { "id": "UD_Dutch" },
+              { "id": "UD_Dutch-LassySmall" }
+            ]
+          },
+          { "folder": "English",
+            "corpora": [
+              { "id": "UD_English" },
+              { "id": "UD_English-LinES" },
+              { "id": "UD_English-PUD" },
+              { "id": "UD_English-ParTUT" }
+            ]
+          },
+          { "id": "UD_Estonian" },
+          { "folder": "Finnish",
+            "corpora": [
+              { "id": "UD_Finnish" },
+              { "id": "UD_Finnish-FTB" },
+              { "id": "UD_Finnish-PUD" }
+            ]
+          },
+          { "folder": "French",
+            "corpora": [
+              { "id": "UD_French" },
+              { "id": "UD_French-FTB" },
+              { "id": "UD_French-PUD" },
+              { "id": "UD_French-ParTUT" },
+              { "id": "UD_French-Sequoia" }
+            ]
+          },
+          { "folder": "Galician",
+            "corpora": [
+              { "id": "UD_Galician" },
+              { "id": "UD_Galician-TreeGal" }
+            ]
+          },
+          { "folder": "German",
+            "corpora": [
+              { "id": "UD_German" },
+              { "id": "UD_German-PUD" }
+            ]
+          },
+          { "id": "UD_Gothic" },
+          { "id": "UD_Greek" },
+          { "id": "UD_Hebrew" },
+          { "folder": "Hindi",
+            "corpora": [
+              { "id": "UD_Hindi" },
+              { "id": "UD_Hindi-PUD" }
+            ]
+          },
+          { "id": "UD_Hungarian" },
+          { "id": "UD_Indonesian" },
+          { "id": "UD_Irish" },
+          { "folder": "Italian",
+            "corpora": [
+              { "id": "UD_Italian" },
+              { "id": "UD_Italian-PUD" },
+              { "id": "UD_Italian-ParTUT" },
+              { "id": "UD_Italian-PoSTWITA" }
+            ]
+          },
+          { "folder": "Japanese",
+            "corpora": [
+              { "id": "UD_Japanese" },
+              { "id": "UD_Japanese-PUD" }
+            ]
+          },
+          { "id": "UD_Kazakh" },
+          { "id": "UD_Korean" },
+          { "id": "UD_Kurmanji" },
+          { "folder": "Latin",
+            "corpora": [
+              { "id": "UD_Latin" },
+              { "id": "UD_Latin-ITTB" },
+              { "id": "UD_Latin-PROIEL" }
+            ]
+          },
+          { "id": "UD_Latvian" },
+          { "id": "UD_Lithuanian" },
+          { "id": "UD_Marathi" },
+          { "id": "UD_North_Sami" },
+          { "folder": "Norwegian",
+            "corpora": [
+              { "id": "UD_Norwegian-Bokmaal" },
+              { "id": "UD_Norwegian-Nynorsk" },
+              { "id": "UD_Norwegian-NynorskLIA" }
+            ]
+          },
+          { "id": "UD_Old_Church_Slavonic" },
+          { "id": "UD_Persian" },
+          { "id": "UD_Polish" },
+          { "folder": "Portuguese",
+            "corpora": [
+              { "id": "UD_Portuguese" },
+              { "id": "UD_Portuguese-BR" },
+              { "id": "UD_Portuguese-PUD" }
+            ]
+          },
+          { "folder": "Romanian",
+            "corpora": [
+              { "id": "UD_Romanian" },
+              { "id": "UD_Romanian-Nonstandard" }
+            ]
+          },
+          { "folder": "Russian",
+            "corpora": [
+              { "id": "UD_Russian" },
+              { "id": "UD_Russian-PUD" },
+              { "id": "UD_Russian-SynTagRus" }
+            ]
+          },
+          { "id": "UD_Sanskrit" },
+          { "id": "UD_Serbian" },
+          { "id": "UD_Slovak" },
+          { "folder": "Slovenian",
+            "corpora": [
+              { "id": "UD_Slovenian" },
+              { "id": "UD_Slovenian-SST" }
+            ]
+          },
+          { "folder": "Spanish",
+            "corpora": [
+              { "id": "UD_Spanish" },
+              { "id": "UD_Spanish-AnCora" },
+              { "id": "UD_Spanish-PUD" }
+            ]
+          },
+          { "folder": "Swedish",
+            "corpora": [
+              { "id": "UD_Swedish" },
+              { "id": "UD_Swedish-LinES" },
+              { "id": "UD_Swedish-PUD" }
+            ]
+          },
+          { "id": "UD_Swedish_Sign_Language" },
+          { "id": "UD_Tamil" },
+          { "id": "UD_Telugu" },
+          { "folder": "Turkish",
+            "corpora": [
+              { "id": "UD_Turkish" },
+              { "id": "UD_Turkish-PUD" }
+            ]
+          },
+          { "id": "UD_Ukrainian" },
+          { "id": "UD_Upper_Sorbian" },
+          { "id": "UD_Urdu" },
+          { "id": "UD_Uyghur" },
+          { "id": "UD_Vietnamese" }
+        ]
+      },
     {
+      "id":    "UD-misc",
       "name":    "UD Misc",
-      "desc":    "UD-misc",
-      "default": "UD_French@dev"
+      "default": "UD_French@dev",
+      "corpora":
+        [
+          { "section" : "Dev branches" },
+            { "id": "UD_French@dev" },
+            { "id": "UD_French-Sequoia@dev" },
+          { "section" : "Older versions" },
+            { "id": "UD_French@2.0" },
+            { "id": "UD_French@1.4" },
+            { "id": "UD_French@1.3" },
+            { "id": "UD_French@1.2" },
+            { "id": "UD_French@1.1" }
+        ]
     },
     {
+      "id":    "sequoia",
       "name":    "Sequoia",
-      "desc":    "sequoia",
-      "default": "sequoia.surf@master"
+      "default": "sequoia.surf@master",
+      "corpora":
+        [
+          { "section" : "Sequoia" },
+            { "id": "sequoia.surf@master", "snippets": "surf" },
+            { "id": "sequoia.surf@UD-2.1", "snippets": "surf" },
+            { "id": "sequoia.surf@8.0", "snippets": "surf" },
+            { "id": "sequoia.surf@7.0", "snippets": "surf" },
+          { "section" : "Deep and surf" },
+            { "id": "sequoia.deep_and_surf@master", "snippets": "deep_and_surf" },
+            { "id": "sequoia.deep_and_surf@UD-2.1", "snippets": "deep_and_surf"  },
+            { "id": "sequoia.deep_and_surf@8.0", "snippets": "deep_and_surf"  },
+            { "id": "sequoia.deep_and_surf@7.0", "snippets": "deep_and_surf"  },
+          { "section" : "Constituent" },
+            { "id": "sequoia.const@7.0", "snippets": "const" }
+        ]
     }
   ]
 }

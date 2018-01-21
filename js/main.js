@@ -5,12 +5,98 @@ var current_request_id = ""
 var result_nb = 0;         // number of given results
 var current_view = 0;      // number of the result currently displayed
 
-var current_group = "UD-21";
-var current_corpus = "UD_English";
-var current_snippets="default";
+var current_data;
+var current_group;
+var current_corpus;
+var current_snippets;
 
+// ==================================================================================
+function get_corpora(group_id) {
+	group_list = current_data["groups"];
+		for (var g=0 ; g < group_list.length ; g++)
+	{
+    if (group_list[g]["id"] == group_id) {
+        return group_list[g]["corpora"];
+    }
+	}
+}
+
+// ==================================================================================
+function get_snippets(corpus) {
+	function aux() {
+		group_list = current_data["groups"];
+			for (var g=0 ; g < group_list.length ; g++)
+			{ corpora = group_list[g]["corpora"];
+				for (var c=0 ; c < corpora.length ; c++)
+					{ if (corpora[c]["id"] == corpus) { return corpora[c]["snippets"]; }
+						if (corpora[c]["folder"] != undefined)
+							{ subcorpora = corpora[c]["corpora"];
+								for (var cc=0 ; cc < subcorpora.length ; cc++)
+									{ if (subcorpora[cc]["id"] == corpus) { return subcorpora[cc]["snippets"]; }
+									}
+							}
+					}
+			}
+	}
+	snip_opt = aux();
+	if (snip_opt != undefined) { return snip_opt}
+	else { return "default" }
+}
+
+// ==================================================================================
+function get_group(corpus) {
+	group_list = current_data["groups"];
+		for (var g=0 ; g < group_list.length ; g++)
+		{ corpora = group_list[g]["corpora"];
+			for (var c=0 ; c < corpora.length ; c++)
+				{ if (corpora[c]["id"] == corpus) { return group_list[g]["id"]; }
+					if (corpora[c]["folder"] != undefined)
+						{ subcorpora = corpora[c]["corpora"];
+							for (var cc=0 ; cc < subcorpora.length ; cc++)
+								{ if (subcorpora[cc]["id"] == corpus) { return group_list[g]["id"]; }
+								}
+						}
+				}
+		}
+}
+
+// ==================================================================================
+function get_folder(corpus) {
+	group_list = current_data["groups"];
+		for (var g=0 ; g < group_list.length ; g++)
+		{ corpora = group_list[g]["corpora"];
+			for (var c=0 ; c < corpora.length ; c++)
+				{ if (corpora[c]["id"] == corpus) { return undefined }
+					if (corpora[c]["folder"] != undefined)
+						{ subcorpora = corpora[c]["corpora"];
+							for (var cc=0 ; cc < subcorpora.length ; cc++)
+								{ if (subcorpora[cc]["id"] == corpus) { return corpora[c]["folder"]; }
+								}
+						}
+				}
+		}
+}
+
+
+// ==================================================================================
 // this function is run atfer page loading
 $(document).ready(function(){
+	// load the "groups.json" file
+	$.getJSON("corpora/groups.json").done(function(data){
+		current_data = data;
+		init ();
+	});
+});
+
+// ==================================================================================
+function init() {
+	console.log(current_data);
+
+	first_group = current_data["groups"][0];
+	current_group = first_group["id"];
+	current_corpus = first_group["default"];
+	current_snippets = get_snippets(current_corpus);
+
 	init_sidebar ();
 
 	$('#save-pattern').prop('disabled',true);
@@ -21,26 +107,7 @@ $(document).ready(function(){
 		lineNumbers: true,
 	});
 
-	$.getJSON("corpora/groups.json").done(function(data){
-		groups=data;
-		$.each(groups["groups"], function( index, value ) {
-			id = value["id"];
-			name = value["name"];
-			desc = value["desc"];
-			_default = value["default"];
-			$('.groups').append(
-				'<li class="group" id="top-'+
-				desc+
-				'"><a class="navbar-brand" onclick="select_group(\''+
-				desc+
-				'\', \''+
-				_default+
-				'\')" href="#">'+
-				name+
-				'</a></li>'
-			);
-		});
-	});
+	init_navbar ();
 
 	deal_with_get_parameters();
 
@@ -54,12 +121,29 @@ $(document).ready(function(){
 
 	if (current_group == "tuto") { tuto(); }
 	else { update_group(); }
-});
+}
 
+// ==================================================================================
+function init_navbar() {
+	$.each(current_data["groups"], function( index, value ) {
+		id = value["id"];
+		name = value["name"];
+		_default = value["default"];
+		$('.groups').append(
+			'<li class="group" id="top-'+
+			id+
+			'"><a class="navbar-brand" onclick="select_group(\''+
+			id+
+			'\', \''+
+			_default+
+			'\')" href="#">'+
+			name+
+			'</a></li>'
+		);
+	});
+}
 
-
-
-
+// ==================================================================================
 function tuto () {
 	set_ud ();
 
@@ -73,9 +157,9 @@ function tuto () {
 
 	$('#sidebar').removeClass('active');
 	update_but_text();
-
 }
 
+// ==================================================================================
 // force to interpret get parameters after the update of groups menus
 function deal_with_get_parameters() {
 
@@ -85,14 +169,10 @@ function deal_with_get_parameters() {
 	}
 	else
 
-	if (getParameterByName("corpus").length == 0) {
-		console.log("No corpus in get parameters");
-		update_group();
-		set_corpus ("UD_English");
-
-	} else {
+	if (getParameterByName("corpus").length > 0)
+	{
 		corpus = getParameterByName("corpus");
-		console.log("in the get parameters, corpus="+corpus);
+
 		// keep working hard link for old corpora names
 		if (corpus == "UD_French-dev") { corpus = "UD_French@dev"; }
 		if (corpus == "seq-ud-trunk") { corpus = "UD_French-Sequoia@dev"; }
@@ -157,18 +237,6 @@ function change_corpus(){ // OBSOLETE
 
 // ==================================================================================
 // Binding for interactive part in snippets part
-function bind_inter () {
-	$(".inter").click(function(){
-		var file = $(this).attr('snippet-file');
-		// Update of the textarea
-		$.get(group_dir+"/"+corpus+"/"+file, function(pattern) {
-			cmEditor.setValue(pattern);
-		});
-	});
-}
-
-// ==================================================================================
-// Binding for interactive part in snippets part
 function right_pane (base) {
 	$.get("corpora/" + base + "/right_pane.html", function(data) {
 		$('#right-pane').html(data);
@@ -182,7 +250,7 @@ function right_pane (base) {
 	});
 }
 
-// ==============================
+// ==================================================================================
 function request_pattern(next) {
 	if (!next) {
 		if (cmEditor.getValue().length == 0) {
@@ -194,7 +262,7 @@ function request_pattern(next) {
 		current_view = 0;
 		var data= {
 			pattern: cmEditor.getValue(),
-			corpus:corpus,
+			corpus:current_corpus,
 			lemma:$('#lemma-box').prop('checked'),
 			upos:$('#upos-box').prop('checked'),
 			xpos:$('#xpos-box').prop('checked'),
@@ -205,8 +273,9 @@ function request_pattern(next) {
 		}
 		$('#list-results').empty();
 	}else{
-		var data= {id:current_request_id,corpus:corpus};
+		var data= {id:current_request_id,corpus:current_corpus};
 	}
+	console.log(data);
 	$.ajax({
 		url: 'ajaxGrew.php',
 		dataType:'text',
@@ -401,7 +470,6 @@ function update_but_text () {
 	}
 }
 
-
 // ==================================================================================
 function escape (s) {
 	s1 = s.split('@').join('_AT_');
@@ -410,15 +478,14 @@ function escape (s) {
 }
 
 // ==================================================================================
-function set_corpus (corpus, snippets) {
+function set_corpus (corpus) {
 	current_corpus = corpus;
-	if (snippets == undefined) { current_snippets="default" }
-	else { current_snippets=snippets }
 	update_corpus ()
 }
 
 // ==================================================================================
 function update_corpus() {
+	current_snippets = get_snippets (current_corpus);
 	$('#corpus-fixed').html(current_corpus);
 
 	right_pane (current_group+"/"+current_snippets);
@@ -450,69 +517,68 @@ function update_group () {
 	$(".group").removeClass("active");
 	$("#top-"+current_group).addClass("active");
 	// sidebar
-	$.getJSON("corpora/"+current_group+".json").done(function(data){
-		corpora = data["corpora"];
-		html = "";
-		$.each(corpora, function(index, value ) {
-			if ("section" in value) {
-				html += '<div class="sidebar-header">\n';
-				html += '  <h3>' + value["section"] + '</h3>\n';
-				html += '</div>\n';
-			}
-			else if ("id" in value) {
+
+	corpora = get_corpora (current_group);
+	html = "";
+	$.each(corpora, function(index, value ) {
+		if ("section" in value) {
+			html += '<div class="sidebar-header">\n';
+			html += '  <h3>' + value["section"] + '</h3>\n';
+			html += '</div>\n';
+		}
+		else if ("id" in value) {
+			id = value["id"];
+			esc_id = escape(id);
+			html += '<div class="corpus">\n';
+			html += '<table id="'+esc_id+'" class="table" onclick="set_corpus(\'' + id + '\');return false;" href="#">\n';
+			html += '<tr><td class="alone">\n';
+			html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
+			html += id +'\n';
+			html += '</td></tr>\n';
+			html += '</table>\n';
+			html += '</div>\n';
+		} else {
+			var id_acc = value["folder"].replace(/ /g, "_");
+      html += '<div class="panel panel-default">\n';
+      html += '<div class="panel-heading">\n';
+      html += '<h4 class="panel-title">\n';
+      html += '<a data-toggle="collapse" href="#'+id_acc+'">\n';
+      html += '<span class="glyphicon glyphicon-folder-open"></span>\n';
+      html += value["folder"]+'\n';
+      html += '</a>\n';
+      html += '</h4>\n';
+      html += '</div>\n';
+      html += '<div id="'+id_acc+'" class="panel-collapse collapse">\n';
+      html += '<div class="panel-body">\n';
+      html += '<table class="table">\n';
+			$.each(value["corpora"], function(index, value ) {
 				id = value["id"];
 				esc_id = escape(id);
-				html += '<div class="corpus">\n';
-				html += '<table id="'+esc_id+'" class="table" onclick="set_corpus(\'' + id + '\', \'' + value["snippets"] + '\');return false;" href="#">\n';
-				html += '<tr><td class="alone">\n';
+				html += '<tr id="'+esc_id+'" class="corpus" onclick="set_corpus(\'' + id + '\');return false;"><td>\n';
+				html += '<a href="#" >\n';
 				html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 				html += id +'\n';
+				html += '</a>\n';
 				html += '</td></tr>\n';
-				html += '</table>\n';
-				html += '</div>\n';
-				//alert(html)
-			} else {
-				var id_acc = value["group"].replace(/ /g, "_");
-        html += '<div class="panel panel-default">\n';
-        html += '<div class="panel-heading">\n';
-        html += '<h4 class="panel-title">\n';
-        html += '<a data-toggle="collapse" href="#'+id_acc+'">\n';
-        html += '<span class="glyphicon glyphicon-folder-open"></span>\n';
-        html += value["group"]+'\n';
-        html += '</a>\n';
-        html += '</h4>\n';
-        html += '</div>\n';
-        html += '<div id="'+id_acc+'" class="panel-collapse collapse">\n';
-        html += '<div class="panel-body">\n';
-        html += '<table class="table">\n';
-				$.each(value["corpora"], function(index, value ) {
-					id = value["id"];
-					esc_id = escape(id);
-					html += '<tr id="'+esc_id+'" class="corpus" onclick="set_corpus(\'' + id + '\', \'' + value["snippets"] + '\');return false;"><td>\n';
-					html += '<a href="#" >\n';
-					html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
-					html += id +'\n';
-					html += '</a>\n';
-					html += '</td></tr>\n';
-				});
-        html += '</table>\n';
-        html += '</div>\n';
-        html += '</div>\n';
-        html += '</div>\n';
-			}
-		});
-		$('#accordion').html(html);
+			});
+      html += '</table>\n';
+      html += '</div>\n';
+      html += '</div>\n';
+      html += '</div>\n';
+		}
 	});
+	$('#accordion').html(html);
 	update_corpus();
-	//right_pane(desc);
 }
 
+// ==================================================================================
 function set_sequoia() {
 	$("#upos-text").html("cat");
 	$("#xpos-text").html("pos");
 	$("#conllu-label").hide();
 }
 
+// ==================================================================================
 function set_ud() {
 	$("#upos-text").html("upos");
 	$("#xpos-text").html("xpos");
