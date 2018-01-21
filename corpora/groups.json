@@ -2,16 +2,19 @@
   "groups":
   [
     {
-      "name": "Universal Dependencies 2.1",
-      "desc" : "UD-21"
+      "name":    "Universal Dependencies 2.1",
+      "desc":    "UD-21",
+      "default": "UD_English"
     },
     {
-      "name": "UD Misc",
-      "desc" : "UD-misc"
+      "name":    "UD Misc",
+      "desc":    "UD-misc",
+      "default": "UD_French@dev"
     },
     {
-      "name": "Sequoia",
-      "desc" : "sequoia"
+      "name":    "Sequoia",
+      "desc":    "sequoia",
+      "default": "sequoia.surf@master"
     }
   ]
 }

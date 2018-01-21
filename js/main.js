@@ -1,16 +1,13 @@
-var save_id = ""           // id of the current request
 var cmEditor = undefined;  // content of the textarea
+
+var current_request_id = ""
 
 var result_nb = 0;         // number of given results
 var current_view = 0;      // number of the result currently displayed
 
-var group_dir = undefined; // directory of the group of corpora considered
-var corpus = undefined;    // name of the current corpus
-var current_group = undefined;
-
-var groups;
-
-var corpus;
+var current_group = "UD-21";
+var current_corpus = "UD_English";
+var current_snippets="default";
 
 // this function is run atfer page loading
 $(document).ready(function(){
@@ -26,17 +23,26 @@ $(document).ready(function(){
 
 	$.getJSON("corpora/groups.json").done(function(data){
 		groups=data;
-		console.log(groups);
-
 		$.each(groups["groups"], function( index, value ) {
 			id = value["id"];
 			name = value["name"];
 			desc = value["desc"];
-			$('.groups').append('<li class="group" id="top-'+desc+'"><a class="navbar-brand" onclick="select_group(\''+desc+'\')" href="#">' + name + '</a></li>');
+			_default = value["default"];
+			$('.groups').append(
+				'<li class="group" id="top-'+
+				desc+
+				'"><a class="navbar-brand" onclick="select_group(\''+
+				desc+
+				'\', \''+
+				_default+
+				'\')" href="#">'+
+				name+
+				'</a></li>'
+			);
 		});
-		show_if_needed();
-		deal_with_get_parameters();
 	});
+
+	deal_with_get_parameters();
 
 	// Binding on CodeMirror change
 	cmEditor.on ("change", function () {
@@ -45,7 +51,14 @@ $(document).ready(function(){
 	});
 
 	$('#select-tuto').click(function() { tuto () });
+
+	if (current_group == "tuto") { tuto(); }
+	else { update_group(); }
 });
+
+
+
+
 
 function tuto () {
 	set_ud ();
@@ -54,49 +67,45 @@ function tuto () {
 	$(".group").removeClass("active");
 	$("#top-tuto").addClass("active");
 
+	$('#sidebarCollapse').hide();
+	set_corpus ("UD_English");
+	right_pane ("tuto");
+
 	$('#sidebar').removeClass('active');
 	update_but_text();
 
-	$('#sidebarCollapse').hide();
-	set_corpus ("UD_English");
-
-	right_pane ("tuto");
-}
-
-// Hack to show FTB + TDM only with a hidden url
-function show_if_needed() {
-	var url = window.location.href;
-	if (url.indexOf("2ksK5T") > 0 || url.indexOf("localhost") > 0) {
-		$(".group").show();
-	}
 }
 
 // force to interpret get parameters after the update of groups menus
 function deal_with_get_parameters() {
+
 	// corpus get parameter
+	if (getParameterByName("tutorial") == "yes") {
+		current_group = "tuto";
+	}
+	else
+
 	if (getParameterByName("corpus").length == 0) {
 		console.log("No corpus in get parameters");
-		//change_collection(groups["groups"][0]["id"]);
+		update_group();
+		set_corpus ("UD_English");
+
 	} else {
 		corpus = getParameterByName("corpus");
 		console.log("in the get parameters, corpus="+corpus);
 		// keep working hard link for old corpora names
-		if (corpus == "miniref") { corpus = "UD_miniref-trunk"; }
-		if (corpus == "seq-ud-trunk") { corpus = "UD_sequoia-trunk"; }
-		if (corpus == "UD_French-dev") { corpus = "UD_French-trunk"; }
+		if (corpus == "UD_French-dev") { corpus = "UD_French@dev"; }
+		if (corpus == "seq-ud-trunk") { corpus = "UD_French-Sequoia@dev"; }
 
-		group="udm"; // default value
-		if (corpus.substring(0,3) == "UD_" && corpus.slice(-4) == "-2.1") { group="ud"};
-		if (corpus.substring(0,7) == "sequoia") { group="seq"; }
-		if (corpus.substring(0,3) == "FTB" || corpus == "UD_French-FTB") { group="ftb"; }
-		if (corpus.substring(0,3) == "tdm") { group="tdm"; }
+		if (corpus.substring(0,3) == "UD_") {
+			if (corpus.includes("@")) { current_group = "UD-misc"; }
+			else { current_group = "UD-21"; }
+		}
+		else { current_group = "sequoia"; }
 
-		//change_collection(group, corpus);
-		console.log("Computed group:"+group);
-		console.log("Computed corpus:"+corpus);
+		update_group();
+		set_corpus (corpus);
 	};
-
-
 
 	// custom get parameter
 	if (getParameterByName("custom").length > 0) {
@@ -196,7 +205,7 @@ function request_pattern(next) {
 		}
 		$('#list-results').empty();
 	}else{
-		var data= {id:save_id,corpus:corpus};
+		var data= {id:current_request_id,corpus:corpus};
 	}
 	$.ajax({
 		url: 'ajaxGrew.php',
@@ -204,7 +213,7 @@ function request_pattern(next) {
 		data: data,
 		type: 'post',
 		success: function(id){
-			save_id=id;
+			current_request_id=id;
 			$.get("./data/" + id + "/list", function(data) {
 				$('#save-pattern').prop('disabled',false);
 				lines = data.split("\n");
@@ -282,14 +291,12 @@ function display_picture(event){
 
 // ==================================================================================
 function save_pattern(){
-	alert (save_id)
-	if (cmEditor.getValue().length > 0 && save_id.length > 0) {
+	if (cmEditor.getValue().length > 0 && current_request_id.length > 0) {
 		$.ajax({url:'shorten.php',
 			dataType:'text',
-			data: {pattern: cmEditor.getValue(), id:save_id},
+			data: {pattern: cmEditor.getValue(), id:current_request_id},
 			type: 'post',
 			success: function(output){
-				alert ("success");
 				history.pushState({id:output},"Grew - Custom saved pattern", "?custom=" + output + "&corpus=" + corpus);
 				$('#custom-url').text(window.location.href);
 				$('#custom-display').show();
@@ -394,26 +401,45 @@ function update_but_text () {
 	}
 }
 
-// ==================================================================================
-function set_corpus (c, snippets) {
-	$('#corpus-fixed').html(c);
-	corpus = c;
 
-	if (snippets == "undefined") { sub="default"} else { sub=snippets }
-	// change_corpus();
-	right_pane (current_group+"/"+sub);
+// ==================================================================================
+function escape (s) {
+	s1 = s.split('@').join('_AT_');
+	s2 = s1.split('.').join('_DOT_');
+	return s2;
 }
 
 // ==================================================================================
-function select_group (desc) {
-	current_group = desc;
+function set_corpus (corpus, snippets) {
+	current_corpus = corpus;
+	if (snippets == undefined) { current_snippets="default" }
+	else { current_snippets=snippets }
+	update_corpus ()
+}
 
-	// update labels
-	if (desc == "sequoia") {
-		set_sequoia();
-	} else {
-		set_ud ();
-	}
+// ==================================================================================
+function update_corpus() {
+	$('#corpus-fixed').html(current_corpus);
+
+	right_pane (current_group+"/"+current_snippets);
+
+	$(".selected_corpus").removeClass("selected_corpus");
+	$('#'+escape(current_corpus)).addClass("selected_corpus");
+}
+
+// ==================================================================================
+function select_group (group, corpus) {
+	current_group = group;
+	current_corpus = corpus;
+	update_group ();
+}
+
+// ==================================================================================
+function update_group () {
+
+	// update labels of checkboxes
+	if (current_group == "sequoia") { set_sequoia();}
+	else { set_ud (); }
 
 	// sidebar open and button visible
 	$('#sidebar').addClass('active');
@@ -422,9 +448,9 @@ function select_group (desc) {
 
 	// Change background of selecte group
 	$(".group").removeClass("active");
-	$("#top-"+desc).addClass("active");
+	$("#top-"+current_group).addClass("active");
 	// sidebar
-	$.getJSON("corpora/"+desc+".json").done(function(data){
+	$.getJSON("corpora/"+current_group+".json").done(function(data){
 		corpora = data["corpora"];
 		html = "";
 		$.each(corpora, function(index, value ) {
@@ -434,11 +460,13 @@ function select_group (desc) {
 				html += '</div>\n';
 			}
 			else if ("id" in value) {
+				id = value["id"];
+				esc_id = escape(id);
 				html += '<div class="corpus">\n';
-				html += '<table class="table" onclick="set_corpus(\'' + value["id"] + '\', \'' + value["snippets"] + '\');return false;" href="#">\n';
+				html += '<table id="'+esc_id+'" class="table" onclick="set_corpus(\'' + id + '\', \'' + value["snippets"] + '\');return false;" href="#">\n';
 				html += '<tr><td class="alone">\n';
 				html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
-				html += value["id"];
+				html += id +'\n';
 				html += '</td></tr>\n';
 				html += '</table>\n';
 				html += '</div>\n';
@@ -458,10 +486,12 @@ function select_group (desc) {
         html += '<div class="panel-body">\n';
         html += '<table class="table">\n';
 				$.each(value["corpora"], function(index, value ) {
-					html += '<tr class="corpus" onclick="set_corpus(\'' + value["id"] + '\', \'' + value["snippets"] + '\');return false;"><td>\n';
+					id = value["id"];
+					esc_id = escape(id);
+					html += '<tr id="'+esc_id+'" class="corpus" onclick="set_corpus(\'' + id + '\', \'' + value["snippets"] + '\');return false;"><td>\n';
 					html += '<a href="#" >\n';
 					html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
-					html += value["id"]+'\n';
+					html += id +'\n';
 					html += '</a>\n';
 					html += '</td></tr>\n';
 				});
@@ -473,6 +503,7 @@ function select_group (desc) {
 		});
 		$('#accordion').html(html);
 	});
+	update_corpus();
 	//right_pane(desc);
 }
 
