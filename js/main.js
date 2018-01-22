@@ -117,6 +117,7 @@ function init() {
 		$('#custom-display').hide();
 	});
 
+
 	$('#select-tuto').click(function() { tuto () });
 
 	if (current_group == "tuto") { tuto(); }
@@ -177,14 +178,8 @@ function deal_with_get_parameters() {
 		if (corpus == "UD_French-dev") { corpus = "UD_French@dev"; }
 		if (corpus == "seq-ud-trunk") { corpus = "UD_French-Sequoia@dev"; }
 
-		if (corpus.substring(0,3) == "UD_") {
-			if (corpus.includes("@")) { current_group = "UD-misc"; }
-			else { current_group = "UD-21"; }
-		}
-		else { current_group = "sequoia"; }
-
-		update_group();
-		set_corpus (corpus);
+		current_corpus = corpus;
+		current_group = get_group (corpus);
 	};
 
 	// custom get parameter
@@ -470,6 +465,8 @@ function update_but_text () {
 	}
 }
 
+
+
 // ==================================================================================
 function escape (s) {
 	s1 = s.split('@').join('_AT_');
@@ -492,6 +489,10 @@ function update_corpus() {
 
 	$(".selected_corpus").removeClass("selected_corpus");
 	$('#'+escape(current_corpus)).addClass("selected_corpus");
+
+	folder= get_folder(corpus);
+	if (folder != undefined)
+		{ $("#"+folder).collapse('show'); }
 }
 
 // ==================================================================================
@@ -542,7 +543,8 @@ function update_group () {
       html += '<div class="panel panel-default">\n';
       html += '<div class="panel-heading">\n';
       html += '<h4 class="panel-title">\n';
-      html += '<a data-toggle="collapse" href="#'+id_acc+'">\n';
+//      html += '<a data-toggle="collapse" href="#'+id_acc+'">\n';
+      html += '<a data-toggle="collapse" href="#'+id_acc+'" id="folder_'+ id_acc +'">\n';
       html += '<span class="glyphicon glyphicon-folder-open"></span>\n';
       html += value["folder"]+'\n';
       html += '</a>\n';
