@@ -310,7 +310,7 @@ function request_pattern(next) {
 							i += 2; // Skip the two next lines (ratio, time)
 						} else {
 							var pieces = lines[i].split("@@");
-							if (typeof pieces[1] !== "undefined" ) {
+							if (pieces[1] != undefined ) {
 								$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' +  pieces[1] + '</a></li>');
 								url = './data/' + id + '/' + pieces[0];
 								$('#list-' + result_nb).click({url:url,i:result_nb,coord:pieces[2],sentence:pieces[3]},display_picture);
