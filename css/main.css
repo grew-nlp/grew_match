@@ -18,11 +18,11 @@ a:hover, a:focus {
   color: black;
 }
 .panel-title > a:hover {
-  background: #F5D76E;
+  background: #f0c328;
 }
 
 .corpus:hover {
-  background: #b29dc6;
+  background: #F5D76E;
 }
 
 .glyphicon {
@@ -103,7 +103,7 @@ h3 {
   display: none;
 }
 .displayed{
-  background-color:yellow;
+  background-color:#8bf56e;
 }
 /* Style de display-results */
 #result-pic{
