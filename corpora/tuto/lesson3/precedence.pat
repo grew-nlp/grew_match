@@ -4,5 +4,5 @@
 pattern {
   V [ upos=VERB ];
   V -[nsubj|nsubj:pass]-> S;
-  V << S;                      % V is on the left of S
+  V << S;                      % V is before S in the sentence
 }
