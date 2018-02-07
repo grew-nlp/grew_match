@@ -212,3 +212,8 @@ h3 {
 .highlight {
   background-color: #8bf56e;
 }
+
+.feat {
+	font-family: monaco, Consolas, Lucida Console, monospace;
+	color: #bf616a;
+}

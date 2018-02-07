@@ -86,6 +86,14 @@ $(document).ready(function(){
 		current_data = data;
 		init ();
 	});
+
+	$('.tooltip-desc').tooltipster({
+			contentAsHTML:true,
+			theme: 'tooltipster-noir',
+			interactive:true,
+			position:'bottom'
+		});
+	$('.tooltip-desc').tooltipster('content',$("#conllu-tip").html());
 });
 
 // ==================================================================================
@@ -100,7 +108,6 @@ function init() {
 	init_sidebar ();
 
 	$('#save-pattern').prop('disabled',true);
-	$('.tooltip-desc').tooltipster({contentAsHTML:true,theme:'tooltipster-noir',interactive:true,position:'bottom'});
 
 	// Initialise CodeMirror
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
@@ -212,16 +219,16 @@ function change_corpus(){ // OBSOLETE
 		$('#short-desc').html(data);
 	});
 
-	// Update of the long doc (tooltip)
-	$.get(corpus_dir + "doc.html", function( data ) {
-		if (data.length > 0) {
-			$('#corpus-desc').show();
-			$('.tooltip-desc').tooltipster('content',data);
-			$('#a-corpus').attr("href", corpus_dir + "doc.html");
-		} else {
-			$('#corpus-desc').hide();
-		}
-	});
+	// // Update of the long doc (tooltip)
+	// $.get(corpus_dir + "doc.html", function( data ) {
+	// 	if (data.length > 0) {
+	// 		$('#corpus-desc').show();
+	// 		$('.tooltip-desc').tooltipster('content',data);
+	// 		$('#a-corpus').attr("href", corpus_dir + "doc.html");
+	// 	} else {
+	// 		$('#corpus-desc').hide();
+	// 	}
+	// });
 
 	// Update of right pane
 	$.get(corpus_dir + "right_pane.html", function(data) {

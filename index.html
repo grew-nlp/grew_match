@@ -29,6 +29,7 @@
 
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/tooltip.css">
 
   <!-- favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2">
@@ -81,9 +82,7 @@
                   </button>
                   Corpus:
                   <span id="corpus-fixed"></span>
-                  <span href="" class="tooltip-desc" id="corpus-desc"><a href="#" id="a-corpus">(?)</a></span>
                 </h2>
-                <span id="short-desc"></span>
                 <textarea id="pattern-input" rows="7"></textarea>
                 <p>
                   <button class="btn btn-primary" id="submit-pattern" onclick="javascript:request_pattern(false)" >Search</button>
@@ -105,7 +104,8 @@
                   </label>
                   <label id="conllu-label">
                   &nbsp;&nbsp;
-                    <input type="checkbox" id="conllu-box"> conllu
+                    <input type="checkbox" id="conllu-box"> CoNNL-U
+                      <span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="corpus-desc"></span>
                   </label>
                   <label>
                   &nbsp;&nbsp;
@@ -164,6 +164,17 @@
       </div>
     </div> <!-- container -->
   </div> <!-- wrapper -->
+
+<!-- tooltip content -->
+<div id="conllu-tip" style="display: none;">
+  Show CoNNL-U specificities as additional features:
+  <ul>
+    <li>Features of column 10 (MISC) are shown with the prefix <span class="feat">_MISC_</span></li>
+    <li>Empty nodes have a feature <span class="feat">_UD_empty=Yes</span></li>
+    <li>Multiword tokens are descibed on the first element with features <span class="feat">_UD_mw_fusion</span> and <span class="feat">_UD_mw_span</span>
+  </ul>
+</div>
+
 
 </body>
 </html>
