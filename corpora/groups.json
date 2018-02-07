@@ -203,11 +203,11 @@
     {
       "id":    "UD-misc",
       "name":    "UD Misc",
-      "default": "UD_French@dev",
+      "default": "UD_French-GSD@dev",
       "corpora":
         [
           { "section" : "Dev branches" },
-            { "id": "UD_French@dev" },
+            { "id": "UD_French-GSD@dev" },
             { "id": "UD_French-Sequoia@dev" },
           { "section" : "Older versions" },
             { "id": "UD_French@2.0" },
