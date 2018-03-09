@@ -184,6 +184,12 @@ function deal_with_get_parameters() {
 		// keep working hard link for old corpora names
 		if (corpus == "UD_French-dev") { corpus = "UD_French@dev"; }
 		if (corpus == "seq-ud-trunk") { corpus = "UD_French-Sequoia@dev"; }
+		if (corpus == "UD_English-2.0") { corpus = "UD_English"; }
+		if (corpus == "UD_English-2.1") { corpus = "UD_English"; }
+		if (corpus == "sequoia.const-7.0") { corpus = "sequoia.const@7.0"; }
+		if (corpus == "sequoia.surf-7.0") { corpus = "sequoia.surf@7.0"; }
+		if (corpus == "UD_French-Sequoia-2.0") { corpus = "UD_French-Sequoia"; }
+		if (corpus == "sequoia.deep_and_surf") { corpus = "sequoia.deep_and_surf@master"; }
 
 		current_corpus = corpus;
 		current_group = get_group (corpus);
