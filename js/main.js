@@ -190,6 +190,7 @@ function deal_with_get_parameters() {
 		if (corpus == "sequoia.surf-7.0") { corpus = "sequoia.surf@7.0"; }
 		if (corpus == "UD_French-Sequoia-2.0") { corpus = "UD_French-Sequoia"; }
 		if (corpus == "sequoia.deep_and_surf") { corpus = "sequoia.deep_and_surf@master"; }
+		if (corpus == "sequoia.deep_and_surf@UD-2.1 ") { corpus = "sequoia.deep_and_surf@8.1"; }
 
 		current_corpus = corpus;
 		current_group = get_group (corpus);
