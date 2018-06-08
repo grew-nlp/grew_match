@@ -209,7 +209,15 @@ function deal_with_get_parameters() {
 	// If there is a get arg in the URL named "relation" -> make the request directly
 	if (getParameterByName("relation").length > 0) {
 		console.log("get_parameter relation: "+getParameterByName("relation"));
-		cmEditor.setValue("pattern {\n  GOV -["+getParameterByName("relation")+"]-> DEP\n}");
+		if (getParameterByName("source").length > 0) {
+			source = "GOV [upos=\""+(getParameterByName("source"))+"\"]; "
+		}
+		else { source = "" }
+		if (getParameterByName("target").length > 0) {
+			target = "DEP [upos=\""+(getParameterByName("target"))+"\"]; "
+		}
+		else { target = "" }
+		cmEditor.setValue("pattern {\n  "+source+target+"GOV -["+getParameterByName("relation")+"]-> DEP\n}");
 		request_pattern(false);
 	}
 }
