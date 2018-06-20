@@ -21,4 +21,5 @@ rm -f *xxx
 # sed -i xxx 's+003171+443171+' css/main.css
 # rm -f css/*xxx
 
+rm -rf corpora/*
 mv corpora_for_website/* corpora

@@ -40,7 +40,7 @@ function get_snippets(corpus) {
 	}
 	snip_opt = aux();
 	if (snip_opt != undefined) { return snip_opt}
-	else { return "default" }
+	else { return "" }
 }
 
 // ==================================================================================
@@ -482,7 +482,11 @@ function update_corpus() {
 	current_snippets = get_snippets (current_corpus);
 	$('#corpus-fixed').html(current_corpus);
 
-	right_pane (current_group+"/"+current_snippets);
+	if (current_snippets == "") {
+		right_pane (current_group)
+	} else {
+		right_pane (current_group+"/"+current_snippets);
+	}
 
 	$(".selected_corpus").removeClass("selected_corpus");
 	$('#'+escape(current_corpus)).addClass("selected_corpus");
