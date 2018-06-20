@@ -5,7 +5,7 @@ dest="/users/guillaum/.local/www/grew"
 mkdir -p $dest
 cp -rf * $dest
 
-# =========== build directories for local storage of the server ===========
+# =========== build directories for local storage on the server ===========
 cd $dest
 mkdir -p data/shorten
 chmod -R 777 data
@@ -21,12 +21,4 @@ rm -f *xxx
 # sed -i xxx 's+003171+443171+' css/main.css
 # rm -f css/*xxx
 
-cd corpora/seq/sequoia.deep_and_surf-7.0
-sed -i xxx 's+talc2.loria.fr+localhost+' doc.html
-rm -f *xxx
-cd ../../..
-
-cd corpora/seq/sequoia.deep_and_surf-trunk
-sed -i xxx 's+talc2.loria.fr+localhost+' doc.html
-rm -f *xxx
-cd ../../..
+mv corpora_for_website/* corpora

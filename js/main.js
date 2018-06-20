@@ -223,44 +223,19 @@ function deal_with_get_parameters() {
 }
 
 // ==================================================================================
-function change_corpus(){ // OBSOLETE
-	console.log("ENTER: change_corpus: "+ corpus);
-
-	$('#custom-display').hide();
-	corpus_dir = group_dir+"/"+corpus+"/";
-
-	// Update of the short doc
-	$.get(corpus_dir + "short.html", function(data) {
-		$('#short-desc').html(data);
-	});
-
-	// // Update of the long doc (tooltip)
-	// $.get(corpus_dir + "doc.html", function( data ) {
-	// 	if (data.length > 0) {
-	// 		$('#corpus-desc').show();
-	// 		$('.tooltip-desc').tooltipster('content',data);
-	// 		$('#a-corpus').attr("href", corpus_dir + "doc.html");
-	// 	} else {
-	// 		$('#corpus-desc').hide();
-	// 	}
-	// });
-
-	// Update of right pane
-	$.get(corpus_dir + "right_pane.html", function(data) {
-		$('#right-pane').html(data);
-		bind_inter();
-	});
-}
-
-// ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane (base) {
-	$.get("corpora/" + base + "/right_pane.html", function(data) {
+	if (base == "tuto") {
+		dir = "tuto";
+	} else {
+		dir = "corpora/" + base
+	}
+	$.get(dir + "/right_pane.html", function(data) {
 		$('#right-pane').html(data);
 		$(".inter").click(function(){
 			var file = $(this).attr('snippet-file');
 			// Update of the textarea
-			$.get("corpora/" + base + "/" + file, function(pattern) {
+			$.get(dir + "/" + file, function(pattern) {
 				cmEditor.setValue(pattern);
 			});
 		});
