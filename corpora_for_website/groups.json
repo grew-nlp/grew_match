@@ -123,7 +123,7 @@
               { "id": "UD_Italian-PoSTWITA@2.2" }
             ]
           },
-          { "folder": "Jpanese",
+          { "folder": "Japanese",
             "corpora": [
               { "id": "UD_Japanese-BCCWJ@2.2" },
               { "id": "UD_Japanese-GSD@2.2" },
