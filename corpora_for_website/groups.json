@@ -7,7 +7,7 @@
       "default": "UD_English-EWT@2.2",
       "corpora":
         [
-          { "section" : "UD 2.2" },
+          { "section" : "UD 2.2 Corpora" },
           { "id": "UD_Afrikaans-AfriBooms@2.2" },
           { "id": "UD_Amharic-ATT@2.2" },
           { "folder": "Ancient Greek",

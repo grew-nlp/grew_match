@@ -106,6 +106,7 @@ function init() {
 	current_snippets = get_snippets(current_corpus);
 
 	init_sidebar ();
+	init_table_button ();
 
 	$('#save-pattern').prop('disabled',true);
 
@@ -462,6 +463,13 @@ function update_but_text () {
 	}
 }
 
+
+// ==================================================================================
+function init_table_button() {
+  $('#tables').on('click', function () {
+		window.open('http://match.grew.fr/tables/'+current_corpus+'.php');
+	});
+}
 
 
 // ==================================================================================
