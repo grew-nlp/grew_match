@@ -447,7 +447,7 @@
             { "id": "UD_French-GSD@dev" },
             { "id": "UD_French-Sequoia@dev" },
           { "section" : "Parseme" },
-            { "id": "UD_French-Sequoia+parseme@2.2", "snippets": "parseme" },
+            { "id": "UD_French-Sequoia_parseme@2.2", "snippets": "parseme" },
           { "section" : "Older versions" },
             { "id": "UD_French@2.0" },
             { "id": "UD_French@1.4" },
