@@ -467,7 +467,7 @@ function update_but_text () {
 // ==================================================================================
 function init_table_button() {
   $('#tables').on('click', function () {
-		window.open('http://match.grew.fr/tables/'+current_corpus+'.php');
+		window.open('tables/'+current_corpus+'.php');
 	});
 }
 
@@ -502,6 +502,12 @@ function update_corpus() {
 	folder= get_folder(corpus);
 	if (folder != undefined)
 		{ $("#"+folder).collapse('show'); }
+
+	$('#corpus-info').html("");
+	$.get("tables/"+current_corpus+"_info.html", function(data) {
+		$('#corpus-info').html(data);
+	});
+
 }
 
 // ==================================================================================
