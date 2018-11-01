@@ -452,6 +452,8 @@
             { "id": "SUD_French-GSD" },
             { "id": "SUD_French-Sequoia" },
             { "id": "SUD_French-Spoken" },
+            { "id": "SUD_Polish-LFG" },
+            { "id": "SUD_Polish-SZ" },
           { "section" : "Older UD versions" },
             { "id": "UD_French@2.0" },
             { "id": "UD_French@1.4" },
