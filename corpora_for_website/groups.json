@@ -535,6 +535,17 @@
           { "section" : "Constituent" },
             { "id": "sequoia.const@7.0", "snippets": "const" }
         ]
+    },
+
+    {
+      "id":    "amr",
+      "name":    "AMR",
+      "default": "Little_Prince",
+      "corpora":
+        [
+          { "id": "Little_Prince", "snippets": "surf" }
+        ]
     }
+
   ]
 }
