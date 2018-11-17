@@ -8,10 +8,21 @@ var current_view = 0;      // number of the result currently displayed
 var current_data;
 var current_group;
 var current_corpus;
+var current_folder;
 var current_snippets;
 
 // ==================================================================================
-function get_corpora(group_id) {
+function startsWith(text, word) {
+	str= String(text);
+	l = word.length;
+	var res = str.substr(0, l);
+	if (res == word) {
+		return (text)
+	}
+}
+
+// ==================================================================================
+function get_corpora_from_group (group_id) {
 	group_list = current_data["groups"];
 		for (var g=0 ; g < group_list.length ; g++)
 	{
@@ -45,37 +56,34 @@ function get_info(corpus,field) {
 }
 
 // ==================================================================================
-function get_group(corpus) {
+// return an array [real_corpus_name, folder, group]
+function search_corpus (requested_corpus) {
+	current_corpus = undefined; current_folder = undefined; current_group = undefined;
 	group_list = current_data["groups"];
 		for (var g=0 ; g < group_list.length ; g++)
 		{ corpora = group_list[g]["corpora"];
 			for (var c=0 ; c < corpora.length ; c++)
-				{ if (corpora[c]["id"] == corpus) { return group_list[g]["id"]; }
+				{ if (startsWith (corpora[c]["id"], corpus))
+					{ current_corpus = corpora[c]["id"];
+						current_group = group_list[g]["id"];
+						return;
+					}
 					if (corpora[c]["folder"] != undefined)
 						{ subcorpora = corpora[c]["corpora"];
 							for (var cc=0 ; cc < subcorpora.length ; cc++)
-								{ if (subcorpora[cc]["id"] == corpus) { return group_list[g]["id"]; }
+								{ if (startsWith (subcorpora[cc]["id"], corpus))
+									{
+										current_corpus = subcorpora[cc]["id"];
+										current_folder = corpora[c]["folder"];
+										current_group = group_list[g]["id"];
+										return;
+									}
 								}
 						}
 				}
 		}
-}
-
-// ==================================================================================
-function get_folder(corpus) {
-	group_list = current_data["groups"];
-		for (var g=0 ; g < group_list.length ; g++)
-		{ corpora = group_list[g]["corpora"];
-			for (var c=0 ; c < corpora.length ; c++)
-				{ if (corpora[c]["id"] == corpus) { return undefined }
-					if (corpora[c]["folder"] != undefined)
-						{ subcorpora = corpora[c]["corpora"];
-							for (var cc=0 ; cc < subcorpora.length ; cc++)
-								{ if (subcorpora[cc]["id"] == corpus) { return corpora[c]["folder"]; }
-								}
-						}
-				}
-		}
+		// no matching corpus here found
+		set_default ();
 }
 
 
@@ -98,12 +106,16 @@ $(document).ready(function(){
 });
 
 // ==================================================================================
-function init() {
-	console.log(current_data);
-
+function set_default() {
 	first_group = current_data["groups"][0];
 	current_group = first_group["id"];
 	current_corpus = first_group["default"];
+}
+
+// ==================================================================================
+function init() {
+	console.log(current_data);
+	set_default();
 	current_snippets = get_info(current_corpus, "snippets");
 
 	init_sidebar ();
@@ -129,7 +141,7 @@ function init() {
 
 	$('#select-tuto').click(function() { tuto () });
 
-	if (current_group == "tuto") { tuto(); }
+	if (current_group == "tuto") { tuto (); }
 	else { update_group(); }
 }
 
@@ -162,7 +174,8 @@ function tuto () {
 	$("#top-tuto").addClass("active");
 
 	$('#sidebarCollapse').hide();
-	set_corpus ("UD_English");
+	search_corpus ("UD_English-LinES@2.3");
+	update_corpus();
 	right_pane ("tuto");
 
 	$('#sidebar').removeClass('active');
@@ -194,8 +207,7 @@ function deal_with_get_parameters() {
 		if (corpus == "sequoia.deep_and_surf") { corpus = "sequoia.deep_and_surf@master"; }
 		if (corpus == "sequoia.deep_and_surf@UD-2.1 ") { corpus = "sequoia.deep_and_surf@8.1"; }
 
-		current_corpus = corpus;
-		current_group = get_group (corpus);
+		search_corpus(corpus);
 	};
 
 	// custom get parameter
@@ -510,9 +522,8 @@ function update_corpus() {
 	$(".selected_corpus").removeClass("selected_corpus");
 	$('#'+escape(current_corpus)).addClass("selected_corpus");
 
-	folder= get_folder(corpus);
-	if (folder != undefined)
-		{ $("#"+folder).collapse('show'); }
+	if (current_folder != undefined)
+		{ $("#"+current_folder).collapse('show'); }
 
 	$('#corpus-info').html("");
 	$.get("tables/"+current_corpus+"_info.html", function(data) {
@@ -545,7 +556,8 @@ function update_group () {
 	$("#top-"+current_group).addClass("active");
 	// sidebar
 
-	corpora = get_corpora (current_group);
+	corpora = get_corpora_from_group (current_group);
+
 	html = "";
 	$.each(corpora, function(index, value ) {
 		if ("section" in value) {
