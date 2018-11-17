@@ -19,9 +19,9 @@
           },
           { "folder": "Arabic",
             "corpora": [
-              { "id": "UD_Arabic-NYUAD@2.3" },
-              { "id": "UD_Arabic-PADT@2.3" },
-              { "id": "UD_Arabic-PUD@2.3" }
+              { "id": "UD_Arabic-NYUAD@2.3", "rtl": true },
+              { "id": "UD_Arabic-PADT@2.3", "rtl": true },
+              { "id": "UD_Arabic-PUD@2.3", "rtl": true }
             ]
           },
           { "id": "UD_Armenian-ArmTDP@2.3" },
@@ -105,7 +105,7 @@
           },
           { "id": "UD_Gothic-PROIEL@2.3" },
           { "id": "UD_Greek-GDT@2.3" },
-          { "id": "UD_Hebrew-HTB@2.3" },
+          { "id": "UD_Hebrew-HTB@2.3", "rtl": true },
           { "folder": "Hindi",
             "corpora": [
             { "id": "UD_Hindi-HDTB@2.3" },
@@ -174,7 +174,7 @@
           },
           { "id": "UD_Old_Church_Slavonic-PROIEL@2.3" },
           { "id": "UD_Old_French-SRCMF@2.3" },
-          { "id": "UD_Persian-Seraji@2.3" },
+          { "id": "UD_Persian-Seraji@2.3", "rtl": true  },
           { "folder": "Polish",
             "corpora": [
               { "id": "UD_Polish-LFG@2.3" },
@@ -238,8 +238,8 @@
           },
           { "id": "UD_Ukrainian-IU@2.3" },
           { "id": "UD_Upper_Sorbian-UFAL@2.3" },
-          { "id": "UD_Urdu-UDTB@2.3" },
-          { "id": "UD_Uyghur-UDT@2.3" },
+          { "id": "UD_Urdu-UDTB@2.3", "rtl": true  },
+          { "id": "UD_Uyghur-UDT@2.3", "rtl": true  },
           { "id": "UD_Vietnamese-VTB@2.3" },
           { "id": "UD_Warlpiri-UFAL@2.3" },
           { "id": "UD_Yoruba-YTB@2.3" }
@@ -262,9 +262,9 @@
           },
           { "folder": "Arabic",
             "corpora": [
-              { "id": "UD_Arabic-NYUAD@2.2" },
-              { "id": "UD_Arabic-PADT@2.2" },
-              { "id": "UD_Arabic-PUD@2.2" }
+              { "id": "UD_Arabic-NYUAD@2.2", "rtl": true },
+              { "id": "UD_Arabic-PADT@2.2", "rtl": true },
+              { "id": "UD_Arabic-PUD@2.2", "rtl": true }
             ]
           },
           { "id": "UD_Armenian-ArmTDP@2.2" },
@@ -344,7 +344,7 @@
           },
           { "id": "UD_Gothic-PROIEL@2.2" },
           { "id": "UD_Greek-GDT@2.2" },
-          { "id": "UD_Hebrew-HTB@2.2" },
+          { "id": "UD_Hebrew-HTB@2.2", "rtl": true },
           { "folder": "Hindi",
             "corpora": [
             { "id": "UD_Hindi-HDTB@2.2" },
@@ -412,7 +412,7 @@
           },
           { "id": "UD_Old_Church_Slavonic-PROIEL@2.2" },
           { "id": "UD_Old_French-SRCMF@2.2" },
-          { "id": "UD_Persian-Seraji@2.2" },
+          { "id": "UD_Persian-Seraji@2.2", "rtl": true },
           { "folder": "Polish",
             "corpora": [
               { "id": "UD_Polish-LFG@2.2" },
@@ -476,8 +476,8 @@
           },
           { "id": "UD_Ukrainian-IU@2.2" },
           { "id": "UD_Upper_Sorbian-UFAL@2.2" },
-          { "id": "UD_Urdu-UDTB@2.2" },
-          { "id": "UD_Uyghur-UDT@2.2" },
+          { "id": "UD_Urdu-UDTB@2.2", "rtl": true  },
+          { "id": "UD_Uyghur-UDT@2.2", "rtl": true  },
           { "id": "UD_Vietnamese-VTB@2.2" },
           { "id": "UD_Warlpiri-UFAL@2.2" },
           { "id": "UD_Yoruba-YTB@2.2" }

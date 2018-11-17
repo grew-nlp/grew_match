@@ -22,17 +22,18 @@ function get_corpora(group_id) {
 }
 
 // ==================================================================================
-function get_snippets(corpus) {
+// search for the requested field in the json object which contains the "id" corpus
+function get_info(corpus,field) {
 	function aux() {
 		group_list = current_data["groups"];
 			for (var g=0 ; g < group_list.length ; g++)
 			{ corpora = group_list[g]["corpora"];
 				for (var c=0 ; c < corpora.length ; c++)
-					{ if (corpora[c]["id"] == corpus) { return corpora[c]["snippets"]; }
+					{ if (corpora[c]["id"] == corpus) { return corpora[c][field]; }
 						if (corpora[c]["folder"] != undefined)
 							{ subcorpora = corpora[c]["corpora"];
 								for (var cc=0 ; cc < subcorpora.length ; cc++)
-									{ if (subcorpora[cc]["id"] == corpus) { return subcorpora[cc]["snippets"]; }
+									{ if (subcorpora[cc]["id"] == corpus) { return subcorpora[cc][field]; }
 									}
 							}
 					}
@@ -103,7 +104,7 @@ function init() {
 	first_group = current_data["groups"][0];
 	current_group = first_group["id"];
 	current_corpus = first_group["default"];
-	current_snippets = get_snippets(current_corpus);
+	current_snippets = get_info(current_corpus, "snippets");
 
 	init_sidebar ();
 	init_table_button ();
@@ -245,6 +246,7 @@ function right_pane (base) {
 
 // ==================================================================================
 function request_pattern(next) {
+
 	if (!next) {
 		if (cmEditor.getValue().length == 0) {
 			sweetAlert("An error occurred", "You can't search for an empty pattern.", "error");
@@ -320,6 +322,14 @@ function request_pattern(next) {
 									var w = $("#display-results").width();
 									$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
 									$("#sentence-txt").html(pieces[3]);
+
+									// set the writting direction
+									if (get_info (current_corpus, "rtl")) {
+										$('#sentence-txt').attr("dir", "rtl");
+									} else {
+										$('#sentence-txt').removeAttr("dir");
+									}
+
 									$("#display-sentence").show();
 								};
 								result_nb++;
@@ -487,9 +497,10 @@ function set_corpus (corpus) {
 
 // ==================================================================================
 function update_corpus() {
-	current_snippets = get_snippets (current_corpus);
+	// set the corpus name
 	$('#corpus-fixed').html(current_corpus);
 
+	current_snippets = get_info (current_corpus,"snippets");
 	if (current_snippets == "") {
 		right_pane (current_group)
 	} else {
