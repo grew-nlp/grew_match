@@ -369,7 +369,7 @@ function save_pattern(){
 			data: {pattern: cmEditor.getValue(), id:current_request_id},
 			type: 'post',
 			success: function(output){
-				history.pushState({id:output},"Grew - Custom saved pattern", "?custom=" + output + "&corpus=" + current_corpus);
+				history.pushState({id:output},"Grew - Custom saved pattern", "?corpus=" + current_corpus + "&custom=" + output);
 				$('#custom-url').text(window.location.href);
 				$('#custom-display').show();
 				SelectText("custom-url");
