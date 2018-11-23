@@ -494,6 +494,7 @@
             { "id": "UD_French-Sequoia@dev" },
           { "section" : "Parseme" },
             { "id": "UD_French-Sequoia_parseme@2.2", "snippets": "parseme" },
+            { "id": "UD_French-Sequoia_parseme@2.3", "snippets": "parseme" },
           { "section" : "SUD Treebanks" },
             { "id": "SUD_French-GSD", "snippets": "sud"  },
             { "id": "SUD_French-Sequoia", "snippets": "sud"  },
