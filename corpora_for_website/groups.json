@@ -543,7 +543,7 @@
       "default": "Little_Prince",
       "corpora":
         [
-          { "id": "Little_Prince", "snippets": "surf" }
+          { "id": "Little_Prince", "snippets": "amr" }
         ]
     }
 
