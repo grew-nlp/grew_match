@@ -530,6 +530,7 @@
             { "id": "sequoia.deep_and_surf@8.0", "snippets": "deep_and_surf"  },
             { "id": "sequoia.deep_and_surf@7.0", "snippets": "deep_and_surf"  },
           { "section" : "PARSEME-FR" },
+            { "id": "parseme.deep_and_surf@master", "snippets": "parseme-check" },
             { "id": "sequoia-PARSEME.surf@8.3", "snippets": "parseme" },
             { "id": "sequoia-PARSEME.deep_and_surf@8.3", "snippets": "parseme" },
           { "section" : "Constituent" },
