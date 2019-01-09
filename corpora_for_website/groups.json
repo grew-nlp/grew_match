@@ -544,7 +544,9 @@
       "default": "Little_Prince",
       "corpora":
         [
-          { "id": "Little_Prince", "snippets": "amr" }
+          { "id": "Little_Prince", "snippets": "amr" },
+          { "id": "Bio_AMR_Corpus", "snippets": "amr" },
+          { "id": "Spec_1.2.5", "snippets": "amr" }
         ]
     }
 
