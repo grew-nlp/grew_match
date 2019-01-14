@@ -548,7 +548,37 @@
           { "id": "Bio_AMR_Corpus", "snippets": "amr" },
           { "id": "Spec_1.2.5", "snippets": "amr" }
         ]
-    }
+    },
 
+    {
+      "id": "orfeo",
+      "name": "Orfeo",
+      "default": "cefc-gold",
+      "corpora":
+        [
+          { "section" : "Gold" },
+          { "id": "cefc-gold"},
+          { "section" : "non Gold" },
+          { "id": "annodis"},
+          { "id": "fleuron"},
+          { "id": "comere"},
+          { "id": "frantext"},
+          { "id": "ofrom"},
+          { "id": "scientext"},
+          { "id": "husianycia"},
+          { "id": "valibel"},
+          { "id": "frenchoralnarrative"},
+          { "id": "crfp"},
+          { "id": "cfpb"},
+          { "id": "cfpp"},
+          { "id": "est-republicain"},
+          { "id": "coralrom"},
+          { "id": "chambers-rostand"},
+          { "id": "clapi"},
+          { "id": "tufs"},
+          { "id": "reunions-de-travail"},
+          { "id": "tcof"}
+        ]
+    }
   ]
 }

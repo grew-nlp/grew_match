@@ -91,6 +91,7 @@
                 <p>
                   <button class="btn btn-primary" id="submit-pattern" onclick="javascript:request_pattern(false)" >Search</button>
                   <button class="btn btn-primary" id="save-pattern" onclick="javascript:save_pattern()" >Save</button>
+                  &nbsp;&nbsp;
                   <label>
                     <input type="checkbox" id="lemma-box" checked> lemma
                   </label>
@@ -106,9 +107,9 @@
                   &nbsp;&nbsp;
                     <input type="checkbox" id="features-box" checked> features </input>
                   </label>
-                  <label id="conllu-label">
+                  <label id="snd_feat-label">
                   &nbsp;&nbsp;
-                    <input type="checkbox" id="conllu-box"> CoNNL-U
+                    <input type="checkbox" id="add_feats-box"> Add feats
                       <span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="corpus-desc"></span>
                   </label>
                   <label>
@@ -170,13 +171,22 @@
   </div> <!-- wrapper -->
 
 <!-- tooltip content -->
-<div id="conllu-tip" style="display: none;">
-  Show CoNNL-U specificities as additional features:
+<div id="snd_feat-tip" style="display: none;">
+  <p>Show additional features (features with a name starting with <span class="feat">_</span>)</p>
+
+  <p>For CoNNL-U data, additional features are used for:
   <ul>
-    <li>Features of column 10 (MISC) are shown with the prefix <span class="feat">_MISC_</span></li>
-    <li>Empty nodes have a feature <span class="feat">_UD_empty=Yes</span></li>
+    <li>Features of column 10 (MISC) (shown with the prefix <span class="feat">_MISC_</span>)</li>
+    <li>Empty node (feature <span class="feat">_UD_empty=Yes</span>)</li>
     <li>Multiword tokens are described on the first element with features <span class="feat">_UD_mw_fusion</span> and <span class="feat">_UD_mw_span</span>
   </ul>
+
+  <p>For Orfeo data, additional features are:
+  <ul>
+    <li><span class="feat">_start</span> and <span class="feat">_stop</span> for time span (columns 11 and 12 in data)</li>
+    <li><span class="feat">_speaker</span> for speaker value (column 13)</li>
+  </ul>
+
 </div>
 
 

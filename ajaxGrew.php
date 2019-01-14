@@ -24,7 +24,7 @@ if (isset($_POST['pattern'])) {
 	fwrite($infos, $_POST['upos'] . "\n");
 	fwrite($infos, $_POST['xpos'] . "\n");
 	fwrite($infos, $_POST['features'] . "\n");
-	fwrite($infos, $_POST['conllu'] . "\n");
+	fwrite($infos, $_POST['add_feats'] . "\n");
 	fwrite($infos, $_POST['shuffle'] . "\n");
 	fwrite($infos, $_POST['context'] . "\n");
 	fclose($corpus);

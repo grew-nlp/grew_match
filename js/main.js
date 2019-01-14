@@ -102,7 +102,7 @@ $(document).ready(function(){
 			interactive:true,
 			position:'bottom'
 		});
-	$('.tooltip-desc').tooltipster('content',$("#conllu-tip").html());
+	$('.tooltip-desc').tooltipster('content',$("#snd_feat-tip").html());
 });
 
 // ==================================================================================
@@ -274,7 +274,7 @@ function request_pattern(next) {
 			upos:$('#upos-box').prop('checked'),
 			xpos:$('#xpos-box').prop('checked'),
 			features:$('#features-box').prop('checked'),
-			conllu:$('#conllu-box').prop('checked'),
+			add_feats:$('#add_feats-box').prop('checked'),
 			shuffle:$('#shuffle-box').prop('checked'),
 			context:$('#context-box').prop('checked'),
 		}
@@ -615,12 +615,12 @@ function update_group () {
 function set_sequoia() {
 	$("#upos-text").html("cat");
 	$("#xpos-text").html("pos");
-	$("#conllu-label").hide();
+	$("#add_feats-label").hide();
 }
 
 // ==================================================================================
 function set_ud() {
 	$("#upos-text").html("upos");
 	$("#xpos-text").html("xpos");
-	$("#conllu-label").show();
+	$("#add_feats-label").show();
 }
