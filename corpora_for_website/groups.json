@@ -563,27 +563,30 @@
       "corpora":
         [
           { "section" : "Gold" },
-          { "id": "cefc-gold"},
-          { "section" : "non Gold" },
-          { "id": "annodis"},
-          { "id": "fleuron"},
-          { "id": "comere"},
-          { "id": "frantext"},
-          { "id": "ofrom"},
-          { "id": "scientext"},
-          { "id": "husianycia"},
-          { "id": "valibel"},
-          { "id": "frenchoralnarrative"},
-          { "id": "crfp"},
-          { "id": "cfpb"},
-          { "id": "cfpp"},
-          { "id": "est-republicain"},
-          { "id": "coralrom"},
-          { "id": "chambers-rostand"},
-          { "id": "clapi"},
-          { "id": "tufs"},
-          { "id": "reunions-de-travail"},
-          { "id": "tcof"}
+            { "id": "cefc-gold"},
+          { "section" : "Spoken" },
+            { "id": "fleuron"},
+            { "id": "ofrom"},
+            { "id": "husianycia"},
+            { "id": "valibel"},
+            { "id": "frenchoralnarrative"},
+            { "id": "crfp"},
+            { "id": "cfpb"},
+            { "id": "cfpp"},
+            { "id": "coralrom"},
+            { "id": "clapi"},
+            { "id": "tufs"},
+            { "id": "reunions-de-travail"},
+            { "id": "tcof"},
+
+          { "section" : "Written" },
+            { "id": "annodis"},
+            { "id": "comere"},
+            { "id": "frantext"},
+            { "id": "scientext"},
+            { "id": "est-republicain"},
+            { "id": "chambers-rostand"}
+
         ]
     }
   ]
