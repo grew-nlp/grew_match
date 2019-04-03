@@ -84,14 +84,11 @@
                   <span id="corpus-fixed"></span>
                   <span style="font-size: 66%" id="corpus-info"></span>
                   <button type="button" id="tables" class="btn btn-primary" style="float: right;" >
-                    See relation tables
+                    Relation tables
                   </button>
                 </h2>
-                <textarea id="pattern-input" rows="7"></textarea>
+                <textarea id="pattern-input"></textarea>
                 <p>
-                  <button class="btn btn-primary" id="submit-pattern" onclick="javascript:request_pattern(false)" >Search</button>
-                  <button class="btn btn-primary" id="save-pattern" onclick="javascript:save_pattern()" >Save</button>
-                  &nbsp;&nbsp;
                   <label>
                     <input type="checkbox" id="lemma-box" checked> lemma
                   </label>
@@ -119,6 +116,12 @@
                   <label>
                   &nbsp;&nbsp;
                     <input type="checkbox" id="context-box"> context
+                </p>
+                <p>
+                  <button class="btn btn-primary" id="submit-pattern" onclick="javascript:request_pattern(false)" >Search</button>
+                  <button class="btn btn-primary" id="save-button" onclick="javascript:save_pattern()" >Save</button>
+                  <button class="btn btn-primary" id="export-button" onclick="javascript:export_tsv()" >Export</button>
+                  &nbsp;&nbsp;
                   </label>
                 </p>
                 <p>
@@ -186,9 +189,22 @@
     <li><span class="feat">_start</span> and <span class="feat">_stop</span> for time span (columns 11 and 12 in data)</li>
     <li><span class="feat">_speaker</span> for speaker value (column 13)</li>
   </ul>
-
 </div>
 
+<!-- modal for data export -->
+<div id="exportModal" class="modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <button type="button" class="btn btn-primary" onclick="javascript:download()">Download TSV file&nbsp;&nbsp;</button>
+      </div>
+      <div class="modal-body">
+        <div id="exportResult"></div>
+        </div>
+      </div>
+    </div>
+</div>
 
 </body>
 </html>

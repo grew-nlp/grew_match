@@ -11,6 +11,8 @@ var current_corpus;
 var current_folder;
 var current_snippets;
 
+var already_exported = false
+
 // ==================================================================================
 function startsWith(text, word) {
 	str= String(text);
@@ -121,7 +123,9 @@ function init() {
 	init_sidebar ();
 	init_table_button ();
 
-	$('#save-pattern').prop('disabled',true);
+	$('#save-button').prop('disabled',true);
+	$('#export-button').prop('disabled',true);
+	already_exported=false;
 
 	// Initialise CodeMirror
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
@@ -134,7 +138,9 @@ function init() {
 
 	// Binding on CodeMirror change
 	cmEditor.on ("change", function () {
-		$('#save-pattern').prop('disabled',true);
+		$('#save-button').prop('disabled',true);
+		$('#export-button').prop('disabled',true);
+		already_exported=false;
 		$('#custom-display').hide();
 	});
 
@@ -291,7 +297,8 @@ function request_pattern(next) {
 		success: function(id){
 			current_request_id=id;
 			$.get("./data/" + id + "/list", function(data) {
-				$('#save-pattern').prop('disabled',false);
+				$('#save-button').prop('disabled',false);
+				$('#export-button').prop('disabled',false);
 				lines = data.split("\n");
 				if (lines[0] == '<!>') {
 					sweetAlert('The daemon is not running\n\nTry again in a few minutes');
@@ -373,6 +380,60 @@ function display_picture(event){
 	update_progress_num();
 }
 
+// ==================================================================================
+function show_modal () {
+	$.get('./data/' + current_request_id + '/export.tsv',function(data){
+		lines = data.split("\n");
+		html = "<table class=\"export-table\">";
+
+		html += "<colgroup>";
+		html += "<col width=\"45%\" />";
+		html += "<col width=\"10%\" />";
+		html += "<col width=\"45%\" />";
+		html += "</colgroup>";
+
+		for (var i in lines) {
+			html += "<tr><td>\n";
+			html += lines[i].replace(/\t/g, "</td><td>");;
+			html += "\n";
+			html += "</td></tr>\n";
+		}
+		html += "</table>";
+
+		$("#exportResult").html(html);
+	});
+	$('#exportModal').modal('show');
+}
+
+
+// ==================================================================================
+function export_tsv() {
+	if (current_request_id.length > 0) {
+		if (already_exported) {
+			show_modal();
+		} else {
+			$.ajax({url:'export.php',
+				dataType:'text',
+				data: {id:current_request_id},
+				type: 'post',
+				success: function(output){
+					already_exported=true;
+					show_modal();
+				},
+				error: function(x) {
+					alert (x);
+				}
+			});
+		}
+	} else {
+		sweetAlert("An error occured", "You can't export before searching.", "error");
+	}
+}
+
+// ==================================================================================
+function download() {
+	window.location = './data/' + current_request_id + '/export.tsv';
+}
 // ==================================================================================
 function save_pattern(){
 	if (cmEditor.getValue().length > 0 && current_request_id.length > 0) {
@@ -568,11 +629,16 @@ function update_group () {
 		else if ("id" in value) {
 			id = value["id"];
 			esc_id = escape(id);
+			if ("name" in value) {
+				name = value["name"];
+			} else {
+				name = id;
+			}
 			html += '<div class="corpus">\n';
 			html += '<table id="'+esc_id+'" class="table" onclick="set_corpus(\'' + id + '\');return false;" href="#">\n';
 			html += '<tr><td class="alone">\n';
 			html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
-			html += id +'\n';
+			html += name +'\n';
 			html += '</td></tr>\n';
 			html += '</table>\n';
 			html += '</div>\n';

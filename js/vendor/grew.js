@@ -13,7 +13,7 @@
 
     CodeMirror.defineMode('mllike', function(_config, parserConfig) {
 	var words = {
-	    'match': 'builtin',
+	    'global': 'builtin',
 	    'pattern': 'builtin',
 	    'without': 'builtin',
 	};
