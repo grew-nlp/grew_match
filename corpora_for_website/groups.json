@@ -500,6 +500,8 @@
             { "id": "UD_French-GSD-NTR@dev" },
             { "id": "UD_French-Sequoia@dev" },
             { "id": "UD_French-FQB@dev" },
+            { "id": "UD_French-ParTUT@dev" },
+            { "id": "UD_French-PUD@dev" },
           { "section" : "Parseme" },
             { "id": "UD_French-Sequoia_parseme@2.2", "snippets": "parseme" },
             { "id": "UD_French-Sequoia_parseme@2.3", "snippets": "parseme" },
