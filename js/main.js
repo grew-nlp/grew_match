@@ -322,7 +322,7 @@ function request_pattern(next) {
 						} else if (lines[i] == '<PAUSE>') {
 							$("#next-results").prop('disabled',false);
 						} else if (lines[i] == '<TOTAL>') {
-							$('#progress-txt').html(lines[i+1] + ' occurence' + ((lines[i+1]>1)? 's' : '') + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
+							$('#progress-txt').html(lines[i+1] + ' occurrence' + ((lines[i+1]>1)? 's' : '') + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
 							i += 2; // Skip the two next lines (nb of occ, time)
 						} else if (lines[i] == '<OVER>') {
 							$('#progress-txt').html('More than 1000 results found in ' + lines[i+1] + '% of the corpus' + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');

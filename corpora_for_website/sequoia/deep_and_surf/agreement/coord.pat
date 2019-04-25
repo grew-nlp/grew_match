@@ -1,4 +1,4 @@
-% The previous pattern still returns occurence that are corretly annotated:
+% The previous pattern still returns occurrences that are corretly annotated:
 % for instance, in [annodis.er_00130], the subject is a coordination.
 % Here, we avoid theses cases.
 
