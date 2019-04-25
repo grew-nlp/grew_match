@@ -1,4 +1,4 @@
-% The previous pattern returns occurence that are corretly annotated:
+% The previous pattern returns occurrences that are corretly annotated:
 % for instance, in [annodis.er_00048], the verb is a past participle used with "avoir" auxiliary
 % in this case, most of the times, there is no agreement. Here, we avoid theses cases.
 
