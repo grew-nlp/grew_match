@@ -1,0 +1,9 @@
+% According to PropBank, the concept "go-on-15" has one argument ARG1 (see http://verbs.colorado.edu/propbank/framesets-english-aliases/go.html#go_on.15)
+% The pattern below search for two nodes:
+% * One node "N" correponding to the concept "go-on-15"
+% * One node "A" linked to "N" by the relation "ARG1"
+
+pattern {
+	N [label = "go-on-15"];
+	N -[ARG1]-> A;
+}

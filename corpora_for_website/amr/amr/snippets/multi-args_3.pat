@@ -1,9 +1,9 @@
-% Search for a node which is the source of the 3 relations
-% With the star notation, the targets of relations may be identical or not
+% Search for a node which is the source of the 3 relations ARG0, ARG1 and ARG2, all cases
+% The clause "N -[ARG1]-> *" is a constraint saying "N" must have an "ARG1" outgoing edge with out really matching the target of this relation.
+% The following pattern finds all possible cases.
 
 pattern {
-	N []; % node N must be declared separatly because next clauses are just constraints applied to the matched nodes
-	N -[ARG0]-> *;
+	N -[ARG0]-> A;
 	N -[ARG1]-> *;
 	N -[ARG2]-> *;
 }

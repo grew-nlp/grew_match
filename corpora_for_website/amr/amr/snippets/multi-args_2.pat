@@ -1,4 +1,5 @@
 % Search for a node which is the source of the 3 relations, the targets of ARG0 and ARG1 being identical
+% See next snippets for more general solution
 
 pattern {
 	N -[ARG0]-> N0;
