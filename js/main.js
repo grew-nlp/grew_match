@@ -680,9 +680,10 @@ function update_group () {
 // ==================================================================================
 function set_ud() {
 	$("#tables").show();
-	$("#xpos-box").show();
-	$("#upos-box").show();
-	$("#lemma-box").show();
+	$("#xpos-option").show();
+	$("#upos-option").show();
+	$("#lemma-option").show();
+	$("#add_feats-option").show();
 	$("#add_feats-label").show();
 	$("#export-button").show();
 }
@@ -690,9 +691,10 @@ function set_ud() {
 // ==================================================================================
 function set_amr() {
 	$("#tables").hide();
-	$("#xpos-box").hide();
-	$("#upos-box").hide();
-	$("#lemma-box").hide();
+	$("#xpos-option").hide();
+	$("#upos-option").hide();
+	$("#lemma-option").hide();
+	$("#add_feats-option").hide();
 	$("#add_feats-label").hide();
 	$("#export-button").hide();
 }
