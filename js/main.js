@@ -604,7 +604,7 @@ function select_group (group, corpus) {
 function update_group () {
 
 	// update labels of checkboxes
-	if (current_group == "sequoia") { set_sequoia();}
+	if (current_group == "amr")	{ set_amr();}
 	else { set_ud (); }
 
 	// sidebar open and button visible
@@ -678,15 +678,23 @@ function update_group () {
 }
 
 // ==================================================================================
-function set_sequoia() {
-	$("#upos-text").html("cat");
-	$("#xpos-text").html("pos");
-	$("#add_feats-label").hide();
+function set_ud() {
+	$("#tables").show();
+	$("#xpos-box").show();
+	$("#upos-box").show();
+	$("#lemma-box").show();
+	$("#add_feats-label").show();
+	$("#export-button").show();
 }
 
 // ==================================================================================
-function set_ud() {
-	$("#upos-text").html("upos");
-	$("#xpos-text").html("xpos");
-	$("#add_feats-label").show();
+function set_amr() {
+	$("#tables").hide();
+	$("#xpos-box").hide();
+	$("#upos-box").hide();
+	$("#lemma-box").hide();
+	$("#add_feats-label").hide();
+	$("#export-button").hide();
 }
+
+
