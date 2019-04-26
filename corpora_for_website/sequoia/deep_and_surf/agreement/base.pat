@@ -4,6 +4,6 @@
 
 pattern {
   S [n=*];                                       % <--- a node S with a feature n
-  V [cat=V, n=*];                                % <--- a node V with a feature cat=V and a feature n
+  V [upos=V, n=*];                                % <--- a node V with a feature upos=V and a feature n
   V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;  % <--- a dependency from V to S with a final function "subject"
 }

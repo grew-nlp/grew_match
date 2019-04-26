@@ -4,7 +4,7 @@
 
 pattern {
   S [n=*];
-  V [cat=V, n=*];
+  V [upos=V, n=*];
   V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;
 }
 without {
@@ -12,7 +12,7 @@ without {
 }
 without {
   V[m=part, t=past];
-  A[cat=V];
+  A[upos=V];
   V -[S:aux.tps]-> A;
 }
 without {
@@ -21,5 +21,5 @@ without {
   S -[coord]-> *;
 }
 without {
-  S[cat=N, lemma="minorité"|"majorité"|"ensemble"|"nombre"|"dizaine"|"douzaine"|"quinzaine"|"vingtaine"|"trentaine"|"quarantaine"]     % <--- the NEW without clause referring to lexical information
+  S[upos=N, lemma="minorité"|"majorité"|"ensemble"|"nombre"|"dizaine"|"douzaine"|"quinzaine"|"vingtaine"|"trentaine"|"quarantaine"]     % <--- the NEW without clause referring to lexical information
 }

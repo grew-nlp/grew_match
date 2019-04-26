@@ -4,7 +4,7 @@
 
 pattern {
   S [n=*];
-  V [cat=V, n=*];
+  V [upos=V, n=*];
   V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;
 }
 without {
@@ -12,6 +12,6 @@ without {
 }
 without {
   V[m=part, t=past];         % <--- The verb is a past participle
-  A[cat=V];                  % <--- There is a new node A with cat=V
+  A[upos=V];                  % <--- There is a new node A with upos=V
   V -[S:aux.tps]-> A;        % <--- And there is a link "tense auxiliary" from V to A
 }

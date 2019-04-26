@@ -1,2 +1,2 @@
 % Search for a node Srel-MOD with a sub-constituent NP-SUJ
-pattern { M [cat="Srel-MOD"]; N [cat="NP-SUJ"]; M -> N }
+pattern { M [upos="Srel-MOD"]; N [upos="NP-SUJ"]; M -> N }

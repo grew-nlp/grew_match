@@ -1,3 +1,3 @@
-% Search for a given lexical unit
+% Search for a given word form
 
-pattern { N [form="Enter a word here!"] }
+pattern { N [form="Form_to_search"] }

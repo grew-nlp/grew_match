@@ -2,7 +2,7 @@
 
 pattern {
   V[lemma="prendre"]; 
-  OBJ[cat=N]; 
+  OBJ[upos=N]; 
   V -[obj]-> OBJ 
 }
 without { 

@@ -4,7 +4,7 @@
 
 pattern {
   S [n=*];
-  V [cat=V, n=*];
+  V [upos=V, n=*];
   V -[suj:suj|suj:obj|S:suj:suj|S:suj:obj]-> S;
 }
 without {

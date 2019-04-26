@@ -7,5 +7,5 @@ pattern {
   C -[dep.coord]-> N2;
   N1.cat <> N2.cat;
 }
-without { N1 [cat=P]; N2 [cat="P+D"]; }
-without { N2 [cat=P]; N1 [cat="P+D"]; }
+without { N1 [upos=P]; N2 [upos="P+D"]; }
+without { N2 [upos=P]; N1 [upos="P+D"]; }

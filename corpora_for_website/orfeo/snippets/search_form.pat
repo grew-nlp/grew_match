@@ -1,3 +1,3 @@
-% Search for a given lexical form
+% Search for a given word form
 
-pattern { N [form="word_to_search"] }
+pattern { N [form="Form_to_search"] }

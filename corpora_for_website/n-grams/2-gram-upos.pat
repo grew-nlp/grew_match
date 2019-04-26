@@ -1,3 +1,4 @@
-% Search for the bigram of upos: DET, NOUN
+% Search for bigrams of upos
+% For instance: DET, NOUN
 
 pattern { N1 [upos=DET]; N2 [upos=NOUN]; N1 < N2 }
