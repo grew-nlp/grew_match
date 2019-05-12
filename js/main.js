@@ -643,18 +643,22 @@ function update_group () {
 			html += '</table>\n';
 			html += '</div>\n';
 		} else {
-			var id_acc = value["folder"].replace(/ /g, "_");
-      html += '<div class="panel panel-default">\n';
+			var href = "none"
+			if (value["href"]) {
+				href = value["href"];
+			} else {
+				href = value["folder"].replace(" ", "_");
+			}
+			html += '<div class="panel panel-default">\n';
       html += '<div class="panel-heading">\n';
       html += '<h4 class="panel-title">\n';
-//      html += '<a data-toggle="collapse" href="#'+id_acc+'">\n';
-      html += '<a data-toggle="collapse" href="#'+id_acc+'" id="folder_'+ id_acc +'">\n';
+      html += '<a data-toggle="collapse" href="#'+href+'" id="folder_'+ href +'">\n';
       html += '<span class="glyphicon glyphicon-folder-open"></span>\n';
       html += value["folder"]+'\n';
       html += '</a>\n';
       html += '</h4>\n';
       html += '</div>\n';
-      html += '<div id="'+id_acc+'" class="panel-collapse collapse">\n';
+      html += '<div id="'+href+'" class="panel-collapse collapse">\n';
       html += '<div class="panel-body">\n';
       html += '<table class="table">\n';
 			$.each(value["corpora"], function(index, value ) {

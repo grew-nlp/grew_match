@@ -526,24 +526,60 @@
       "default": "sequoia.surf@master",
       "corpora":
         [
-          { "section" : "Sequoia" },
+          { "section" : "Sequoia@9.0"},
+            { "id": "sequoia.surf@9.0", "snippets": "surf" },
+            { "id": "sequoia.deep_and_surf@9.0", "snippets": "deep_and_surf"},
+            { "id": "sequoia.surf.parseme@9.0", "snippets": "parseme"},
+            { "id": "sequoia.deep_and_surf.parseme@9.0", "snippets": "parseme"},
+
+          { "section" : "Sequoia@master" },
             { "id": "sequoia.surf@master", "snippets": "surf" },
-            { "id": "sequoia.surf@8.3", "snippets": "surf" },
-            { "id": "sequoia.surf@8.2", "snippets": "surf" },
-            { "id": "sequoia.surf@8.1", "snippets": "surf" },
-            { "id": "sequoia.surf@8.0", "snippets": "surf" },
-            { "id": "sequoia.surf@7.0", "snippets": "surf" },
-          { "section" : "Deep and surf" },
-            { "id": "sequoia.deep_and_surf@master", "snippets": "deep_and_surf" },
-            { "id": "sequoia.deep_and_surf@8.3", "snippets": "deep_and_surf"  },
-            { "id": "sequoia.deep_and_surf@8.2", "snippets": "deep_and_surf"  },
-            { "id": "sequoia.deep_and_surf@8.1", "snippets": "deep_and_surf"  },
-            { "id": "sequoia.deep_and_surf@8.0", "snippets": "deep_and_surf"  },
-            { "id": "sequoia.deep_and_surf@7.0", "snippets": "deep_and_surf"  },
-          { "section" : "PARSEME-FR" },
-            { "id": "parseme.deep_and_surf@master", "snippets": "parseme-check" },
-            { "id": "sequoia-PARSEME.surf@8.3", "snippets": "parseme" },
-            { "id": "sequoia-PARSEME.deep_and_surf@8.3", "snippets": "parseme" },
+            { "id": "sequoia.deep_and_surf@master", "snippets": "deep_and_surf"},
+            { "id": "sequoia.surf.parseme@master", "snippets": "parseme"},
+            { "id": "sequoia.deep_and_surf.parseme@master", "snippets": "parseme"},
+
+
+          { "section" : "Older versions" },
+          { "folder": "Sequoia@8.3",
+            "href" : "seq83",
+            "corpora": [
+              { "id": "sequoia.surf@8.3", "snippets": "surf" },
+              { "id": "sequoia.deep_and_surf@8.3", "snippets": "deep_and_surf"  }
+            ]
+          },
+
+          { "folder": "Sequoia@8.2",
+            "href" : "seq82",
+            "corpora": [
+              { "id": "sequoia.surf@8.2", "snippets": "surf" },
+              { "id": "sequoia.deep_and_surf@8.2", "snippets": "deep_and_surf"  }
+            ]
+          },
+
+          { "folder": "Sequoia@8.1",
+            "href" : "seq81",
+            "corpora": [
+              { "id": "sequoia.surf@8.1", "snippets": "surf" },
+              { "id": "sequoia.deep_and_surf@8.1", "snippets": "deep_and_surf"  }
+            ]
+          },
+
+          { "folder": "Sequoia@8.0",
+            "href" : "seq80",
+            "corpora": [
+              { "id": "sequoia.surf@8.0", "snippets": "surf" },
+              { "id": "sequoia.deep_and_surf@8.0", "snippets": "deep_and_surf"  }
+            ]
+          },
+
+          { "folder": "Sequoia@7.0",
+            "href" : "seq70",
+            "corpora": [
+              { "id": "sequoia.surf@7.0", "snippets": "surf" },
+              { "id": "sequoia.deep_and_surf@7.0", "snippets": "deep_and_surf"  }
+            ]
+          },
+
           { "section" : "Constituent" },
             { "id": "sequoia.const@7.0", "snippets": "const" }
         ]
