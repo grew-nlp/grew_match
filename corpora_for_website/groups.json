@@ -561,18 +561,17 @@
       "default": "sequoia.surf@master",
       "corpora":
         [
-          { "section" : "Sequoia@9.0"},
-            { "id": "sequoia.surf@9.0", "snippets": "surf" },
-            { "id": "sequoia.deep_and_surf@9.0", "snippets": "deep_and_surf"},
-            { "id": "sequoia.surf.parseme@9.0", "snippets": "parseme"},
-            { "id": "sequoia.deep_and_surf.parseme@9.0", "snippets": "parseme"},
-
           { "section" : "Sequoia@master" },
             { "id": "sequoia.surf@master", "snippets": "surf" },
             { "id": "sequoia.deep_and_surf@master", "snippets": "deep_and_surf"},
             { "id": "sequoia.surf.parseme@master", "snippets": "parseme"},
             { "id": "sequoia.deep_and_surf.parseme@master", "snippets": "parseme"},
 
+          { "section" : "Sequoia@9.0"},
+            { "id": "sequoia.surf@9.0", "snippets": "surf" },
+            { "id": "sequoia.deep_and_surf@9.0", "snippets": "deep_and_surf"},
+            { "id": "sequoia.surf.parseme@9.0", "snippets": "parseme"},
+            { "id": "sequoia.deep_and_surf.parseme@9.0", "snippets": "parseme"},
 
           { "section" : "Older versions" },
           { "folder": "Sequoia@8.3",

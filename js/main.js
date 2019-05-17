@@ -180,7 +180,7 @@ function tuto () {
 	$("#top-tuto").addClass("active");
 
 	$('#sidebarCollapse').hide();
-	search_corpus ("UD_English-LinES@2.3");
+	search_corpus ("UD_English-GUM@2.4");
 	update_corpus();
 	right_pane ("tuto");
 
