@@ -1,5 +1,5 @@
 % Search for a dependency relation
-% In orfeo, Available relations are:
-%   aux, dep, det, dis, mark, para, parenth, periph, punc, root, spe, subj
+% In orfeo, available relations are:
+%   aux, dep, det, disflink, dm, mark, para, parenth, periph, punc, root, spe, subj
 
 pattern { GOV -[mark]-> DEP }
