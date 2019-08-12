@@ -666,6 +666,35 @@
     },
 
     {
+      "id": "parseme",
+      "name": "PARSEME",
+      "default": "PARSEME-EN",
+      "corpora":
+        [
+          { "section" : "PARSEME ST-1.1" },
+            { "id": "PARSEME-BG", "name": "Bulgarian", "snippets": "parseme" },
+            { "id": "PARSEME-DE", "name": "German", "snippets": "parseme" },
+            { "id": "PARSEME-EL", "name": "Greek", "snippets": "parseme" },
+            { "id": "PARSEME-EN", "name": "English", "snippets": "parseme" },
+            { "id": "PARSEME-ES", "name": "Spanish", "snippets": "parseme" },
+            { "id": "PARSEME-EU", "name": "Basque", "snippets": "parseme" },
+            { "id": "PARSEME-FA", "name": "Persian", "snippets": "parseme", "rtl": true },
+            { "id": "PARSEME-FR", "name": "French", "snippets": "parseme" },
+            { "id": "PARSEME-HE", "name": "Hebrew", "snippets": "parseme", "rtl": true  },
+            { "id": "PARSEME-HI", "name": "Hindi", "snippets": "parseme" },
+            { "id": "PARSEME-HR", "name": "Croatian", "snippets": "parseme" },
+            { "id": "PARSEME-HU", "name": "Hungarian", "snippets": "parseme" },
+            { "id": "PARSEME-IT", "name": "Italian", "snippets": "parseme" },
+            { "id": "PARSEME-LT", "name": "Lithuanian", "snippets": "parseme" },
+            { "id": "PARSEME-PL", "name": "Polish", "snippets": "parseme" },
+            { "id": "PARSEME-PT", "name": "Portuguese", "snippets": "parseme" },
+            { "id": "PARSEME-RO", "name": "Romanian", "snippets": "parseme" },
+            { "id": "PARSEME-SL", "name": "Slovenian", "snippets": "parseme" },
+            { "id": "PARSEME-TR", "name": "Turkish", "snippets": "parseme" },
+        ]
+    },
+
+    {
       "id": "orfeo",
       "name": "Orfeo",
       "default": "cefc-gold",
