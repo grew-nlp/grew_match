@@ -1,0 +1,51 @@
+h1 {
+	text-align: center;
+}
+
+@media (min-width: 768px) {
+	.brand-pills>li>a {
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px;
+	}
+
+	li.brand-nav.active a:after {
+		content: " ";
+		display: block;
+		width: 0;
+		height: 0;
+		border-top: 20px solid transparent;
+		border-bottom: 20px solid transparent;
+		border-left: 9px solid #428bca;
+		position: absolute;
+		top: 50%;
+		margin-top: -20px;
+		left: 100%;
+		z-index: 2;
+	}
+}
+
+.container {
+	width: 100%;
+}
+
+table, th, td {
+	border: 1px solid #444;
+	width: 100%;
+	table-layout: fixed;
+}
+
+tr {
+	height: 40px
+}
+
+tr:hover {
+	background-color: #def;
+}
+
+td, th {
+	text-align: center
+}
+
+.hover {
+	background-color: #def;
+}

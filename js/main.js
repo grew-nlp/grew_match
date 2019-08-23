@@ -550,7 +550,7 @@ function update_but_text () {
 // ==================================================================================
 function init_table_button() {
   $('#tables').on('click', function () {
-		window.open('tables/'+current_corpus+'.php');
+		window.open('tables/'+current_corpus+'.html');
 	});
 }
 
