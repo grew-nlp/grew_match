@@ -27,7 +27,7 @@ if (isset($_POST['pattern'])) {
 	fwrite($infos, $_POST['add_feats'] . "\n");
 	fwrite($infos, $_POST['shuffle'] . "\n");
 	fwrite($infos, $_POST['context'] . "\n");
-	fclose($corpus);
+	fclose($infos);
 
 	$msg = "#NEW";
 
