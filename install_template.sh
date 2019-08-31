@@ -1,5 +1,5 @@
 # decide where you want to store the webpage locally
-DEST=/some/directory/accessible/from/the/web/server/
+DEST=DOCUMENT_ROOT/grew_match
 
 # set the PORT number
 PORT=8888
