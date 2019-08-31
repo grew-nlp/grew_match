@@ -17,8 +17,8 @@ mkdir -p data/shorten
 chmod -R 777 data
 
 # update parameters in the code
-cat ajaxGrew.php | sed "s+@PORT@+${PORT}+" | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv __tmp_file ajaxGrew.php
-cat export.php | sed "s+@PORT@+${PORT}+" | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv __tmp_file export.php
-cat purge.php | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv __tmp_file purge.php
-cat shorten.php | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv __tmp_file shorten.php
+cat ajaxGrew.php | sed "s+@PORT@+${PORT}+" | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv -f __tmp_file ajaxGrew.php
+cat export.php | sed "s+@PORT@+${PORT}+" | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv -f __tmp_file export.php
+cat purge.php | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv -f __tmp_file purge.php
+cat shorten.php | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv -f __tmp_file shorten.php
 
