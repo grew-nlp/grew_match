@@ -16,6 +16,11 @@ cd $DEST
 mkdir -p data/shorten
 chmod -R 777 data
 
+# build other useful folders
+mkdir -p _tables
+mkdir -p _logs
+mkdir -p _descs
+
 # update parameters in the code
 cat ajaxGrew.php | sed "s+@PORT@+${PORT}+" | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv -f __tmp_file ajaxGrew.php
 cat export.php | sed "s+@PORT@+${PORT}+" | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv -f __tmp_file export.php

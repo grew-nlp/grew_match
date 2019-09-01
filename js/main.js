@@ -1,9 +1,9 @@
-var cmEditor = undefined;  // content of the textarea
+var cmEditor = undefined; // content of the textarea
 
 var current_request_id = ""
 
-var result_nb = 0;         // number of given results
-var current_view = 0;      // number of the result currently displayed
+var result_nb = 0; // number of given results
+var current_view = 0; // number of the result currently displayed
 
 var current_data;
 var current_group;
@@ -15,7 +15,7 @@ var already_exported = false
 
 // ==================================================================================
 function startsWith(text, word) {
-	str= String(text);
+	str = String(text);
 	l = word.length;
 	var res = str.substr(0, l);
 	if (res == word) {
@@ -24,87 +24,94 @@ function startsWith(text, word) {
 }
 
 // ==================================================================================
-function get_corpora_from_group (group_id) {
+function get_corpora_from_group(group_id) {
 	group_list = current_data["groups"];
-		for (var g=0 ; g < group_list.length ; g++)
-	{
-    if (group_list[g]["id"] == group_id) {
-        return group_list[g]["corpora"];
-    }
+	for (var g = 0; g < group_list.length; g++) {
+		if (group_list[g]["id"] == group_id) {
+			return group_list[g]["corpora"];
+		}
 	}
 }
 
 // ==================================================================================
 // search for the requested field in the json object which contains the "id" corpus
-function get_info(corpus,field) {
+function get_info(corpus, field) {
 	function aux() {
 		group_list = current_data["groups"];
-			for (var g=0 ; g < group_list.length ; g++)
-			{ corpora = group_list[g]["corpora"];
-				for (var c=0 ; c < corpora.length ; c++)
-					{ if (corpora[c]["id"] == corpus) { return corpora[c][field]; }
-						if (corpora[c]["folder"] != undefined)
-							{ subcorpora = corpora[c]["corpora"];
-								for (var cc=0 ; cc < subcorpora.length ; cc++)
-									{ if (subcorpora[cc]["id"] == corpus) { return subcorpora[cc][field]; }
-									}
-							}
+		for (var g = 0; g < group_list.length; g++) {
+			corpora = group_list[g]["corpora"];
+			for (var c = 0; c < corpora.length; c++) {
+				if (corpora[c]["id"] == corpus) {
+					return corpora[c][field];
+				}
+				if (corpora[c]["folder"] != undefined) {
+					subcorpora = corpora[c]["corpora"];
+					for (var cc = 0; cc < subcorpora.length; cc++) {
+						if (subcorpora[cc]["id"] == corpus) {
+							return subcorpora[cc][field];
+						}
 					}
+				}
 			}
+		}
 	}
 	snip_opt = aux();
-	if (snip_opt != undefined) { return snip_opt}
-	else { return "" }
+	if (snip_opt != undefined) {
+		return snip_opt
+	} else {
+		return ""
+	}
 }
 
 // ==================================================================================
 // return an array [real_corpus_name, folder, group]
-function search_corpus (requested_corpus) {
-	current_corpus = undefined; current_folder = undefined; current_group = undefined;
+function search_corpus(requested_corpus) {
+	current_corpus = undefined;
+	current_folder = undefined;
+	current_group = undefined;
 	group_list = current_data["groups"];
-		for (var g=0 ; g < group_list.length ; g++)
-		{ corpora = group_list[g]["corpora"];
-			for (var c=0 ; c < corpora.length ; c++)
-				{ if (startsWith (corpora[c]["id"], corpus))
-					{ current_corpus = corpora[c]["id"];
+	for (var g = 0; g < group_list.length; g++) {
+		corpora = group_list[g]["corpora"];
+		for (var c = 0; c < corpora.length; c++) {
+			if (startsWith(corpora[c]["id"], corpus)) {
+				current_corpus = corpora[c]["id"];
+				current_group = group_list[g]["id"];
+				return;
+			}
+			if (corpora[c]["folder"] != undefined) {
+				subcorpora = corpora[c]["corpora"];
+				for (var cc = 0; cc < subcorpora.length; cc++) {
+					if (startsWith(subcorpora[cc]["id"], corpus)) {
+						current_corpus = subcorpora[cc]["id"];
+						current_folder = corpora[c]["folder"];
 						current_group = group_list[g]["id"];
 						return;
 					}
-					if (corpora[c]["folder"] != undefined)
-						{ subcorpora = corpora[c]["corpora"];
-							for (var cc=0 ; cc < subcorpora.length ; cc++)
-								{ if (startsWith (subcorpora[cc]["id"], corpus))
-									{
-										current_corpus = subcorpora[cc]["id"];
-										current_folder = corpora[c]["folder"];
-										current_group = group_list[g]["id"];
-										return;
-									}
-								}
-						}
 				}
+			}
 		}
-		// no matching corpus here found
-		set_default ();
+	}
+	// no matching corpus here found
+	set_default();
 }
 
 
 // ==================================================================================
 // this function is run atfer page loading
-$(document).ready(function(){
+$(document).ready(function() {
 	// load the "groups.json" file
-	$.getJSON("corpora/groups.json").done(function(data){
+	$.getJSON("corpora/groups.json").done(function(data) {
 		current_data = data;
-		init ();
+		init();
 	});
 
 	$('.tooltip-desc').tooltipster({
-			contentAsHTML:true,
-			theme: 'tooltipster-noir',
-			interactive:true,
-			position:'bottom'
-		});
-	$('.tooltip-desc').tooltipster('content',$("#snd_feat-tip").html());
+		contentAsHTML: true,
+		theme: 'tooltipster-noir',
+		interactive: true,
+		position: 'bottom'
+	});
+	$('.tooltip-desc').tooltipster('content', $("#snd_feat-tip").html());
 });
 
 // ==================================================================================
@@ -120,69 +127,75 @@ function init() {
 	set_default();
 	current_snippets = get_info(current_corpus, "snippets");
 
-	init_sidebar ();
-	init_table_button ();
+	init_sidebar();
+	init_table_button();
+	init_log_button();
 
-	$('#save-button').prop('disabled',true);
-	$('#export-button').prop('disabled',true);
-	already_exported=false;
+	$('#save-button').prop('disabled', true);
+	$('#export-button').prop('disabled', true);
+	already_exported = false;
 
 	// Initialise CodeMirror
 	cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
 		lineNumbers: true,
 	});
 
-	init_navbar ();
+	init_navbar();
 
 	deal_with_get_parameters();
 
 	// Binding on CodeMirror change
-	cmEditor.on ("change", function () {
-		$('#save-button').prop('disabled',true);
-		$('#export-button').prop('disabled',true);
-		already_exported=false;
+	cmEditor.on("change", function() {
+		$('#save-button').prop('disabled', true);
+		$('#export-button').prop('disabled', true);
+		already_exported = false;
 		$('#custom-display').hide();
 	});
 
 
-	$('#select-tuto').click(function() { tuto () });
+	$('#select-tuto').click(function() {
+		tuto()
+	});
 
-	if (current_group == "tuto") { tuto (); }
-	else { update_group(); }
+	if (current_group == "tuto") {
+		tuto();
+	} else {
+		update_group();
+	}
 }
 
 // ==================================================================================
 function init_navbar() {
-	$.each(current_data["groups"], function( index, value ) {
+	$.each(current_data["groups"], function(index, value) {
 		id = value["id"];
 		name = value["name"];
 		_default = value["default"];
 		$('.groups').append(
-			'<li class="group" id="top-'+
-			id+
-			'"><a class="navbar-brand" onclick="select_group(\''+
-			id+
-			'\', \''+
-			_default+
-			'\')" href="#">'+
-			name+
+			'<li class="group" id="top-' +
+			id +
+			'"><a class="navbar-brand" onclick="select_group(\'' +
+			id +
+			'\', \'' +
+			_default +
+			'\')" href="#">' +
+			name +
 			'</a></li>'
 		);
 	});
 }
 
 // ==================================================================================
-function tuto () {
-	set_ud ();
+function tuto() {
+	set_ud();
 
 	// Change background of selecte group
 	$(".group").removeClass("active");
 	$("#top-tuto").addClass("active");
 
 	$('#sidebarCollapse').hide();
-	search_corpus ("UD_English-GUM@2.4");
+	search_corpus("UD_English-GUM@2.4");
 	update_corpus();
-	right_pane ("tuto");
+	right_pane("tuto");
 
 	$('#sidebar').removeClass('active');
 	update_but_text();
@@ -195,23 +208,39 @@ function deal_with_get_parameters() {
 	// corpus get parameter
 	if (getParameterByName("tutorial") == "yes") {
 		current_group = "tuto";
-	}
-	else
+	} else
 
-	if (getParameterByName("corpus").length > 0)
-	{
+	if (getParameterByName("corpus").length > 0) {
 		corpus = getParameterByName("corpus");
 
 		// keep working hard link for old corpora names
-		if (corpus == "UD_French-dev") { corpus = "UD_French@dev"; }
-		if (corpus == "seq-ud-trunk") { corpus = "UD_French-Sequoia@dev"; }
-		if (corpus == "UD_English-2.0") { corpus = "UD_English"; }
-		if (corpus == "UD_English-2.1") { corpus = "UD_English"; }
-		if (corpus == "sequoia.const-7.0") { corpus = "sequoia.const@7.0"; }
-		if (corpus == "sequoia.surf-7.0") { corpus = "sequoia.surf@7.0"; }
-		if (corpus == "UD_French-Sequoia-2.0") { corpus = "UD_French-Sequoia"; }
-		if (corpus == "sequoia.deep_and_surf") { corpus = "sequoia.deep_and_surf@master"; }
-		if (corpus == "sequoia.deep_and_surf@UD-2.1 ") { corpus = "sequoia.deep_and_surf@8.1"; }
+		if (corpus == "UD_French-dev") {
+			corpus = "UD_French@dev";
+		}
+		if (corpus == "seq-ud-trunk") {
+			corpus = "UD_French-Sequoia@dev";
+		}
+		if (corpus == "UD_English-2.0") {
+			corpus = "UD_English";
+		}
+		if (corpus == "UD_English-2.1") {
+			corpus = "UD_English";
+		}
+		if (corpus == "sequoia.const-7.0") {
+			corpus = "sequoia.const@7.0";
+		}
+		if (corpus == "sequoia.surf-7.0") {
+			corpus = "sequoia.surf@7.0";
+		}
+		if (corpus == "UD_French-Sequoia-2.0") {
+			corpus = "UD_French-Sequoia";
+		}
+		if (corpus == "sequoia.deep_and_surf") {
+			corpus = "sequoia.deep_and_surf@master";
+		}
+		if (corpus == "sequoia.deep_and_surf@UD-2.1 ") {
+			corpus = "sequoia.deep_and_surf@8.1";
+		}
 
 		search_corpus(corpus);
 	};
@@ -219,8 +248,8 @@ function deal_with_get_parameters() {
 	// custom get parameter
 	if (getParameterByName("custom").length > 0) {
 		get_custom = getParameterByName("custom");
-		console.log("get_parameter corpus: "+get_custom);
-		$.get('./data/shorten/' + get_custom,function(pattern) {
+		console.log("get_parameter corpus: " + get_custom);
+		$.get('./data/shorten/' + get_custom, function(pattern) {
 			cmEditor.setValue(pattern);
 			request_pattern(false);
 		});
@@ -228,23 +257,25 @@ function deal_with_get_parameters() {
 
 	// If there is a get arg in the URL named "relation" -> make the request directly
 	if (getParameterByName("relation").length > 0) {
-		console.log("get_parameter relation: "+getParameterByName("relation"));
+		console.log("get_parameter relation: " + getParameterByName("relation"));
 		if (getParameterByName("source").length > 0) {
-			source = "GOV [upos=\""+(getParameterByName("source"))+"\"]; "
+			source = "GOV [upos=\"" + (getParameterByName("source")) + "\"]; "
+		} else {
+			source = ""
 		}
-		else { source = "" }
 		if (getParameterByName("target").length > 0) {
-			target = "DEP [upos=\""+(getParameterByName("target"))+"\"]; "
+			target = "DEP [upos=\"" + (getParameterByName("target")) + "\"]; "
+		} else {
+			target = ""
 		}
-		else { target = "" }
-		cmEditor.setValue("pattern {\n  "+source+target+"GOV -["+getParameterByName("relation")+"]-> DEP\n}");
+		cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + getParameterByName("relation") + "]-> DEP\n}");
 		request_pattern(false);
 	}
 }
 
 // ==================================================================================
 // Binding for interactive part in snippets part
-function right_pane (base) {
+function right_pane(base) {
 	if (base == "tuto") {
 		dir = "tuto";
 	} else {
@@ -252,7 +283,7 @@ function right_pane (base) {
 	}
 	$.get(dir + "/right_pane.html", function(data) {
 		$('#right-pane').html(data);
-		$(".inter").click(function(){
+		$(".inter").click(function() {
 			var file = $(this).attr('snippet-file');
 			// Update of the textarea
 			$.get(dir + "/" + file, function(pattern) {
@@ -273,77 +304,86 @@ function request_pattern(next) {
 		current_line_num = 0;
 		result_nb = 0;
 		current_view = 0;
-		var data= {
+		var data = {
 			pattern: cmEditor.getValue(),
-			corpus:current_corpus,
-			lemma:$('#lemma-box').prop('checked'),
-			upos:$('#upos-box').prop('checked'),
-			xpos:$('#xpos-box').prop('checked'),
-			features:$('#features-box').prop('checked'),
-			add_feats:$('#add_feats-box').prop('checked'),
-			shuffle:$('#shuffle-box').prop('checked'),
-			context:$('#context-box').prop('checked'),
+			corpus: current_corpus,
+			lemma: $('#lemma-box').prop('checked'),
+			upos: $('#upos-box').prop('checked'),
+			xpos: $('#xpos-box').prop('checked'),
+			features: $('#features-box').prop('checked'),
+			add_feats: $('#add_feats-box').prop('checked'),
+			shuffle: $('#shuffle-box').prop('checked'),
+			context: $('#context-box').prop('checked'),
 		}
 		$('#list-results').empty();
-	}else{
-		var data= {id:current_request_id,corpus:current_corpus};
+	} else {
+		var data = {
+			id: current_request_id,
+			corpus: current_corpus
+		};
 	}
 	console.log(data);
 	$.ajax({
 		url: 'ajaxGrew.php',
-		dataType:'text',
+		dataType: 'text',
 		data: data,
 		type: 'post',
-		success: function(id){
-			current_request_id=id;
+		success: function(id) {
+			current_request_id = id;
 			$.get("./data/" + id + "/list", function(data) {
-				$('#save-button').prop('disabled',false);
-				$('#export-button').prop('disabled',false);
+				$('#save-button').prop('disabled', false);
+				$('#export-button').prop('disabled', false);
 				lines = data.split("\n");
 				if (lines[0] == '<!>') {
 					sweetAlert('The daemon is not running\n\nTry again in a few minutes');
-				}
-				else {
-					for (var i = current_line_num,len = lines.length; i < len; i++) {
+				} else {
+					for (var i = current_line_num, len = lines.length; i < len; i++) {
 						if (lines[i] == '<END>') {
-							$("#next-results").prop('disabled',true);
+							$("#next-results").prop('disabled', true);
 							if (result_nb == 0) {
 								$('#vision').show();
 								$('#result-ok').hide();
 								$('#display-sentence').hide();
 								$('#display-results').hide();
 								$('#progress-txt').text('No results found');
-								$("#next-results").prop('disabled',true);
+								$("#next-results").prop('disabled', true);
 							}
 						} else if (lines[i] == '<ERROR>') {
-							$.get('./data/' + id + '/error',function(errors){
+							$.get('./data/' + id + '/error', function(errors) {
 								sweetAlert("An error occurred", errors, "error");
 							});
 						} else if (lines[i] == '<PAUSE>') {
-							$("#next-results").prop('disabled',false);
+							$("#next-results").prop('disabled', false);
 						} else if (lines[i] == '<TOTAL>') {
-							$('#progress-txt').html(lines[i+1] + ' occurrence' + ((lines[i+1]>1)? 's' : '') + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
+							$('#progress-txt').html(lines[i + 1] + ' occurrence' + ((lines[i + 1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + lines[i + 2] + 's]</span>');
 							i += 2; // Skip the two next lines (nb of occ, time)
 						} else if (lines[i] == '<OVER>') {
-							$('#progress-txt').html('More than 1000 results found in ' + lines[i+1] + '% of the corpus' + ' <span style="font-size: 60%">['+ lines[i+2] +'s]</span>');
+							$('#progress-txt').html('More than 1000 results found in ' + lines[i + 1] + '% of the corpus' + ' <span style="font-size: 60%">[' + lines[i + 2] + 's]</span>');
 							i += 2; // Skip the two next lines (ratio, time)
 						} else {
 							var pieces = lines[i].split("@@");
-							if (pieces[1] != undefined ) {
-								$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' +  pieces[1] + '</a></li>');
+							if (pieces[1] != undefined) {
+								$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' + pieces[1] + '</a></li>');
 								url = './data/' + id + '/' + pieces[0];
-								$('#list-' + result_nb).click({url:url,i:result_nb,coord:pieces[2],sentence:pieces[3]},display_picture);
+								$('#list-' + result_nb).click({
+									url: url,
+									i: result_nb,
+									coord: pieces[2],
+									sentence: pieces[3]
+								}, display_picture);
 								if (i == 3) { // i=2 always corresponds the first response -> fill display-result with it
 									$('#vision').show();
-									var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url +"\" > </object>";
+									var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url + "\" > </object>";
 									document.getElementById('display-results').innerHTML = newHtml;
 									$('#list-' + result_nb).addClass('displayed');
 									var w = $("#display-results").width();
-									$("#display-results").animate({scrollLeft:pieces[2] - w/2},"fast");
+									$("#display-results").animate({
+										scrollLeft: pieces[2] - w / 2
+									}, "fast");
 									$("#sentence-txt").html(pieces[3]);
 
 									// set the writting direction
-									if (get_info (current_corpus, "rtl")) {
+									if (get_info(current_corpus, "rtl")) {
 										$('#sentence-txt').attr("dir", "rtl");
 									} else {
 										$('#sentence-txt').removeAttr("dir");
@@ -366,14 +406,16 @@ function request_pattern(next) {
 }
 
 // ==================================================================================
-function display_picture(event){
-	var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url +"\" > </object>";
+function display_picture(event) {
+	var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url + "\" > </object>";
 	document.getElementById('display-results').innerHTML = newHtml;
 
 	$('#list-results li').removeClass('displayed');
 	$('#list-' + event.data.i).addClass('displayed');
 	var w = $("#display-results").width();
-	$("#display-results").animate({scrollLeft:event.data.coord - w/2},"fast");
+	$("#display-results").animate({
+		scrollLeft: event.data.coord - w / 2
+	}, "fast");
 	$("#sentence-txt").html(event.data.sentence);
 
 	current_view = event.data.i;
@@ -381,8 +423,8 @@ function display_picture(event){
 }
 
 // ==================================================================================
-function show_modal () {
-	$.get('./data/' + current_request_id + '/export.tsv',function(data){
+function show_modal() {
+	$.get('./data/' + current_request_id + '/export.tsv', function(data) {
 		lines = data.split("\n");
 		html = "<table class=\"export-table\">";
 
@@ -412,16 +454,19 @@ function export_tsv() {
 		if (already_exported) {
 			show_modal();
 		} else {
-			$.ajax({url:'export.php',
-				dataType:'text',
-				data: {id:current_request_id},
+			$.ajax({
+				url: 'export.php',
+				dataType: 'text',
+				data: {
+					id: current_request_id
+				},
 				type: 'post',
-				success: function(output){
-					already_exported=true;
+				success: function(output) {
+					already_exported = true;
 					show_modal();
 				},
 				error: function(x) {
-					alert (x);
+					alert(x);
 				}
 			});
 		}
@@ -435,20 +480,26 @@ function download() {
 	window.location = './data/' + current_request_id + '/export.tsv';
 }
 // ==================================================================================
-function save_pattern(){
+function save_pattern() {
 	if (cmEditor.getValue().length > 0 && current_request_id.length > 0) {
-		$.ajax({url:'shorten.php',
-			dataType:'text',
-			data: {pattern: cmEditor.getValue(), id:current_request_id},
+		$.ajax({
+			url: 'shorten.php',
+			dataType: 'text',
+			data: {
+				pattern: cmEditor.getValue(),
+				id: current_request_id
+			},
 			type: 'post',
-			success: function(output){
-				history.pushState({id:output},"Grew - Custom saved pattern", "?corpus=" + current_corpus + "&custom=" + output);
+			success: function(output) {
+				history.pushState({
+					id: output
+				}, "Grew - Custom saved pattern", "?corpus=" + current_corpus + "&custom=" + output);
 				$('#custom-url').text(window.location.href);
 				$('#custom-display').show();
 				SelectText("custom-url");
 			},
 			error: function(x) {
-				alert (x)
+				alert(x)
 			}
 		});
 	} else {
@@ -458,10 +509,9 @@ function save_pattern(){
 
 // ==================================================================================
 function SelectText(element) {
-		var doc = document
-		, text = doc.getElementById(element)
-		, range, selection
-	;
+	var doc = document,
+		text = doc.getElementById(element),
+		range, selection;
 	if (doc.body.createTextRange) {
 		range = document.body.createTextRange();
 		range.moveToElementText(text);
@@ -487,7 +537,7 @@ function update_progress_num() {
 	if (result_nb != 0) {
 		$('#result-ok').show();
 		$('#display-results').show();
-		$("#progress-num").text((current_view+1) + " / 	" + result_nb);
+		$("#progress-num").text((current_view + 1) + " / 	" + result_nb);
 	}
 }
 
@@ -498,7 +548,7 @@ function update_view() {
 }
 
 // ==================================================================================
-function first_svg(){
+function first_svg() {
 	if (current_view > 0) {
 		current_view = 0;
 		update_view();
@@ -506,7 +556,7 @@ function first_svg(){
 }
 
 // ==================================================================================
-function previous_svg(){
+function previous_svg() {
 	if (current_view > 0) {
 		current_view -= 1;
 		update_view();
@@ -514,31 +564,31 @@ function previous_svg(){
 }
 
 // ==================================================================================
-function next_svg(){
+function next_svg() {
 	if (current_view < result_nb - 1) {
 		current_view += 1;
 		update_view();
- 	}
+	}
 }
 
 // ==================================================================================
-function last_svg(){
+function last_svg() {
 	if (current_view < result_nb - 1) {
 		current_view = result_nb - 1;
 		update_view();
- 	}
+	}
 }
 
 // ==================================================================================
 function init_sidebar() {
-  $('#sidebarCollapse').on('click', function () {
-    $('#sidebar').toggleClass('active');
-		update_but_text ();
-  });
+	$('#sidebarCollapse').on('click', function() {
+		$('#sidebar').toggleClass('active');
+		update_but_text();
+	});
 }
 
 // ==================================================================================
-function update_but_text () {
+function update_but_text() {
 	if ($('#sidebar').hasClass('active')) {
 		$('#but-text').html("Hide corpora list");
 	} else {
@@ -549,23 +599,30 @@ function update_but_text () {
 
 // ==================================================================================
 function init_table_button() {
-  $('#tables').on('click', function () {
-		window.open('tables/'+current_corpus+'.html');
+	$('#tables').on('click', function() {
+		window.open('_tables/' + current_corpus + '.html');
+	});
+}
+
+// ==================================================================================
+function init_log_button() {
+	$('#logs').on('click', function() {
+		window.open('_logs/' + current_corpus + '.log');
 	});
 }
 
 
 // ==================================================================================
-function escape (s) {
+function escape(s) {
 	s1 = s.split('@').join('_AT_');
 	s2 = s1.split('.').join('_DOT_');
 	return s2;
 }
 
 // ==================================================================================
-function set_corpus (corpus) {
+function set_corpus(corpus) {
 	current_corpus = corpus;
-	update_corpus ()
+	update_corpus()
 }
 
 // ==================================================================================
@@ -573,39 +630,53 @@ function update_corpus() {
 	// set the corpus name
 	$('#corpus-fixed').html(current_corpus);
 
-	current_snippets = get_info (current_corpus,"snippets");
+	current_snippets = get_info(current_corpus, "snippets");
 	if (current_snippets == "") {
-		right_pane (current_group)
+		right_pane(current_group)
 	} else {
-		right_pane (current_group+"/"+current_snippets);
+		right_pane(current_group + "/" + current_snippets);
 	}
 
 	$(".selected_corpus").removeClass("selected_corpus");
-	$('#'+escape(current_corpus)).addClass("selected_corpus");
+	$('#' + escape(current_corpus)).addClass("selected_corpus");
 
-	if (current_folder != undefined)
-		{ $("#"+current_folder).collapse('show'); }
+	if (current_folder != undefined) {
+		$("#" + current_folder).collapse('show');
+	}
 
-	$('#corpus-info').html("");
-	$.get("tables/"+current_corpus+"_info.html", function(data) {
-		$('#corpus-info').html(data);
+	$('#corpus-desc').html("");
+	$.get("_descs/" + current_corpus + ".html", function(data) {
+		$('#corpus-desc').html(data);
 	});
 
+	// Show the errors button only if there is a not empty log_file
+	$.get("_logs/" + current_corpus + ".log", function(data) {
+		if (data.length > 0) {
+			$('#logs').show();
+		} else {
+			$('#logs').hide();
+		}
+	}).fail(function() {
+		$('#logs').hide();
+	});
 }
 
 // ==================================================================================
-function select_group (group, corpus) {
+function select_group(group, corpus) {
 	current_group = group;
 	current_corpus = corpus;
-	update_group ();
+	update_group();
 }
 
 // ==================================================================================
-function update_group () {
+function update_group() {
 
 	// update labels of checkboxes
-	if (current_group == "amr")	{ set_amr();}
-	else { set_ud (); }
+	if (current_group == "amr") {
+		set_amr();
+	} else {
+		set_ud();
+	}
 
 	// sidebar open and button visible
 	$('#sidebar').addClass('active');
@@ -614,19 +685,18 @@ function update_group () {
 
 	// Change background of selecte group
 	$(".group").removeClass("active");
-	$("#top-"+current_group).addClass("active");
+	$("#top-" + current_group).addClass("active");
 	// sidebar
 
-	corpora = get_corpora_from_group (current_group);
+	corpora = get_corpora_from_group(current_group);
 
 	html = "";
-	$.each(corpora, function(index, value ) {
+	$.each(corpora, function(index, value) {
 		if ("section" in value) {
 			html += '<div class="sidebar-header">\n';
 			html += '  <h3>' + value["section"] + '</h3>\n';
 			html += '</div>\n';
-		}
-		else if ("id" in value) {
+		} else if ("id" in value) {
 			id = value["id"];
 			esc_id = escape(id);
 			if ("name" in value) {
@@ -635,10 +705,10 @@ function update_group () {
 				name = id;
 			}
 			html += '<div class="corpus">\n';
-			html += '<table id="'+esc_id+'" class="table" onclick="set_corpus(\'' + id + '\');return false;" href="#">\n';
+			html += '<table id="' + esc_id + '" class="table" onclick="set_corpus(\'' + id + '\');return false;" href="#">\n';
 			html += '<tr><td class="alone">\n';
 			html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
-			html += name +'\n';
+			html += name + '\n';
 			html += '</td></tr>\n';
 			html += '</table>\n';
 			html += '</div>\n';
@@ -650,31 +720,31 @@ function update_group () {
 				href = value["folder"].replace(" ", "_");
 			}
 			html += '<div class="panel panel-default">\n';
-      html += '<div class="panel-heading">\n';
-      html += '<h4 class="panel-title">\n';
-      html += '<a data-toggle="collapse" href="#'+href+'" id="folder_'+ href +'">\n';
-      html += '<span class="glyphicon glyphicon-folder-open"></span>\n';
-      html += value["folder"]+'\n';
-      html += '</a>\n';
-      html += '</h4>\n';
-      html += '</div>\n';
-      html += '<div id="'+href+'" class="panel-collapse collapse">\n';
-      html += '<div class="panel-body">\n';
-      html += '<table class="table">\n';
-			$.each(value["corpora"], function(index, value ) {
+			html += '<div class="panel-heading">\n';
+			html += '<h4 class="panel-title">\n';
+			html += '<a data-toggle="collapse" href="#' + href + '" id="folder_' + href + '">\n';
+			html += '<span class="glyphicon glyphicon-folder-open"></span>\n';
+			html += value["folder"] + '\n';
+			html += '</a>\n';
+			html += '</h4>\n';
+			html += '</div>\n';
+			html += '<div id="' + href + '" class="panel-collapse collapse">\n';
+			html += '<div class="panel-body">\n';
+			html += '<table class="table">\n';
+			$.each(value["corpora"], function(index, value) {
 				id = value["id"];
 				esc_id = escape(id);
-				html += '<tr id="'+esc_id+'" class="corpus" onclick="set_corpus(\'' + id + '\');return false;"><td>\n';
+				html += '<tr id="' + esc_id + '" class="corpus" onclick="set_corpus(\'' + id + '\');return false;"><td>\n';
 				html += '<a href="#" >\n';
 				html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
-				html += id +'\n';
+				html += id + '\n';
 				html += '</a>\n';
 				html += '</td></tr>\n';
 			});
-      html += '</table>\n';
-      html += '</div>\n';
-      html += '</div>\n';
-      html += '</div>\n';
+			html += '</table>\n';
+			html += '</div>\n';
+			html += '</div>\n';
+			html += '</div>\n';
 		}
 	});
 	$('#accordion').html(html);
@@ -702,5 +772,3 @@ function set_amr() {
 	$("#add_feats-label").hide();
 	$("#export-button").hide();
 }
-
-
