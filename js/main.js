@@ -297,10 +297,7 @@ function right_pane(base) {
 function request_pattern(next) {
 
 	if (!next) {
-		if (cmEditor.getValue().length == 0) {
-			sweetAlert("An error occurred", "You can't search for an empty pattern.", "error");
-			return false;
-		}
+		$('#vision').hide();
 		current_line_num = 0;
 		result_nb = 0;
 		current_view = 0;
