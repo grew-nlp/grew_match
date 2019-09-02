@@ -295,9 +295,9 @@ function right_pane(base) {
 
 // ==================================================================================
 function request_pattern(next) {
-
 	if (!next) {
 		$('#vision').hide();
+		$('#list-results').empty();
 		current_line_num = 0;
 		result_nb = 0;
 		current_view = 0;
@@ -309,10 +309,9 @@ function request_pattern(next) {
 			xpos: $('#xpos-box').prop('checked'),
 			features: $('#features-box').prop('checked'),
 			add_feats: $('#add_feats-box').prop('checked'),
-			shuffle: $('#shuffle-box').prop('checked'),
+			order: $('#sentences-order').val(),
 			context: $('#context-box').prop('checked'),
 		}
-		$('#list-results').empty();
 	} else {
 		var data = {
 			id: current_request_id,
