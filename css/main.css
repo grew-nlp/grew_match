@@ -1,216 +1,219 @@
 body {
-  padding-top: 70px;
-  padding-bottom: 20px;
-  margin-left: 0px;
-  margin-right: 20px;
-  overflow: hidden;
+	padding-top: 70px;
+	padding-bottom: 20px;
+	margin-left: 0px;
+	margin-right: 20px;
+	overflow: hidden;
 }
 
 a {
-  color: black;
+	color: black;
 }
 
 a:hover, a:focus {
-  color: #000;
+	color: #000;
 }
 
-.panel-title > a {
-  color: black;
+.panel-title>a {
+	color: black;
 }
-.panel-title > a:hover {
-  background: #f0c328;
+
+.panel-title>a:hover {
+	background: #f0c328;
 }
 
 .corpus:hover {
-  background: #F5D76E;
+	background: #F5D76E;
 }
 
 .selected_corpus:hover {
-  background: #8bf56e;
+	background: #8bf56e;
 }
 
 .glyphicon {
-  margin-right: 4px;
-  margin-left: 4px;
+	margin-right: 4px;
+	margin-left: 4px;
 }
 
 .table {
-  margin-bottom: 0px;
+	margin-bottom: 0px;
 }
 
 .panel-body {
-  padding: 0px;
+	padding: 0px;
 }
 
 #snippets ul, #results ul {
-  list-style-type: none;
-  margin: 0;
-  margin-left: 20px;
-  padding: 0;
+	list-style-type: none;
+	margin: 0;
+	margin-left: 20px;
+	padding: 0;
 }
 
 #snippets li, #results li {
-  border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 }
 
-#snippets li:last-child , #results li:last-child {
-  border: none;
+#snippets li:last-child, #results li:last-child {
+	border: none;
 }
 
-#snippets li a, #results li a{
-  text-decoration: none;
-  color: #000;
-  display: block;
-
-  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
-  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
-  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
-  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
-  transition: font-size 0.3s ease, background-color 0.3s ease;
+#snippets li a, #results li a {
+	text-decoration: none;
+	color: #000;
+	display: block;
+	-webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+	-moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+	-o-transition: font-size 0.3s ease, background-color 0.3s ease;
+	-ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+	transition: font-size 0.3s ease, background-color 0.3s ease;
 }
 
 #snippets li a:hover, #results li a:hover {
-  background: #F5D76E;
+	background: #F5D76E;
 }
 
 h3 {
-  margin-top: 0px;
+	margin-top: 0px;
 }
 
 .checkbos {
-  width: 50%;
-  display: -moz-box;
-  -moz-box-orient: vertical;
+	width: 50%;
+	display: -moz-box;
+	-moz-box-orient: vertical;
 }
 
 .grew-label {
-  font-size: 24px;
+	font-size: 24px;
 }
 
 /* Style du jumbotron */
-
 /* Style de scenario */
-
 /* Style de lesson */
-
 /* Style de snippets */
-
 /* Style de console */
-#console{
-  padding-top: 0px;
+#console {
+	padding-top: 0px;
 }
 
 /* Style de vision */
-
 /* Style de results */
-#vision{
-  display: none;
+#vision {
+	display: none;
 }
-.displayed{
-  background-color:#8bf56e;
+
+.displayed {
+	background-color: #8bf56e;
 }
+
 /* Style de display-results */
-#result-pic{
-  height: 100%;
-}
-#list-results{
-  max-height: 400px;
-}
-#display-results,#list-results{
-  overflow: auto;
-  /*display: none;*/
-}
-#display-results{
-  border-style: solid;
-  border-width: 1px;
-  border-color: #ccc;
-}
-#pattern-input{
-  width: 95%;
-}
-#custom-display{
-  display: none;
-  font-size: 15px;
+#result-pic {
+	height: 100%;
 }
 
-.item{
-  cursor : pointer;
+#list-results {
+	max-height: 400px;
 }
 
-.CodeMirror{
-  border-style: solid;
-  border-width: 1px;
-  border-color: #ccc;
-  margin-bottom: 10px;
+#display-results, #list-results {
+	overflow: auto;
+	/*display: none;*/
 }
 
-.nav-pills > li.active > a, .nav-pills > li.active > a:focus {
-   background-color: #C3C6C7;
-   color: #000;
- }
-
-.nav-pills > li > a:hover, .nav-pills > li.active > a:hover {
-   background-color: #989B9C;
-   color: #000;
+#display-results {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ccc;
 }
 
-.nav-pills > li > a, .nav-pills > li > a:focus {
-   color: #000;
- }
-
-
-#navbar-grew{
-  background-image: none;
-  background-color: #003171;
+#pattern-input {
+	width: 95%;
 }
 
-#right-navbar{
-  margin-bottom: 0px;
+#custom-display {
+	display: none;
+	font-size: 15px;
 }
 
-#corpus {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.item {
+	cursor: pointer;
 }
 
-#jumbo-grew{
-  background-color: #ECF0F1;
-  margin-top: 15px;
-  padding-left: 0;
-  padding-right: 0;
-}
-#title-grew{
-  color: #ECF0F1;
+.CodeMirror {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ccc;
+	margin-bottom: 10px;
 }
 
-#grew-main {
-  width: 100%;
-  padding-left: 30px;
-  padding-right: 10px;
-  overflow-x: hidden;
-  overflow-y: auto;
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus {
+	background-color: #C3C6C7;
+	color: #000;
+}
+
+.nav-pills>li>a:hover, .nav-pills>li.active>a:hover {
+	background-color: #989B9C;
+	color: #000;
+}
+
+.nav-pills>li>a, .nav-pills>li>a:focus {
+	color: #000;
+}
+
+#navbar-grew {
+	background-image: none;
+	background-color: #003171;
 }
 
 #right-navbar {
-  margin-top: 10pt;
+	margin-bottom: 0px;
 }
 
-.groups > li {
-  margin-left: 10pt;
-  margin-right: 10pt;
+#corpus {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
-.navbar-right > li {
-  margin-left: 10pt;
-  margin-right: 10pt;
+
+#jumbo-grew {
+	background-color: #ECF0F1;
+	margin-top: 15px;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#title-grew {
+	color: #ECF0F1;
+}
+
+#grew-main {
+	width: 100%;
+	padding-left: 30px;
+	padding-right: 10px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#right-navbar {
+	margin-top: 10pt;
+}
+
+.groups>li {
+	margin-left: 10pt;
+	margin-right: 10pt;
+}
+
+.navbar-right>li {
+	margin-left: 10pt;
+	margin-right: 10pt;
 }
 
 /* fix cross position in sweet alert */
 .x-mark {
-  top: -38px;
+	top: -38px;
 }
 
 .highlight {
-  background-color: #8bf56e;
+	background-color: #8bf56e;
 }
 
 .feat {
@@ -219,21 +222,21 @@ h3 {
 }
 
 #exportResult {
-  overflow-y:auto;
-  max-height:80%;
-  height: 80%;
+	overflow-y: auto;
+	max-height: 80%;
+	height: 80%;
 }
 
 #exportResult tr:nth-child(even) {
-  background-color: #dddddd;
+	background-color: #dddddd;
 }
 
 #exportResult td:first-child {
-  text-align: right;
+	text-align: right;
 }
 
-#exportResult td:nth-child(2) { /* I don't think they are 0 based */
-  text-align: center;
-  padding: 0 10px;
+#exportResult td:nth-child(2) {
+	/* I don't think they are 0 based */
+	text-align: center;
+	padding: 0 10px;
 }
-
