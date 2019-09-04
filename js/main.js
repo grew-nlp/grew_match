@@ -705,6 +705,12 @@ function update_group() {
 			html += '<tr><td class="alone">\n';
 			html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 			html += name + '\n';
+			if (value["no_word"]) {
+				html += '<object type="image/svg+xml" data="icon/no_word.svg" width="20" height="20" style="float: right;"></object>'
+			}
+			if (value["enhanced"]) {
+				html += '<object type="image/svg+xml" data="icon/enhanced.svg" width="20" height="20" style="float: right;"></object>'
+			}
 			html += '</td></tr>\n';
 			html += '</table>\n';
 			html += '</div>\n';
@@ -735,6 +741,12 @@ function update_group() {
 				html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 				html += id + '\n';
 				html += '</a>\n';
+				if (value["no_word"]) {
+					html += '<object type="image/svg+xml" data="icon/no_word.svg" width="20" height="20" style="float: right;"></object>'
+				}
+				if (value["enhanced"]) {
+					html += '<object type="image/svg+xml" data="icon/enhanced.svg" width="20" height="20" style="float: right;"></object>'
+				}
 				html += '</td></tr>\n';
 			});
 			html += '</table>\n';
