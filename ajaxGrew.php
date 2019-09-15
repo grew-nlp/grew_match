@@ -19,19 +19,12 @@ if (isset($_POST['pattern'])) {
 	fclose($pattern);
 
 	$infos = fopen($dir . $id . "/infos","w");
-	fwrite($infos, $_POST['corpus'] . "\n");
-	fwrite($infos, $_POST['lemma'] . "\n");
-	fwrite($infos, $_POST['upos'] . "\n");
-	fwrite($infos, $_POST['xpos'] . "\n");
-	fwrite($infos, $_POST['features'] . "\n");
-	fwrite($infos, $_POST['add_feats'] . "\n");
-	fwrite($infos, $_POST['order'] . "\n");
-	fwrite($infos, $_POST['context'] . "\n");
+	fwrite($infos, json_encode ($_POST));
 	fclose($infos);
 
 	$msg = "#NEW";
 
-}elseif (isset($_POST['id'])) {
+} elseif (isset($_POST['id'])) {
 // A previous session is available
 	$id = $_POST['id'];
 	$msg = "#NEXT";
