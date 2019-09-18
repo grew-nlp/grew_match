@@ -128,13 +128,19 @@
 									<label>
 										&nbsp;&nbsp;
 										<input type="checkbox" id="context-box"> context
+									</label>
 								</p>
 								<p>
-									<button class="btn btn-primary" id="submit-pattern" onclick="javascript:request_pattern(false)">Search</button>
-									<button class="btn btn-primary" id="save-button" onclick="javascript:save_pattern()">Save</button>
-									<button class="btn btn-primary" id="export-button" onclick="javascript:export_tsv()">Export</button>
-									&nbsp;&nbsp;
+									<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" style="margin-right:10px">Search</button>
+									<button class="btn btn-primary" id="save-button" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
+									<button class="btn btn-primary" id="export-button" onclick="javascript:export_tsv()" style="margin-right:10px">Export</button>
+									<label>
+										<input type="checkbox" id="cluster-box">Clustering</input>
+										<span style="display: none;" id="cluster-span">
+											key: <input type="entry" id="cluster-key" />
+										</span>
 									</label>
+
 								</p>
 								<p>
 									<span id='custom-display'>Your custom pattern URL is the following:
@@ -161,7 +167,7 @@
 						<div class="col-md-3" id="results">
 							<h3 id="progress-txt"></h3>
 							<div id="result-ok">
-								<button class="btn btn-primary btn-results" id="next-results" onclick="javascript:request_pattern(true)">Get more results</button>
+								<button class="btn btn-primary btn-results" id="next-results" onclick="javascript:next_results()">Get more results</button>
 								<br />
 								<button class="btn btn-primary btn-results" onclick="javascript:first_svg()">⇤</button>
 								<button class="btn btn-primary btn-results" onclick="javascript:previous_svg()">←</button>

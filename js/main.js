@@ -112,6 +112,17 @@ $(document).ready(function() {
 		position: 'bottom'
 	});
 	$('.tooltip-desc').tooltipster('content', $("#snd_feat-tip").html());
+
+
+	$('#cluster-box').change(function() {
+		if (this.checked) {
+			$('#cluster-span').show();
+		} else {
+			$('#cluster-span').hide();
+		}
+	});
+
+
 });
 
 // ==================================================================================
@@ -294,37 +305,56 @@ function right_pane(base) {
 }
 
 // ==================================================================================
-function request_pattern(next) {
-	if (!next) {
-		$('#vision').hide();
-		$('#list-results').empty();
-		current_line_num = 0;
-		result_nb = 0;
-		current_view = 0;
-		var data = {
-			pattern: cmEditor.getValue(),
-			corpus: current_corpus,
-			lemma: $('#lemma-box').prop('checked'),
-			upos: $('#upos-box').prop('checked'),
-			xpos: $('#xpos-box').prop('checked'),
-			features: $('#features-box').prop('checked'),
-			add_feats: $('#add_feats-box').prop('checked'),
-			order: $('#sentences-order').val(),
-			context: $('#context-box').prop('checked'),
-		}
-	} else {
-		var data = {
-			id: current_request_id,
-			corpus: current_corpus
-		};
-	}
-	console.log(data);
+function next_results() {
+	var data = {
+		id: current_request_id,
+		corpus: current_corpus
+	};
 	$.ajax({
 		url: 'ajaxGrew.php',
 		dataType: 'text',
 		data: data,
 		type: 'post',
 		success: function(id) {
+			load_cluster_file("clust_no");
+		}
+	});
+}
+
+// ==================================================================================
+function search_pattern() {
+	$('#vision').hide();
+	$('#list-results').empty();
+	current_line_num = 0;
+	result_nb = 0;
+	current_view = 0;
+	var data = {
+		pattern: cmEditor.getValue(),
+		corpus: current_corpus,
+		lemma: $('#lemma-box').prop('checked'),
+		upos: $('#upos-box').prop('checked'),
+		xpos: $('#xpos-box').prop('checked'),
+		features: $('#features-box').prop('checked'),
+		add_feats: $('#add_feats-box').prop('checked'),
+		order: $('#sentences-order').val(),
+		context: $('#context-box').prop('checked'),
+	};
+	if ($('#cluster-box').prop('checked')) {
+		data['cluster'] = $('#cluster-key').val();
+	}
+	$.ajax({
+		url: 'ajaxGrew.php',
+		dataType: 'text',
+		data: data,
+		type: 'post',
+		success: function(id) {
+			// set the writting direction
+			if (get_info(current_corpus, "rtl")) {
+				$('#sentence-txt').attr("dir", "rtl");
+			} else {
+				$('#sentence-txt').removeAttr("dir");
+			}
+
 			current_request_id = id;
 			$.get("./data/" + id + "/list", function(data) {
 				$('#save-button').prop('disabled', false);
@@ -334,71 +364,63 @@ function request_pattern(next) {
 					sweetAlert('The daemon is not running\n\nTry again in a few minutes');
 				} else {
 					for (var i = current_line_num, len = lines.length; i < len; i++) {
-						if (lines[i] == '<END>') {
+						var pieces = lines[i].split("@@");
+						if (pieces[0] == '<TOTAL>' && pieces[1] == 0) {
 							$("#next-results").prop('disabled', true);
-							if (result_nb == 0) {
-								$('#vision').show();
-								$('#result-ok').hide();
-								$('#display-sentence').hide();
-								$('#display-results').hide();
-								$('#progress-txt').text('No results found');
-								$("#next-results").prop('disabled', true);
-							}
-						} else if (lines[i] == '<ERROR>') {
+							$('#result-ok').hide();
+							$('#display-sentence').hide();
+							$('#display-results').hide();
+							$('#progress-txt').text('No results found');
+							$("#export-button").prop('disabled', true);
+							$('#vision').show();
+						} else if (pieces[0] == '<ERROR>') {
 							$.get('./data/' + id + '/error', function(errors) {
 								sweetAlert("An error occurred", errors, "error");
 							});
-						} else if (lines[i] == '<PAUSE>') {
-							$("#next-results").prop('disabled', false);
-						} else if (lines[i] == '<TOTAL>') {
-							$('#progress-txt').html(lines[i + 1] + ' occurrence' + ((lines[i + 1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + lines[i + 2] + 's]</span>');
-							i += 2; // Skip the two next lines (nb of occ, time)
-						} else if (lines[i] == '<OVER>') {
-							$('#progress-txt').html('More than 1000 results found in ' + lines[i + 1] + '% of the corpus' + ' <span style="font-size: 60%">[' + lines[i + 2] + 's]</span>');
-							i += 2; // Skip the two next lines (ratio, time)
-						} else {
-							var pieces = lines[i].split("@@");
-							if (pieces[1] != undefined) {
-								$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' + pieces[1] + '</a></li>');
-								url = './data/' + id + '/' + pieces[0];
-								$('#list-' + result_nb).click({
-									url: url,
-									i: result_nb,
-									coord: pieces[2],
-									sentence: pieces[3]
-								}, display_picture);
-								if (i == 3) { // i=2 always corresponds the first response -> fill display-result with it
-									$('#vision').show();
-									var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url + "\" > </object>";
-									document.getElementById('display-results').innerHTML = newHtml;
-									$('#list-' + result_nb).addClass('displayed');
-									var w = $("#display-results").width();
-									$("#display-results").animate({
-										scrollLeft: pieces[2] - w / 2
-									}, "fast");
-									$("#sentence-txt").html(pieces[3]);
-
-									// set the writting direction
-									if (get_info(current_corpus, "rtl")) {
-										$('#sentence-txt').attr("dir", "rtl");
-									} else {
-										$('#sentence-txt').removeAttr("dir");
-									}
-
-									$("#display-sentence").show();
-								};
-								result_nb++;
-								update_progress_num();
-							}
+						} else if (pieces[0] == '<TOTAL>') {
+							$('#progress-txt').html(pieces[1] + ' occurrence' + ((pieces[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
+							load_cluster_file("clust_no");
+							$('#vision').show();
+						} else if (pieces[0] == '<OVER>') {
+							$('#progress-txt').html('More than 1000 results found in ' + pieces[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
+							load_cluster_file("clust_no");
+							$('#vision').show();
 						}
 					};
 				}
-				current_line_num = lines.length - 1;
 			});
-
 		}
 	});
+}
 
+// ==================================================================================
+function load_cluster_file(file) {
+	$.get("./data/" + current_request_id + "/" + file, function(data) {
+		lines = data.split("\n");
+		for (var i = current_line_num, len = lines.length; i < len; i++) {
+			var pieces = lines[i].split("@@");
+			if (pieces[0] == '<END>') {
+				$("#next-results").prop('disabled', true);
+			} else if (pieces[0] == '<PAUSE>') {
+				$("#next-results").prop('disabled', false);
+			} else if (pieces[0] == '<ITEM>') {
+				$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' + pieces[2] + '</a></li>');
+				url = './data/' + current_request_id + '/' + pieces[1];
+				$('#list-' + result_nb).click({
+					url: url,
+					i: result_nb,
+					coord: pieces[3],
+					sentence: pieces[4]
+				}, display_picture);
+				result_nb++;
+				update_progress_num();
+			}
+		}
+		update_view();
+		console.log("*********");
+		$("#display-sentence").show();
+		current_line_num = lines.length - 1; // prepare position for next parsing
+	});
 }
 
 // ==================================================================================
