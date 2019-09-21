@@ -323,8 +323,8 @@ function next_results() {
 
 // ==================================================================================
 function search_pattern() {
-	$('#vision').hide();
-	$('#list-results').empty();
+	$('#results-block').hide();
+	$('#results-list').empty();
 	current_line_num = 0;
 	result_nb = 0;
 	current_view = 0;
@@ -365,31 +365,61 @@ function search_pattern() {
 				} else {
 					for (var i = current_line_num, len = lines.length; i < len; i++) {
 						var pieces = lines[i].split("@@");
-						if (pieces[0] == '<TOTAL>' && pieces[1] == 0) {
+						if (pieces[0] == '<EMPTY>') {
 							$("#next-results").prop('disabled', true);
-							$('#result-ok').hide();
+							$('#results-navig').hide();
 							$('#display-sentence').hide();
-							$('#display-results').hide();
+							$('#display-svg').hide();
 							$('#progress-txt').text('No results found');
 							$("#export-button").prop('disabled', true);
-							$('#vision').show();
+							$('#results-block').show();
 						} else if (pieces[0] == '<ERROR>') {
 							$.get('./data/' + id + '/error', function(errors) {
 								sweetAlert("An error occurred", errors, "error");
 							});
 						} else if (pieces[0] == '<TOTAL>') {
 							$('#progress-txt').html(pieces[1] + ' occurrence' + ((pieces[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
-							load_cluster_file("clust_no");
-							$('#vision').show();
 						} else if (pieces[0] == '<OVER>') {
 							$('#progress-txt').html('More than 1000 results found in ' + pieces[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
+						} else if (pieces[0] == '<NOCLUSTER>') {
+							$("#cluster-buttons").empty();
 							load_cluster_file("clust_no");
-							$('#vision').show();
+							$('#results-block').show();
+						} else if (pieces[0] == '<CLUSTERS>') {
+							fill_cluster_buttons();
 						}
 					};
 				}
 			});
 		}
+	});
+}
+
+// ==================================================================================
+var current_but_sel
+
+function fill_cluster_buttons() {
+	$.get("./data/" + current_request_id + "/clusters", function(data) {
+		$("#cluster-buttons").empty();
+		lines = data.split("\n");
+		lines.forEach(function(line) {
+			console.log(line);
+			var fields = line.split("@@");
+			var but_sel = "#cb-" + fields[3];
+			if (fields[0] == "<CLUSTER>") {
+				$("#cluster-buttons").append('<button type="button" class="btn btn-default" id="cb-' + fields[3] + '"><span class="badge badge-pill badge-info">' + fields[2] + '</span>' + fields[1] + '</button>');
+				$(but_sel).click(function() {
+					if (current_but_sel) {
+						$(current_but_sel).removeClass("btn-success");
+						$(current_but_sel).addClass("btn-default");
+					}
+					$(but_sel).removeClass("btn-default");
+					$(but_sel).addClass("btn-success");
+					current_but_sel = but_sel;
+					load_cluster_file(fields[3]);
+				})
+			}
+		});
 	});
 }
 
@@ -404,7 +434,7 @@ function load_cluster_file(file) {
 			} else if (pieces[0] == '<PAUSE>') {
 				$("#next-results").prop('disabled', false);
 			} else if (pieces[0] == '<ITEM>') {
-				$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' + pieces[2] + '</a></li>');
+				$("#results-list").append('<li class="item" id="list-' + result_nb + '"><a>' + pieces[2] + '</a></li>');
 				url = './data/' + current_request_id + '/' + pieces[1];
 				$('#list-' + result_nb).click({
 					url: url,
@@ -417,7 +447,6 @@ function load_cluster_file(file) {
 			}
 		}
 		update_view();
-		console.log("*********");
 		$("#display-sentence").show();
 		current_line_num = lines.length - 1; // prepare position for next parsing
 	});
@@ -426,12 +455,12 @@ function load_cluster_file(file) {
 // ==================================================================================
 function display_picture(event) {
 	var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url + "\" > </object>";
-	document.getElementById('display-results').innerHTML = newHtml;
+	document.getElementById('display-svg').innerHTML = newHtml;
 
-	$('#list-results li').removeClass('displayed');
+	$('#results-list li').removeClass('displayed');
 	$('#list-' + event.data.i).addClass('displayed');
-	var w = $("#display-results").width();
-	$("#display-results").animate({
+	var w = $("#display-svg").width();
+	$("#display-svg").animate({
 		scrollLeft: event.data.coord - w / 2
 	}, "fast");
 	$("#sentence-txt").html(event.data.sentence);
@@ -553,8 +582,8 @@ function getParameterByName(name) {
 // ==================================================================================
 function update_progress_num() {
 	if (result_nb != 0) {
-		$('#result-ok').show();
-		$('#display-results').show();
+		$('#results-navig').show();
+		$('#display-svg').show();
 		$("#progress-num").text((current_view + 1) + " / 	" + result_nb);
 	}
 }
