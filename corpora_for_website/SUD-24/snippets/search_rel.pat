@@ -1,7 +1,8 @@
 % Search for a dependency relation
 % Available relations are:
-%   acl, acl:relcl, advcl, advmod, amod, appos, aux, aux:pass, case, cc, ccomp,
-%   compound, conj, cop, csubj, dep, det, discourse, obj, expl, iobj, mark,
-%   fixed, flat, neg, nmod, nmod:poss, nsubj, nsubj:pass, nummod, parataxis, punct, root, xcomp
+%  * specific SUD relations: subj, mod, comp, comp:obj, comp:obl, comp:aux, comp:pred, comp:pred, udep, unk
+%  * shared UD relations: vocative, dislocated, discourse, appos, det, clf, conj, cc, flat,
+%                         componund, list, parataxis, orphan, goeswith, reparandum, punct
+%  * Some relations way be completed by deep features: comp:aux@tense, comp:aux@pass (see https://surfacesyntacticud.github.io/)
 
-pattern { GOV -[advcl]-> DEP }
+pattern { GOV -[comp:obj]-> DEP }
