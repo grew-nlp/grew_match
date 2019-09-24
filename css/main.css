@@ -91,7 +91,7 @@ h3 {
 	padding-top: 0px;
 }
 
-#results-block {
+#results-block, #cluster-block {
 	display: none;
 }
 
@@ -125,6 +125,12 @@ h3 {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #ccc;
+}
+
+#progress-txt {
+	margin-bottom: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 #pattern-input {

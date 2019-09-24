@@ -328,6 +328,7 @@ function next_results() {
 // ==================================================================================
 function search_pattern() {
 	$('#results-block').hide();
+	$('#cluster-block').hide();
 	$('#results-list').empty();
 	current_line_num = 0;
 	result_nb = 0;
@@ -377,6 +378,7 @@ function search_pattern() {
 							$('#progress-txt').text('No results found');
 							$("#export-button").prop('disabled', true);
 							$('#results-block').show();
+							$('#cluster-block').show();
 						} else if (pieces[0] == '<ERROR>') {
 							$.get('./data/' + id + '/error', function(errors) {
 								sweetAlert("An error occurred", errors, "error");
@@ -390,6 +392,7 @@ function search_pattern() {
 							current_cluster = 0;
 							load_cluster_file();
 							$('#results-block').show();
+							$('#cluster-block').show();
 						} else if (pieces[0] == '<CLUSTERS>') {
 							fill_cluster_buttons();
 						}
@@ -404,8 +407,8 @@ function search_pattern() {
 
 function fill_cluster_buttons() {
 	$.get("./data/" + current_request_id + "/clusters", function(data) {
-		currently_but_sel = undefined;
-		already_built_cluster_file = []
+		current_but_sel = undefined;
+		already_built_cluster_file = [];
 		$("#cluster-buttons").empty();
 		lines = data.split("\n");
 		lines.forEach(function(line) {
@@ -425,6 +428,7 @@ function fill_cluster_buttons() {
 						current_but_sel = but_sel;
 
 						$('#results-block').show();
+						$('#cluster-block').show();
 						current_line_num = 0;
 						$("#results-list").empty();
 						result_nb = 0;
@@ -445,6 +449,7 @@ function fill_cluster_buttons() {
 			}
 		});
 	});
+	$('#cluster-block').show();
 }
 
 // ==================================================================================
