@@ -19,8 +19,8 @@
           },
           { "folder": "Arabic",
             "corpora": [
-              { "id": "UD_Arabic-NYUAD@2.4", "rtl": true },
-              { "id": "UD_Arabic-PADT@2.4", "rtl": true },
+              { "id": "UD_Arabic-NYUAD@2.4", "rtl": true, "no_word": true },
+              { "id": "UD_Arabic-PADT@2.4", "rtl": true, "enhanced": true },
               { "id": "UD_Arabic-PUD@2.4", "rtl": true }
             ]
           },
@@ -30,7 +30,7 @@
           { "id": "UD_Basque-BDT@2.4" },
           { "id": "UD_Belarusian-HSE@2.4" },
           { "id": "UD_Breton-KEB@2.4" },
-          { "id": "UD_Bulgarian-BTB@2.4" },
+          { "id": "UD_Bulgarian-BTB@2.4", "enhanced": true},
           { "id": "UD_Buryat-BDT@2.4" },
           { "id": "UD_Cantonese-HK@2.4" },
           { "id": "UD_Catalan-AnCora@2.4" },
@@ -49,27 +49,27 @@
 
           { "folder": "Czech",
             "corpora": [
-            { "id": "UD_Czech-CAC@2.4" },
+            { "id": "UD_Czech-CAC@2.4", "enhanced": true },
             { "id": "UD_Czech-CLTT@2.4"},
-            { "id": "UD_Czech-FicTree@2.4" },
-            { "id": "UD_Czech-PDT@2.4" },
+            { "id": "UD_Czech-FicTree@2.4", "enhanced": true },
+            { "id": "UD_Czech-PDT@2.4", "enhanced": true },
             { "id": "UD_Czech-PUD@2.4" }
             ]
           },
           { "id": "UD_Danish-DDT@2.4" },
           { "folder": "Dutch",
             "corpora": [
-            { "id": "UD_Dutch-Alpino@2.4" },
-            { "id": "UD_Dutch-LassySmall@2.4" }
+            { "id": "UD_Dutch-Alpino@2.4", "enhanced": true },
+            { "id": "UD_Dutch-LassySmall@2.4", "enhanced": true }
             ]
           },
           { "folder": "English",
             "corpora": [
-              { "id": "UD_English-ESL@2.4" },
-              { "id": "UD_English-EWT@2.4" },
+              { "id": "UD_English-ESL@2.4", "no_word": true },
+              { "id": "UD_English-EWT@2.4", "enhanced": true },
               { "id": "UD_English-GUM@2.4" },
               { "id": "UD_English-LinES@2.4" },
-              { "id": "UD_English-PUD@2.4" },
+              { "id": "UD_English-PUD@2.4", "enhanced": true },
               { "id": "UD_English-ParTUT@2.4" }
             ]
           },
@@ -77,20 +77,20 @@
           { "folder": "Estonian",
             "corpora": [
               { "id": "UD_Estonian-EDT@2.4" },
-              { "id": "UD_Estonian-EWT@2.4" }
+              { "id": "UD_Estonian-EWT@2.4", "enhanced": true }
             ]
           },
           { "id": "UD_Faroese-OFT@2.4" },
           { "folder": "Finnish",
             "corpora": [
               { "id": "UD_Finnish-FTB@2.4" },
-              { "id": "UD_Finnish-PUD@2.4" },
-              { "id": "UD_Finnish-TDT@2.4" }
+              { "id": "UD_Finnish-PUD@2.4", "enhanced": true },
+              { "id": "UD_Finnish-TDT@2.4", "enhanced": true }
             ]
           },
           { "folder": "French",
             "corpora": [
-              { "id": "UD_French-FTB@2.4" },
+              { "id": "UD_French-FTB@2.4", "no_word": true },
               { "id": "UD_French-FQB@2.4" },
               { "id": "UD_French-GSD@2.4" },
               { "id": "UD_French-PUD@2.4" },
@@ -122,7 +122,7 @@
             { "id": "UD_Hindi-PUD@2.4" }
             ]
           },
-          { "id": "UD_Hindi_English-HIENCS@2.4" },
+          { "id": "UD_Hindi_English-HIENCS@2.4", "no_word": true },
           { "id": "UD_Hungarian-Szeged@2.4" },
           { "folder": "Indonesian",
             "corpora": [
@@ -133,7 +133,7 @@
           { "id": "UD_Irish-IDT@2.4" },
           { "folder": "Italian",
             "corpora": [
-              { "id": "UD_Italian-ISDT@2.4" },
+              { "id": "UD_Italian-ISDT@2.4", "enhanced": true },
               { "id": "UD_Italian-PUD@2.4" },
               { "id": "UD_Italian-ParTUT@2.4" },
               { "id": "UD_Italian-PoSTWITA@2.4" },
@@ -142,7 +142,7 @@
           },
           { "folder": "Japanese",
             "corpora": [
-              { "id": "UD_Japanese-BCCWJ@2.4" },
+              { "id": "UD_Japanese-BCCWJ@2.4", "no_word": true },
               { "id": "UD_Japanese-GSD@2.4" },
               { "id": "UD_Japanese-Modern@2.4" },
               { "id": "UD_Japanese-PUD@2.4" }
@@ -171,10 +171,10 @@
               { "id": "UD_Latin-Perseus@2.4" }
             ]
           },
-          { "id": "UD_Latvian-LVTB@2.4" },
+          { "id": "UD_Latvian-LVTB@2.4", "enhanced": true },
           { "folder": "Lithuanian",
             "corpora": [
-              { "id": "UD_Lithuanian-ALKSNIS@2.4" },
+              { "id": "UD_Lithuanian-ALKSNIS@2.4", "enhanced": true },
               { "id": "UD_Lithuanian-HSE@2.4" }
             ]
           },
@@ -182,7 +182,7 @@
           { "id": "UD_Marathi-UFAL@2.4" },
           { "folder": "Mbya_Guarani",
             "corpora": [
-              { "id": "UD_Mbya_Guarani-Dooley@2.4" },
+              { "id": "UD_Mbya_Guarani-Dooley@2.4", "no_word": true },
               { "id": "UD_Mbya_Guarani-Thomas@2.4" }
             ]
           },
@@ -206,9 +206,9 @@
           { "id": "UD_Persian-Seraji@2.4", "rtl": true  },
           { "folder": "Polish",
             "corpora": [
-              { "id": "UD_Polish-LFG@2.4" },
-              { "id": "UD_Polish-PDB@2.4" },
-              { "id": "UD_Polish-PUD@2.4" }
+              { "id": "UD_Polish-LFG@2.4", "enhanced": true },
+              { "id": "UD_Polish-PDB@2.4", "enhanced": true },
+              { "id": "UD_Polish-PUD@2.4", "enhanced": true }
             ]
           },
           { "folder": "Portuguese",
@@ -228,13 +228,13 @@
             "corpora": [
               { "id": "UD_Russian-GSD@2.4" },
               { "id": "UD_Russian-PUD@2.4" },
-              { "id": "UD_Russian-SynTagRus@2.4" },
+              { "id": "UD_Russian-SynTagRus@2.4", "enhanced": true },
               { "id": "UD_Russian-Taiga@2.4" }
             ]
           },
           { "id": "UD_Sanskrit-UFAL@2.4" },
           { "id": "UD_Serbian-SET@2.4" },
-          { "id": "UD_Slovak-SNK@2.4" },
+          { "id": "UD_Slovak-SNK@2.4", "enhanced": true },
           { "folder": "Slovenian",
             "corpora": [
               { "id": "UD_Slovenian-SSJ@2.4" },
@@ -251,13 +251,13 @@
           { "folder": "Swedish",
             "corpora": [
               { "id": "UD_Swedish-LinES@2.4" },
-              { "id": "UD_Swedish-PUD@2.4" },
-              { "id": "UD_Swedish-Talbanken@2.4" }
+              { "id": "UD_Swedish-PUD@2.4", "enhanced": true },
+              { "id": "UD_Swedish-Talbanken@2.4", "enhanced": true }
             ]
           },
           { "id": "UD_Swedish_Sign_Language-SSLC@2.4" },
           { "id": "UD_Tagalog-TRG@2.4" },
-          { "id": "UD_Tamil-TTB@2.4" },
+          { "id": "UD_Tamil-TTB@2.4", "enhanced": true },
           { "id": "UD_Telugu-MTG@2.4" },
           { "id": "UD_Thai-PUD@2.4" },
           { "folder": "Turkish",
@@ -267,7 +267,7 @@
               { "id": "UD_Turkish-PUD@2.4" }
             ]
           },
-          { "id": "UD_Ukrainian-IU@2.4" },
+          { "id": "UD_Ukrainian-IU@2.4", "enhanced": true },
           { "id": "UD_Upper_Sorbian-UFAL@2.4" },
           { "id": "UD_Urdu-UDTB@2.4", "rtl": true  },
           { "id": "UD_Uyghur-UDT@2.4", "rtl": true  },
@@ -275,7 +275,7 @@
           { "id": "UD_Warlpiri-UFAL@2.4" },
 
           { "id": "UD_Welsh-CCG@2.4" },
-          { "id": "UD_Wolof-WTB@2.4" },
+          { "id": "UD_Wolof-WTB@2.4", "enhanced": true },
 
           { "id": "UD_Yoruba-YTB@2.4" }
         ]
@@ -298,7 +298,7 @@
           },
           { "folder": "Arabic",
             "corpora": [
-              { "id": "SUD_Arabic-NYUAD@2.4", "rtl": true },
+              { "id": "SUD_Arabic-NYUAD@2.4", "rtl": true, "no_word": true  },
               { "id": "SUD_Arabic-PADT@2.4", "rtl": true },
               { "id": "SUD_Arabic-PUD@2.4", "rtl": true }
             ]
@@ -344,7 +344,7 @@
           },
           { "folder": "English",
             "corpora": [
-              { "id": "SUD_English-ESL@2.4" },
+              { "id": "SUD_English-ESL@2.4", "no_word": true  },
               { "id": "SUD_English-EWT@2.4" },
               { "id": "SUD_English-GUM@2.4" },
               { "id": "SUD_English-LinES@2.4" },
@@ -369,7 +369,7 @@
           },
           { "folder": "French",
             "corpora": [
-              { "id": "SUD_French-FTB@2.4" },
+              { "id": "SUD_French-FTB@2.4", "no_word": true  },
               { "id": "SUD_French-FQB@2.4" },
               { "id": "SUD_French-GSD@2.4" },
               { "id": "SUD_French-PUD@2.4" },
@@ -401,7 +401,7 @@
             { "id": "SUD_Hindi-PUD@2.4" }
             ]
           },
-          { "id": "SUD_Hindi_English-HIENCS@2.4" },
+          { "id": "SUD_Hindi_English-HIENCS@2.4", "no_word": true  },
           { "id": "SUD_Hungarian-Szeged@2.4" },
           { "folder": "Indonesian",
             "corpora": [
@@ -421,7 +421,7 @@
           },
           { "folder": "Japanese",
             "corpora": [
-              { "id": "SUD_Japanese-BCCWJ@2.4" },
+              { "id": "SUD_Japanese-BCCWJ@2.4", "no_word": true  },
               { "id": "SUD_Japanese-GSD@2.4" },
               { "id": "SUD_Japanese-Modern@2.4" },
               { "id": "SUD_Japanese-PUD@2.4" }
@@ -461,7 +461,7 @@
           { "id": "SUD_Marathi-UFAL@2.4" },
           { "folder": "Mbya_Guarani",
             "corpora": [
-              { "id": "SUD_Mbya_Guarani-Dooley@2.4" },
+              { "id": "SUD_Mbya_Guarani-Dooley@2.4", "no_word": true  },
               { "id": "SUD_Mbya_Guarani-Thomas@2.4" }
             ]
           },

@@ -43,22 +43,22 @@ a:hover, a:focus {
 	padding: 0px;
 }
 
-#snippets ul, #results ul {
+#snippets ul, #results-navig ul {
 	list-style-type: none;
 	margin: 0;
 	margin-left: 20px;
 	padding: 0;
 }
 
-#snippets li, #results li {
+#snippets li, #results-navig li {
 	border-bottom: 1px solid #ccc;
 }
 
-#snippets li:last-child, #results li:last-child {
+#snippets li:last-child, #results-navig li:last-child {
 	border: none;
 }
 
-#snippets li a, #results li a {
+#snippets li a, #results-navig li a {
 	text-decoration: none;
 	color: #000;
 	display: block;
@@ -69,7 +69,7 @@ a:hover, a:focus {
 	transition: font-size 0.3s ease, background-color 0.3s ease;
 }
 
-#snippets li a:hover, #results li a:hover {
+#snippets li a:hover, #results-navig li a:hover {
 	background: #F5D76E;
 }
 
@@ -87,40 +87,41 @@ h3 {
 	font-size: 24px;
 }
 
-/* Style du jumbotron */
-/* Style de scenario */
-/* Style de lesson */
-/* Style de snippets */
-/* Style de console */
 #console {
 	padding-top: 0px;
 }
 
-/* Style de vision */
-/* Style de results */
-#vision {
+#results-block {
 	display: none;
+}
+
+.badge-pill {
+	margin-right: 7px;
+}
+
+#cluster-buttons .btn {
+	margin: 10px;
 }
 
 .displayed {
 	background-color: #8bf56e;
 }
 
-/* Style de display-results */
+/* Style de display-svg */
 #result-pic {
 	height: 100%;
 }
 
-#list-results {
+#results-list {
 	max-height: 400px;
 }
 
-#display-results, #list-results {
+#display-svg, #results-list {
 	overflow: auto;
 	/*display: none;*/
 }
 
-#display-results {
+#display-svg {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #ccc;
@@ -179,6 +180,15 @@ h3 {
 	margin-top: 15px;
 	padding-left: 0;
 	padding-right: 0;
+}
+
+#jumbo-clust {
+	background-color: #ECF0F1;
+	margin-top: 15px;
+	padding-left: 0;
+	padding-right: 0;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 #title-grew {

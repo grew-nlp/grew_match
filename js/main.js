@@ -10,6 +10,7 @@ var current_group;
 var current_corpus;
 var current_folder;
 var current_snippets;
+var current_cluster;
 
 var already_exported = false
 
@@ -112,6 +113,17 @@ $(document).ready(function() {
 		position: 'bottom'
 	});
 	$('.tooltip-desc').tooltipster('content', $("#snd_feat-tip").html());
+
+
+	$('#cluster-box').change(function() {
+		if (this.checked) {
+			$('#cluster-span').show();
+		} else {
+			$('#cluster-span').hide();
+		}
+	});
+
+
 });
 
 // ==================================================================================
@@ -294,37 +306,55 @@ function right_pane(base) {
 }
 
 // ==================================================================================
-function request_pattern(next) {
-	if (!next) {
-		$('#vision').hide();
-		$('#list-results').empty();
-		current_line_num = 0;
-		result_nb = 0;
-		current_view = 0;
-		var data = {
-			pattern: cmEditor.getValue(),
-			corpus: current_corpus,
-			lemma: $('#lemma-box').prop('checked'),
-			upos: $('#upos-box').prop('checked'),
-			xpos: $('#xpos-box').prop('checked'),
-			features: $('#features-box').prop('checked'),
-			add_feats: $('#add_feats-box').prop('checked'),
-			order: $('#sentences-order').val(),
-			context: $('#context-box').prop('checked'),
-		}
-	} else {
-		var data = {
-			id: current_request_id,
-			corpus: current_corpus
-		};
-	}
-	console.log(data);
+function next_results() {
+	var data = {
+		id: current_request_id
+	};
 	$.ajax({
 		url: 'ajaxGrew.php',
 		dataType: 'text',
 		data: data,
 		type: 'post',
 		success: function(id) {
+			load_cluster_file();
+		}
+	});
+}
+
+// ==================================================================================
+function search_pattern() {
+	$('#results-block').hide();
+	$('#results-list').empty();
+	current_line_num = 0;
+	result_nb = 0;
+	current_view = 0;
+	var data = {
+		pattern: cmEditor.getValue(),
+		corpus: current_corpus,
+		lemma: $('#lemma-box').prop('checked'),
+		upos: $('#upos-box').prop('checked'),
+		xpos: $('#xpos-box').prop('checked'),
+		features: $('#features-box').prop('checked'),
+		add_feats: $('#add_feats-box').prop('checked'),
+		order: $('#sentences-order').val(),
+		context: $('#context-box').prop('checked'),
+	};
+	if ($('#cluster-box').prop('checked')) {
+		data['cluster'] = $('#cluster-key').val();
+	}
+	$.ajax({
+		url: 'ajaxGrew.php',
+		dataType: 'text',
+		data: data,
+		type: 'post',
+		success: function(id) {
+			// set the writting direction
+			if (get_info(current_corpus, "rtl")) {
+				$('#sentence-txt').attr("dir", "rtl");
+			} else {
+				$('#sentence-txt').removeAttr("dir");
+			}
+
 			current_request_id = id;
 			$.get("./data/" + id + "/list", function(data) {
 				$('#save-button').prop('disabled', false);
@@ -334,82 +364,145 @@ function request_pattern(next) {
 					sweetAlert('The daemon is not running\n\nTry again in a few minutes');
 				} else {
 					for (var i = current_line_num, len = lines.length; i < len; i++) {
-						if (lines[i] == '<END>') {
+						var pieces = lines[i].split("@@");
+						if (pieces[0] == '<EMPTY>') {
 							$("#next-results").prop('disabled', true);
-							if (result_nb == 0) {
-								$('#vision').show();
-								$('#result-ok').hide();
-								$('#display-sentence').hide();
-								$('#display-results').hide();
-								$('#progress-txt').text('No results found');
-								$("#next-results").prop('disabled', true);
-							}
-						} else if (lines[i] == '<ERROR>') {
+							$('#results-navig').hide();
+							$('#display-sentence').hide();
+							$('#display-svg').hide();
+							$('#progress-txt').text('No results found');
+							$("#export-button").prop('disabled', true);
+							$('#results-block').show();
+						} else if (pieces[0] == '<ERROR>') {
 							$.get('./data/' + id + '/error', function(errors) {
 								sweetAlert("An error occurred", errors, "error");
 							});
-						} else if (lines[i] == '<PAUSE>') {
-							$("#next-results").prop('disabled', false);
-						} else if (lines[i] == '<TOTAL>') {
-							$('#progress-txt').html(lines[i + 1] + ' occurrence' + ((lines[i + 1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + lines[i + 2] + 's]</span>');
-							i += 2; // Skip the two next lines (nb of occ, time)
-						} else if (lines[i] == '<OVER>') {
-							$('#progress-txt').html('More than 1000 results found in ' + lines[i + 1] + '% of the corpus' + ' <span style="font-size: 60%">[' + lines[i + 2] + 's]</span>');
-							i += 2; // Skip the two next lines (ratio, time)
-						} else {
-							var pieces = lines[i].split("@@");
-							if (pieces[1] != undefined) {
-								$("#list-results").append('<li class="item" id="list-' + result_nb + '"><a>' + pieces[1] + '</a></li>');
-								url = './data/' + id + '/' + pieces[0];
-								$('#list-' + result_nb).click({
-									url: url,
-									i: result_nb,
-									coord: pieces[2],
-									sentence: pieces[3]
-								}, display_picture);
-								if (i == 3) { // i=2 always corresponds the first response -> fill display-result with it
-									$('#vision').show();
-									var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + url + "\" > </object>";
-									document.getElementById('display-results').innerHTML = newHtml;
-									$('#list-' + result_nb).addClass('displayed');
-									var w = $("#display-results").width();
-									$("#display-results").animate({
-										scrollLeft: pieces[2] - w / 2
-									}, "fast");
-									$("#sentence-txt").html(pieces[3]);
-
-									// set the writting direction
-									if (get_info(current_corpus, "rtl")) {
-										$('#sentence-txt').attr("dir", "rtl");
-									} else {
-										$('#sentence-txt').removeAttr("dir");
-									}
-
-									$("#display-sentence").show();
-								};
-								result_nb++;
-								update_progress_num();
-							}
+						} else if (pieces[0] == '<TOTAL>') {
+							$('#progress-txt').html(pieces[1] + ' occurrence' + ((pieces[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
+						} else if (pieces[0] == '<OVER>') {
+							$('#progress-txt').html('More than 1000 results found in ' + pieces[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
+						} else if (pieces[0] == '<ONECLUSTER>') {
+							$("#cluster-buttons").empty();
+							current_cluster = 0;
+							load_cluster_file();
+							$('#results-block').show();
+						} else if (pieces[0] == '<CLUSTERS>') {
+							fill_cluster_buttons();
 						}
 					};
 				}
-				current_line_num = lines.length - 1;
 			});
-
 		}
 	});
+}
 
+// ==================================================================================
+var current_but_sel
+var already_built_cluster_file = []
+
+function fill_cluster_buttons() {
+	$.get("./data/" + current_request_id + "/clusters", function(data) {
+		already_built_cluster_file = []
+		$("#cluster-buttons").empty();
+		lines = data.split("\n");
+		lines.forEach(function(line) {
+			console.log(line);
+			var fields = line.split("@@");
+			var but_sel = "#cb-" + fields[3];
+			if (fields[0] == "<CLUSTER>") {
+				$("#cluster-buttons").append('<button type="button" class="btn btn-default" id="cb-' + fields[3] + '"><span class="badge badge-pill badge-info">' + fields[2] + '</span>' + fields[1] + '</button>');
+				$(but_sel).click(function() {
+					if (current_but_sel != but_sel) {
+						if (current_but_sel) {
+							$(current_but_sel).removeClass("btn-success");
+							$(current_but_sel).addClass("btn-default");
+						}
+						$(but_sel).removeClass("btn-default");
+						$(but_sel).addClass("btn-success");
+						current_but_sel = but_sel;
+
+						$('#results-block').show();
+						current_line_num = 0;
+						$("#results-list").empty();
+						result_nb = 0;
+						current_view = 0;
+
+						if (jQuery.inArray(fields[3], already_built_cluster_file) == -1) {
+							// new cluster, call the server
+							build_cluster_file(fields[3]);
+							already_built_cluster_file.push(fields[3]);
+						} else {
+							// already printed cluster -> only reload the file
+							cluster_file = fields[3];
+							load_cluster_file();
+						}
+					}
+				})
+			}
+		});
+	});
+}
+
+// ==================================================================================
+function build_cluster_file(index) {
+	var data = {
+		id: current_request_id,
+		cluster: index
+	};
+	current_cluster = index;
+	$.ajax({
+		url: 'ajaxGrew.php',
+		dataType: 'text',
+		data: data,
+		type: 'post',
+		success: function(id) {
+			load_cluster_file();
+		}
+	});
+}
+
+
+
+
+
+// ==================================================================================
+function load_cluster_file() {
+	$.get("./data/" + current_request_id + "/cluster_" + current_cluster, function(data) {
+		lines = data.split("\n");
+		for (var i = current_line_num, len = lines.length; i < len; i++) {
+			var pieces = lines[i].split("@@");
+			if (pieces[0] == '<END>') {
+				$("#next-results").prop('disabled', true);
+			} else if (pieces[0] == '<PAUSE>') {
+				$("#next-results").prop('disabled', false);
+			} else if (pieces[0] == '<ITEM>') {
+				$("#results-list").append('<li class="item" id="list-' + result_nb + '"><a>' + pieces[2] + '</a></li>');
+				url = './data/' + current_request_id + '/' + pieces[1];
+				$('#list-' + result_nb).click({
+					url: url,
+					i: result_nb,
+					coord: pieces[3],
+					sentence: pieces[4]
+				}, display_picture);
+				result_nb++;
+				update_progress_num();
+			}
+		}
+		update_view();
+		$("#display-sentence").show();
+		current_line_num = lines.length - 1; // prepare position for next parsing
+	});
 }
 
 // ==================================================================================
 function display_picture(event) {
 	var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url + "\" > </object>";
-	document.getElementById('display-results').innerHTML = newHtml;
+	document.getElementById('display-svg').innerHTML = newHtml;
 
-	$('#list-results li').removeClass('displayed');
+	$('#results-list li').removeClass('displayed');
 	$('#list-' + event.data.i).addClass('displayed');
-	var w = $("#display-results").width();
-	$("#display-results").animate({
+	var w = $("#display-svg").width();
+	$("#display-svg").animate({
 		scrollLeft: event.data.coord - w / 2
 	}, "fast");
 	$("#sentence-txt").html(event.data.sentence);
@@ -531,8 +624,8 @@ function getParameterByName(name) {
 // ==================================================================================
 function update_progress_num() {
 	if (result_nb != 0) {
-		$('#result-ok').show();
-		$('#display-results').show();
+		$('#results-navig').show();
+		$('#display-svg').show();
 		$("#progress-num").text((current_view + 1) + " / 	" + result_nb);
 	}
 }
@@ -705,6 +798,12 @@ function update_group() {
 			html += '<tr><td class="alone">\n';
 			html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 			html += name + '\n';
+			if (value["no_word"]) {
+				html += '<object type="image/svg+xml" data="icon/no_word.svg" width="20" height="20" style="float: right;"></object>'
+			}
+			if (value["enhanced"]) {
+				html += '<object type="image/svg+xml" data="icon/enhanced.svg" width="20" height="20" style="float: right;"></object>'
+			}
 			html += '</td></tr>\n';
 			html += '</table>\n';
 			html += '</div>\n';
@@ -735,6 +834,12 @@ function update_group() {
 				html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
 				html += id + '\n';
 				html += '</a>\n';
+				if (value["no_word"]) {
+					html += '<object type="image/svg+xml" data="icon/no_word.svg" width="20" height="20" style="float: right;"></object>'
+				}
+				if (value["enhanced"]) {
+					html += '<object type="image/svg+xml" data="icon/enhanced.svg" width="20" height="20" style="float: right;"></object>'
+				}
 				html += '</td></tr>\n';
 			});
 			html += '</table>\n';
