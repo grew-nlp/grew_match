@@ -12,6 +12,9 @@ var current_folder;
 var current_snippets;
 var current_cluster;
 
+var current_but_sel
+var already_built_cluster_file = []
+
 var already_exported = false
 
 // ==================================================================================
@@ -308,7 +311,8 @@ function right_pane(base) {
 // ==================================================================================
 function next_results() {
 	var data = {
-		id: current_request_id
+		id: current_request_id,
+		cluster: current_cluster
 	};
 	$.ajax({
 		url: 'ajaxGrew.php',
@@ -397,11 +401,10 @@ function search_pattern() {
 }
 
 // ==================================================================================
-var current_but_sel
-var already_built_cluster_file = []
 
 function fill_cluster_buttons() {
 	$.get("./data/" + current_request_id + "/clusters", function(data) {
+		currently_but_sel = undefined;
 		already_built_cluster_file = []
 		$("#cluster-buttons").empty();
 		lines = data.split("\n");
@@ -427,13 +430,14 @@ function fill_cluster_buttons() {
 						result_nb = 0;
 						current_view = 0;
 
-						if (jQuery.inArray(fields[3], already_built_cluster_file) == -1) {
+						current_cluster = fields[3]
+
+						if (jQuery.inArray(current_cluster, already_built_cluster_file) == -1) {
 							// new cluster, call the server
-							build_cluster_file(fields[3]);
-							already_built_cluster_file.push(fields[3]);
+							next_results();
+							already_built_cluster_file.push(current_cluster);
 						} else {
-							// already printed cluster -> only reload the file
-							cluster_file = fields[3];
+							// previously seen cluster -> only reload the file
 							load_cluster_file();
 						}
 					}
@@ -442,28 +446,6 @@ function fill_cluster_buttons() {
 		});
 	});
 }
-
-// ==================================================================================
-function build_cluster_file(index) {
-	var data = {
-		id: current_request_id,
-		cluster: index
-	};
-	current_cluster = index;
-	$.ajax({
-		url: 'ajaxGrew.php',
-		dataType: 'text',
-		data: data,
-		type: 'post',
-		success: function(id) {
-			load_cluster_file();
-		}
-	});
-}
-
-
-
-
 
 // ==================================================================================
 function load_cluster_file() {
