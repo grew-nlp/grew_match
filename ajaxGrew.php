@@ -24,10 +24,14 @@ if (isset($_POST['pattern'])) {
 
 	$msg = "#NEW";
 
+} elseif (isset($_POST['cluster'])) {
+	$id = $_POST['id'];
+	$msg = "#NEXT#" . $_POST['cluster'];
+
 } elseif (isset($_POST['id'])) {
 // A previous session is available
 	$id = $_POST['id'];
-	$msg = "#NEXT";
+	$msg = "#NEXT#0";
 }
 
 $port=@PORT@;

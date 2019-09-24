@@ -10,6 +10,7 @@ var current_group;
 var current_corpus;
 var current_folder;
 var current_snippets;
+var current_cluster;
 
 var already_exported = false
 
@@ -307,8 +308,7 @@ function right_pane(base) {
 // ==================================================================================
 function next_results() {
 	var data = {
-		id: current_request_id,
-		corpus: current_corpus
+		id: current_request_id
 	};
 	$.ajax({
 		url: 'ajaxGrew.php',
@@ -316,7 +316,7 @@ function next_results() {
 		data: data,
 		type: 'post',
 		success: function(id) {
-			load_cluster_file("clust_no");
+			load_cluster_file();
 		}
 	});
 }
@@ -381,9 +381,10 @@ function search_pattern() {
 							$('#progress-txt').html(pieces[1] + ' occurrence' + ((pieces[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
 						} else if (pieces[0] == '<OVER>') {
 							$('#progress-txt').html('More than 1000 results found in ' + pieces[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
-						} else if (pieces[0] == '<NOCLUSTER>') {
+						} else if (pieces[0] == '<ONECLUSTER>') {
 							$("#cluster-buttons").empty();
-							load_cluster_file("clust_no");
+							current_cluster = 0;
+							load_cluster_file();
 							$('#results-block').show();
 						} else if (pieces[0] == '<CLUSTERS>') {
 							fill_cluster_buttons();
@@ -397,9 +398,11 @@ function search_pattern() {
 
 // ==================================================================================
 var current_but_sel
+var already_built_cluster_file = []
 
 function fill_cluster_buttons() {
 	$.get("./data/" + current_request_id + "/clusters", function(data) {
+		already_built_cluster_file = []
 		$("#cluster-buttons").empty();
 		lines = data.split("\n");
 		lines.forEach(function(line) {
@@ -409,14 +412,31 @@ function fill_cluster_buttons() {
 			if (fields[0] == "<CLUSTER>") {
 				$("#cluster-buttons").append('<button type="button" class="btn btn-default" id="cb-' + fields[3] + '"><span class="badge badge-pill badge-info">' + fields[2] + '</span>' + fields[1] + '</button>');
 				$(but_sel).click(function() {
-					if (current_but_sel) {
-						$(current_but_sel).removeClass("btn-success");
-						$(current_but_sel).addClass("btn-default");
+					if (current_but_sel != but_sel) {
+						if (current_but_sel) {
+							$(current_but_sel).removeClass("btn-success");
+							$(current_but_sel).addClass("btn-default");
+						}
+						$(but_sel).removeClass("btn-default");
+						$(but_sel).addClass("btn-success");
+						current_but_sel = but_sel;
+
+						$('#results-block').show();
+						current_line_num = 0;
+						$("#results-list").empty();
+						result_nb = 0;
+						current_view = 0;
+
+						if (jQuery.inArray(fields[3], already_built_cluster_file) == -1) {
+							// new cluster, call the server
+							build_cluster_file(fields[3]);
+							already_built_cluster_file.push(fields[3]);
+						} else {
+							// already printed cluster -> only reload the file
+							cluster_file = fields[3];
+							load_cluster_file();
+						}
 					}
-					$(but_sel).removeClass("btn-default");
-					$(but_sel).addClass("btn-success");
-					current_but_sel = but_sel;
-					load_cluster_file(fields[3]);
 				})
 			}
 		});
@@ -424,8 +444,30 @@ function fill_cluster_buttons() {
 }
 
 // ==================================================================================
-function load_cluster_file(file) {
-	$.get("./data/" + current_request_id + "/" + file, function(data) {
+function build_cluster_file(index) {
+	var data = {
+		id: current_request_id,
+		cluster: index
+	};
+	current_cluster = index;
+	$.ajax({
+		url: 'ajaxGrew.php',
+		dataType: 'text',
+		data: data,
+		type: 'post',
+		success: function(id) {
+			load_cluster_file();
+		}
+	});
+}
+
+
+
+
+
+// ==================================================================================
+function load_cluster_file() {
+	$.get("./data/" + current_request_id + "/cluster_" + current_cluster, function(data) {
 		lines = data.split("\n");
 		for (var i = current_line_num, len = lines.length; i < len; i++) {
 			var pieces = lines[i].split("@@");
