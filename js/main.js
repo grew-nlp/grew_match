@@ -161,12 +161,16 @@ function init() {
 
 	// Binding on CodeMirror change
 	cmEditor.on("change", function() {
-		$('#save-button').prop('disabled', true);
-		$('#export-button').prop('disabled', true);
-		already_exported = false;
-		$('#custom-display').hide();
+		disable_save();
 	});
 
+	$('#cluster-key').bind('input', function() {
+		disable_save();
+	});
+
+	$('#cluster-box').change(function() {
+		disable_save();
+	});
 
 	$('#select-tuto').click(function() {
 		tuto()
@@ -177,6 +181,14 @@ function init() {
 	} else {
 		update_group();
 	}
+}
+
+// ==================================================================================
+function disable_save() {
+	$('#save-button').prop('disabled', true);
+	$('#export-button').prop('disabled', true);
+	already_exported = false;
+	$('#custom-display').hide();
 }
 
 // ==================================================================================
@@ -263,10 +275,18 @@ function deal_with_get_parameters() {
 	// custom get parameter
 	if (getParameterByName("custom").length > 0) {
 		get_custom = getParameterByName("custom");
+
+		get_cluster = getParameterByName("clustering");
+		if (get_cluster.length > 0) {
+			$('#cluster-box').prop('checked', true);
+			$('#cluster-span').show();
+			$('#cluster-key').val(get_cluster);
+		}
+		alert(get_cluster);
 		console.log("get_parameter corpus: " + get_custom);
 		$.get('./data/shorten/' + get_custom, function(pattern) {
 			cmEditor.setValue(pattern);
-			request_pattern(false);
+			search_pattern();
 		});
 	}
 
@@ -289,6 +309,20 @@ function deal_with_get_parameters() {
 }
 
 // ==================================================================================
+function set_cluster_key(key) {
+	$('#cluster-box').prop('checked', true);
+	$('#cluster-span').show();
+	$('#cluster-key').val(key);
+}
+
+// ==================================================================================
+function clean_cluster_key() {
+	$('#cluster-box').prop('checked', false);
+	$('#cluster-span').hide();
+	$('#cluster-key').val("");
+}
+
+// ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
 	if (base == "tuto") {
@@ -300,6 +334,14 @@ function right_pane(base) {
 		$('#right-pane').html(data);
 		$(".inter").click(function() {
 			var file = $(this).attr('snippet-file');
+
+			clustering = $(this).attr('clustering');
+			if (clustering) {
+				set_cluster_key(clustering);
+			} else {
+				clean_cluster_key();
+			}
+
 			// Update of the textarea
 			$.get(dir + "/" + file, function(pattern) {
 				cmEditor.setValue(pattern);
@@ -555,9 +597,19 @@ function export_tsv() {
 function download() {
 	window.location = './data/' + current_request_id + '/export.tsv';
 }
+
 // ==================================================================================
 function save_pattern() {
-	if (cmEditor.getValue().length > 0 && current_request_id.length > 0) {
+
+
+	if ($('#cluster-box').prop('checked')) {
+		clustering = "&clustering=" + $('#cluster-key').val();
+	} else {
+		clustering = "";
+	}
+
+
+	if (current_request_id.length > 0) {
 		$.ajax({
 			url: 'shorten.php',
 			dataType: 'text',
@@ -568,14 +620,17 @@ function save_pattern() {
 			type: 'post',
 			success: function(output) {
 				history.pushState({
-					id: output
-				}, "Grew - Custom saved pattern", "?corpus=" + current_corpus + "&custom=" + output);
+						id: output
+					},
+					"Grew - Custom saved pattern",
+					"?corpus=" + current_corpus + "&custom=" + output + clustering
+				);
 				$('#custom-url').text(window.location.href);
 				$('#custom-display').show();
 				SelectText("custom-url");
 			},
 			error: function(x) {
-				alert(x)
+				sweetAlert(x)
 			}
 		});
 	} else {
@@ -613,7 +668,7 @@ function update_progress_num() {
 	if (result_nb != 0) {
 		$('#results-navig').show();
 		$('#display-svg').show();
-		$("#progress-num").text((current_view + 1) + " / 	" + result_nb);
+		$("#progress-num").text((current_view + 1) + " / " + result_nb);
 	}
 }
 
