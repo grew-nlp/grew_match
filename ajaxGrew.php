@@ -6,7 +6,11 @@ if (isset($_POST['pattern'])) {
 	// update the log file
 	$hFile = "data/log";
 	$historyFile = fopen($hFile,"a");
-	fwrite($historyFile, date("d-m-Y H:i" ) . "|" . $_POST['corpus'] . "=>" . $_POST['pattern'] . "\n<+>\n");
+	if (isset($_POST['cluster'])) {
+		fwrite($historyFile, date("d-m-Y H:i" ) . "|" . $_POST['corpus'] . "=>" . $_POST['pattern'] . "\n<CLUSTER>".$_POST['cluster']."\n<+>\n");
+	} else {
+		fwrite($historyFile, date("d-m-Y H:i" ) . "|" . $_POST['corpus'] . "=>" . $_POST['pattern'] . "\n<+>\n");
+	}
 	fclose($historyFile);
 
 	// create a new folder and write the pattern file in it
