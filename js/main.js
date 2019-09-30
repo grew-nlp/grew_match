@@ -360,8 +360,18 @@ function next_results() {
 		dataType: 'text',
 		data: data,
 		type: 'post',
-		success: function(id) {
-			load_cluster_file();
+		success: function(reply) {
+			var pieces = reply.split("@@");
+			var id = pieces[0];
+			var msg = pieces[1];
+
+			if (msg == 'ERROR') {
+				$.get('./data/' + id + '/error', function(errors) {
+					sweetAlert("An error occurred", errors, "error");
+				});
+			} else {
+				load_cluster_file();
+			}
 		}
 	});
 }
@@ -393,53 +403,61 @@ function search_pattern() {
 		dataType: 'text',
 		data: data,
 		type: 'post',
-		success: function(id) {
-			// set the writting direction
-			if (get_info(current_corpus, "rtl")) {
-				$('#sentence-txt').attr("dir", "rtl");
-			} else {
-				$('#sentence-txt').removeAttr("dir");
-			}
+		success: function(reply) {
 
-			current_request_id = id;
-			$.get("./data/" + id + "/list", function(data) {
-				$('#save-button').prop('disabled', false);
-				$('#export-button').prop('disabled', false);
-				lines = data.split("\n");
-				if (lines[0] == '<!>') {
-					sweetAlert('The daemon is not running\n\nTry again in a few minutes');
+			var pieces = reply.split("@@");
+			var id = pieces[0];
+			var msg = pieces[1];
+
+			if (msg == 'ERROR') {
+				$.get('./data/' + id + '/error', function(errors) {
+					sweetAlert("An error occurred", errors, "error");
+				});
+			} else {
+
+				// set the writting direction
+				if (get_info(current_corpus, "rtl")) {
+					$('#sentence-txt').attr("dir", "rtl");
 				} else {
-					for (var i = current_line_num, len = lines.length; i < len; i++) {
-						var pieces = lines[i].split("@@");
-						if (pieces[0] == '<EMPTY>') {
-							$("#next-results").prop('disabled', true);
-							$('#results-navig').hide();
-							$('#display-sentence').hide();
-							$('#display-svg').hide();
-							$('#progress-txt').text('No results found');
-							$("#export-button").prop('disabled', true);
-							$('#results-block').show();
-							$('#cluster-block').show();
-						} else if (pieces[0] == '<ERROR>') {
-							$.get('./data/' + id + '/error', function(errors) {
-								sweetAlert("An error occurred", errors, "error");
-							});
-						} else if (pieces[0] == '<TOTAL>') {
-							$('#progress-txt').html(pieces[1] + ' occurrence' + ((pieces[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
-						} else if (pieces[0] == '<OVER>') {
-							$('#progress-txt').html('More than 1000 results found in ' + pieces[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
-						} else if (pieces[0] == '<ONECLUSTER>') {
-							$("#cluster-buttons").empty();
-							current_cluster = 0;
-							load_cluster_file();
-							$('#results-block').show();
-							$('#cluster-block').show();
-						} else if (pieces[0] == '<CLUSTERS>') {
-							fill_cluster_buttons();
-						}
-					};
+					$('#sentence-txt').removeAttr("dir");
 				}
-			});
+
+				current_request_id = id;
+				$.get("./data/" + id + "/list", function(data) {
+					$('#save-button').prop('disabled', false);
+					$('#export-button').prop('disabled', false);
+					lines = data.split("\n");
+					if (lines[0] == '<!>') {
+						sweetAlert('The daemon is not running\n\nTry again in a few minutes');
+					} else {
+						for (var i = current_line_num, len = lines.length; i < len; i++) {
+							var pieces = lines[i].split("@@");
+							if (pieces[0] == '<EMPTY>') {
+								$("#next-results").prop('disabled', true);
+								$('#results-navig').hide();
+								$('#display-sentence').hide();
+								$('#display-svg').hide();
+								$('#progress-txt').text('No results found');
+								$("#export-button").prop('disabled', true);
+								$('#results-block').show();
+								$('#cluster-block').show();
+							} else if (pieces[0] == '<TOTAL>') {
+								$('#progress-txt').html(pieces[1] + ' occurrence' + ((pieces[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
+							} else if (pieces[0] == '<OVER>') {
+								$('#progress-txt').html('More than 1000 results found in ' + pieces[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
+							} else if (pieces[0] == '<ONECLUSTER>') {
+								$("#cluster-buttons").empty();
+								current_cluster = 0;
+								load_cluster_file();
+								$('#results-block').show();
+								$('#cluster-block').show();
+							} else if (pieces[0] == '<CLUSTERS>') {
+								fill_cluster_buttons();
+							}
+						};
+					}
+				});
+			}
 		}
 	});
 }
@@ -600,13 +618,11 @@ function download() {
 // ==================================================================================
 function save_pattern() {
 
-
 	if ($('#cluster-box').prop('checked')) {
 		clustering = "&clustering=" + $('#cluster-key').val();
 	} else {
 		clustering = "";
 	}
-
 
 	if (current_request_id.length > 0) {
 		$.ajax({
