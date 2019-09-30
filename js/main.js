@@ -282,7 +282,6 @@ function deal_with_get_parameters() {
 			$('#cluster-span').show();
 			$('#cluster-key').val(get_cluster);
 		}
-		alert(get_cluster);
 		console.log("get_parameter corpus: " + get_custom);
 		$.get('./data/shorten/' + get_custom, function(pattern) {
 			cmEditor.setValue(pattern);
