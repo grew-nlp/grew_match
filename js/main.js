@@ -303,7 +303,7 @@ function deal_with_get_parameters() {
 			target = ""
 		}
 		cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + getParameterByName("relation") + "]-> DEP\n}");
-		request_pattern(false);
+		search_pattern();
 	}
 }
 
