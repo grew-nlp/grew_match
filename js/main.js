@@ -430,6 +430,7 @@ function search_pattern() {
 					if (lines[0] == '<!>') {
 						sweetAlert('The daemon is not running\n\nTry again in a few minutes');
 					} else {
+						$("#cluster-buttons").empty();
 						for (var i = current_line_num, len = lines.length; i < len; i++) {
 							var pieces = lines[i].split("@@");
 							if (pieces[0] == '<EMPTY>') {
@@ -446,7 +447,6 @@ function search_pattern() {
 							} else if (pieces[0] == '<OVER>') {
 								$('#progress-txt').html('More than 1000 results found in ' + pieces[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
 							} else if (pieces[0] == '<ONECLUSTER>') {
-								$("#cluster-buttons").empty();
 								current_cluster = 0;
 								load_cluster_file();
 								$('#results-block').show();
@@ -468,7 +468,6 @@ function fill_cluster_buttons() {
 	$.get("./data/" + current_request_id + "/clusters", function(data) {
 		current_but_sel = undefined;
 		already_built_cluster_file = [];
-		$("#cluster-buttons").empty();
 		lines = data.split("\n");
 		lines.forEach(function(line) {
 			console.log(line);
