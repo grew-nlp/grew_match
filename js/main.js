@@ -368,9 +368,9 @@ function next_results() {
 		data: data,
 		type: 'post',
 		success: function(reply) {
-			var pieces = reply.split("@@");
-			var id = pieces[0];
-			var msg = pieces[1];
+			var fields = reply.split("@@");
+			var id = fields[0];
+			var msg = fields[1];
 
 			if (msg == 'ERROR') {
 				report_error(id);
@@ -412,9 +412,9 @@ function search_pattern() {
 		data: data,
 		type: 'post',
 		success: function(reply) {
-			var pieces = reply.split("@@");
-			var id = pieces[0];
-			var msg = pieces[1];
+			var fields = reply.split("@@");
+			var id = fields[0];
+			var msg = fields[1];
 
 			if (msg == 'ERROR') {
 				report_error(id);
@@ -437,8 +437,8 @@ function search_pattern() {
 					} else {
 						$("#cluster-buttons").empty();
 						for (var i = current_line_num, len = lines.length; i < len; i++) {
-							var pieces = lines[i].split("@@");
-							if (pieces[0] == '<EMPTY>') {
+							var fields = lines[i].split("@@");
+							if (fields[0] == '<EMPTY>') {
 								$("#next-results").prop('disabled', true);
 								$('#results-navig').hide();
 								$('#display-sentence').hide();
@@ -447,16 +447,16 @@ function search_pattern() {
 								$("#export-button").prop('disabled', true);
 								$('#results-block').show();
 								$('#cluster-block').show();
-							} else if (pieces[0] == '<TOTAL>') {
-								$('#progress-txt').html(pieces[1] + ' occurrence' + ((pieces[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
-							} else if (pieces[0] == '<OVER>') {
-								$('#progress-txt').html('More than 1000 results found in ' + pieces[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + pieces[2] + 's]</span>');
-							} else if (pieces[0] == '<ONECLUSTER>') {
+							} else if (fields[0] == '<TOTAL>') {
+								$('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
+							} else if (fields[0] == '<OVER>') {
+								$('#progress-txt').html('More than 1000 results found in ' + fields[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
+							} else if (fields[0] == '<ONECLUSTER>') {
 								current_cluster = 0;
 								load_cluster_file();
 								$('#results-block').show();
 								$('#cluster-block').show();
-							} else if (pieces[0] == '<CLUSTERS>') {
+							} else if (fields[0] == '<CLUSTERS>') {
 								fill_cluster_buttons();
 							}
 						};
@@ -523,19 +523,19 @@ function load_cluster_file() {
 	$.get("./data/" + current_request_id + "/cluster_" + current_cluster, function(data) {
 		lines = data.split("\n");
 		for (var i = current_line_num, len = lines.length; i < len; i++) {
-			var pieces = lines[i].split("@@");
-			if (pieces[0] == '<END>') {
+			var fields = lines[i].split("@@");
+			if (fields[0] == '<END>') {
 				$("#next-results").prop('disabled', true);
-			} else if (pieces[0] == '<PAUSE>') {
+			} else if (fields[0] == '<PAUSE>') {
 				$("#next-results").prop('disabled', false);
-			} else if (pieces[0] == '<ITEM>') {
-				$("#results-list").append('<li class="item" id="list-' + result_nb + '"><a>' + pieces[2] + '</a></li>');
-				url = './data/' + current_request_id + '/' + pieces[1];
+			} else if (fields[0] == '<ITEM>') {
+				$("#results-list").append('<li class="item" id="list-' + result_nb + '"><a>' + fields[2] + '</a></li>');
+				url = './data/' + current_request_id + '/' + fields[1];
 				$('#list-' + result_nb).click({
 					url: url,
 					i: result_nb,
-					coord: pieces[3],
-					sentence: pieces[4]
+					coord: fields[3],
+					sentence: fields[4]
 				}, display_picture);
 				result_nb++;
 				update_progress_num();
@@ -604,9 +604,9 @@ function export_tsv() {
 				},
 				type: 'post',
 				success: function(reply) {
-					var pieces = reply.split("@@");
-					var id = pieces[0];
-					var msg = pieces[1];
+					var fields = reply.split("@@");
+					var id = fields[0];
+					var msg = fields[1];
 
 					if (msg == 'ERROR') {
 						report_error(id);
