@@ -11,11 +11,11 @@
 	    demonDown($id);
 	  }else{
 	    fwrite($client, $dir . $id . "#EXPORT");
-	    $result = stream_get_contents($client,1);
+	    $result = stream_get_contents($client,10);
 	    fclose($client);
 	  }
 	  error_reporting(E_ALL & ~E_NOTICE);
-	  echo $id;
+    echo ($id . "@@" . $result);
   }
 
 // Send an email if the daemon in not running

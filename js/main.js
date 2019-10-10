@@ -350,6 +350,13 @@ function right_pane(base) {
 }
 
 // ==================================================================================
+function report_error(id) {
+	$.get('./data/' + id + '/error', function(errors) {
+		sweetAlert("An error occurred", errors, "error");
+	});
+}
+
+// ==================================================================================
 function next_results() {
 	var data = {
 		id: current_request_id,
@@ -366,12 +373,13 @@ function next_results() {
 			var msg = pieces[1];
 
 			if (msg == 'ERROR') {
-				$.get('./data/' + id + '/error', function(errors) {
-					sweetAlert("An error occurred", errors, "error");
-				});
+				report_error(id);
 			} else {
 				load_cluster_file();
 			}
+		},
+		error: function(x) {
+			alert("Ajax error:" + x);
 		}
 	});
 }
@@ -404,15 +412,12 @@ function search_pattern() {
 		data: data,
 		type: 'post',
 		success: function(reply) {
-
 			var pieces = reply.split("@@");
 			var id = pieces[0];
 			var msg = pieces[1];
 
 			if (msg == 'ERROR') {
-				$.get('./data/' + id + '/error', function(errors) {
-					sweetAlert("An error occurred", errors, "error");
-				});
+				report_error(id);
 			} else {
 
 				// set the writting direction
@@ -458,6 +463,9 @@ function search_pattern() {
 					}
 				});
 			}
+		},
+		error: function(x) {
+			alert("Ajax error:" + x);
 		}
 	});
 }
@@ -595,12 +603,20 @@ function export_tsv() {
 					id: current_request_id
 				},
 				type: 'post',
-				success: function(output) {
-					already_exported = true;
-					show_modal();
+				success: function(reply) {
+					var pieces = reply.split("@@");
+					var id = pieces[0];
+					var msg = pieces[1];
+
+					if (msg == 'ERROR') {
+						report_error(id);
+					} else {
+						already_exported = true;
+						show_modal();
+					}
 				},
 				error: function(x) {
-					alert(x);
+					alert("Ajax error:" + x);
 				}
 			});
 		}
@@ -644,7 +660,7 @@ function save_pattern() {
 				SelectText("custom-url");
 			},
 			error: function(x) {
-				sweetAlert(x)
+				alert("Ajax error:" + x);
 			}
 		});
 	} else {
@@ -774,6 +790,8 @@ function set_corpus(corpus) {
 function update_corpus() {
 	// set the corpus name
 	$('#corpus-fixed').html(current_corpus);
+
+	disable_save();
 
 	current_snippets = get_info(current_corpus, "snippets");
 	if (current_snippets == "") {
