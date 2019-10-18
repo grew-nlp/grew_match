@@ -574,6 +574,7 @@
             { "id": "UD_French-PUD@dev" },
             { "id": "UD_French-Spoken@dev" },
           { "section" : "SUD Treebank" },
+            { "id": "SUD_French-Spoken@dev", "snippets": "sud"  },
             { "id": "SUD_Naija-NSC@dev", "snippets": "sud"  },
           { "section" : "SUD Dev (converted)" },
             { "id": "SUD_French-GSD@dev", "snippets": "sud"  },
