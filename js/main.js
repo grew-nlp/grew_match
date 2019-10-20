@@ -18,16 +18,6 @@ var already_built_cluster_file = []
 var already_exported = false
 
 // ==================================================================================
-function startsWith(text, word) {
-  str = String(text);
-  l = word.length;
-  var res = str.substr(0, l);
-  if (res == word) {
-    return (text)
-  }
-}
-
-// ==================================================================================
 function get_corpora_from_group(group_id) {
   group_list = current_data["groups"];
   for (var g = 0; g < group_list.length; g++) {
@@ -70,33 +60,51 @@ function get_info(corpus, field) {
 // ==================================================================================
 // return an array [real_corpus_name, folder, group]
 function search_corpus(requested_corpus) {
+  $('#warning').hide();
   current_corpus = undefined;
   current_folder = undefined;
   current_group = undefined;
+  best_ld = Number.MAX_SAFE_INTEGER;
   group_list = current_data["groups"];
   for (var g = 0; g < group_list.length; g++) {
     corpora = group_list[g]["corpora"];
     for (var c = 0; c < corpora.length; c++) {
-      if (startsWith(corpora[c]["id"], corpus)) {
-        current_corpus = corpora[c]["id"];
-        current_group = group_list[g]["id"];
-        return;
+      if (corpora[c]["id"] != undefined) {
+        ld = levenshtein(requested_corpus, corpora[c]["id"]);
+        if (ld == 0) {
+          current_corpus = corpora[c]["id"];
+          current_group = group_list[g]["id"];
+          return;
+        }
+        if (ld < best_ld) {
+          best_ld = ld;
+          current_corpus = corpora[c]["id"];
+          current_group = group_list[g]["id"];
+        }
       }
       if (corpora[c]["folder"] != undefined) {
         subcorpora = corpora[c]["corpora"];
         for (var cc = 0; cc < subcorpora.length; cc++) {
-          if (startsWith(subcorpora[cc]["id"], corpus)) {
+          ld = levenshtein(requested_corpus, subcorpora[cc]["id"]);
+          if (ld == 0) {
             current_corpus = subcorpora[cc]["id"];
             current_folder = corpora[c]["folder"];
             current_group = group_list[g]["id"];
             return;
           }
+          if (ld < best_ld) {
+            best_ld = ld;
+            current_corpus = subcorpora[cc]["id"];
+            current_folder = corpora[c]["folder"];
+            current_group = group_list[g]["id"];
+          }
         }
       }
     }
   }
-  // no matching corpus here found
-  set_default();
+  // no exact matching
+  $('#warning-text').html("Warning: " + requested_corpus + " &rarr; " + current_corpus);
+  $('#warning').show();
 }
 
 
@@ -115,7 +123,8 @@ $(document).ready(function() {
     interactive: true,
     position: 'bottom'
   });
-  $('.tooltip-desc').tooltipster('content', $("#snd_feat-tip").html());
+  $('#snd_feat-tooltip').tooltipster('content', $("#snd_feat-tip").html());
+  $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
 
 
   $('#cluster-box').change(function() {
@@ -238,51 +247,18 @@ function deal_with_get_parameters() {
   } else
 
   if (getParameterByName("corpus").length > 0) {
-    corpus = getParameterByName("corpus");
-
-    // keep working hard link for old corpora names
-    if (corpus == "UD_French-dev") {
-      corpus = "UD_French@dev";
-    }
-    if (corpus == "seq-ud-trunk") {
-      corpus = "UD_French-Sequoia@dev";
-    }
-    if (corpus == "UD_English-2.0") {
-      corpus = "UD_English";
-    }
-    if (corpus == "UD_English-2.1") {
-      corpus = "UD_English";
-    }
-    if (corpus == "sequoia.const-7.0") {
-      corpus = "sequoia.const@7.0";
-    }
-    if (corpus == "sequoia.surf-7.0") {
-      corpus = "sequoia.surf@7.0";
-    }
-    if (corpus == "UD_French-Sequoia-2.0") {
-      corpus = "UD_French-Sequoia";
-    }
-    if (corpus == "sequoia.deep_and_surf") {
-      corpus = "sequoia.deep_and_surf@master";
-    }
-    if (corpus == "sequoia.deep_and_surf@UD-2.1 ") {
-      corpus = "sequoia.deep_and_surf@8.1";
-    }
-
-    search_corpus(corpus);
+    search_corpus(getParameterByName("corpus"));
   };
 
   // custom get parameter
   if (getParameterByName("custom").length > 0) {
     get_custom = getParameterByName("custom");
-
     get_cluster = getParameterByName("clustering");
     if (get_cluster.length > 0) {
       $('#cluster-box').prop('checked', true);
       $('#cluster-span').show();
       $('#cluster-key').val(get_cluster);
     }
-    console.log("get_parameter corpus: " + get_custom);
     $.get('./data/shorten/' + get_custom, function(pattern) {
       cmEditor.setValue(pattern);
       search_pattern();
@@ -783,6 +759,11 @@ function escape(s) {
 // ==================================================================================
 function set_corpus(corpus) {
   current_corpus = corpus;
+  $("#warning").hide();
+  history.pushState({},
+    "Grew - " + current_corpus,
+    "?corpus=" + current_corpus
+  );
   update_corpus()
 }
 
@@ -946,4 +927,27 @@ function set_amr() {
   $("#add_feats-option").hide();
   $("#add_feats-label").hide();
   $("#export-button").hide();
+}
+
+// taken from: https://rosettacode.org/wiki/Levenshtein_distance#JavaScript
+function levenshtein(a, b) {
+  var t = [],
+    u, i, j, m = a.length,
+    n = b.length;
+  if (!m) {
+    return n;
+  }
+  if (!n) {
+    return m;
+  }
+  for (j = 0; j <= n; j++) {
+    t[j] = j;
+  }
+  for (i = 1; i <= m; i++) {
+    for (u = [i], j = 1; j <= n; j++) {
+      u[j] = a[i - 1] === b[j - 1] ? t[j - 1] : Math.min(t[j - 1], t[j], u[j - 1]) + 1;
+    }
+    t = u;
+  }
+  return u[n];
 }

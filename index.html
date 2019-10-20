@@ -79,7 +79,10 @@
 
 							<!-- Upper-left part: corpus selector, textarea, buttons -->
 							<div class="col-md-8" id="console">
-
+								<h4 id="warning">
+									<span id="warning-text" style="color: red"></span>
+									<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="warning-tooltip"></span>
+								</h4>
 								<h2 id="corpus">
 									<button type="button" id="sidebarCollapse" class="btn btn-primary">
 										<span id="but-text">Hide corpora list</span>
@@ -113,7 +116,7 @@
 									<label id="add_feats-option">
 										&nbsp;&nbsp;
 										<input type="checkbox" id="add_feats-box" checked> Add feats
-										<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="corpus-desc"></span>
+										<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="snd_feat-tooltip"></span>
 									</label>
 									<label>
 										&nbsp;&nbsp;
@@ -216,6 +219,16 @@
 					<li><span class="feat">_speaker</span> for speaker value (column 13)</li>
 				</ul>
 	</div>
+
+
+	<!-- tooltip content -->
+	<div id="warning-tip" style="display: none;">
+		<p>No corpus found with the requested name, the closest one (wrt Levenshtein distance) is chosen</p>
+	</div>
+
+
+
+
 
 	<!-- modal for data export -->
 	<div id="exportModal" class="modal">
