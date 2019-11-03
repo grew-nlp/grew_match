@@ -335,11 +335,12 @@ function report_error(id) {
 // ==================================================================================
 function next_results() {
   var data = {
+    request: "NEXT",
     id: current_request_id,
     cluster: current_cluster
   };
   $.ajax({
-    url: 'ajaxGrew.php',
+    url: 'main.php',
     dataType: 'text',
     data: data,
     type: 'post',
@@ -355,7 +356,7 @@ function next_results() {
       }
     },
     error: function(x) {
-      alert("Ajax error:" + x);
+      alert("Ajax error:" + JSON.stringify(x));
     }
   });
 }
@@ -369,6 +370,7 @@ function search_pattern() {
   result_nb = 0;
   current_view = 0;
   var data = {
+    request: "NEW",
     pattern: cmEditor.getValue(),
     corpus: current_corpus,
     lemma: $('#lemma-box').prop('checked'),
@@ -383,7 +385,7 @@ function search_pattern() {
     data['cluster'] = $('#cluster-key').val();
   }
   $.ajax({
-    url: 'ajaxGrew.php',
+    url: 'main.php',
     dataType: 'text',
     data: data,
     type: 'post',
@@ -441,7 +443,7 @@ function search_pattern() {
       }
     },
     error: function(x) {
-      alert("Ajax error:" + x);
+      alert("Ajax error:" + JSON.stringify(x));
     }
   });
 }
@@ -572,12 +574,14 @@ function export_tsv() {
     if (already_exported) {
       show_modal();
     } else {
+      var data = {
+        request: "EXPORT",
+        id: current_request_id,
+      };
       $.ajax({
-        url: 'export.php',
+        url: 'main.php',
         dataType: 'text',
-        data: {
-          id: current_request_id
-        },
+        data: data,
         type: 'post',
         success: function(reply) {
           var fields = reply.split("@@");
@@ -592,7 +596,7 @@ function export_tsv() {
           }
         },
         error: function(x) {
-          alert("Ajax error:" + x);
+          alert("Ajax error:" + JSON.stringify(x));
         }
       });
     }
@@ -616,13 +620,15 @@ function save_pattern() {
   }
 
   if (current_request_id.length > 0) {
+    var data = {
+      request: "SHORTEN",
+      pattern: cmEditor.getValue(),
+      id: current_request_id
+    };
     $.ajax({
-      url: 'shorten.php',
+      url: 'main.php',
       dataType: 'text',
-      data: {
-        pattern: cmEditor.getValue(),
-        id: current_request_id
-      },
+      data: data,
       type: 'post',
       success: function(output) {
         history.pushState({
@@ -636,7 +642,7 @@ function save_pattern() {
         SelectText("custom-url");
       },
       error: function(x) {
-        alert("Ajax error:" + x);
+        alert("Ajax error:" + JSON.stringify(x));
       }
     });
   } else {
