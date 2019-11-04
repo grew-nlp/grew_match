@@ -690,7 +690,7 @@
             { "id": "PARSEME-PT", "name": "Portuguese", "snippets": "parseme" },
             { "id": "PARSEME-RO", "name": "Romanian", "snippets": "parseme" },
             { "id": "PARSEME-SL", "name": "Slovenian", "snippets": "parseme" },
-            { "id": "PARSEME-TR", "name": "Turkish", "snippets": "parseme" },
+            { "id": "PARSEME-TR", "name": "Turkish", "snippets": "parseme" }
         ]
     },
 
