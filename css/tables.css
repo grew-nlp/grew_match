@@ -49,3 +49,11 @@ td, th {
 .hover {
 	background-color: #def;
 }
+
+th {
+	background-color: #bbb;
+}
+
+.total {
+	background-color: #eee;
+}

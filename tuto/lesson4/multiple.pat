@@ -1,5 +1,5 @@
 % Search for verbs without subject.
-% This kind of request is written with step by step adding of each 'wihtout' in order to find potential annotation errors
+% This kind of request is written with step by step adding of each 'without' in order to find potential annotation errors
 
 pattern { V [upos="VERB"] }                % <-- Looking for a verb
 without { V -[nsubj|csubj|nsubj:pass]-> S} % <-- without subject
