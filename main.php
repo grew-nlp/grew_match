@@ -50,7 +50,7 @@ function next_() {
 // ============================================================
 function export() {
 	$id = $_POST['id'];
-	$msg = "#EXPORT";
+	$msg = "#EXPORT#" . $_POST['pivot'];
 	send($id, $msg);
 }
 

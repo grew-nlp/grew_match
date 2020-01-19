@@ -11,11 +11,11 @@ var current_corpus;
 var current_folder;
 var current_snippets;
 var current_cluster;
+var current_pivot;
+var current_pivots;
 
 var current_but_sel
 var already_built_cluster_file = []
-
-var already_exported = false
 
 // ==================================================================================
 function get_corpora_from_group(group_id) {
@@ -157,7 +157,6 @@ function init() {
 
   $('#save-button').prop('disabled', true);
   $('#export-button').prop('disabled', true);
-  already_exported = false;
 
   // Initialise CodeMirror
   cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
@@ -196,7 +195,6 @@ function init() {
 function disable_save() {
   $('#save-button').prop('disabled', true);
   $('#export-button').prop('disabled', true);
-  already_exported = false;
   $('#custom-display').hide();
 }
 
@@ -436,6 +434,9 @@ function search_pattern() {
                 $('#cluster-block').show();
               } else if (fields[0] == '<CLUSTERS>') {
                 fill_cluster_buttons();
+              } else if (fields[0] == '<PIVOTS>') {
+                current_pivots = fields.slice(1);
+                update_modal_pivot();
               }
             };
           }
@@ -449,7 +450,17 @@ function search_pattern() {
 }
 
 // ==================================================================================
+function update_modal_pivot() {
+  if (current_pivots.length > 1) {
+    $("#pivot-list").html("");
+    current_pivots.forEach(function(pivot) {
+      var text = "<p><button type=\"button\" class=\"btn btn-primary\" onclick=\"javascript:chose_pivot('" + pivot + "')\">" + pivot + "</button></p>\n";
+      $("#pivot-list").append(text);
+    });
+  }
+}
 
+// ==================================================================================
 function fill_cluster_buttons() {
   $.get("./data/" + current_request_id + "/clusters", function(data) {
     current_but_sel = undefined;
@@ -543,7 +554,7 @@ function display_picture(event) {
 }
 
 // ==================================================================================
-function show_modal() {
+function show_export_modal() {
   $.get('./data/' + current_request_id + '/export.tsv', function(data) {
     lines = data.split("\n");
     html = "<table class=\"export-table\">";
@@ -564,45 +575,56 @@ function show_modal() {
 
     $("#exportResult").html(html);
   });
-  $('#exportModal').modal('show');
+  $('#export-modal').modal('show');
 }
 
+// ==================================================================================
+function run_export() {
+  if (current_pivots.length > 1) {
+    $('#pivot-modal').modal('show');
+  } else if (current_pivots.length == 1) {
+    current_pivot = current_pivots[0];
+    export_tsv();
+  } else {
+    current_pivot = undefined;
+    export_tsv();
+  }
+}
+
+// ==================================================================================
+function chose_pivot(pivot) {
+  $('#pivot-modal').modal('hide');
+  current_pivot = pivot;
+  export_tsv();
+}
 
 // ==================================================================================
 function export_tsv() {
-  if (current_request_id.length > 0) {
-    if (already_exported) {
-      show_modal();
-    } else {
-      var data = {
-        request: "EXPORT",
-        id: current_request_id,
-      };
-      $.ajax({
-        url: 'main.php',
-        dataType: 'text',
-        data: data,
-        type: 'post',
-        success: function(reply) {
-          var fields = reply.split("@@");
-          var id = fields[0];
-          var msg = fields[1];
+  var data = {
+    request: "EXPORT",
+    id: current_request_id,
+    pivot: current_pivot,
+  };
+  $.ajax({
+    url: 'main.php',
+    dataType: 'text',
+    data: data,
+    type: 'post',
+    success: function(reply) {
+      var fields = reply.split("@@");
+      var id = fields[0];
+      var msg = fields[1];
 
-          if (msg == 'ERROR') {
-            report_error(id);
-          } else {
-            already_exported = true;
-            show_modal();
-          }
-        },
-        error: function(x) {
-          alert("Ajax error:" + JSON.stringify(x));
-        }
-      });
+      if (msg == 'ERROR') {
+        report_error(id);
+      } else {
+        show_export_modal();
+      }
+    },
+    error: function(x) {
+      alert("Ajax error:" + JSON.stringify(x));
     }
-  } else {
-    sweetAlert("An error occured", "You can't export before searching.", "error");
-  }
+  });
 }
 
 // ==================================================================================

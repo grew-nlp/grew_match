@@ -136,7 +136,7 @@
 								<p>
 									<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" style="margin-right:10px">Search</button>
 									<button class="btn btn-primary" id="save-button" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
-									<button class="btn btn-primary" id="export-button" onclick="javascript:export_tsv()" style="margin-right:10px">Export</button>
+									<button class="btn btn-primary" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">export</button>
 									<label>
 										<input type="checkbox" id="cluster-box">Clustering</input>
 										<span style="display: none;" id="cluster-span">
@@ -161,7 +161,7 @@
 				</div>
 			</div>
 
-			<!-- Middel part: clusters buttons -->
+			<!-- Middle part: clusters buttons -->
 			<div class="row">
 				<div class="jumbotron" id="jumbo-clust">
 					<div class="container-fluid" id="cluster-block">
@@ -226,12 +226,22 @@
 		<p>No corpus found with the requested name, the closest one (wrt Levenshtein distance) is chosen</p>
 	</div>
 
-
-
-
+	<!-- modal for pivot choice -->
+	<div id="pivot-modal" class="modal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<p>Chose the pivot</p>
+				</div>
+				<div id="pivot-list" class="modal-body" style="text-align: center; padding-bottom: 15px">
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- modal for data export -->
-	<div id="exportModal" class="modal">
+	<div id="export-modal" class="modal">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -244,6 +254,8 @@
 			</div>
 		</div>
 	</div>
+
+
 
 </body>
 
