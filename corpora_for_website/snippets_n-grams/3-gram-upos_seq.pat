@@ -1,0 +1,4 @@
+% Search for trigrams of upos
+% For instance: determiner, adjective, noun
+
+pattern { N1 [upos=D]; N2 [upos=A]; N3 [upos=N]; N1 < N2; N2 < N3 }
