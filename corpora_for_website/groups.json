@@ -263,7 +263,7 @@
             "corpora": [
               { "id": "UD_Swedish-Talbanken@2.5", "enhanced": true },
               { "id": "UD_Swedish-LinES@2.5" },
-              { "id": "UD_Swedish-PUD@2.5", "enhanced": true }Talba
+              { "id": "UD_Swedish-PUD@2.5", "enhanced": true }
             ]
           },
           { "id": "UD_Swedish_Sign_Language-SSLC@2.5" },
