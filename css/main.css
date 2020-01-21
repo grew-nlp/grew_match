@@ -247,12 +247,25 @@ h3 {
 	background-color: #dddddd;
 }
 
-#exportResult td:first-child {
-	text-align: right;
+#exportResult th {
+	text-align: center;
 }
 
-#exportResult td:nth-child(2) {
-	/* I don't think they are 0 based */
+#exportResult td {
+	padding: 5px;
+}
+
+/* vertical bars inside */
+#exportResult th + th { border-left:1px solid }
+#exportResult td + td { border-left:1px solid }
+
+.export-table-4 td:nth-child(2) {
+	text-align: right;
+}
+.export-table-4 td:nth-child(3) {
 	text-align: center;
-	padding: 0 10px;
+}
+
+.export-table-2 td:nth-child(2) {
+	text-align: center;
 }

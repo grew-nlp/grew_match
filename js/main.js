@@ -435,7 +435,7 @@ function search_pattern() {
               } else if (fields[0] == '<CLUSTERS>') {
                 fill_cluster_buttons();
               } else if (fields[0] == '<PIVOTS>') {
-                current_pivots = fields.slice(1);
+                current_pivots = fields.slice(1).reverse();
                 update_modal_pivot();
               }
             };
@@ -557,23 +557,27 @@ function display_picture(event) {
 function show_export_modal() {
   $.get('./data/' + current_request_id + '/export.tsv', function(data) {
     lines = data.split("\n");
-    html = "<table class=\"export-table\">";
 
-    html += "<colgroup>";
-    html += "<col width=\"45%\" />";
-    html += "<col width=\"10%\" />";
-    html += "<col width=\"45%\" />";
-    html += "</colgroup>";
+    var data
+    var headers = lines[0].split("\t");
 
-    for (var i in lines) {
-      html += "<tr><td>\n";
-      html += lines[i].replace(/\t/g, "</td><td>");;
-      html += "\n";
-      html += "</td></tr>\n";
+    if (headers.length == 2) {
+      data = "<table class=\"export-table-2\">";
+      data += "<colgroup><col width=\"10%\" /><col width=\"90%\" /></colgroup>";
+    } else {
+      data = "<table class=\"export-table-4\">";
+      data += "<colgroup><col width=\"10%\" /><col width=\"40%\" align=\"right\" /><col width=\"10%\" /><col width=\"40%\" /></colgroup>";
     }
-    html += "</table>";
 
-    $("#exportResult").html(html);
+    // headers
+    data += "<tr><th>" + lines[0].replace(/\t/g, "</th><th>") + "</th></tr>\n";
+
+    lines.slice(1).forEach(line => {
+      data += "<tr><td>" + line.replace(/\t/g, "</td><td>") + "</td></tr>\n";
+    });
+    data += "</table>";
+
+    $("#exportResult").html(data);
   });
   $('#export-modal').modal('show');
 }
