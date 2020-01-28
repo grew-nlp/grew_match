@@ -818,6 +818,7 @@ function update_corpus() {
     $("#eud-span").show();
   } else {
     $("#eud-span").hide();
+    $('#eud-box').bootstrapToggle('on');
   }
 
   disable_save();
