@@ -279,6 +279,12 @@ function deal_with_get_parameters() {
     cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + getParameterByName("relation") + "]-> DEP\n}");
     search_pattern();
   }
+
+  if (getParameterByName("eud").length > 0) {
+    $('#eud-box').bootstrapToggle('on');
+  } else {
+    $('#eud-box').bootstrapToggle('off')
+  }
 }
 
 // ==================================================================================
@@ -378,6 +384,7 @@ function search_pattern() {
     add_feats: $('#add_feats-box').prop('checked'),
     order: $('#sentences-order').val(),
     context: $('#context-box').prop('checked'),
+    eud2ud: !($('#eud-box').prop('checked')),
   };
   if ($('#cluster-box').prop('checked')) {
     data['cluster'] = $('#cluster-key').val();
@@ -638,11 +645,14 @@ function download() {
 
 // ==================================================================================
 function save_pattern() {
-
+  let clustering = "";
   if ($('#cluster-box').prop('checked')) {
     clustering = "&clustering=" + $('#cluster-key').val();
-  } else {
-    clustering = "";
+  }
+
+  var eud = "";
+  if (get_info(current_corpus, "enhanced") && $('#eud-box').prop('checked')) {
+    eud = "&eud=yes"
   }
 
   if (current_request_id.length > 0) {
@@ -661,7 +671,7 @@ function save_pattern() {
             id: output
           },
           "Grew - Custom saved pattern",
-          "?corpus=" + current_corpus + "&custom=" + output + clustering
+          "?corpus=" + current_corpus + "&custom=" + output + clustering + eud
         );
         $('#custom-url').text(window.location.href);
         $('#custom-display').show();
@@ -803,6 +813,12 @@ function set_corpus(corpus) {
 function update_corpus() {
   // set the corpus name
   $('#corpus-fixed').html(current_corpus);
+
+  if (get_info(current_corpus, "enhanced")) {
+    $("#eud-span").show();
+  } else {
+    $("#eud-span").hide();
+  }
 
   disable_save();
 

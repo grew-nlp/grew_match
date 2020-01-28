@@ -42,6 +42,11 @@
 	<link rel="mask-icon" href="icon/safari-pinned-tab.svg?v=2" color="#5bbad5">
 	<link rel="shortcut icon" href="icon/favicon.ico?v=2">
 	<meta name="theme-color" content="#ffffff">
+
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
 </head>
 
 <body>
@@ -88,6 +93,9 @@
 										<span id="but-text">Hide corpora list</span>
 									</button>
 									<span id="corpus-fixed"></span>
+									<span id="eud-span">
+										<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
+									</span>
 									<span style="font-size: 66%" id="corpus-desc"></span>
 									<button type="button" id="logs" class="btn btn-danger" style="float: right; display: none;">
 										Errors
