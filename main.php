@@ -95,7 +95,6 @@ echo ($id . "@@" . $result);
 // log new request
 function log_request() {
 	$log_file = fopen("data/log","a");
-	fwrite($log_file, "---->");
 	if (isset($_POST['cluster'])) {
 		fwrite($log_file, date("d-m-Y H:i" ) . "|" . $_POST['corpus'] . "=>" . $_POST['pattern'] . "\n<CLUSTER>".$_POST['cluster']."\n<+>\n");
 	} else {
