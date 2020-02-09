@@ -3,11 +3,11 @@
   [
     {
       "id": "UD",
-      "name": "UD 2.5",
-      "default": "UD_English-LinES@2.5",
+      "name": "UD",
+      "default": "UD_English-GUM@2.5",
       "corpora":
         [
-          { "section" : "UD 2.5 Corpora" },
+          { "section" : "version 2.5" },
           { "id": "UD_Afrikaans-AfriBooms@2.5" },
           { "id": "UD_Akkadian-PISANDUB@2.5" },
           { "id": "UD_Amharic-ATT@2.5" },
@@ -289,18 +289,38 @@
           { "id": "UD_Welsh-CCG@2.5" },
           { "id": "UD_Wolof-WTB@2.5", "enhanced": true },
 
-          { "id": "UD_Yoruba-YTB@2.5" }
+          { "id": "UD_Yoruba-YTB@2.5" },
+
+          { "section" : "GitHub dev branches" },
+            { "id": "UD_French-GSD@dev" },
+            { "id": "UD_French-Sequoia@dev" },
+            { "id": "UD_French-FQB@dev" },
+            { "id": "UD_French-ParTUT@dev" },
+            { "id": "UD_French-PUD@dev" },
+            { "id": "UD_French-Spoken@dev" },
+
+          { "section" : "Older versions" },
+            { "id": "UD_French@2.0" },
+            { "id": "UD_French@1.4" },
+            { "id": "UD_French@1.3" },
+            { "id": "UD_French@1.2" },
+            { "id": "UD_French@1.1" }
         ]
     },
 
-
     {
       "id": "SUD",
-      "name": "SUD 2.5",
+      "name": "SUD",
       "default": "SUD_English-GUM@2.5",
       "corpora":
         [
-          { "section" : "SUD 2.5 Corpora (converted)" },
+          { "section" : "Github" },
+            { "id": "SUD_French-GSD@master", "snippets": "sud" },
+            { "id": "SUD_French-Spoken@master", "snippets": "sud" },
+            { "id": "SUD_French-Paris-Stories@master", "snippets": "sud"  },
+            { "id": "SUD_Naija-NSC@dev", "snippets": "sud"  },
+
+          { "section" : "version 2.5 (converted)" },
           { "id": "SUD_Afrikaans-AfriBooms@2.5" },
           { "id": "SUD_Akkadian-PISANDUB@2.5" },
           { "id": "SUD_Amharic-ATT@2.5" },
@@ -586,35 +606,6 @@
         ]
     },
 
-    {
-      "id": "UD-misc",
-      "name": "Misc UD/SUD",
-      "default": "UD_French-GSD@dev",
-      "corpora":
-        [
-          { "section" : "UD Dev" },
-            { "id": "UD_French-GSD@dev" },
-            { "id": "UD_French-GSD-NTR@dev" },
-            { "id": "UD_French-Sequoia@dev" },
-            { "id": "UD_French-FQB@dev" },
-            { "id": "UD_French-ParTUT@dev" },
-            { "id": "UD_French-PUD@dev" },
-            { "id": "UD_French-Spoken@dev" },
-          { "section" : "SUD Treebank" },
-            { "id": "SUD_French-GSD", "snippets": "sud"  },
-            { "id": "SUD_French-Spoken@dev", "snippets": "sud"  },
-            { "id": "SUD_French-Paris-Stories@dev", "snippets": "sud"  },
-            { "id": "SUD_Naija-NSC@dev", "snippets": "sud"  },
-          { "section" : "SUD Dev (converted)" },
-            { "id": "SUD_Polish-LFG@dev", "snippets": "sud"  },
-          { "section" : "Older UD versions" },
-            { "id": "UD_French@2.0" },
-            { "id": "UD_French@1.4" },
-            { "id": "UD_French@1.3" },
-            { "id": "UD_French@1.2" },
-            { "id": "UD_French@1.1" }
-        ]
-    },
     {
       "id":    "sequoia",
       "name":    "Sequoia",
