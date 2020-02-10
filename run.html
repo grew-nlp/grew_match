@@ -84,7 +84,7 @@
 
 							<!-- Upper-left part: corpus selector, textarea, buttons -->
 							<div class="col-md-8" id="console">
-								<h4 id="warning" style="display: none;">
+								<h4 id="warning" >
 									<span id="warning-text" style="color: red"></span>
 									<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="warning-tooltip"></span>
 								</h4>
@@ -105,6 +105,7 @@
 									</button>
 								</h2>
 								<textarea id="pattern-input"></textarea>
+								<h4 id="warning-misc" style="display: none; color: red">⚠️ prefixes _MISC_ and _UD_ are deprecated, see TODO</h4>
 								<p>
 									<label id="lemma-option">
 										<input type="checkbox" id="lemma-box" checked> lemma
@@ -121,10 +122,9 @@
 										&nbsp;&nbsp;
 										<input type="checkbox" id="features-box" checked> features </input>
 									</label>
-									<label id="add_feats-option">
+									<label>
 										&nbsp;&nbsp;
-										<input type="checkbox" id="add_feats-box" checked> Add feats
-										<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="snd_feat-tooltip"></span>
+										<input type="checkbox" id="tf-wf-box"> textform/wordform </input>
 									</label>
 									<label>
 										&nbsp;&nbsp;
@@ -209,25 +209,6 @@
 			</div>
 		</div> <!-- container -->
 	</div> <!-- wrapper -->
-
-	<!-- tooltip content -->
-	<div id="snd_feat-tip" style="display: none;">
-		<p>Show additional features (features with a name starting with <span class="feat">_</span>)</p>
-
-		<p>For CoNNL-U data, additional features are used for:
-			<ul>
-				<li>Features of column 10 (MISC) (shown with the prefix <span class="feat">_MISC_</span>)</li>
-				<li>Empty node (feature <span class="feat">_UD_empty=Yes</span>)</li>
-				<li>Multiword tokens are described on the first element with features <span class="feat">_UD_mw_fusion</span> and <span class="feat">_UD_mw_span</span>
-			</ul>
-
-			<p>For Orfeo data, additional features are:
-				<ul>
-					<li><span class="feat">_start</span> and <span class="feat">_stop</span> for time span (columns 11 and 12 in data)</li>
-					<li><span class="feat">_speaker</span> for speaker value (column 13)</li>
-				</ul>
-	</div>
-
 
 	<!-- tooltip content -->
 	<div id="warning-tip" style="display: none;">

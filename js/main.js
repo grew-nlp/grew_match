@@ -1,4 +1,4 @@
-var cmEditor = undefined; // content of the textarea
+var cmEditor = undefined; // CodeMirror component
 
 var current_request_id = ""
 
@@ -103,7 +103,7 @@ function search_corpus(requested_corpus) {
     }
   }
   // no exact matching
-  $('#warning-text').html("Warning: " + requested_corpus + " &rarr; " + current_corpus);
+  $('#warning-text').html("⚠️ " + requested_corpus + " &rarr; " + current_corpus);
   $('#warning').show();
 }
 
@@ -170,6 +170,14 @@ function init() {
   // Binding on CodeMirror change
   cmEditor.on("change", function() {
     disable_save();
+    let current_pat = cmEditor.getValue();
+    if (current_pat.includes("_MISC_") || current_pat.includes("_UD_")) {
+      $('#submit-pattern').prop('disabled', true);
+      $('#warning-misc').show();
+    } else {
+      $('#submit-pattern').prop('disabled', false);
+      $('#warning-misc').hide();
+    }
   });
 
   $('#cluster-key').bind('input', function() {
@@ -381,7 +389,7 @@ function search_pattern() {
     upos: $('#upos-box').prop('checked'),
     xpos: $('#xpos-box').prop('checked'),
     features: $('#features-box').prop('checked'),
-    add_feats: $('#add_feats-box').prop('checked'),
+    tf_wf: $('#tf-wf-box').prop('checked'),
     order: $('#sentences-order').val(),
     context: $('#context-box').prop('checked'),
     eud2ud: !($('#eud-box').prop('checked')),
