@@ -320,10 +320,10 @@
       "corpora":
         [
           { "section" : "Native SUD" },
-            { "id": "SUD_French-GSD@master", "snippets": "sud" },
-            { "id": "SUD_French-Spoken@master", "snippets": "sud" },
-            { "id": "SUD_French-Paris-Stories@master", "snippets": "sud"  },
-            { "id": "SUD_Naija-NSC@dev", "snippets": "sud"  },
+            { "id": "SUD_French-GSD@master" },
+            { "id": "SUD_French-Spoken@master" },
+            { "id": "SUD_French-Paris-Stories@master" },
+            { "id": "SUD_Naija-NSC@dev" },
 
           { "section" : "SUD 2.5 (converted from UD 2.5)" },
           { "id": "SUD_Afrikaans-AfriBooms@2.5" },
