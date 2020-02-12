@@ -123,7 +123,7 @@ $(document).ready(function() {
     interactive: true,
     position: 'bottom'
   });
-  $('#snd_feat-tooltip').tooltipster('content', $("#snd_feat-tip").html());
+  $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
   $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
 
 

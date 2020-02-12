@@ -43,8 +43,8 @@
 	<link rel="shortcut icon" href="icon/favicon.ico?v=2">
 	<meta name="theme-color" content="#ffffff">
 
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 
 </head>
@@ -84,7 +84,7 @@
 
 							<!-- Upper-left part: corpus selector, textarea, buttons -->
 							<div class="col-md-8" id="console">
-								<h4 id="warning" >
+								<h4 id="warning" style="display: none;">
 									<span id="warning-text" style="color: red"></span>
 									<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="warning-tooltip"></span>
 								</h4>
@@ -105,7 +105,14 @@
 									</button>
 								</h2>
 								<textarea id="pattern-input"></textarea>
-								<h4 id="warning-misc" style="display: none; color: red">⚠️ prefixes _MISC_ and _UD_ are deprecated.</h4>
+								<h4 id="warning-misc" style="display: none; color: red">
+									⚠️ prefixes _MISC_ and _UD_ are deprecated.
+									See
+									<a href="http://grew.fr/match_doc/#deprecated-misc-and-ud-prefixes">
+										<button class="btn btn-primary btn-results btn-sm">doc</button>
+									</a>
+									for more info.
+								</h4>
 								<p>
 									<label id="lemma-option">
 										<input type="checkbox" id="lemma-box" checked> lemma
@@ -125,6 +132,7 @@
 									<label>
 										&nbsp;&nbsp;
 										<input type="checkbox" id="tf-wf-box"> textform/wordform </input>
+										<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="tf-wf-tooltip"></span>
 									</label>
 									<label>
 										&nbsp;&nbsp;
@@ -213,6 +221,17 @@
 	<!-- tooltip content -->
 	<div id="warning-tip" style="display: none;">
 		<p>No corpus found with the requested name, the closest one (wrt Levenshtein distance) is chosen</p>
+	</div>
+
+	<!-- tooltip content -->
+	<div id="tf-wf-tip" style="display: none;">
+		<p>Show the two special features <b>wordform</b> and <b>textform</b>.
+			See
+			<a href="http://grew.fr/match_doc/#additional-features-textform-and-wordform">
+				<button class="btn btn-primary btn-results btn-sm">doc</button>
+			</a>
+			for more info.
+		</p>
 	</div>
 
 	<!-- modal for pivot choice -->
