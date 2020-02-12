@@ -1,3 +1,3 @@
-% Empty nodes are given a pseudo feature "_UD_empty" with value "Yes"
+% Empty nodes (in EUD) are can be search with wordform and textform features
 
-pattern { N [_UD_empty=Yes] }
+pattern { N [wordform=_, textform=_] }
