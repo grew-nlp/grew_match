@@ -696,6 +696,7 @@
           { "section" : "master on Gitlab" },
             { "id": "PARSEME-FR@master", "name": "French" },
             { "id": "PARSEME-RO@master", "name": "Romanian" },
+            { "id": "PARSEME-PL@master", "name": "Polish" },
             { "id": "PARSEME-PT@master", "name": "Portuguese" },
           { "section" : "PARSEME ST-1.1" },
             { "id": "PARSEME-BG", "name": "Bulgarian" },
