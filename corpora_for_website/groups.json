@@ -698,6 +698,7 @@
             { "id": "PARSEME-RO@master", "name": "Romanian" },
             { "id": "PARSEME-PL@master", "name": "Polish" },
             { "id": "PARSEME-PT@master", "name": "Portuguese" },
+            { "id": "PARSEME-SV@master", "name": "Swedish" },
           { "section" : "PARSEME ST-1.1" },
             { "id": "PARSEME-BG", "name": "Bulgarian" },
             { "id": "PARSEME-DE", "name": "German" },
