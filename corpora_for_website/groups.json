@@ -694,11 +694,13 @@
       "corpora":
         [
           { "section" : "master on Gitlab" },
+            { "id": "PARSEME-DE@master", "name": "German" },
             { "id": "PARSEME-FR@master", "name": "French" },
             { "id": "PARSEME-RO@master", "name": "Romanian" },
             { "id": "PARSEME-PL@master", "name": "Polish" },
             { "id": "PARSEME-PT@master", "name": "Portuguese" },
             { "id": "PARSEME-SV@master", "name": "Swedish" },
+            { "id": "PARSEME-TR@master", "name": "Turkish" },
           { "section" : "PARSEME ST-1.1" },
             { "id": "PARSEME-BG", "name": "Bulgarian" },
             { "id": "PARSEME-DE", "name": "German" },
