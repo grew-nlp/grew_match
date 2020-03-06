@@ -17,6 +17,8 @@ var current_pivots;
 var current_but_sel
 var already_built_cluster_file = []
 
+var audio = false;
+
 // ==================================================================================
 function get_corpora_from_group(group_id) {
   group_list = current_data["groups"];
@@ -418,6 +420,12 @@ function search_pattern() {
           $('#sentence-txt').removeAttr("dir");
         }
 
+        if (audio) {
+          $("#audio").show();
+        } else {
+          $("#audio").hide();
+        }
+
         current_request_id = id;
         $.get("./data/" + id + "/list", function(data) {
           $('#save-button').prop('disabled', false);
@@ -539,7 +547,8 @@ function load_cluster_file() {
           url: url,
           i: result_nb,
           coord: fields[3],
-          sentence: fields[4]
+          sentence: fields[4],
+          audio: fields[5]
         }, display_picture);
         result_nb++;
         update_progress_num();
@@ -553,6 +562,25 @@ function load_cluster_file() {
 
 // ==================================================================================
 function display_picture(event) {
+  $("#sentence-txt").html(event.data.sentence);
+
+  if (event.data.audio != undefined) {
+    var audio = $("#passage-audio");
+    $("#source-audio").attr("src", event.data.audio);
+    // Next two line: force reload (stackoverflow.com/questions/9421505)
+    audio[0].pause();
+    audio[0].load();
+  }
+
+  if (audio) {
+    var args = {
+      text_element: document.getElementById('passage-text'),
+      audio_element: document.getElementById('passage-audio'),
+      autofocus_current_word: document.getElementById('autofocus-current-word').checked
+    };
+    ReadAlong.init(args);
+  }
+
   var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url + "\" > </object>";
   document.getElementById('display-svg').innerHTML = newHtml;
 
@@ -562,9 +590,8 @@ function display_picture(event) {
   $("#display-svg").animate({
     scrollLeft: event.data.coord - w / 2
   }, "fast");
-  $("#sentence-txt").html(event.data.sentence);
-
   current_view = event.data.i;
+
   update_progress_num();
 }
 
@@ -828,6 +855,8 @@ function update_corpus() {
     $("#eud-span").hide();
     $('#eud-box').bootstrapToggle('on');
   }
+
+  audio = (get_info(current_corpus, "audio") == true);
 
   disable_save();
 

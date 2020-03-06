@@ -31,6 +31,13 @@
 	<script src="js/main.js"></script>
 	<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
 
+
+	<!-- Audio related CSS and JS -->
+	<link rel="stylesheet" href="vendor/audio/stmt_screen_v2.css">
+	<script src="vendor/audio/read-along.js"></script>
+	<script src="vendor/audio/read-along-main.js"></script>
+
+
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/sidebar.css">
 	<link rel="stylesheet" href="css/tooltip.css">
@@ -206,9 +213,60 @@
 							</div>
 						</div>
 						<div class="col-md-9">
-							<div id="display-sentence" style="display: none;">
-								<h4 id="sentence-txt"></h4>
+
+
+							<div id="audio">
+								<p class="loading">
+									<em>Loading audio…</em>
+								</p>
+								<p class="passage-audio">
+									<audio id="passage-audio" class="passage" controls>
+										<source id="source-audio" src="https://orfeo.ortolang.fr/annis-sample/tcof/Pediatrie_lam_08.wav#t=10.81,11.08" type="audio/wav">
+										<em class="error"><strong>Error:</strong> Your browser does not appear to support HTML5 Audio.</em>
+									</audio>
+								</p>
+								<p class="passage-audio-unavailable" hidden>
+									<em class="error"><strong>Error:</strong> You will not be able to do the read-along
+										audio because your browser is not able to play MP3, Ogg, or WAV audio
+										formats.</em>
+								</p>
+								<p class="playback-rate" title="Note that increaseing the reading rate will decrease accuracy of word highlights">
+									<label for="playback-rate">Vitesse de lecture:</label>
+									<input id="playback-rate" type="range" min="0.5" max="2.0" value="1.0" step="0.1" disabled onchange='this.nextElementSibling.textContent = String(Math.round(this.valueAsNumber * 10) / 10) + "×";'>
+									<output>1&times;</output>
+								</p>
+								<p class="playback-rate-unavailable" hidden>
+									<em>(It seems your browser does not support
+										<code>HTMLMediaElement.playbackRate</code>, so you will not be able to change
+										the speech rate.)</em>
+								</p>
+								<p class="autofocus-current-word" hidden>
+									<input type="checkbox" id="autofocus-current-word" checked>
+									<label for="autofocus-current-word">Surligner mot courant</label>
+								</p>
 							</div>
+							<script>
+								window.addEventListener('scroll', function() {
+									var audio = document.querySelector('.passage-audio');
+									var audioPosition = audio.getBoundingClientRect().top;
+									if (window.pageYOffset >= audioPosition) {
+										audio.style.position = 'fixed';
+										audio.style.right = '2%';
+										audio.style.top = '10%';
+										audio.style.width = '8%';
+									} else {
+										audio.style.position = 'static';
+										audio.style.width = '100%';
+									}
+								});
+							</script>
+
+							<div id="display-sentence" style="display: none;">
+								<div id="passage-text" class="passage">
+									<h4 id="sentence-txt"></h4>
+								</div>
+							</div>
+
 							<div id="display-svg">
 								<object id="result-pic" type="image/svg+xml" class="logo"></object>
 							</div>
