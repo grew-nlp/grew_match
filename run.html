@@ -233,9 +233,8 @@
 									<em class="error"><strong>Error:</strong> You will not be able to do the read-along audio because your browser is not able to play MP3, Ogg, or WAV audio formats.</em>
 								</p>
 								<p class="playback-rate" title="Note that increaseing the reading rate will decrease accuracy of word highlights">
-									Speech rate:
-									<input id="playback-rate" type="range" min="0.5" max="2.0" value="1.0" step="0.1" disabled onchange='this.nextElementSibling.textContent = String(Math.round(this.valueAsNumber * 10) / 10) + "×";'>
-									<output>1&times;</output>
+									<input id="playback-rate" type="range" min="0.5" max="2.0" value="1.0" step="0.1" disabled onchange='this.nextElementSibling.textContent = "Speech rate: " +  String(Math.round(this.valueAsNumber * 10) / 10) + "×";'>
+									<output>Speech rate: 1×</output>
 								</p>
 								<p class="playback-rate-unavailable" hidden>
 									<em>(It seems your browser does not support <code>HTMLMediaElement.playbackRate</code>, so you will not be able to change the speech rate.)</em>
