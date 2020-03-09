@@ -737,7 +737,6 @@
           { "section" : "Spoken" },
             { "id": "fleuron", "audio": true },
             { "id": "ofrom", "audio": true },
-            { "id": "husianycia" },
             { "id": "valibel", "audio": true },
             { "id": "frenchoralnarrative", "audio": true },
             { "id": "crfp", "audio": true },
