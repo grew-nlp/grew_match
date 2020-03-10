@@ -742,7 +742,7 @@
             { "id": "frenchoralnarrative", "audio": true },
             { "id": "crfp", "audio": true },
             { "id": "cfpb", "audio": true  },
-            { "id": "cfpp" },
+            { "id": "cfpp", "audio": true },
             { "id": "coralrom", "audio": true },
             { "id": "clapi", "audio": true },
             { "id": "tufs", "audio": true },
