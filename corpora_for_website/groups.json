@@ -695,6 +695,7 @@
         [
           { "section" : "master on Gitlab" },
             { "id": "PARSEME-DE@master", "name": "German" },
+            { "id": "PARSEME-EL@master", "name": "Greek" },
             { "id": "PARSEME-EU@master", "name": "Basque" },
             { "id": "PARSEME-FR@master", "name": "French" },
             { "id": "PARSEME-IT@master", "name": "Italian" },
