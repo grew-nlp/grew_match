@@ -699,6 +699,7 @@
             { "id": "PARSEME-EU@master", "name": "Basque" },
             { "id": "PARSEME-FR@master", "name": "French" },
             { "id": "PARSEME-GA@master", "name": "Irish" },
+            { "id": "PARSEME-HE@master", "name": "Hebrew" },
             { "id": "PARSEME-IT@master", "name": "Italian" },
             { "id": "PARSEME-RO@master", "name": "Romanian" },
             { "id": "PARSEME-PL@master", "name": "Polish" },
