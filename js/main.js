@@ -290,6 +290,12 @@ function deal_with_get_parameters() {
     search_pattern();
   }
 
+  if (getParameterByName("pattern").length > 0) {
+    cmEditor.setValue(getParameterByName("pattern"));
+    search_pattern();
+  }
+
+  // NB: this is run only if no custom, relation or pattern (select UD by default)
   if (getParameterByName("eud").length > 0) {
     $('#eud-box').bootstrapToggle('on');
   } else {
