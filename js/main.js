@@ -579,12 +579,7 @@ function display_picture(event) {
   }
 
   if (audio) {
-    var args = {
-      text_element: document.getElementById('passage-text'),
-      audio_element: document.getElementById('passage-audio'),
-      autofocus_current_word: document.getElementById('autofocus-current-word').checked
-    };
-    ReadAlong.init(args);
+    start_audio();
   }
 
   var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url + "\" > </object>";

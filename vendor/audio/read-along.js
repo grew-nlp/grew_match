@@ -7,7 +7,6 @@
 var ReadAlong = {
     text_element: null,
     audio_element: null,
-    autofocus_current_word: true,
 
     words: [],
 
@@ -86,9 +85,7 @@ var ReadAlong = {
         if (!current_word.element.classList.contains('speaking')) {
             this.removeWordSelection();
             current_word.element.classList.add('speaking');
-            if (this.autofocus_current_word) {
-                current_word.element.focus();
-            }
+            current_word.element.focus();
         }
 
         /**
@@ -185,18 +182,18 @@ var ReadAlong = {
         /**
          * Spacebar toggles playback
          */
-        document.addEventListener('keypress', function (e) {
-            if ( (e.charCode || e.keyCode) === 32 /*Space*/) {
-                e.preventDefault();
-                // Playback must not start when the audio panel is closed.
-                if (that.audio_element.paused && that.audio_element.offsetParent !== null) {
-                    that.audio_element.play();
-                }
-                else {
-                    that.audio_element.pause();
-                }
-            }
-        }, false);
+        // document.addEventListener('keypress', function (e) {
+        //     if ( (e.charCode || e.keyCode) === 32 /*Space*/) {
+        //         e.preventDefault();
+        //         // Playback must not start when the audio panel is closed.
+        //         if (that.audio_element.paused && that.audio_element.offsetParent !== null) {
+        //             that.audio_element.play();
+        //         }
+        //         else {
+        //             that.audio_element.pause();
+        //         }
+        //     }
+        // }, false);
 
         /**
          * First click handler sets currentTime to the word, and second click
