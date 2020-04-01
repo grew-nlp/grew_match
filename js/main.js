@@ -820,14 +820,14 @@ function update_but_text() {
 // ==================================================================================
 function init_table_button() {
   $('#tables').on('click', function() {
-    window.open('_tables/' + current_corpus + '.html');
+    window.open('_meta/' + current_corpus + '_table.html');
   });
 }
 
 // ==================================================================================
 function init_log_button() {
   $('#logs').on('click', function() {
-    window.open('_logs/' + current_corpus + '.log');
+    window.open('_meta/' + current_corpus + '.log');
   });
 }
 
@@ -881,12 +881,12 @@ function update_corpus() {
   }
 
   $('#corpus-desc').html("");
-  $.get("_descs/" + current_corpus + ".html", function(data) {
+  $.get("_meta/" + current_corpus + "_desc.html", function(data) {
     $('#corpus-desc').html(data);
   });
 
   // Show the errors button only if there is a not empty log_file
-  $.get("_logs/" + current_corpus + ".log", function(data) {
+  $.get("_meta/" + current_corpus + ".log", function(data) {
     if (data.length > 0) {
       $('#logs').show();
     } else {
