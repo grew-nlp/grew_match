@@ -52,7 +52,6 @@ function start_audio() {
     if (supports_playback_rate) {
       document.querySelector('.playback-rate').hidden = false;
     }
-    //document.querySelector('.autofocus-current-word').hidden = false;
   } catch (err) {
     console.error(err);
   }
