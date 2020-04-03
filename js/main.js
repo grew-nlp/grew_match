@@ -155,6 +155,7 @@ function init() {
 
   init_sidebar();
   init_table_button();
+  init_validation_button();
   init_log_button();
 
   $('#save-button').prop('disabled', true);
@@ -820,6 +821,13 @@ function init_table_button() {
 }
 
 // ==================================================================================
+function init_validation_button() {
+  $('#validation').on('click', function() {
+    window.open('valid?corpus=' + current_corpus);
+  });
+}
+
+// ==================================================================================
 function init_log_button() {
   $('#logs').on('click', function() {
     window.open('_meta/' + current_corpus + '.log');
@@ -855,6 +863,12 @@ function update_corpus() {
   } else {
     $("#eud-span").hide();
     $('#eud-box').bootstrapToggle('on');
+  }
+
+  if (current_corpus.startsWith("SUD") && current_corpus.endsWith("latest")) {
+    $("#validation").show();
+  } else {
+    $("#validation").hide();
   }
 
   audio = (get_info(current_corpus, "audio") == true);
