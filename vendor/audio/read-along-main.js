@@ -3,7 +3,7 @@
 //  start_audio();
 //}, false);
 
-// Grew-match changes: this function is started from main.js to activate sounf only when needed.
+// Grew-match changes: this function is started from main.js to activate sound only when needed.
 function start_audio() {
   try {
     var args = {
@@ -57,6 +57,4 @@ function start_audio() {
   }
   document.body.classList.add('initialized');
   document.querySelector('.loading').hidden = true;
-
-
 }
