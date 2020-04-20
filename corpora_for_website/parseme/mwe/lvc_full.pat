@@ -2,7 +2,7 @@
 % The node MWE indentifies the MWE and the node V the verb in it
 
 pattern {
-  MWE [label="LVC.full"];
-  MWE -[MWE]-> V; 
+  MWE [label="LVC.full"];  % each MWE is encoded as a new node with a "label" feature
+  MWE -[MWE]-> V;          % the MWE node is linked to each token it contains with a special relation "MWE"
   V[upos=VERB]
 }
