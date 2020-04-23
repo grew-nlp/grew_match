@@ -449,9 +449,9 @@ function search_pattern() {
                 $('#results-navig').hide();
                 $('#display-sentence').hide();
                 $('#display-svg').hide();
-                $('#progress-txt').text('No results found');
+                $('#progress-txt').html('No results found <span style="font-size: 60%">[' + fields[1] + 's]</span>');
                 $("#export-button").prop('disabled', true);
-                $('#results-block').show();
+                $('#results-block').hide();
                 $('#cluster-block').show();
               } else if (fields[0] == '<TOTAL>') {
                 $('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
