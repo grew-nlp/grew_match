@@ -348,8 +348,15 @@ function right_pane(base) {
 
 // ==================================================================================
 function report_error(id) {
-  $.get('./data/' + id + '/error', function(errors) {
-    sweetAlert("An error occurred", errors, "error");
+  $.get('./data/' + id + '/error', function(msg) {
+    let html = md.render(msg)
+    Swal.fire({
+      icon: 'error',
+      title: 'An error occurred',
+      html: html
+    })
+
+
   });
 }
 

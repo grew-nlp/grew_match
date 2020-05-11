@@ -292,3 +292,7 @@ h3 {
 	font-family: monospace;
 	font-size: x-small;
 }
+
+.swal2-popup {
+	transform: scale(1.8);
+}
