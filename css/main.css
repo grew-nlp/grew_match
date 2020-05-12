@@ -269,3 +269,14 @@ h3 {
 .export-table-2 td:nth-child(2) {
 	text-align: center;
 }
+
+.corpus-folder {
+	background-color: #CCC;
+	border-top-style: solid;
+	border-top-width: thin;
+}
+
+.badge-danger {
+	float: right;
+	margin-right: 8px;
+}

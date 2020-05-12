@@ -976,9 +976,14 @@ function update_group() {
       html += '<div class="panel panel-default">\n';
       html += '<div class="panel-heading">\n';
       html += '<h4 class="panel-title">\n';
-      html += '<a data-toggle="collapse" href="#' + href + '" id="folder_' + href + '">\n';
-      html += '<span class="glyphicon glyphicon-folder-open"></span>\n';
+      html += '<a onclick="toggle_folder_icon(\'' + href + '\');" data-toggle="collapse" href="#' + href + '" id="folder_' + href + '" class="collapsed corpus-folder">\n';
+      html += '<span id = "icon_'+href+'" class="glyphicon glyphicon-folder-close"></span>\n';
       html += value["folder"] + '\n';
+
+
+      html += '<span class="badge badge-danger">'+value["corpora"].length+'</span>';
+
+
       html += '</a>\n';
       html += '</h4>\n';
       html += '</div>\n';
@@ -990,7 +995,7 @@ function update_group() {
         esc_id = escape(id);
         html += '<tr id="' + esc_id + '" class="corpus" onclick="set_corpus(\'' + id + '\');return false;"><td>\n';
         html += '<a href="#" >\n';
-        html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
+        html += '&#8627;<span class="glyphicon glyphicon-align-justify"></span>\n';
         html += id + '\n';
         html += '</a>\n';
         if (value["no_word"]) {
@@ -1009,6 +1014,21 @@ function update_group() {
   });
   $('#accordion').html(html);
   update_corpus();
+}
+
+// ==================================================================================
+function toggle_folder_icon(arg) {
+  let folder =  $("#folder_"+arg);
+  let icon = $("#icon_"+arg);
+  if (folder.hasClass("collapsed")) {
+    console.log("OPEN");
+    icon.removeClass("glyphicon-folder-close");
+    icon.addClass("glyphicon-folder-open");
+  } else {
+    console.log("CLOSE");
+    icon.removeClass("glyphicon-folder-open");
+    icon.addClass("glyphicon-folder-close");
+  }
 }
 
 // ==================================================================================
