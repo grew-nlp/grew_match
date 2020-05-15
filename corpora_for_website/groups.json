@@ -304,25 +304,21 @@
 
           { "id": "UD_Yoruba-YTB@2.6" },
 
+
           { "section" : "Converted from native SUD" },
             { "id": "UD_French-GSD@conv" },
             { "id": "UD_French-Spoken@conv" },
             { "id": "UD_French-Paris-Stories@conv" },
             { "id": "UD_Naija-NSC@conv" },
+
+
           { "section" : "GitHub dev branches" },
             { "id": "UD_French-GSD@dev" },
             { "id": "UD_French-Sequoia@dev" },
             { "id": "UD_French-FQB@dev" },
             { "id": "UD_French-ParTUT@dev" },
             { "id": "UD_French-PUD@dev" },
-            { "id": "UD_French-Spoken@dev" },
-
-          { "section" : "Older versions" },
-            { "id": "UD_French@2.0" },
-            { "id": "UD_French@1.4" },
-            { "id": "UD_French@1.3" },
-            { "id": "UD_French@1.2" },
-            { "id": "UD_French@1.1" }
+            { "id": "UD_French-Spoken@dev" }
         ]
     },
 
@@ -337,7 +333,6 @@
             { "id": "SUD_French-Spoken@latest" },
             { "id": "SUD_French-Paris-Stories@latest" },
             { "id": "SUD_Naija-NSC@latest" },
-            { "id": "SUD_Naija-NSC@no_dialog" },
 
           { "section" : "SUD 2.5 (converted from UD 2.5)" },
           { "id": "SUD_Afrikaans-AfriBooms@2.5" },
