@@ -377,7 +377,7 @@ function next_results() {
       }
     },
     error: function(x) {
-      alert("Ajax error:" + JSON.stringify(x));
+      alert("[NEXT] Ajax error:" + JSON.stringify(x));
     }
   });
 }
@@ -474,7 +474,7 @@ function search_pattern() {
       }
     },
     error: function(x) {
-      alert("Ajax error:" + JSON.stringify(x));
+      alert("[NEW] Ajax error:" + JSON.stringify(x));
     }
   });
 }
@@ -670,7 +670,7 @@ function export_tsv() {
       }
     },
     error: function(x) {
-      alert("Ajax error:" + JSON.stringify(x));
+      alert("[EXPORT] Ajax error:" + JSON.stringify(x));
     }
   });
 }
@@ -678,6 +678,43 @@ function export_tsv() {
 // ==================================================================================
 function download() {
   window.location = './data/' + current_request_id + '/export.tsv';
+}
+
+// ==================================================================================
+function one_conll() {
+  var data = {
+    request: "CONLL",
+    id: current_request_id,
+    current_view: current_view,
+    cluster: current_cluster
+  };
+  $.ajax({
+    url: 'main.php',
+    dataType: 'text',
+    data: data,
+    type: 'post',
+    success: function(reply) {
+      var fields = reply.split("@@");
+      var id = fields[0];
+      var conll = fields[1];
+
+      if (conll == 'ERROR') {
+        sweetAlert("Disconnected");
+      } else {
+        $("#conllResult").html(conll);
+        $('#conllModal').modal('show');
+      }
+    },
+    error: function(x) {
+      alert("[CONLL] Ajax error:" + JSON.stringify(x));
+    }
+  })
+}
+
+// ==================================================================================
+function copy_conll () {
+  $("#conllResult").select()
+  document.execCommand('copy');
 }
 
 // ==================================================================================
@@ -715,7 +752,7 @@ function save_pattern() {
         SelectText("custom-url");
       },
       error: function(x) {
-        alert("Ajax error:" + JSON.stringify(x));
+        alert("[SHORTEN] Ajax error:" + JSON.stringify(x));
       }
     });
   } else {
@@ -977,11 +1014,11 @@ function update_group() {
       html += '<div class="panel-heading">\n';
       html += '<h4 class="panel-title">\n';
       html += '<a onclick="toggle_folder_icon(\'' + href + '\');" data-toggle="collapse" href="#' + href + '" id="folder_' + href + '" class="collapsed corpus-folder">\n';
-      html += '<span id = "icon_'+href+'" class="glyphicon glyphicon-folder-close"></span>\n';
+      html += '<span id = "icon_' + href + '" class="glyphicon glyphicon-folder-close"></span>\n';
       html += value["folder"] + '\n';
 
 
-      html += '<span class="badge badge-danger">'+value["corpora"].length+'</span>';
+      html += '<span class="badge badge-danger">' + value["corpora"].length + '</span>';
 
 
       html += '</a>\n';
@@ -1018,8 +1055,8 @@ function update_group() {
 
 // ==================================================================================
 function toggle_folder_icon(arg) {
-  let folder =  $("#folder_"+arg);
-  let icon = $("#icon_"+arg);
+  let folder = $("#folder_" + arg);
+  let icon = $("#icon_" + arg);
   if (folder.hasClass("collapsed")) {
     console.log("OPEN");
     icon.removeClass("glyphicon-folder-close");

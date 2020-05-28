@@ -13,6 +13,8 @@ if ($request == "NEW") {
 	export();
 } elseif ($request == "SHORTEN") {
 	shorten();
+} elseif ($request == "CONLL") {
+	conll();
 }
 
 // ============================================================
@@ -65,6 +67,13 @@ function shorten() {
 	echo $_POST['id'];
 }
 
+// ============================================================
+function conll() {
+	$id = $_POST['id'];
+	$msg = "#CONLL#" . $_POST['current_view'] . "#" . $_POST['cluster'];;
+	send($id, $msg);
+}
+
 
 // ============================================================
 // send the request to the daemon
@@ -84,7 +93,7 @@ function send($id, $msg) { // send request to the daemon
 		demonDown($_POST['corpus'],$id);
 	}else{
 		fwrite($client, $dir . $id . $msg);
-		$result = stream_get_contents($client,10);
+		$result = stream_get_contents($client);
 		fclose($client);
 	}
 error_reporting(E_ALL & ~E_NOTICE);

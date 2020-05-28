@@ -216,6 +216,10 @@
 								<span class="btn-results" style="font-size: 150%" id="progress-num"></span>
 								<button class="btn btn-primary btn-results" onclick="javascript:next_svg()">→</button>
 								<button class="btn btn-primary btn-results" onclick="javascript:last_svg()">⇥</button>
+								<button type="button" id="tables" class="btn btn-primary" onclick="javascript:one_conll()" style="float: right;">
+									CoNLL
+									<span href="" class="glyphicon glyphicon-export"></span>
+								</button>
 								<ul id="results-list"></ul>
 							</div>
 						</div>
@@ -305,7 +309,7 @@
 		</div>
 	</div>
 
-	<!-- modal for data export -->
+	<!-- modal for tsvs export -->
 	<div id="export-modal" class="modal fade">
 		<div class="modal-dialog modal-lg modal-dialog-scrollable">
 			<div class="modal-content">
@@ -320,6 +324,20 @@
 		</div>
 	</div>
 
+<!-- modal for conll export -->
+<div id="conllModal" class="modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <button type="button" class="btn btn-primary" style="width:100%" onclick="javascript:copy_conll()">Copy in clipboard</button>
+      </div>
+      <div class="modal-body">
+        <textarea id="conllResult" rows="25" readonly="" />
+        </div>
+      </div>
+    </div>
+</div>
 
 
 </body>
