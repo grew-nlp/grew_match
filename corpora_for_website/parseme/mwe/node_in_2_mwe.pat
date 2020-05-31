@@ -1,7 +1,7 @@
-% Search a node N which is in two different MWE
+% Search a node N which is in two different MWEs
 
 pattern {
-  MWE1 -[MWE]-> N; 
+  MWE1 -[MWE]-> N;
   MWE2 -[MWE]-> N;
-  id(MWE1) < id(MWE2); 	  
+  MWE1.__id__ < MWE2.__id__; % <-- Avoid to duplicate solutions
 }
