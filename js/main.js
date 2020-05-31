@@ -238,7 +238,7 @@ function tuto() {
   $("#top-tuto").addClass("active");
 
   $('#sidebarCollapse').hide();
-  search_corpus("UD_English-GUM@2.5");
+  search_corpus("UD_English-GUM@2.6");
   update_corpus();
   right_pane("tuto");
 
