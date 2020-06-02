@@ -523,7 +523,7 @@
           { "id": "SUD_Moksha-JR@2.5" },
           { "id": "SUD_Naija-NSC@2.5" },
           { "id": "SUD_North_Sami-Giella@2.5" },
-          { "folder": "UD_Norwegian",
+          { "folder": "Norwegian",
             "corpora": [
               { "id": "SUD_Norwegian-Bokmaal@2.5" },
               { "id": "SUD_Norwegian-Nynorsk@2.5" },
