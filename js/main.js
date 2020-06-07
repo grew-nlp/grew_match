@@ -347,6 +347,16 @@ function right_pane(base) {
 }
 
 // ==================================================================================
+function direct_error(msg) {
+  let html = md.render(msg)
+  Swal.fire({
+    icon: 'error',
+    title: 'An error occurred',
+    html: html
+  })
+}
+
+// ==================================================================================
 function report_error(id) {
   $.get('./data/' + id + '/error', function(msg) {
     let html = md.render(msg)
@@ -355,8 +365,6 @@ function report_error(id) {
       title: 'An error occurred',
       html: html
     })
-
-
   });
 }
 
@@ -446,7 +454,7 @@ function search_pattern() {
           $('#export-button').prop('disabled', false);
           lines = data.split("\n");
           if (lines[0] == '<!>') {
-            sweetAlert('The daemon is not running\n\nTry again in a few minutes');
+            direct_error('The daemon is not running\n\nTry again in a few minutes');
           } else {
             $("#cluster-buttons").empty();
             for (var i = current_line_num, len = lines.length; i < len; i++) {
@@ -706,7 +714,7 @@ function one_conll() {
       var conll = fields[1];
 
       if (conll == 'ERROR') {
-        sweetAlert("Disconnected");
+        direct_error("Disconnected");
       } else {
         $("#conllResult").html(conll);
         $('#conllModal').modal('show');
@@ -719,7 +727,7 @@ function one_conll() {
 }
 
 // ==================================================================================
-function copy_conll () {
+function copy_conll() {
   $("#conllResult").select()
   document.execCommand('copy');
 }
@@ -763,7 +771,7 @@ function save_pattern() {
       }
     });
   } else {
-    sweetAlert("An error occured", "You can't save pattern before searching for it.", "error");
+    direct_error("An error occured", "You can't save pattern before searching for it.", "error");
   }
 }
 
