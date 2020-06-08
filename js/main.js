@@ -128,6 +128,8 @@ $(document).ready(function() {
   $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
   $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
   $('#export-button').tooltipster('content', $("#export-tip").html());
+  $('#save-button').tooltipster('content', $("#save-tip").html());
+  $('#conll-button').tooltipster('content', $("#conll-tip").html());
 
 
   $('#cluster-box').change(function() {
