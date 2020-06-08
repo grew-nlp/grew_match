@@ -170,7 +170,7 @@
 								<p>
 									<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" style="margin-right:10px">Search</button>
 									<button class="btn btn-primary" id="save-button" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
-									<button class="btn btn-primary" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
+									<button class="btn btn-primary tooltip-desc" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
 									<label>
 										<input type="checkbox" id="cluster-box">Clustering</input>
 										<span style="display: none;" id="cluster-span">
@@ -284,7 +284,12 @@
 
 	<!-- tooltip content -->
 	<div id="warning-tip" style="display: none;">
-		<p>No corpus found with the requested name, the closest one (wrt Levenshtein distance) is chosen</p>
+		<p>No corpus found with the requested name, the closest one (wrt Levenshtein distance) is chosen.</p>
+	</div>
+
+	<!-- tooltip content -->
+	<div id="export-tip" style="display: none;">
+		<p>Export sentence text of each occurrences like in a concordancer.</p>
 	</div>
 
 	<!-- tooltip content -->

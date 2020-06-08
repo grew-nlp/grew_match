@@ -10,3 +10,7 @@
 	color: blue;
 	padding: 8px;
 }
+
+.tooltipster-noir .tooltipster-content {
+	font-family: 'Helvetica Neue', serif;
+}
