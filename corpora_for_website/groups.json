@@ -69,7 +69,7 @@
           { "folder": "English",
             "corpora": [
               { "id": "UD_English-GUM@2.6" },
-              { "id": "UD_English-GUMReddit@2.6" },
+              { "id": "UD_English-GUMReddit@2.6", "no_word": true },
               { "id": "UD_English-ParTUT@2.6" },
               { "id": "UD_English-PUD@2.6", "enhanced": true },
               { "id": "UD_English-LinES@2.6" },
