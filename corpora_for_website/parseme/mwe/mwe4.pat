@@ -2,7 +2,7 @@
 
 pattern {
   MWE [label];
-  MWE -[MWE]-> N1; MWE -[MWE]-> N2; MWE -[MWE]-> N3; MWE -[MWE]-> N4;
+  MWE -[parseme=MWE]-> N1; MWE -[parseme=MWE]-> N2; MWE -[parseme=MWE]-> N3; MWE -[parseme=MWE]-> N4;
   N1 << N2; N2 << N3; N3 << N4;
 }
-without { MWE -[MWE]-> X }
+without { MWE -[parseme=MWE]-> X }

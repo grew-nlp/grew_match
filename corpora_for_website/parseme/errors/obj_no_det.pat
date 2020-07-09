@@ -3,4 +3,4 @@
 
 pattern { GOV -[obj]-> DEP; DEP[upos=NOUN] }
 without { DEP -[det|nummod|nmod:poss]-> DET }
-without { MWE -[MWE]-> GOV; MWE -[MWE]-> DEP;  }
+without { MWE -[parseme=MWE]-> GOV; MWE -[parseme=MWE]-> DEP;  }

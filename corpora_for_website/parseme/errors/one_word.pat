@@ -2,6 +2,6 @@
 
 pattern {
   MWE [label];
-  MWE -[MWE]-> N;
+  MWE -[parseme=MWE]-> N;
 }
-without { MWE -[MWE]-> X }
+without { MWE -[parseme=MWE]-> X }
