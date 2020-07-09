@@ -3,6 +3,6 @@
 
 pattern {
   MWE [label];
-  MWE -[MWE]-> V; 
+  MWE -[parseme=MWE]-> V;
   V[upos=VERB]
 }
