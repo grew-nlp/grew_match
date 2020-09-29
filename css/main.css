@@ -243,6 +243,11 @@ h3 {
 	height: 80%;
 }
 
+#export-modal {
+	max-height: 80%;
+	height: 80%;
+}
+
 #exportResult tr:nth-child(even) {
 	background-color: #dddddd;
 }
@@ -297,3 +302,6 @@ h3 {
 	transform: scale(1.8);
 }
 
+#sentence-txt {
+	margin-top: 0pt;
+}

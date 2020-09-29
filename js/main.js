@@ -139,9 +139,21 @@ $(document).ready(function() {
       $('#cluster-span').hide();
     }
   });
-
-
 });
+
+// ==================================================================================
+function fill_metadata(meta) {
+  if (meta.length == 0) {
+    $('#meta-panel').hide();
+  } else {
+    html = ""
+    meta.forEach(item => {
+      html += '<p><b>' + item.key + ' = </b>' + item.value + '</p>\n';
+    });
+    $('#metadata').html(html);
+    $('#meta-panel').show();
+  }
+}
 
 // ==================================================================================
 function set_default() {
@@ -565,18 +577,24 @@ function load_cluster_file() {
         $("#next-results").prop('disabled', true);
       } else if (fields[0] == '<PAUSE>') {
         $("#next-results").prop('disabled', false);
-      } else if (fields[0] == '<ITEM>') {
-        $("#results-list").append('<li class="item" id="list-' + result_nb + '"><a>' + fields[2] + '</a></li>');
-        url = './data/' + current_request_id + '/' + fields[1];
-        $('#list-' + result_nb).click({
-          url: url,
-          i: result_nb,
-          coord: fields[3],
-          sentence: fields[4],
-          audio: fields[5]
-        }, display_picture);
-        result_nb++;
-        update_progress_num();
+      } else {
+        try {
+          var obj = JSON.parse(lines[i]);
+          $("#results-list").append('<li class="item" id="list-' + result_nb + '"><a>' + obj.sent_id + '</a></li>');
+          url = './data/' + current_request_id + '/' + obj.filename;
+          $('#list-' + result_nb).click({
+            url: url,
+            i: result_nb,
+            coord: obj.shift,
+            sentence: obj.sentence,
+            audio: obj.audio,
+            meta: obj.meta,
+          }, display_picture);
+          result_nb++;
+          update_progress_num();
+        } catch (err) {
+          console.log("Ignore line: " + i);
+        }
       }
     }
     update_view();
@@ -611,6 +629,10 @@ function display_picture(event) {
     scrollLeft: event.data.coord - w / 2
   }, "fast");
   current_view = event.data.i;
+
+  fill_metadata(event.data.meta);
+
+  $("#svg-link").attr("href", event.data.url);
 
   update_progress_num();
 }
@@ -1083,6 +1105,18 @@ function toggle_folder_icon(arg) {
     console.log("CLOSE");
     icon.removeClass("glyphicon-folder-open");
     icon.addClass("glyphicon-folder-close");
+  }
+}
+
+// ==================================================================================
+function toggle_metadata_icon() {
+  let icon = $("#md-icon");
+  if ($("#md").hasClass("collapsed")) {
+    icon.removeClass("glyphicon-chevron-right");
+    icon.addClass("glyphicon-chevron-down");
+  } else {
+    icon.removeClass("glyphicon-chevron-down");
+    icon.addClass("glyphicon-chevron-right");
   }
 }
 
