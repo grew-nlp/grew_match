@@ -637,64 +637,35 @@
     {
       "id":    "sequoia",
       "name":    "Sequoia",
-      "default": "sequoia.surf@master",
+      "default": "Sequoia_S@current",
       "corpora":
         [
-          { "section" : "Sequoia@master" },
-            { "id": "sequoia.surf@master", "snippets": "surf" },
-            { "id": "sequoia.deep_and_surf@master", "snippets": "deep_and_surf"},
-            { "id": "sequoia.surf.parseme@master", "snippets": "parseme-check"},
-            { "id": "sequoia.deep_and_surf.parseme@master", "snippets": "parseme-check"},
-
-          { "section" : "Sequoia@9.0"},
-            { "id": "sequoia.surf@9.0", "snippets": "surf" },
-            { "id": "sequoia.deep_and_surf@9.0", "snippets": "deep_and_surf"},
-            { "id": "sequoia.surf.parseme@9.0", "snippets": "parseme"},
-            { "id": "sequoia.deep_and_surf.parseme@9.0", "snippets": "parseme"},
-
-          { "section" : "Older versions" },
-          { "folder": "Sequoia@8.3",
-            "href" : "seq83",
-            "corpora": [
-              { "id": "sequoia.surf@8.3", "snippets": "surf" },
-              { "id": "sequoia.deep_and_surf@8.3", "snippets": "deep_and_surf"  }
-            ]
-          },
-
-          { "folder": "Sequoia@8.2",
-            "href" : "seq82",
-            "corpora": [
-              { "id": "sequoia.surf@8.2", "snippets": "surf" },
-              { "id": "sequoia.deep_and_surf@8.2", "snippets": "deep_and_surf"  }
-            ]
-          },
-
-          { "folder": "Sequoia@8.1",
-            "href" : "seq81",
-            "corpora": [
-              { "id": "sequoia.surf@8.1", "snippets": "surf" },
-              { "id": "sequoia.deep_and_surf@8.1", "snippets": "deep_and_surf"  }
-            ]
-          },
-
-          { "folder": "Sequoia@8.0",
-            "href" : "seq80",
-            "corpora": [
-              { "id": "sequoia.surf@8.0", "snippets": "surf" },
-              { "id": "sequoia.deep_and_surf@8.0", "snippets": "deep_and_surf"  }
-            ]
-          },
-
-          { "folder": "Sequoia@7.0",
-            "href" : "seq70",
-            "corpora": [
-              { "id": "sequoia.surf@7.0", "snippets": "surf" },
-              { "id": "sequoia.deep_and_surf@7.0", "snippets": "deep_and_surf"  }
-            ]
-          },
-
-          { "section" : "Constituent" },
-            { "id": "sequoia.const@7.0", "snippets": "const" }
+          { "section" : "Native Sequoia" },
+            { "id": "Sequoia_S@current",
+              "desc": "Current version of Native Sequoia with only Surface layer <a href=\"http://deep-sequoia.inria.fr\" target=\"_blank\"><span class=\"glyphicon glyphicon-link\"></span></a>",
+              "snippets": "surf"
+            },
+            { "id": "Sequoia_SD@current",
+              "desc": "Current version of Native Sequoia with Surface and Deep layers <a href=\"http://deep-sequoia.inria.fr\" target=\"_blank\"><span class=\"glyphicon glyphicon-link\"></span></a>",
+              "snippets": "surf"
+            },
+            { "id": "Sequoia_SPF@current",
+              "desc": "Current version of Native Sequoia with Surface, Parseme and FrSemCor layers<a href=\"http://deep-sequoia.inria.fr\" target=\"_blank\"><span class=\"glyphicon glyphicon-link\"></span></a>",
+               "snippets": "surf"
+            },
+            { "id": "Sequoia_SDPF@current",
+              "desc": "Current version of Native Sequoia with all layers<a href=\"http://deep-sequoia.inria.fr\" target=\"_blank\"><span class=\"glyphicon glyphicon-link\"></span></a>",
+               "snippets": "surf"
+            },
+          { "section" : "UD converted" },
+            { "id": "Sequoia_UD-S@current",
+              "desc": "Conversion to UD of Sequoia with only Surface layer",
+               "snippets": "surf"
+            },
+            { "id": "Sequoia_UD-SPF@current",
+              "desc": "Conversion to UD of Sequoia with Surface, Parseme and FrSemCor layers",
+               "snippets": "surf"
+            }
         ]
     },
 

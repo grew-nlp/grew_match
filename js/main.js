@@ -933,7 +933,12 @@ function set_corpus(corpus) {
 // ==================================================================================
 function update_corpus() {
   // set the corpus name
-  $('#corpus-fixed').html(current_corpus);
+  desc = get_info(current_corpus, "desc");
+  if (desc == "") {
+    $('#corpus-fixed').html(current_corpus);
+  } else {
+    $('#corpus-fixed').html(desc);
+  }
 
   if (get_info(current_corpus, "enhanced")) {
     $("#eud-span").show();
