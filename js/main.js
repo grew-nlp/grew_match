@@ -143,15 +143,17 @@ $(document).ready(function() {
 
 // ==================================================================================
 function fill_metadata(meta) {
-  if (meta.length == 0) {
-    $('#meta-panel').hide();
+  if (meta === undefined || meta.length == 0) {
+    $('#md').hide();
+    $('#meta-collapse').hide();
   } else {
     html = ""
     meta.forEach(item => {
       html += '<p><b>' + item.key + ' = </b>' + item.value + '</p>\n';
     });
     $('#metadata').html(html);
-    $('#meta-panel').show();
+    $('#md').show();
+    $('#meta-collapse').show();
   }
 }
 
