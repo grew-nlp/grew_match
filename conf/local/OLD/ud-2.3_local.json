@@ -1,0 +1,975 @@
+{ "corpora": [
+  { "id": "UD_Afrikaans-AfriBooms@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Afrikaans-AfriBooms",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "af_afribooms-ud-dev.conllu",
+      "af_afribooms-ud-test.conllu",
+      "af_afribooms-ud-train.conllu"]
+  },
+
+  { "id": "UD_Akkadian-PISANDUB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Akkadian-PISANDUB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "akk_pisandub-ud-test.conllu"
+    ]
+  },
+  { "id": "UD_Amharic-ATT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Amharic-ATT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "am_att-ud-test.conllu"]
+  },
+  { "id": "UD_Ancient_Greek-PROIEL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Ancient_Greek-PROIEL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "grc_proiel-ud-dev.conllu",
+      "grc_proiel-ud-test.conllu",
+      "grc_proiel-ud-train.conllu"]
+  },
+  { "id": "UD_Ancient_Greek-Perseus@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Ancient_Greek-Perseus",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "grc_perseus-ud-dev.conllu",
+      "grc_perseus-ud-test.conllu",
+      "grc_perseus-ud-train.conllu"]
+  },
+  { "id": "UD_Arabic-NYUAD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Arabic-NYUAD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "rtl": true,
+    "files": [
+      "ar_nyuad-ud-dev.conllu",
+      "ar_nyuad-ud-test.conllu",
+      "ar_nyuad-ud-train.conllu"]
+  },
+  { "id": "UD_Arabic-PADT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Arabic-PADT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "rtl": true,
+    "files": [
+      "ar_padt-ud-dev.conllu",
+      "ar_padt-ud-test.conllu",
+      "ar_padt-ud-train.conllu"]
+  },
+  { "id": "UD_Arabic-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Arabic-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "rtl": true,
+    "files": [
+      "ar_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Armenian-ArmTDP@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Armenian-ArmTDP",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "hy_armtdp-ud-test.conllu",
+      "hy_armtdp-ud-train.conllu"]
+  },
+
+  { "id": "UD_Bambara-CRB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Bambara-CRB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "bm_crb-ud-test.conllu"]
+  },
+
+  { "id": "UD_Basque-BDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Basque-BDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "eu_bdt-ud-dev.conllu",
+      "eu_bdt-ud-test.conllu",
+      "eu_bdt-ud-train.conllu"]
+  },
+  { "id": "UD_Belarusian-HSE@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Belarusian-HSE",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "be_hse-ud-dev.conllu",
+      "be_hse-ud-test.conllu",
+      "be_hse-ud-train.conllu"]
+  },
+  { "id": "UD_Breton-KEB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Breton-KEB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "br_keb-ud-test.conllu"]
+  },
+  { "id": "UD_Bulgarian-BTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Bulgarian-BTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "bg_btb-ud-dev.conllu",
+      "bg_btb-ud-test.conllu",
+      "bg_btb-ud-train.conllu"]
+  },
+  { "id": "UD_Buryat-BDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Buryat-BDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "bxr_bdt-ud-test.conllu",
+      "bxr_bdt-ud-train.conllu"]
+  },
+  { "id": "UD_Cantonese-HK@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Cantonese-HK",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "yue_hk-ud-test.conllu"]
+  },
+  { "id": "UD_Catalan-AnCora@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Catalan-AnCora",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ca_ancora-ud-dev.conllu",
+      "ca_ancora-ud-test.conllu",
+      "ca_ancora-ud-train.conllu"]
+  },
+
+
+
+  { "id": "UD_Chinese-CFL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Chinese-CFL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "zh_cfl-ud-test.conllu"]
+  },
+  { "id": "UD_Chinese-GSD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Chinese-GSD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "zh_gsd-ud-dev.conllu",
+      "zh_gsd-ud-test.conllu",
+      "zh_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_Chinese-HK@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Chinese-HK",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "zh_hk-ud-test.conllu"]
+  },
+  { "id": "UD_Chinese-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Chinese-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "zh_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Coptic-Scriptorium@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Coptic-Scriptorium",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "cop_scriptorium-ud-dev.conllu",
+      "cop_scriptorium-ud-test.conllu",
+      "cop_scriptorium-ud-train.conllu"]
+  },
+  { "id": "UD_Croatian-SET@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Croatian-SET",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "hr_set-ud-dev.conllu",
+      "hr_set-ud-test.conllu",
+      "hr_set-ud-train.conllu"]
+  },
+
+
+  { "id": "UD_Czech-CAC@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Czech-CAC",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "cs_cac-ud-dev.conllu",
+      "cs_cac-ud-test.conllu",
+      "cs_cac-ud-train.conllu"]
+  },
+  { "id": "UD_Czech-CLTT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Czech-CLTT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "cs_cltt-ud-dev.conllu",
+      "cs_cltt-ud-test.conllu",
+      "cs_cltt-ud-train.conllu"]
+  },
+  { "id": "UD_Czech-FicTree@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Czech-FicTree",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "cs_fictree-ud-dev.conllu",
+      "cs_fictree-ud-test.conllu",
+      "cs_fictree-ud-train.conllu"]
+  },
+  { "id": "UD_Czech-PDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Czech-PDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "cs_pdt-ud-dev.conllu",
+      "cs_pdt-ud-test.conllu",
+      "cs_pdt-ud-train.conllu"]
+  },
+  { "id": "UD_Czech-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Czech-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "cs_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Danish-DDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Danish-DDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "da_ddt-ud-dev.conllu",
+      "da_ddt-ud-test.conllu",
+      "da_ddt-ud-train.conllu"]
+  },
+  { "id": "UD_Dutch-Alpino@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Dutch-Alpino",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "nl_alpino-ud-dev.conllu",
+      "nl_alpino-ud-test.conllu",
+      "nl_alpino-ud-train.conllu"]
+  },
+  { "id": "UD_Dutch-LassySmall@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Dutch-LassySmall",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "nl_lassysmall-ud-dev.conllu",
+      "nl_lassysmall-ud-test.conllu",
+      "nl_lassysmall-ud-train.conllu"]
+  },
+  { "id": "UD_English-ESL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_English-ESL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "en_esl-ud-dev.conllu",
+      "en_esl-ud-test.conllu",
+      "en_esl-ud-train.conllu"]
+  },
+
+  { "id": "UD_English-EWT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_English-EWT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "en_ewt-ud-dev.conllu",
+      "en_ewt-ud-test.conllu",
+      "en_ewt-ud-train.conllu"]
+  },
+  { "id": "UD_English-GUM@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_English-GUM",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "en_gum-ud-dev.conllu",
+      "en_gum-ud-test.conllu",
+      "en_gum-ud-train.conllu"]
+  },
+  { "id": "UD_English-LinES@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_English-LinES",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "en_lines-ud-dev.conllu",
+      "en_lines-ud-test.conllu",
+      "en_lines-ud-train.conllu"]
+  },
+  { "id": "UD_English-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_English-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "en_pud-ud-test.conllu"]
+  },
+  { "id": "UD_English-ParTUT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_English-ParTUT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "en_partut-ud-dev.conllu",
+      "en_partut-ud-test.conllu",
+      "en_partut-ud-train.conllu"]
+  },
+  { "id": "UD_Erzya-JR@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Erzya-JR",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "myv_jr-ud-test.conllu"]
+  },
+  { "id": "UD_Estonian-EDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Estonian-EDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "et_edt-ud-dev.conllu",
+      "et_edt-ud-test.conllu",
+      "et_edt-ud-train.conllu"]
+  },
+  { "id": "UD_Faroese-OFT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Faroese-OFT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fo_oft-ud-test.conllu"]
+  },
+  { "id": "UD_Finnish-FTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Finnish-FTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fi_ftb-ud-dev.conllu",
+      "fi_ftb-ud-test.conllu",
+      "fi_ftb-ud-train.conllu"]
+  },
+  { "id": "UD_Finnish-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Finnish-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fi_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Finnish-TDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Finnish-TDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fi_tdt-ud-dev.conllu",
+      "fi_tdt-ud-test.conllu",
+      "fi_tdt-ud-train.conllu"]
+  },
+
+  { "id": "UD_French-FTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_French-FTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fr_ftb-ud-dev.conllu",
+      "fr_ftb-ud-test.conllu",
+      "fr_ftb-ud-train.conllu"]
+  },
+
+  { "id": "UD_French-GSD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_French-GSD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fr_gsd-ud-dev.conllu",
+      "fr_gsd-ud-test.conllu",
+      "fr_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_French-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_French-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fr_pud-ud-test.conllu"]
+  },
+  { "id": "UD_French-ParTUT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_French-ParTUT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fr_partut-ud-dev.conllu",
+      "fr_partut-ud-test.conllu",
+      "fr_partut-ud-train.conllu"]
+  },
+  { "id": "UD_French-Sequoia@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_French-Sequoia",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fr_sequoia-ud-dev.conllu",
+      "fr_sequoia-ud-test.conllu",
+      "fr_sequoia-ud-train.conllu"]
+  },
+  { "id": "UD_French-Spoken@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_French-Spoken",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fr_spoken-ud-dev.conllu",
+      "fr_spoken-ud-test.conllu",
+      "fr_spoken-ud-train.conllu"]
+  },
+  { "id": "UD_Galician-CTG@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Galician-CTG",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "gl_ctg-ud-dev.conllu",
+      "gl_ctg-ud-test.conllu",
+      "gl_ctg-ud-train.conllu"]
+  },
+  { "id": "UD_Galician-TreeGal@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Galician-TreeGal",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "gl_treegal-ud-test.conllu",
+      "gl_treegal-ud-train.conllu"]
+  },
+  { "id": "UD_German-GSD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_German-GSD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "de_gsd-ud-dev.conllu",
+      "de_gsd-ud-test.conllu",
+      "de_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_German-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_German-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "de_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Gothic-PROIEL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Gothic-PROIEL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "got_proiel-ud-dev.conllu",
+      "got_proiel-ud-test.conllu",
+      "got_proiel-ud-train.conllu"]
+  },
+  { "id": "UD_Greek-GDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Greek-GDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "el_gdt-ud-dev.conllu",
+      "el_gdt-ud-test.conllu",
+      "el_gdt-ud-train.conllu"]
+  },
+  { "id": "UD_Hebrew-HTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Hebrew-HTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "rtl": true,
+    "files": [
+      "he_htb-ud-dev.conllu",
+      "he_htb-ud-test.conllu",
+      "he_htb-ud-train.conllu"]
+  },
+  { "id": "UD_Hindi-HDTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Hindi-HDTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "hi_hdtb-ud-dev.conllu",
+      "hi_hdtb-ud-test.conllu",
+      "hi_hdtb-ud-train.conllu"]
+  },
+  { "id": "UD_Hindi-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Hindi-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "hi_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Hindi_English-HIENCS@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Hindi_English-HIENCS",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "qhe_hiencs-ud-dev.conllu",
+      "qhe_hiencs-ud-test.conllu",
+      "qhe_hiencs-ud-train.conllu"]
+  },
+
+  { "id": "UD_Hungarian-Szeged@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Hungarian-Szeged",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "hu_szeged-ud-dev.conllu",
+      "hu_szeged-ud-test.conllu",
+      "hu_szeged-ud-train.conllu"]
+  },
+  { "id": "UD_Indonesian-GSD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Indonesian-GSD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "id_gsd-ud-dev.conllu",
+      "id_gsd-ud-test.conllu",
+      "id_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_Indonesian-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Indonesian-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "id_pud-ud-test.conllu"]
+  },
+
+  { "id": "UD_Irish-IDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Irish-IDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ga_idt-ud-test.conllu",
+      "ga_idt-ud-train.conllu"]
+  },
+  { "id": "UD_Italian-ISDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Italian-ISDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "it_isdt-ud-dev.conllu",
+      "it_isdt-ud-test.conllu",
+      "it_isdt-ud-train.conllu"]
+  },
+  { "id": "UD_Italian-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Italian-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "it_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Italian-ParTUT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Italian-ParTUT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "it_partut-ud-dev.conllu",
+      "it_partut-ud-test.conllu",
+      "it_partut-ud-train.conllu"]
+  },
+  { "id": "UD_Italian-PoSTWITA@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Italian-PoSTWITA",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "it_postwita-ud-dev.conllu",
+      "it_postwita-ud-test.conllu",
+      "it_postwita-ud-train.conllu"]
+  },
+  { "id": "UD_Japanese-BCCWJ@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Japanese-BCCWJ",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ja_bccwj-ud-dev.conllu",
+      "ja_bccwj-ud-test.conllu",
+      "ja_bccwj-ud-train.conllu"]
+  },
+  { "id": "UD_Japanese-GSD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Japanese-GSD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ja_gsd-ud-dev.conllu",
+      "ja_gsd-ud-test.conllu",
+      "ja_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_Japanese-Modern@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Japanese-Modern",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ja_modern-ud-test.conllu"]
+  },
+  { "id": "UD_Japanese-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Japanese-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ja_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Kazakh-KTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Kazakh-KTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "kk_ktb-ud-test.conllu",
+      "kk_ktb-ud-train.conllu"]
+  },
+  { "id": "UD_Komi_Zyrian-IKDP@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Komi_Zyrian-IKDP",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "kpv_ikdp-ud-test.conllu"]
+  },
+  { "id": "UD_Komi_Zyrian-Lattice@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Komi_Zyrian-Lattice",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "kpv_lattice-ud-test.conllu"]
+  },
+  { "id": "UD_Korean-GSD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Korean-GSD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ko_gsd-ud-dev.conllu",
+      "ko_gsd-ud-test.conllu",
+      "ko_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_Korean-Kaist@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Korean-Kaist",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ko_kaist-ud-dev.conllu",
+      "ko_kaist-ud-test.conllu",
+      "ko_kaist-ud-train.conllu"]
+  },
+  { "id": "UD_Korean-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Korean-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ko_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Kurmanji-MG@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Kurmanji-MG",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "kmr_mg-ud-test.conllu",
+      "kmr_mg-ud-train.conllu"]
+  },
+  { "id": "UD_Latin-ITTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Latin-ITTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "la_ittb-ud-dev.conllu",
+      "la_ittb-ud-test.conllu",
+      "la_ittb-ud-train.conllu"]
+  },
+  { "id": "UD_Latin-PROIEL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Latin-PROIEL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "la_proiel-ud-dev.conllu",
+      "la_proiel-ud-test.conllu",
+      "la_proiel-ud-train.conllu"]
+  },
+  { "id": "UD_Latin-Perseus@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Latin-Perseus",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "la_perseus-ud-test.conllu",
+      "la_perseus-ud-train.conllu"]
+  },
+  { "id": "UD_Latvian-LVTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Latvian-LVTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "lv_lvtb-ud-dev.conllu",
+      "lv_lvtb-ud-test.conllu",
+      "lv_lvtb-ud-train.conllu"]
+  },
+  { "id": "UD_Lithuanian-HSE@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Lithuanian-HSE",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "lt_hse-ud-dev.conllu",
+      "lt_hse-ud-test.conllu",
+      "lt_hse-ud-train.conllu"]
+  },
+  { "id": "UD_Maltese-MUDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Maltese-MUDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "mt_mudt-ud-dev.conllu",
+      "mt_mudt-ud-test.conllu",
+      "mt_mudt-ud-train.conllu"]
+  },
+
+  { "id": "UD_Marathi-UFAL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Marathi-UFAL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "mr_ufal-ud-dev.conllu",
+      "mr_ufal-ud-test.conllu",
+      "mr_ufal-ud-train.conllu"]
+  },
+  { "id": "UD_Naija-NSC@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Naija-NSC",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "pcm_nsc-ud-test.conllu"]
+  },
+  { "id": "UD_North_Sami-Giella@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_North_Sami-Giella",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "sme_giella-ud-test.conllu",
+      "sme_giella-ud-train.conllu"]
+  },
+  { "id": "UD_Norwegian-Bokmaal@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Norwegian-Bokmaal",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "no_bokmaal-ud-dev.conllu",
+      "no_bokmaal-ud-test.conllu",
+      "no_bokmaal-ud-train.conllu"]
+  },
+  { "id": "UD_Norwegian-Nynorsk@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Norwegian-Nynorsk",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "no_nynorsk-ud-dev.conllu",
+      "no_nynorsk-ud-test.conllu",
+      "no_nynorsk-ud-train.conllu"]
+  },
+  { "id": "UD_Norwegian-NynorskLIA@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Norwegian-NynorskLIA",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "no_nynorsklia-ud-test.conllu",
+      "no_nynorsklia-ud-train.conllu"]
+  },
+  { "id": "UD_Old_Church_Slavonic-PROIEL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Old_Church_Slavonic-PROIEL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "cu_proiel-ud-dev.conllu",
+      "cu_proiel-ud-test.conllu",
+      "cu_proiel-ud-train.conllu"]
+  },
+  { "id": "UD_Old_French-SRCMF@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Old_French-SRCMF",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "fro_srcmf-ud-dev.conllu",
+      "fro_srcmf-ud-test.conllu",
+      "fro_srcmf-ud-train.conllu"]
+  },
+  { "id": "UD_Persian-Seraji@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Persian-Seraji",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "rtl": true,
+    "files": [
+      "fa_seraji-ud-dev.conllu",
+      "fa_seraji-ud-test.conllu",
+      "fa_seraji-ud-train.conllu"]
+  },
+  { "id": "UD_Polish-LFG@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Polish-LFG",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "pl_lfg-ud-dev.conllu",
+      "pl_lfg-ud-test.conllu",
+      "pl_lfg-ud-train.conllu"]
+  },
+  { "id": "UD_Polish-SZ@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Polish-SZ",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "pl_sz-ud-dev.conllu",
+      "pl_sz-ud-test.conllu",
+      "pl_sz-ud-train.conllu"]
+  },
+  { "id": "UD_Portuguese-Bosque@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Portuguese-Bosque",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "pt_bosque-ud-dev.conllu",
+      "pt_bosque-ud-test.conllu",
+      "pt_bosque-ud-train.conllu"]
+  },
+  { "id": "UD_Portuguese-GSD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Portuguese-GSD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "pt_gsd-ud-dev.conllu",
+      "pt_gsd-ud-test.conllu",
+      "pt_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_Portuguese-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Portuguese-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "pt_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Romanian-Nonstandard@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Romanian-Nonstandard",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ro_nonstandard-ud-dev.conllu",
+      "ro_nonstandard-ud-test.conllu",
+      "ro_nonstandard-ud-train.conllu"]
+  },
+  { "id": "UD_Romanian-RRT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Romanian-RRT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ro_rrt-ud-dev.conllu",
+      "ro_rrt-ud-test.conllu",
+      "ro_rrt-ud-train.conllu"]
+  },
+  { "id": "UD_Russian-GSD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Russian-GSD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ru_gsd-ud-dev.conllu",
+      "ru_gsd-ud-test.conllu",
+      "ru_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_Russian-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Russian-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ru_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Russian-SynTagRus@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Russian-SynTagRus",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ru_syntagrus-ud-dev.conllu",
+      "ru_syntagrus-ud-test.conllu",
+      "ru_syntagrus-ud-train.conllu"]
+  },
+  { "id": "UD_Russian-Taiga@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Russian-Taiga",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ru_taiga-ud-test.conllu",
+      "ru_taiga-ud-train.conllu"]
+  },
+  { "id": "UD_Sanskrit-UFAL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Sanskrit-UFAL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "sa_ufal-ud-test.conllu"]
+  },
+  { "id": "UD_Serbian-SET@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Serbian-SET",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "sr_set-ud-dev.conllu",
+      "sr_set-ud-test.conllu",
+      "sr_set-ud-train.conllu"]
+  },
+  { "id": "UD_Slovak-SNK@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Slovak-SNK",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "sk_snk-ud-dev.conllu",
+      "sk_snk-ud-test.conllu",
+      "sk_snk-ud-train.conllu"]
+  },
+  { "id": "UD_Slovenian-SSJ@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Slovenian-SSJ",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "sl_ssj-ud-dev.conllu",
+      "sl_ssj-ud-test.conllu",
+      "sl_ssj-ud-train.conllu"]
+  },
+  { "id": "UD_Slovenian-SST@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Slovenian-SST",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "sl_sst-ud-test.conllu",
+      "sl_sst-ud-train.conllu"]
+  },
+  { "id": "UD_Spanish-AnCora@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Spanish-AnCora",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "es_ancora-ud-dev.conllu",
+      "es_ancora-ud-test.conllu",
+      "es_ancora-ud-train.conllu"]
+  },
+  { "id": "UD_Spanish-GSD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Spanish-GSD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "es_gsd-ud-dev.conllu",
+      "es_gsd-ud-test.conllu",
+      "es_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_Spanish-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Spanish-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "es_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Swedish-LinES@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Swedish-LinES",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "sv_lines-ud-dev.conllu",
+      "sv_lines-ud-test.conllu",
+      "sv_lines-ud-train.conllu"]
+  },
+  { "id": "UD_Swedish-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Swedish-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "sv_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Swedish-Talbanken@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Swedish-Talbanken",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "sv_talbanken-ud-dev.conllu",
+      "sv_talbanken-ud-test.conllu",
+      "sv_talbanken-ud-train.conllu"]
+  },
+  { "id": "UD_Swedish_Sign_Language-SSLC@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Swedish_Sign_Language-SSLC",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "swl_sslc-ud-dev.conllu",
+      "swl_sslc-ud-test.conllu",
+      "swl_sslc-ud-train.conllu"]
+  },
+  { "id": "UD_Tagalog-TRG@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Tagalog-TRG",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "tl_trg-ud-test.conllu"]
+  },
+  { "id": "UD_Tamil-TTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Tamil-TTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "ta_ttb-ud-dev.conllu",
+      "ta_ttb-ud-test.conllu",
+      "ta_ttb-ud-train.conllu"]
+  },
+  { "id": "UD_Telugu-MTG@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Telugu-MTG",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "te_mtg-ud-dev.conllu",
+      "te_mtg-ud-test.conllu",
+      "te_mtg-ud-train.conllu"]
+  },
+  { "id": "UD_Thai-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Thai-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "th_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Turkish-IMST@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Turkish-IMST",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "tr_imst-ud-dev.conllu",
+      "tr_imst-ud-test.conllu",
+      "tr_imst-ud-train.conllu"]
+  },
+  { "id": "UD_Turkish-PUD@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Turkish-PUD",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "tr_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Ukrainian-IU@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Ukrainian-IU",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "uk_iu-ud-dev.conllu",
+      "uk_iu-ud-test.conllu",
+      "uk_iu-ud-train.conllu"]
+  },
+  { "id": "UD_Upper_Sorbian-UFAL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Upper_Sorbian-UFAL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "hsb_ufal-ud-test.conllu",
+      "hsb_ufal-ud-train.conllu"]
+  },
+  { "id": "UD_Urdu-UDTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Urdu-UDTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "rtl": true,
+    "files": [
+      "ur_udtb-ud-dev.conllu",
+      "ur_udtb-ud-test.conllu",
+      "ur_udtb-ud-train.conllu"]
+  },
+  { "id": "UD_Uyghur-UDT@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Uyghur-UDT",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "rtl": true,
+    "files": [
+      "ug_udt-ud-dev.conllu",
+      "ug_udt-ud-test.conllu",
+      "ug_udt-ud-train.conllu"]
+  },
+  { "id": "UD_Vietnamese-VTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Vietnamese-VTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "vi_vtb-ud-dev.conllu",
+      "vi_vtb-ud-test.conllu",
+      "vi_vtb-ud-train.conllu"]
+  },
+  { "id": "UD_Warlpiri-UFAL@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Warlpiri-UFAL",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "wbp_ufal-ud-test.conllu"]
+  },
+  { "id": "UD_Yoruba-YTB@2.3",
+    "directory": "/users/guillaum/resources/ud-treebanks-v2.3/UD_Yoruba-YTB",
+    "domain": "/users/guillaum/resources/ud.dom",
+    "files": [
+      "yo_ytb-ud-test.conllu"]
+  }
+  ]
+}

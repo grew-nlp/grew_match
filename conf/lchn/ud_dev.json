@@ -1,0 +1,34 @@
+{
+  "corpora": [
+    {
+      "id": "UD_French-GSD@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_French-GSD"
+    },
+    {
+      "id": "UD_French-Sequoia@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_French-Sequoia"
+    },
+    {
+      "id": "UD_French-FQB@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_French-FQB"
+    },
+    {
+      "id": "UD_French-ParTUT@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_French-ParTUT"
+    },
+    {
+      "id": "UD_French-PUD@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_French-PUD"
+    },
+    {
+      "id": "UD_French-Spoken@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_French-Spoken"
+    }
+  ]
+}

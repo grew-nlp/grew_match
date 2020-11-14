@@ -1,0 +1,21 @@
+{ "corpora": [
+  { "id": "Little_Prince",
+    "directory": "/home/guillaum/resources/AMR",
+    "kind": "amr",
+    "urls": "frames_url.csv",
+    "files": [ "lpp_1943.amr" ]
+  },
+  { "id": "Bio_AMR_Corpus",
+    "directory": "/home/guillaum/resources/AMR",
+    "kind": "amr",
+    "urls": "frames_url.csv",
+    "files": [ "bio_AMR_corpus.txt" ]
+  },
+  { "id": "Spec_1.2.5",
+    "directory": "/home/guillaum/resources/AMR",
+    "kind": "amr",
+    "urls": "frames_url.csv",
+    "files": [ "specification-1.2.5.amr" ]
+  }
+  ]
+}

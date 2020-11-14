@@ -1,0 +1,65 @@
+{ "corpora": [
+  { "id": "UD_French-GSD@dev",
+    "directory": "/Users/guillaum/github/UD_French-GSD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr_gsd-ud-dev.conllu",
+      "fr_gsd-ud-test.conllu",
+      "fr_gsd-ud-train.conllu"]
+  },
+  { "id": "UD_French-Sequoia@dev",
+    "directory": "/Users/guillaum/github/UD_French-Sequoia",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr_sequoia-ud-dev.conllu",
+      "fr_sequoia-ud-test.conllu",
+      "fr_sequoia-ud-train.conllu"]
+  },
+
+  { "id": "UD_French-Sequoia+parseme@2.2",
+    "directory": "/users/guillaum/gitlab/deep-sequoia/parseme",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [ "sequoia-ud-2.2.cupt_parsemefr" ]
+  },
+
+  { "id": "UD_French@2.0",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.0/UD_French",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr-ud-dev.conllu",
+      "fr-ud-train.conllu"]
+  },
+  { "id": "UD_French@1.4",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v1.4/UD_French",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr-ud-dev.conllu",
+      "fr-ud-test.conllu",
+      "fr-ud-train.conllu"]
+  },
+  { "id": "UD_French@1.3",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v1.3/UD_French",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr-ud-dev.conllu",
+      "fr-ud-test.conllu",
+      "fr-ud-train.conllu"]
+  },
+  { "id": "UD_French@1.2",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v1.2/UD_French",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr-ud-dev.conllu",
+      "fr-ud-test.conllu",
+      "fr-ud-train.conllu"]
+  },
+  { "id": "UD_French@1.1",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v1.1/UD_French",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr-ud-dev.conllu",
+      "fr-ud-test.conllu",
+      "fr-ud-train.conllu"]
+  }
+  ]
+}

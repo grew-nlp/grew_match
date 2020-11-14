@@ -1,0 +1,15 @@
+{ "corpora": [
+
+  { "id": "tcof",
+    "directory": "/Users/guillaum/resources/orfeo/oral/tcof",
+    "audio": true
+  },
+  { "id": "reunions-de-travail",
+    "directory": "/Users/guillaum/resources/orfeo/reunions-de-travail",
+    "audio": true
+  },
+  { "id": "annodis",
+    "directory": "/Users/guillaum/resources/orfeo/annodis"
+  }
+  ]
+}

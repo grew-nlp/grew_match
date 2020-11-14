@@ -1,0 +1,24 @@
+{
+  "corpora": [
+    {
+      "id": "UD_French-GSD@conv",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-converted-dev/UD_French-GSD"
+    },
+    {
+      "id": "UD_French-Spoken@conv",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-converted-dev/UD_French-Spoken"
+    },
+    {
+      "id": "UD_French-Paris-Stories@conv",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-converted-dev/UD_French-Paris-Stories"
+    },
+    {
+      "id": "UD_Naija-NSC@conv",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-converted-dev/UD_Naija-NSC"
+    }
+  ]
+}

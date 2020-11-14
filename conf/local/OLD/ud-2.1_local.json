@@ -1,0 +1,782 @@
+{ "corpora": [
+  { "id": "UD_Afrikaans",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Afrikaans",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "af-ud-dev.conllu",
+      "af-ud-test.conllu",
+      "af-ud-train.conllu"]
+  },
+  { "id": "UD_Ancient_Greek-PROIEL",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Ancient_Greek-PROIEL",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "grc_proiel-ud-dev.conllu",
+      "grc_proiel-ud-test.conllu",
+      "grc_proiel-ud-train.conllu"]
+  },
+  { "id": "UD_Ancient_Greek",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Ancient_Greek",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "grc-ud-dev.conllu",
+      "grc-ud-test.conllu",
+      "grc-ud-train.conllu"]
+  },
+  { "id": "UD_Arabic-NYUAD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Arabic-NYUAD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "rtl": true,
+    "files": [
+      "ar_nyuad-ud-dev.conllu",
+      "ar_nyuad-ud-test.conllu",
+      "ar_nyuad-ud-train.conllu"]
+  },
+  { "id": "UD_Arabic-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Arabic-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "rtl": true,
+    "files": [
+      "ar_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Arabic",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Arabic",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "rtl": true,
+    "files": [
+      "ar-ud-dev.conllu",
+      "ar-ud-test.conllu",
+      "ar-ud-train.conllu"]
+  },
+  { "id": "UD_Basque",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Basque",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "eu-ud-dev.conllu",
+      "eu-ud-test.conllu",
+      "eu-ud-train.conllu"]
+  },
+  { "id": "UD_Belarusian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Belarusian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "be-ud-dev.conllu",
+      "be-ud-test.conllu",
+      "be-ud-train.conllu"]
+  },
+  { "id": "UD_Bulgarian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Bulgarian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "bg-ud-dev.conllu",
+      "bg-ud-test.conllu",
+      "bg-ud-train.conllu"]
+  },
+  { "id": "UD_Buryat",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Buryat",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "bxr-ud-sample.conllu",
+      "bxr-ud-test.conllu"]
+  },
+  { "id": "UD_Cantonese",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Cantonese",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "yue-ud-test.conllu"]
+  },
+  { "id": "UD_Catalan",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Catalan",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ca-ud-dev.conllu",
+      "ca-ud-test.conllu",
+      "ca-ud-train.conllu"]
+  },
+  { "id": "UD_Chinese-CFL",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Chinese-CFL",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "zh_cfl-ud-test.conllu"]
+  },
+  { "id": "UD_Chinese-HK",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Chinese-HK",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "zh_hk-ud-test.conllu"]
+  },
+  { "id": "UD_Chinese-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Chinese-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "zh_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Chinese",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Chinese",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "zh-ud-dev.conllu",
+      "zh-ud-test.conllu",
+      "zh-ud-train.conllu"]
+  },
+  { "id": "UD_Coptic",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Coptic",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "cop-ud-dev.conllu",
+      "cop-ud-test.conllu",
+      "cop-ud-train.conllu"]
+  },
+  { "id": "UD_Croatian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Croatian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "hr-ud-dev.conllu",
+      "hr-ud-test.conllu",
+      "hr-ud-train.conllu"]
+  },
+  { "id": "UD_Czech-CAC",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Czech-CAC",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "cs_cac-ud-dev.conllu",
+      "cs_cac-ud-test.conllu",
+      "cs_cac-ud-train.conllu"]
+  },
+  { "id": "UD_Czech-CLTT",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Czech-CLTT",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "cs_cltt-ud-dev.conllu",
+      "cs_cltt-ud-test.conllu",
+      "cs_cltt-ud-train.conllu"]
+  },
+  { "id": "UD_Czech-FicTree",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Czech-FicTree",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "cs_fictree-ud-dev.conllu",
+      "cs_fictree-ud-test.conllu",
+      "cs_fictree-ud-train.conllu"]
+  },
+  { "id": "UD_Czech-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Czech-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "cs_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Czech",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Czech",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "cs-ud-dev.conllu",
+      "cs-ud-test.conllu",
+      "cs-ud-train.conllu"]
+  },
+  { "id": "UD_Danish",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Danish",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "da-ud-dev.conllu",
+      "da-ud-test.conllu",
+      "da-ud-train.conllu"]
+  },
+  { "id": "UD_Dutch-LassySmall",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Dutch-LassySmall",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "nl_lassysmall-ud-dev.conllu",
+      "nl_lassysmall-ud-test.conllu",
+      "nl_lassysmall-ud-train.conllu"]
+  },
+  { "id": "UD_Dutch",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Dutch",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "nl-ud-dev.conllu",
+      "nl-ud-test.conllu",
+      "nl-ud-train.conllu"]
+  },
+  { "id": "UD_English-LinES",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_English-LinES",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "en_lines-ud-dev.conllu",
+      "en_lines-ud-test.conllu",
+      "en_lines-ud-train.conllu"]
+  },
+  { "id": "UD_English-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_English-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "en_pud-ud-test.conllu"]
+  },
+  { "id": "UD_English-ParTUT",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_English-ParTUT",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "en_partut-ud-dev.conllu",
+      "en_partut-ud-test.conllu",
+      "en_partut-ud-train.conllu"]
+  },
+  { "id": "UD_English",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_English",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "en-ud-dev.conllu",
+      "en-ud-test.conllu",
+      "en-ud-train.conllu"]
+  },
+  { "id": "UD_Estonian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Estonian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "et-ud-dev.conllu",
+      "et-ud-test.conllu",
+      "et-ud-train.conllu"]
+  },
+  { "id": "UD_Finnish-FTB",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Finnish-FTB",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fi_ftb-ud-dev.conllu",
+      "fi_ftb-ud-test.conllu",
+      "fi_ftb-ud-train.conllu"]
+  },
+  { "id": "UD_Finnish-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Finnish-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fi_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Finnish",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Finnish",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fi-ud-dev.conllu",
+      "fi-ud-test.conllu",
+      "fi-ud-train.conllu"]
+  },
+  { "id": "UD_French-FTB",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_French-FTB",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr_ftb-ud-dev.conllu",
+      "fr_ftb-ud-test.conllu",
+      "fr_ftb-ud-train.conllu"]
+  },
+  { "id": "UD_French-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_French-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr_pud-ud-test.conllu"]
+  },
+  { "id": "UD_French-ParTUT",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_French-ParTUT",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr_partut-ud-dev.conllu",
+      "fr_partut-ud-test.conllu",
+      "fr_partut-ud-train.conllu"]
+  },
+  { "id": "UD_French-Sequoia",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_French-Sequoia",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr_sequoia-ud-dev.conllu",
+      "fr_sequoia-ud-test.conllu",
+      "fr_sequoia-ud-train.conllu"]
+  },
+  { "id": "UD_French",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_French",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "fr-ud-dev.conllu",
+      "fr-ud-test.conllu",
+      "fr-ud-train.conllu"]
+  },
+  { "id": "UD_Galician-TreeGal",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Galician-TreeGal",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "gl_treegal-ud-dev.conllu",
+      "gl_treegal-ud-test.conllu",
+      "gl_treegal-ud-train.conllu"]
+  },
+  { "id": "UD_Galician",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Galician",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "gl-ud-dev.conllu",
+      "gl-ud-test.conllu",
+      "gl-ud-train.conllu"]
+  },
+  { "id": "UD_German-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_German-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "de_pud-ud-test.conllu"]
+  },
+  { "id": "UD_German",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_German",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "de-ud-dev.conllu",
+      "de-ud-test.conllu",
+      "de-ud-train.conllu"]
+  },
+  { "id": "UD_Gothic",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Gothic",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "got-ud-dev.conllu",
+      "got-ud-test.conllu",
+      "got-ud-train.conllu"]
+  },
+  { "id": "UD_Greek",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Greek",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "el-ud-dev.conllu",
+      "el-ud-test.conllu",
+      "el-ud-train.conllu"]
+  },
+  { "id": "UD_Hebrew",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Hebrew",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "rtl": true,
+    "files": [
+      "he-ud-dev.conllu",
+      "he-ud-test.conllu",
+      "he-ud-train.conllu"]
+  },
+  { "id": "UD_Hindi-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Hindi-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "hi_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Hindi",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Hindi",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "hi-ud-dev.conllu",
+      "hi-ud-test.conllu",
+      "hi-ud-train.conllu"]
+  },
+  { "id": "UD_Hungarian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Hungarian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "hu-ud-dev.conllu",
+      "hu-ud-test.conllu",
+      "hu-ud-train.conllu"]
+  },
+  { "id": "UD_Indonesian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Indonesian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "id-ud-dev.conllu",
+      "id-ud-test.conllu",
+      "id-ud-train.conllu"]
+  },
+  { "id": "UD_Irish",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Irish",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ga-ud-dev.conllu",
+      "ga-ud-test.conllu",
+      "ga-ud-train.conllu"]
+  },
+  { "id": "UD_Italian-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Italian-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "it_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Italian-ParTUT",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Italian-ParTUT",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "it_partut-ud-dev.conllu",
+      "it_partut-ud-test.conllu",
+      "it_partut-ud-train.conllu"]
+  },
+  { "id": "UD_Italian-PoSTWITA",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Italian-PoSTWITA",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "it_postwita-ud-dev.conllu",
+      "it_postwita-ud-test.conllu",
+      "it_postwita-ud-train.conllu"]
+  },
+  { "id": "UD_Italian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Italian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "it-ud-dev.conllu",
+      "it-ud-test.conllu",
+      "it-ud-train.conllu"]
+  },
+  { "id": "UD_Japanese-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Japanese-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ja_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Japanese",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Japanese",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ja-ud-dev.conllu",
+      "ja-ud-test.conllu",
+      "ja-ud-train.conllu"]
+  },
+  { "id": "UD_Kazakh",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Kazakh",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "kk-ud-dev.conllu",
+      "kk-ud-test.conllu",
+      "kk-ud-train.conllu"]
+  },
+  { "id": "UD_Korean",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Korean",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ko-ud-dev.conllu",
+      "ko-ud-test.conllu",
+      "ko-ud-train.conllu"]
+  },
+  { "id": "UD_Kurmanji",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Kurmanji",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "kmr-ud-sample.conllu",
+      "kmr-ud-test.conllu"]
+  },
+  { "id": "UD_Latin-ITTB",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Latin-ITTB",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "la_ittb-ud-dev.conllu",
+      "la_ittb-ud-test.conllu",
+      "la_ittb-ud-train.conllu"]
+  },
+  { "id": "UD_Latin-PROIEL",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Latin-PROIEL",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "la_proiel-ud-dev.conllu",
+      "la_proiel-ud-test.conllu",
+      "la_proiel-ud-train.conllu"]
+  },
+  { "id": "UD_Latin",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Latin",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "la-ud-dev.conllu",
+      "la-ud-test.conllu",
+      "la-ud-train.conllu"]
+  },
+  { "id": "UD_Latvian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Latvian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "lv-ud-dev.conllu",
+      "lv-ud-test.conllu",
+      "lv-ud-train.conllu"]
+  },
+  { "id": "UD_Lithuanian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Lithuanian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "lt-ud-dev.conllu",
+      "lt-ud-test.conllu",
+      "lt-ud-train.conllu"]
+  },
+  { "id": "UD_Marathi",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Marathi",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "mr-ud-dev.conllu",
+      "mr-ud-test.conllu",
+      "mr-ud-train.conllu"]
+  },
+  { "id": "UD_North_Sami",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_North_Sami",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "sme-ud-sample.conllu",
+      "sme-ud-test.conllu",
+      "sme-ud-train.conllu"]
+  },
+  { "id": "UD_Norwegian-Bokmaal",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Norwegian-Bokmaal",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "no_bokmaal-ud-dev.conllu",
+      "no_bokmaal-ud-test.conllu",
+      "no_bokmaal-ud-train.conllu"]
+  },
+  { "id": "UD_Norwegian-Nynorsk",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Norwegian-Nynorsk",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "no_nynorsk-ud-dev.conllu",
+      "no_nynorsk-ud-test.conllu",
+      "no_nynorsk-ud-train.conllu"]
+  },
+  { "id": "UD_Norwegian-NynorskLIA",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Norwegian-NynorskLIA",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "no_nynorsklia-ud-dev.conllu",
+      "no_nynorsklia-ud-test.conllu"]
+  },
+  { "id": "UD_Old_Church_Slavonic",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Old_Church_Slavonic",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "cu-ud-dev.conllu",
+      "cu-ud-test.conllu",
+      "cu-ud-train.conllu"]
+  },
+  { "id": "UD_Persian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Persian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "rtl": true,
+    "files": [
+      "fa-ud-dev.conllu",
+      "fa-ud-test.conllu",
+      "fa-ud-train.conllu"]
+  },
+  { "id": "UD_Polish",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Polish",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "pl-ud-dev.conllu",
+      "pl-ud-test.conllu",
+      "pl-ud-train.conllu"]
+  },
+  { "id": "UD_Portuguese-BR",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Portuguese-BR",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "pt_br-ud-dev.conllu",
+      "pt_br-ud-test.conllu",
+      "pt_br-ud-train.conllu"]
+  },
+  { "id": "UD_Portuguese-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Portuguese-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "pt_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Portuguese",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Portuguese",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "pt-ud-dev.conllu",
+      "pt-ud-test.conllu",
+      "pt-ud-train.conllu"]
+  },
+  { "id": "UD_Romanian-Nonstandard",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Romanian-Nonstandard",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ro_nonstandard-ud-test.conllu",
+      "ro_nonstandard-ud-train.conllu"]
+  },
+  { "id": "UD_Romanian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Romanian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ro-ud-dev.conllu",
+      "ro-ud-test.conllu",
+      "ro-ud-train.conllu"]
+  },
+  { "id": "UD_Russian-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Russian-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ru_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Russian-SynTagRus",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Russian-SynTagRus",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ru_syntagrus-ud-dev.conllu",
+      "ru_syntagrus-ud-test.conllu",
+      "ru_syntagrus-ud-train.conllu"]
+  },
+  { "id": "UD_Russian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Russian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ru-ud-dev.conllu",
+      "ru-ud-test.conllu",
+      "ru-ud-train.conllu"]
+  },
+  { "id": "UD_Sanskrit",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Sanskrit",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "sa-ud-test.conllu"]
+  },
+  { "id": "UD_Serbian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Serbian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "sr-ud-dev.conllu",
+      "sr-ud-test.conllu",
+      "sr-ud-train.conllu"]
+  },
+  { "id": "UD_Slovak",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Slovak",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "sk-ud-dev.conllu",
+      "sk-ud-test.conllu",
+      "sk-ud-train.conllu"]
+  },
+  { "id": "UD_Slovenian-SST",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Slovenian-SST",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "sl_sst-ud-dev.conllu",
+      "sl_sst-ud-test.conllu",
+      "sl_sst-ud-train.conllu"]
+  },
+  { "id": "UD_Slovenian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Slovenian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "sl-ud-dev.conllu",
+      "sl-ud-test.conllu",
+      "sl-ud-train.conllu"]
+  },
+  { "id": "UD_Spanish-AnCora",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Spanish-AnCora",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "es_ancora-ud-dev.conllu",
+      "es_ancora-ud-test.conllu",
+      "es_ancora-ud-train.conllu"]
+  },
+  { "id": "UD_Spanish-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Spanish-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "es_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Spanish",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Spanish",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "es-ud-dev.conllu",
+      "es-ud-test.conllu",
+      "es-ud-train.conllu"]
+  },
+  { "id": "UD_Swedish-LinES",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Swedish-LinES",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "sv_lines-ud-dev.conllu",
+      "sv_lines-ud-test.conllu",
+      "sv_lines-ud-train.conllu"]
+  },
+  { "id": "UD_Swedish-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Swedish-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "sv_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Swedish",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Swedish",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "sv-ud-dev.conllu",
+      "sv-ud-test.conllu",
+      "sv-ud-train.conllu"]
+  },
+  { "id": "UD_Swedish_Sign_Language",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Swedish_Sign_Language",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "swl-ud-dev.conllu",
+      "swl-ud-test.conllu",
+      "swl-ud-train.conllu"]
+  },
+  { "id": "UD_Tamil",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Tamil",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "ta-ud-dev.conllu",
+      "ta-ud-test.conllu",
+      "ta-ud-train.conllu"]
+  },
+  { "id": "UD_Telugu",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Telugu",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "te-ud-dev.conllu",
+      "te-ud-test.conllu",
+      "te-ud-train.conllu"]
+  },
+  { "id": "UD_Turkish-PUD",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Turkish-PUD",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "tr_pud-ud-test.conllu"]
+  },
+  { "id": "UD_Turkish",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Turkish",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "tr-ud-dev.conllu",
+      "tr-ud-test.conllu",
+      "tr-ud-train.conllu"]
+  },
+  { "id": "UD_Ukrainian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Ukrainian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "uk-ud-dev.conllu",
+      "uk-ud-test.conllu",
+      "uk-ud-train.conllu"]
+  },
+  { "id": "UD_Upper_Sorbian",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Upper_Sorbian",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "hsb-ud-sample.conllu",
+      "hsb-ud-test.conllu"]
+  },
+  { "id": "UD_Urdu",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Urdu",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "rtl": true,
+    "files": [
+      "ur-ud-dev.conllu",
+      "ur-ud-test.conllu",
+      "ur-ud-train.conllu"]
+  },
+  { "id": "UD_Uyghur",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Uyghur",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "rtl": true,
+    "files": [
+      "ug-ud-dev.conllu",
+      "ug-ud-test.conllu"]
+  },
+  { "id": "UD_Vietnamese",
+    "directory": "/Users/guillaum/resources/ud-treebanks-v2.1/UD_Vietnamese",
+    "domain": "/Users/guillaum/gitlab/grew/grew_doc/domains/ud.dom",
+    "files": [
+      "vi-ud-dev.conllu",
+      "vi-ud-test.conllu",
+      "vi-ud-train.conllu"]
+  }
+  ]
+}
