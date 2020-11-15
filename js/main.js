@@ -1091,6 +1091,9 @@ function update_group() {
         if (value["enhanced"]) {
           html += '<object type="image/svg+xml" data="icon/enhanced.svg" width="20" height="20" style="float: right;"></object>'
         }
+        if (value["new"]) {
+          html += '<object type="image/svg+xml" data="icon/new.svg" width="23" height="23" style="float: right;"></object>'
+        }
         html += '</td></tr>\n';
       });
       html += '</table>\n';
