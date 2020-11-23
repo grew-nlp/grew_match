@@ -183,6 +183,16 @@ function init() {
     lineNumbers: true,
   });
 
+  // Initialise CodeMirror
+  xxx = CodeMirror.fromTextArea(document.getElementById("whether-input1"), {
+    lineNumbers: true,
+  });
+
+  // Initialise CodeMirror
+  yyy = CodeMirror.fromTextArea(document.getElementById("whether-input2"), {
+    lineNumbers: true,
+  });
+
   init_navbar();
 
   deal_with_get_parameters();
@@ -416,6 +426,7 @@ function next_results() {
 
 // ==================================================================================
 function search_pattern() {
+  console.log("+++");
   $('#results-block').hide();
   $('#cluster-block').hide();
   $('#results-list').empty();
@@ -437,7 +448,9 @@ function search_pattern() {
   };
   if ($('#cluster-box').prop('checked')) {
     data['cluster'] = $('#cluster-key').val();
+    data['whether'] = false;
   }
+  console.log(data);
   $.ajax({
     url: 'main.php',
     dataType: 'text',
@@ -1177,3 +1190,5 @@ function levenshtein(a, b) {
   }
   return u[n];
 }
+
+

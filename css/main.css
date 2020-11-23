@@ -305,3 +305,15 @@ h3 {
 #sentence-txt {
 	margin-top: 0pt;
 }
+
+#whether-input1 + .CodeMirror {
+	height: 60px;
+}
+
+#whether-input2 + .CodeMirror {
+	height: 60px;
+}
+
+#pattern-input + .CodeMirror {
+	height: 160px;
+}

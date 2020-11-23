@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="vendor/bootflat.css">
 
 	<script src="vendor/jquery-2.1.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 	<!-- tooltipter -->
 	<link rel="stylesheet" href="vendor/tooltipter/tooltipster.css">
@@ -131,6 +132,34 @@
 									</a>
 									for more info.
 								</h4>
+
+
+								<div id="app">
+									<div>
+										<b>Clustering 1:</b>
+										<input type="radio" value="no" v-model="clust1"><label>No</label>
+										<input type="radio" value="key" v-model="clust1"><label>Key</label>
+										<input type="radio" value="whether" v-model="clust1"><label>Whether</label>
+									</div>
+									<input v-show="clust1=='key'" type="entry" id="clust1-key" />
+									<div v-show="clust1=='whether'" >
+										<textarea id="whether-input1"></textarea>
+									</div>
+
+									<div v-show="clust1 != 'no'">
+										<div>
+											<b>Clustering 2:</b>
+											<input type="radio" value="no" v-model="clust2"><label>No</label>
+											<input type="radio" value="key" v-model="clust2"><label>Key</label>
+											<input type="radio" value="whether" v-model="clust2"><label>Whether</label>
+										</div>
+										<input v-show="clust2=='key'" type="entry" id="clust2-key" />
+										<div v-show="clust2=='whether'">
+											<textarea id="whether-input2"></textarea>
+										</div>
+									</div>
+								</div>
+
 								<p>
 									<label id="lemma-option">
 										<input type="checkbox" id="lemma-box" checked> lemma
@@ -383,6 +412,7 @@
 		</div>
 	</div>
 
+	<script src="js/vue.js"></script>
 
 </body>
 
