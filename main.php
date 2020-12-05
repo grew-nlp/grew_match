@@ -29,11 +29,8 @@ function new_() {
 	$old = umask(0);
 	mkdir($dir . $id, 0777);
 	umask($old);
-	$pattern = fopen($dir . $id . "/pattern","w");
-	fwrite($pattern, $_POST['pattern']);
-	fclose($pattern);
 
-	$infos = fopen($dir . $id . "/infos","w");
+	$infos = fopen($dir . $id . "/infos.json","w");
 	fwrite($infos, json_encode ($_POST));
 	fclose($infos);
 
