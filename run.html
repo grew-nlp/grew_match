@@ -137,21 +137,22 @@
 								<div id="app">
 									<div>
 										<b>Clustering 1:</b>
-										<input type="radio" value="no" v-model="clust1"><label>No</label>
-										<input type="radio" value="key" v-model="clust1"><label>Key</label>
-										<input type="radio" value="whether" v-model="clust1"><label>Whether</label>
+										<label><input type="radio" name="clust1" value="no" v-model="clust1"> No</label>
+										<label><input type="radio" name="clust1" value="key" v-model="clust1"> Key</label>
+										<label><input type="radio" name="clust1" value="whether" v-model="clust1"> Whether</label>
 									</div>
-									<input v-show="clust1=='key'" type="entry" id="clust1-key" />
+									<input v-show="clust1=='key'" v-model="clust1_key" type="entry" id="clust1-key" />
 									<div v-show="clust1=='whether'" >
-										<textarea id="whether-input1"></textarea>
+										<textarea v-model="clust1_whether" id="whether-input1"></textarea>
 									</div>
 
-									<div v-show="clust1 != 'no'">
+									<!-- <div v-show="clust1 != 'no'"> -->
+									<div v-show="false">
 										<div>
 											<b>Clustering 2:</b>
-											<input type="radio" value="no" v-model="clust2"><label>No</label>
-											<input type="radio" value="key" v-model="clust2"><label>Key</label>
-											<input type="radio" value="whether" v-model="clust2"><label>Whether</label>
+											<label><input type="radio" name="clust2" value="no" v-model="clust2"> No</label>
+											<label><input type="radio" name="clust2" value="key" v-model="clust2"> Key</label>
+											<label><input type="radio" name="clust2" value="whether" v-model="clust2"> Whether</label>
 										</div>
 										<input v-show="clust2=='key'" type="entry" id="clust2-key" />
 										<div v-show="clust2=='whether'">
