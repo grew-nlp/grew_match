@@ -130,15 +130,6 @@ $(document).ready(function() {
   $('#export-button').tooltipster('content', $("#export-tip").html());
   $('#save-button').tooltipster('content', $("#save-tip").html());
   $('#conll-button').tooltipster('content', $("#conll-tip").html());
-
-
-  $('#cluster-box').change(function() {
-    if (this.checked) {
-      $('#cluster-span').show();
-    } else {
-      $('#cluster-span').hide();
-    }
-  });
 });
 
 // ==================================================================================
@@ -184,12 +175,12 @@ function init() {
   });
 
   // Initialise CodeMirror
-  xxx = CodeMirror.fromTextArea(document.getElementById("whether-input1"), {
+  clust1_cm = CodeMirror.fromTextArea(document.getElementById("whether-input1"), {
     lineNumbers: true,
   });
 
   // Initialise CodeMirror
-  yyy = CodeMirror.fromTextArea(document.getElementById("whether-input2"), {
+  clust2_cm = CodeMirror.fromTextArea(document.getElementById("whether-input2"), {
     lineNumbers: true,
   });
 
@@ -210,11 +201,12 @@ function init() {
     }
   });
 
-  $('#cluster-key').bind('input', function() {
+  $('#clust1-key').bind('input', function() {
     disable_save();
   });
 
-  $('#cluster-box').change(function() {
+
+  $('input:radio[name="clust1"]').change(function() {
     disable_save();
   });
 
@@ -289,12 +281,6 @@ function deal_with_get_parameters() {
   // custom get parameter
   if (getParameterByName("custom").length > 0) {
     get_custom = getParameterByName("custom");
-    get_cluster = getParameterByName("clustering");
-    if (get_cluster.length > 0) {
-      $('#cluster-box').prop('checked', true);
-      $('#cluster-span').show();
-      $('#cluster-key').val(get_cluster);
-    }
     $.get('./data/shorten/' + get_custom, function(pattern) {
       cmEditor.setValue(pattern);
       search_pattern();
@@ -332,20 +318,6 @@ function deal_with_get_parameters() {
 }
 
 // ==================================================================================
-function set_cluster_key(key) {
-  $('#cluster-box').prop('checked', true);
-  $('#cluster-span').show();
-  $('#cluster-key').val(key);
-}
-
-// ==================================================================================
-function clean_cluster_key() {
-  $('#cluster-box').prop('checked', false);
-  $('#cluster-span').hide();
-  $('#cluster-key').val("");
-}
-
-// ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
   if (base == "tuto") {
@@ -360,9 +332,10 @@ function right_pane(base) {
 
       clustering = $(this).attr('clustering');
       if (clustering) {
-        set_cluster_key(clustering);
+        app.clust1 = "key";
+        app.clust1_key = clustering;
       } else {
-        clean_cluster_key();
+        app.clust1 = "no";
       }
 
       // Update of the textarea
@@ -426,7 +399,6 @@ function next_results() {
 
 // ==================================================================================
 function search_pattern() {
-  console.log("+++");
   $('#results-block').hide();
   $('#cluster-block').hide();
   $('#results-list').empty();
@@ -446,10 +418,15 @@ function search_pattern() {
     context: $('#context-box').prop('checked'),
     eud2ud: !($('#eud-box').prop('checked')),
   };
-  if ($('#cluster-box').prop('checked')) {
-    data['cluster'] = $('#cluster-key').val();
-    data['whether'] = false;
+
+  data['clust1-type'] = app.clust1;
+  if (app.clust1 == "key") {
+    data['clust1-data'] = app.clust1_key;
   }
+  if (app.clust1 == "whether") {
+    data['clust1-data'] = "{" + clust1_cm.getValue() + "}";
+  }
+
   console.log(data);
   $.ajax({
     url: 'main.php',
@@ -773,9 +750,9 @@ function copy_conll() {
 
 // ==================================================================================
 function save_pattern() {
-  let clustering = "";
-  if ($('#cluster-box').prop('checked')) {
-    clustering = "&clustering=" + $('#cluster-key').val();
+  var clustering = "";
+  if (app.clust1 == 'key') {
+    clustering = "&clustering=" + app.clust1_key;
   }
 
   var eud = "";
