@@ -587,14 +587,13 @@ function load_cluster_file() {
   $.get("./data/" + current_request_id + "/cluster_" + current_cluster, function(data) {
     lines = data.split("\n");
     for (var i = current_line_num, len = lines.length; i < len; i++) {
-      var fields = lines[i].split("@@");
-      if (fields[0] == '<END>') {
-        $("#next-results").prop('disabled', true);
-      } else if (fields[0] == '<PAUSE>') {
-        $("#next-results").prop('disabled', false);
-      } else {
-        try {
-          var obj = JSON.parse(lines[i]);
+      try {
+        var obj = JSON.parse(lines[i]);
+        if (obj.kind == "END") {
+          $("#next-results").prop('disabled', true);
+        } else if (obj.kind == "PAUSE") {
+          $("#next-results").prop('disabled', false);
+        } else {
           $("#results-list").append('<li class="item" id="list-' + result_nb + '"><a>' + obj.sent_id + '</a></li>');
           url = './data/' + current_request_id + '/' + obj.filename;
           $('#list-' + result_nb).click({
@@ -607,9 +606,9 @@ function load_cluster_file() {
           }, display_picture);
           result_nb++;
           update_progress_num();
-        } catch (err) {
-          console.log("Ignore line: " + i);
         }
+      } catch (err) {
+        console.log("Ignore line: " + i);
       }
     }
     update_view();
@@ -1190,5 +1189,3 @@ function levenshtein(a, b) {
   }
   return u[n];
 }
-
-
