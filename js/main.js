@@ -1,5 +1,3 @@
-var cmEditor = undefined; // CodeMirror component
-
 var current_request_id = ""
 
 var result_nb = 0; // number of given results
@@ -750,16 +748,6 @@ function copy_conll() {
 
 // ==================================================================================
 function save_pattern() {
-  var clustering = "";
-  if (app.clust1 == 'key') {
-    clustering = "&clustering=" + app.clust1_key;
-  }
-
-  var eud = "";
-  if (get_info(current_corpus, "enhanced") && $('#eud-box').prop('checked')) {
-    eud = "&eud=yes"
-  }
-
   if (current_request_id.length > 0) {
     var data = {
       request: "SHORTEN",
@@ -772,11 +760,22 @@ function save_pattern() {
       data: data,
       type: 'post',
       success: function(output) {
+        let get = "?corpus=" + current_corpus + "&custom=" + output;
+        if (app.clust1 == 'key') {
+          get += "&clustering=" + app.clust1_key;
+        }
+        if (app.clust1 == 'whether') {
+          get += "&whether=" + clust1_cm.getValue();
+        }
+        if (get_info(current_corpus, "enhanced") && $('#eud-box').prop('checked')) {
+          get += "&eud=yes"
+        }
+
         history.pushState({
             id: output
           },
           "Grew - Custom saved pattern",
-          "?corpus=" + current_corpus + "&custom=" + output + clustering + eud
+          get
         );
         $('#custom-url').text(window.location.href);
         $('#custom-display').show();
