@@ -281,7 +281,7 @@ function deal_with_get_parameters() {
     get_custom = getParameterByName("custom");
     $.get('./data/shorten/' + get_custom, function(pattern) {
       cmEditor.setValue(pattern);
-      search_pattern();
+      setTimeout(search_pattern, 0); // hack: else clust1_cm value is not taken into account.
     });
   }
 
@@ -326,20 +326,28 @@ function right_pane(base) {
   $.get(dir + "/right_pane.html", function(data) {
     $('#right-pane').html(data);
     $(".inter").click(function() {
-      var file = $(this).attr('snippet-file');
-
-      clustering = $(this).attr('clustering');
+      app.clust1 = "no"; // default value
+      const clustering = $(this).attr('clustering');
       if (clustering) {
         app.clust1 = "key";
         app.clust1_key = clustering;
-      } else {
-        app.clust1 = "no";
       }
-
+      const whether = $(this).attr('whether');
+      if (whether) {
+        app.clust1 = "whether";
+        // setValue is behind timeout to ensure proper cm update
+        setTimeout(function() { // hack for correct update of clust1_cm
+            clust1_cm.setValue(whether);
+        }, 0)
+      }
       // Update of the textarea
-      $.get(dir + "/" + file, function(pattern) {
-        cmEditor.setValue(pattern);
-      });
+      const file = dir + "/" + $(this).attr('snippet-file');
+      $.get(file, function(pattern) {
+          cmEditor.setValue(pattern);
+        })
+        .error(function() {
+          direct_error("Cannot find file `" + file + "`")
+        });
     });
   });
 }
