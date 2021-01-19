@@ -3,9 +3,9 @@
     <ul class="nav nav-pills">
 
       <li class="active"><a class="grew-label" href="#step1" data-toggle="tab">Basic</a></li>
-      <li>               <a class="grew-label" href="#step2" data-toggle="tab">n-grams</a></li>
-      <li>               <a class="grew-label" href="#step3" data-toggle="tab">Clusters</a></li>
-      <li>               <a class="grew-label" href="#step4" data-toggle="tab">Misc</a></li>
+      <li> <a class="grew-label" href="#step2" data-toggle="tab">n-grams</a></li>
+      <li> <a class="grew-label" href="#step3" data-toggle="tab">Clustering</a></li>
+      <li> <a class="grew-label" href="#step4" data-toggle="tab">Misc</a></li>
 
     </ul>
   </div>
@@ -38,11 +38,16 @@
   </div>
 
   <div class="tab-pane" id="step3">
+    <b>with a key:</b>
     <ul>
       <li><a href="#" clustering="GOV.upos" snippet-file="../snippets_clusters/upos.pat" class="inter">Cluster results by one node "upos"</a></li>
       <li><a href="#" clustering="N.lemma" snippet-file="../snippets_clusters/lemma.pat" class="inter">Cluster results by one node "lemma"</a></li>
       <li><a href="#" clustering="N.VerbForm" snippet-file="../snippets_clusters/verbform.pat" class="inter">Other clustering on nodes</a></li>
       <li><a href="#" clustering="e.label" snippet-file="../snippets_clusters/edge.pat" class="inter">Cluster results by edge label</a></li>
+    </ul>
+    <b>with a "whether":</b>
+    <ul>
+      <li><a href="#" whether="GOV -[expl]-> E" snippet-file="../snippets_clusters/post_nsubj.pat" class="inter">Left headed nsubj: test expletive context</a></li>
     </ul>
   </div>
 
