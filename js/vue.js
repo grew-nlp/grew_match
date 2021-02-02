@@ -1,8 +1,7 @@
 var app = new Vue({
   el: '#app',
   data: {
-    // Init value on whether to ensure nice initialisation.
-    clust1: "whether", // 3 possible values: no, key or whether
+    clust1: "no", // 3 possible values: no, key or whether
     clust1_key: "",
     clust1_whether: "",
 

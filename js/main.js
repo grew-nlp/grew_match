@@ -422,7 +422,7 @@ function search_pattern() {
     tf_wf: $('#tf-wf-box').prop('checked'),
     order: $('#sentences-order').val(),
     context: $('#context-box').prop('checked'),
-    eud2ud: !($('#eud-box').prop('checked')),
+    eud2ud: (get_info(current_corpus, "enhanced") && !($('#eud-box').prop('checked'))),
   };
 
   data['clust1-type'] = app.clust1;
