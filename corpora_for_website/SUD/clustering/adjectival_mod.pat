@@ -1,0 +1,1 @@
+pattern { GOV -[mod]-> DEP; DEP [upos=ADJ] }
