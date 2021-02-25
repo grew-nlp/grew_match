@@ -22,3 +22,5 @@ mkdir -p _meta
 # update parameters in the code
 cat main.php | sed "s+@PORT@+${PORT}+" | sed "s+@DATADIR@+$DEST/data/+" > __tmp_file && mv -f __tmp_file main.php
 
+# make index.html links to the right file
+ln -fs run.html index.html
