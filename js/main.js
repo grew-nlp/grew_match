@@ -997,7 +997,7 @@ function select_group(group, corpus) {
 function update_group() {
 
   // update labels of checkboxes
-  if (current_group == "amr") {
+  if (current_group == "semantics") {
     set_amr();
   } else {
     set_ud();
