@@ -755,7 +755,9 @@
             { "id": "Bio_AMR_Corpus", "snippets": "amr" },
             { "id": "Spec_1.2.5", "snippets": "amr" },
           { "section" : "PMB" },
-            { "id": "pmb-3.0.0-sample_en_gold", "snippets": "pmb" }
+            { "id": "pmb-3.0.0-sample_en_gold", "snippets": "pmb" },
+          { "section" : "DMRS" },
+            { "id": "dmrs_appos" }
         ]
     },
 
