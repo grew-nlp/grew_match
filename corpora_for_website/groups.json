@@ -351,8 +351,8 @@
 
 
           { "section" : "GitHub dev branches" },
-            { "id": "UD_Englis-EWT@dev" },
-            { "id": "UD_Englis-GUM@dev" },
+            { "id": "UD_English-EWT@dev" },
+            { "id": "UD_English-GUM@dev" },
             { "id": "UD_French-GSD@dev" },
             { "id": "UD_French-Sequoia@dev" },
             { "id": "UD_French-FQB@dev" },
