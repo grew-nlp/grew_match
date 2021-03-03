@@ -1,5 +1,14 @@
 {
-  "corpora": [
+  "corpora": [{
+      "id": "UD_English-GUM@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_English-GUM"
+    },
+    {
+      "id": "UD_English-EWT@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_English-EWT"
+    },
     {
       "id": "UD_French-GSD@dev",
       "config": "ud",
@@ -29,6 +38,11 @@
       "id": "UD_French-Spoken@dev",
       "config": "ud",
       "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_French-Spoken"
+    },
+    {
+      "id": "UD_Irish-IDT@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_Irish-IDT"
     }
   ]
 }
