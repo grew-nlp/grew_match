@@ -1,7 +1,7 @@
 {
   "corpora": [{
     "id": "dmrs_appos",
-    "kind": "json",
+    "kind": "dmrs",
     "directory": "/home/guillaum/resources/semantics/dmrs"
   }]
 }
