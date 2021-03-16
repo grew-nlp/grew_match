@@ -1,4 +1,4 @@
-% In AMR structures, all nodes have a feature named "label".
-% For nodes which are not concepts, the "label" feature is a constant (ex: "year")
+% In Grew AMR structures, all nodes have a feature named "concept".
+% For constant nodes, we still used the "concept" feature name (ex: "year")
 
-pattern { N [label = "year"]; }
+pattern { N [concept = "year"]; }

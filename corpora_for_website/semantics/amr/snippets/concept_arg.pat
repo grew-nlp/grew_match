@@ -4,6 +4,6 @@
 % * One node "A" linked to "N" by the relation "ARG1"
 
 pattern {
-	N [label = "go-on-15"];
+	N [concept = "go-on-15"];
 	N -[ARG1]-> A;
 }

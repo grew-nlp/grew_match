@@ -5,7 +5,7 @@
 % See next snippet for a better solution
 
 pattern {
-	N [label = "go-on-15"];
+	N [concept = "go-on-15"];
 }
 without {
 	N -[ARG1]-> A;
