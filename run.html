@@ -68,73 +68,74 @@
 
 <body>
 	<!-- Top Navbar -->
-	<nav id="navbar-grew" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<span class="navbar-brand" id="title-grew">Grew-match</span>
-				<ul class="nav navbar-nav groups">
-					<li class="group" id="top-tuto"><a class="navbar-brand" id="select-tuto" href="#">Tutorial</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a class="navbar-brand" href="https://grew.fr/grew_match/help">Help</a></li>
-					<li><a class="navbar-brand" href="https://gitlab.inria.fr/grew/grew_match/issues">Report</a></li>
-					<li><a class="navbar-brand" href="https://grew.fr">Grew website</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
 
-	<!-- wrapper: left menu for corpus selection -->
-	<div class="wrapper" id="wrap">
-		<nav id="sidebar" class="active">
-			<div class="panel-group" id="accordion">
+	<div id="app">
+		<nav id="navbar-grew" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<span class="navbar-brand" id="title-grew">Grew-match</span>
+					<ul class="nav navbar-nav groups">
+						<li class="group" id="top-tuto"><a class="navbar-brand" id="select-tuto" href="#">Tutorial</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a class="navbar-brand" href="https://grew.fr/grew_match/help">Help</a></li>
+						<li><a class="navbar-brand" href="https://gitlab.inria.fr/grew/grew_match/issues">Report</a></li>
+						<li><a class="navbar-brand" href="https://grew.fr">Grew website</a></li>
+					</ul>
+				</div>
+			</div>
 		</nav>
 
-		<div id="grew-main" class="container-fluid">
-			<div class="row">
+		<!-- wrapper: left menu for corpus selection -->
+		<div class="wrapper" id="wrap">
+			<nav id="sidebar" class="active">
+				<div class="panel-group" id="accordion">
+			</nav>
 
-				<!-- Main jumbotron for a primary marketing message or call to action -->
-				<div class="jumbotron" id="jumbo-grew" style="margin-bottom: 0">
-					<div class="container-fluid">
-						<div class="row">
+			<div id="grew-main" class="container-fluid">
+				<div class="row">
 
-							<!-- Upper-left part: corpus selector, textarea, buttons -->
-							<div class="col-md-8" id="console">
-								<h4 id="warning" style="display: none;">
-									<span id="warning-text" style="color: red"></span>
-									<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="warning-tooltip"></span>
-								</h4>
-								<h2 id="corpus">
-									<button type="button" id="sidebarCollapse" class="btn btn-primary">
-										<span id="but-text">Hide corpora list</span>
-									</button>
-									<span id="corpus-fixed"></span>
-									<span id="eud-span">
-										<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
-									</span>
-									<span style="font-size: 66%" id="corpus-desc"></span>
-									<button type="button" id="logs" class="btn btn-danger" style="float: right; display: none;">
-										Errors
-									</button>
-									<button type="button" id="validation" class="btn btn-primary" style="float: right; display: none;">
-										Validation
-									</button>
-									<button type="button" id="tables" class="btn btn-primary" style="float: right;">
-										Relation tables
-									</button>
-								</h2>
-								<textarea id="pattern-input"></textarea>
-								<h4 id="warning-misc" style="display: none; color: red">
-									⚠️ prefixes _MISC_ and _UD_ are deprecated.
-									See
-									<a href="https://grew.fr/grew_match/help/#deprecated-misc-and-ud-prefixes">
-										<button class="btn btn-primary btn-results btn-sm">doc</button>
-									</a>
-									for more info.
-								</h4>
+					<!-- Main jumbotron for a primary marketing message or call to action -->
+					<div class="jumbotron" id="jumbo-grew" style="margin-bottom: 0">
+						<div class="container-fluid">
+							<div class="row">
+
+								<!-- Upper-left part: corpus selector, textarea, buttons -->
+								<div class="col-md-8" id="console">
+									<h4 id="warning" style="display: none;">
+										<span id="warning-text" style="color: red"></span>
+										<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="warning-tooltip"></span>
+									</h4>
+									<h2 id="corpus">
+										<button type="button" id="sidebarCollapse" class="btn btn-primary">
+											<span id="but-text">Hide corpora list</span>
+										</button>
+										<span id="corpus-fixed"></span>
+										<span id="eud-span">
+											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
+										</span>
+										<span style="font-size: 66%" id="corpus-desc"></span>
+										<button type="button" id="logs" class="btn btn-danger" style="float: right; display: none;">
+											Errors
+										</button>
+										<button type="button" id="validation" class="btn btn-primary" style="float: right; display: none;">
+											Validation
+										</button>
+										<button type="button" id="tables" class="btn btn-primary" style="float: right;">
+											Relation tables
+										</button>
+									</h2>
+									<textarea id="pattern-input"></textarea>
+									<h4 id="warning-misc" style="display: none; color: red">
+										⚠️ prefixes _MISC_ and _UD_ are deprecated.
+										See
+										<a href="https://grew.fr/grew_match/help/#deprecated-misc-and-ud-prefixes">
+											<button class="btn btn-primary btn-results btn-sm">doc</button>
+										</a>
+										for more info.
+									</h4>
 
 
-								<div id="app">
 									<div>
 										<b>Clustering 1:</b>
 										<label><input type="radio" name="clust1" value="no" v-model="clust1"> No</label>
@@ -142,7 +143,7 @@
 										<label><input type="radio" name="clust1" value="whether" v-model="clust1"> Whether</label>
 									</div>
 									<input v-show="clust1=='key'" v-model="clust1_key" type="entry" id="clust1-key" />
-									<div v-show="clust1=='whether'" >
+									<div v-show="clust1=='whether'">
 										<textarea v-model="clust1_whether" id="whether-input1"></textarea>
 									</div>
 
@@ -159,249 +160,249 @@
 											<textarea id="whether-input2"></textarea>
 										</div>
 									</div>
+
+									<p>
+										<label id="lemma-option">
+											<input type="checkbox" id="lemma-box" checked> lemma
+										</label>
+										<label id="upos-option">
+											&nbsp;&nbsp;
+											<input type="checkbox" id="upos-box" checked> upos
+										</label>
+										<label id="xpos-option">
+											&nbsp;&nbsp;
+											<input type="checkbox" id="xpos-box"> xpos
+										</label>
+										<label>
+											&nbsp;&nbsp;
+											<input type="checkbox" id="features-box" checked> features </input>
+										</label>
+										<label>
+											&nbsp;&nbsp;
+											<input type="checkbox" id="tf-wf-box"> textform/wordform </input>
+											<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="tf-wf-tooltip"></span>
+										</label>
+										<label>
+											&nbsp;&nbsp;
+											sentences order:
+										</label>
+										<select id="sentences-order">
+											<option value="init">initial</option>
+											<option value="length">by length</option>
+											<option value="shuffle">shuffle</option>
+										</select>
+
+										<label>
+											&nbsp;&nbsp;
+											<input type="checkbox" id="context-box"> context
+										</label>
+									</p>
+									<p>
+										<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" style="margin-right:10px">Search</button>
+										<button class="btn btn-primary tooltip-desc" id="save-button" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
+										<button class="btn btn-primary tooltip-desc" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
+
+									</p>
+									<p>
+										<span id='custom-display'>Your pattern URL:
+											<span id="custom-url"></span>
+										</span>
+									</p>
 								</div>
 
-								<p>
-									<label id="lemma-option">
-										<input type="checkbox" id="lemma-box" checked> lemma
-									</label>
-									<label id="upos-option">
-										&nbsp;&nbsp;
-										<input type="checkbox" id="upos-box" checked> upos
-									</label>
-									<label id="xpos-option">
-										&nbsp;&nbsp;
-										<input type="checkbox" id="xpos-box"> xpos
-									</label>
-									<label>
-										&nbsp;&nbsp;
-										<input type="checkbox" id="features-box" checked> features </input>
-									</label>
-									<label>
-										&nbsp;&nbsp;
-										<input type="checkbox" id="tf-wf-box"> textform/wordform </input>
-										<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="tf-wf-tooltip"></span>
-									</label>
-									<label>
-										&nbsp;&nbsp;
-										sentences order:
-									</label>
-									<select id="sentences-order">
-										<option value="init">initial</option>
-										<option value="length">by length</option>
-										<option value="shuffle">shuffle</option>
-									</select>
-
-									<label>
-										&nbsp;&nbsp;
-										<input type="checkbox" id="context-box"> context
-									</label>
-								</p>
-								<p>
-									<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" style="margin-right:10px">Search</button>
-									<button class="btn btn-primary tooltip-desc" id="save-button" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
-									<button class="btn btn-primary tooltip-desc" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
-
-								</p>
-								<p>
-									<span id='custom-display'>Your pattern URL:
-										<span id="custom-url"></span>
-									</span>
-								</p>
-							</div>
-
-							<!-- Upper-right part: navbar Snippets/Examples -->
-							<div class="col-md-4">
-								<span id="right-pane"></span> <!-- Dynamically loaded code, depending of the corpus -->
+								<!-- Upper-right part: navbar Snippets/Examples -->
+								<div class="col-md-4">
+									<span id="right-pane"></span> <!-- Dynamically loaded code, depending of the corpus -->
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<!-- Middle part: clusters buttons -->
-			<div class="row">
-				<div class="jumbotron" id="jumbo-clust">
-					<div class="container-fluid" id="cluster-block">
-						<h3 id="progress-txt"></h3>
-						<div class="row" id="cluster-buttons">
+				<!-- Middle part: clusters buttons -->
+				<div class="row">
+					<div class="jumbotron" id="jumbo-clust">
+						<div class="container-fluid" id="cluster-block">
+							<h3 id="progress-txt"></h3>
+							<div class="row" id="cluster-buttons">
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<!-- Lower part: Display the results -->
-			<div class="row">
-				<div class="container-fluid" id="results-block">
-					<div class="row">
-						<div class="col-md-3">
-							<div id="results-navig">
-								<button class="btn btn-primary btn-results" id="next-results" onclick="javascript:next_results()">More results</button>
-								<br />
-								<button class="btn btn-primary btn-results" onclick="javascript:first_svg()">⇤</button>
-								<button class="btn btn-primary btn-results" onclick="javascript:previous_svg()">←</button>
-								<span class="btn-results" style="font-size: 150%" id="progress-num"></span>
-								<button class="btn btn-primary btn-results" onclick="javascript:next_svg()">→</button>
-								<button class="btn btn-primary btn-results" onclick="javascript:last_svg()">⇥</button>
-								<ul id="results-list"></ul>
+				<!-- Lower part: Display the results -->
+				<div class="row">
+					<div class="container-fluid" id="results-block">
+						<div class="row">
+							<div class="col-md-3">
+								<div id="results-navig">
+									<button class="btn btn-primary btn-results" id="next-results" onclick="javascript:next_results()">More results</button>
+									<br />
+									<button class="btn btn-primary btn-results" onclick="javascript:first_svg()">⇤</button>
+									<button class="btn btn-primary btn-results" onclick="javascript:previous_svg()">←</button>
+									<span class="btn-results" style="font-size: 150%" id="progress-num"></span>
+									<button class="btn btn-primary btn-results" onclick="javascript:next_svg()">→</button>
+									<button class="btn btn-primary btn-results" onclick="javascript:last_svg()">⇥</button>
+									<ul id="results-list"></ul>
+								</div>
 							</div>
-						</div>
-						<div class="col-md-9">
+							<div class="col-md-9">
 
 
-							<div id="audio">
-								<p class="loading">
-									<em>Loading audio…</em>
-								</p>
-								<p class="passage-audio">
-									<audio id="passage-audio" class="passage" controls>
-										<source id="source-audio" type="audio/wav">
-										<em class="error"><strong>Error:</strong> Your browser does not appear to support HTML5 Audio.</em>
-									</audio>
-								</p>
-								<p class="passage-audio-unavailable" hidden>
-									<em class="error"><strong>Error:</strong> You will not be able to do the read-along audio because your browser is not able to play MP3, Ogg, or WAV audio formats.</em>
-								</p>
-								<p class="playback-rate" title="Note that increaseing the reading rate will decrease accuracy of word highlights">
-									<input id="playback-rate" type="range" min="0.5" max="2.0" value="1.0" step="0.1" disabled onchange='this.nextElementSibling.textContent = "Speech rate: " +  String(Math.round(this.valueAsNumber * 10) / 10) + "×";'>
-									<output>Speech rate: 1×</output>
-								</p>
-								<p class="playback-rate-unavailable" hidden>
-									<em>(It seems your browser does not support <code>HTMLMediaElement.playbackRate</code>, so you will not be able to change the speech rate.)</em>
-								</p>
-							</div>
-							<script>
-								window.addEventListener('scroll', function() {
-									var audio = document.querySelector('.passage-audio');
-									var audioPosition = audio.getBoundingClientRect().top;
-									if (window.pageYOffset >= audioPosition) {
-										audio.style.position = 'fixed';
-										audio.style.right = '2%';
-										audio.style.top = '10%';
-										audio.style.width = '8%';
-									} else {
-										audio.style.position = 'static';
-										audio.style.width = '100%';
-									}
-								});
-							</script>
+								<div id="audio">
+									<p class="loading">
+										<em>Loading audio…</em>
+									</p>
+									<p class="passage-audio">
+										<audio id="passage-audio" class="passage" controls>
+											<source id="source-audio" type="audio/wav">
+											<em class="error"><strong>Error:</strong> Your browser does not appear to support HTML5 Audio.</em>
+										</audio>
+									</p>
+									<p class="passage-audio-unavailable" hidden>
+										<em class="error"><strong>Error:</strong> You will not be able to do the read-along audio because your browser is not able to play MP3, Ogg, or WAV audio formats.</em>
+									</p>
+									<p class="playback-rate" title="Note that increaseing the reading rate will decrease accuracy of word highlights">
+										<input id="playback-rate" type="range" min="0.5" max="2.0" value="1.0" step="0.1" disabled onchange='this.nextElementSibling.textContent = "Speech rate: " +  String(Math.round(this.valueAsNumber * 10) / 10) + "×";'>
+										<output>Speech rate: 1×</output>
+									</p>
+									<p class="playback-rate-unavailable" hidden>
+										<em>(It seems your browser does not support <code>HTMLMediaElement.playbackRate</code>, so you will not be able to change the speech rate.)</em>
+									</p>
+								</div>
+								<script>
+									window.addEventListener('scroll', function() {
+										var audio = document.querySelector('.passage-audio');
+										var audioPosition = audio.getBoundingClientRect().top;
+										if (window.pageYOffset >= audioPosition) {
+											audio.style.position = 'fixed';
+											audio.style.right = '2%';
+											audio.style.top = '10%';
+											audio.style.width = '8%';
+										} else {
+											audio.style.position = 'static';
+											audio.style.width = '100%';
+										}
+									});
+								</script>
 
-							<div id="display-sentence" style="display: none;">
-								<div id="passage-text" class="passage">
+								<div id="display-sentence" style="display: none;">
+									<div id="passage-text" class="passage">
 
 
-									<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
+										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
 
-										<a id="md" onclick="toggle_metadata_icon()" data-toggle="collapse" href="#meta-collapse" class="collapsed">
-											<button class="btn btn-primary btn-sm">Metadata
-												<span id="md-icon" class="glyphicon glyphicon-chevron-right"> </span>
-											</button>
-										</a>
-										<button type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:one_conll()">
-											CoNLL
-											<span href="" class="glyphicon glyphicon-export"></span>
-										</button>
-										<a id="svg-link" target="_blank" href="">
-											<button type="button" class="btn btn-sm btn-primary tooltip-desc">
-												SVG
+											<a id="md" onclick="toggle_metadata_icon()" data-toggle="collapse" href="#meta-collapse" class="collapsed">
+												<button class="btn btn-primary btn-sm">Metadata
+													<span id="md-icon" class="glyphicon glyphicon-chevron-right"> </span>
+												</button>
+											</a>
+											<button type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:one_conll()">
+												CoNLL
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
-										</a>
-									</div>
-
-									<div id="meta-collapse" class="panel-collapse collapse">
-										<div id="metadata" class="panel-body">
+											<a id="svg-link" target="_blank" href="">
+												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
+													SVG
+													<span href="" class="glyphicon glyphicon-export"></span>
+												</button>
+											</a>
 										</div>
+
+										<div id="meta-collapse" class="panel-collapse collapse">
+											<div id="metadata" class="panel-body">
+											</div>
+										</div>
+
+
+
+
+
+										<h4 id="sentence-txt"></h4>
 									</div>
-
-
-
-
-
-									<h4 id="sentence-txt"></h4>
 								</div>
-							</div>
 
-							<div id="display-svg">
-								<object id="result-pic" type="image/svg+xml" class="logo"></object>
+								<div id="display-svg">
+									<object id="result-pic" type="image/svg+xml" class="logo"></object>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div> <!-- container -->
-	</div> <!-- wrapper -->
+			</div> <!-- container -->
+		</div> <!-- wrapper -->
 
-	<!-- tooltip content -->
-	<div id="warning-tip" style="display: none;">
-		<p>No corpus found with the requested name, the closest one (Longuest common prefix then Levenshtein distance) is chosen.</p>
-	</div>
+		<!-- tooltip content -->
+		<div id="warning-tip" style="display: none;">
+			<p>No corpus found with the requested name, the closest one (Longuest common prefix then Levenshtein distance) is chosen.</p>
+		</div>
 
-	<!-- tooltip content -->
-	<div id="export-tip" style="display: none;">
-		<p>Export the sentence text of each occurrence like in a concordancer.</p>
-	</div>
+		<!-- tooltip content -->
+		<div id="export-tip" style="display: none;">
+			<p>Export the sentence text of each occurrence like in a concordancer.</p>
+		</div>
 
-	<!-- tooltip content -->
-	<div id="conll-tip" style="display: none;">
-		<p>Show the CoNLL code of the current dependency tree.</p>
-	</div>
+		<!-- tooltip content -->
+		<div id="conll-tip" style="display: none;">
+			<p>Show the CoNLL code of the current dependency tree.</p>
+		</div>
 
-	<!-- tooltip content -->
-	<div id="save-tip" style="display: none;">
-		<p>Build a permanent URL with the current request.</p>
-	</div>
+		<!-- tooltip content -->
+		<div id="save-tip" style="display: none;">
+			<p>Build a permanent URL with the current request.</p>
+		</div>
 
-	<!-- tooltip content -->
-	<div id="tf-wf-tip" style="display: none;">
-		<p>Show the two special features <b>wordform</b> and <b>textform</b>.
-			See
-			<a href="https://grew.fr/doc/conllu/#additional-features-textform-and-wordform" target="_blank">
-				<button class="btn btn-primary btn-results btn-sm">doc</button>
-			</a>
-			for more info.
-		</p>
-	</div>
+		<!-- tooltip content -->
+		<div id="tf-wf-tip" style="display: none;">
+			<p>Show the two special features <b>wordform</b> and <b>textform</b>.
+				See
+				<a href="https://grew.fr/doc/conllu/#additional-features-textform-and-wordform" target="_blank">
+					<button class="btn btn-primary btn-results btn-sm">doc</button>
+				</a>
+				for more info.
+			</p>
+		</div>
 
-	<!-- modal for pivot choice -->
-	<div id="pivot-modal" class="modal">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<p>Chose the pivot</p>
-				</div>
-				<div id="pivot-list" class="modal-body" style="text-align: center; padding-bottom: 15px">
+		<!-- modal for pivot choice -->
+		<div id="pivot-modal" class="modal">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<p>Chose the pivot</p>
+					</div>
+					<div id="pivot-list" class="modal-body" style="text-align: center; padding-bottom: 15px">
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- modal for tsvs export -->
-	<div id="export-modal" class="modal fade">
-		<div class="modal-dialog modal-lg modal-dialog-scrollable">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<button type="button" class="btn btn-primary" onclick="javascript:download()">Download TSV file&nbsp;&nbsp;</button>
-				</div>
-				<div class="modal-body">
-					<div id="exportResult"></div>
+		<!-- modal for tsvs export -->
+		<div id="export-modal" class="modal fade">
+			<div class="modal-dialog modal-lg modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<button type="button" class="btn btn-primary" onclick="javascript:download()">Download TSV file&nbsp;&nbsp;</button>
+					</div>
+					<div class="modal-body">
+						<div id="exportResult"></div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- modal for conll export -->
-	<div id="conllModal" class="modal">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<button type="button" class="btn btn-primary" style="width:100%" onclick="javascript:copy_conll()">Copy in clipboard</button>
-				</div>
-				<div class="modal-body">
-					<textarea id="conllResult" rows="25" readonly=""></textarea>
+		<!-- modal for conll export -->
+		<div id="conllModal" class="modal">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<button type="button" class="btn btn-primary" style="width:100%" onclick="javascript:copy_conll()">Copy in clipboard</button>
+					</div>
+					<div class="modal-body">
+						<textarea id="conllResult" rows="25" readonly=""></textarea>
+					</div>
 				</div>
 			</div>
 		</div>
