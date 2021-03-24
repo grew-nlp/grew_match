@@ -64,19 +64,22 @@ function search_corpus(requested_corpus) {
   current_corpus = undefined;
   current_folder = undefined;
   current_group = undefined;
+  best_cpl = 0;
   best_ld = Number.MAX_SAFE_INTEGER;
   group_list = current_data["groups"];
   for (var g = 0; g < group_list.length; g++) {
     corpora = group_list[g]["corpora"];
     for (var c = 0; c < corpora.length; c++) {
       if (corpora[c]["id"] != undefined) {
-        ld = levenshtein(requested_corpus, corpora[c]["id"]);
-        if (ld == 0) {
+        if (requested_corpus == corpora[c]["id"]) {
           current_corpus = corpora[c]["id"];
           current_group = group_list[g]["id"];
           return;
         }
-        if (ld < best_ld) {
+        cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
+        ld = levenshtein(requested_corpus, corpora[c]["id"]);
+        if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
+          best_cpl = cpl;
           best_ld = ld;
           current_corpus = corpora[c]["id"];
           current_group = group_list[g]["id"];
@@ -85,14 +88,16 @@ function search_corpus(requested_corpus) {
       if (corpora[c]["folder"] != undefined) {
         subcorpora = corpora[c]["corpora"];
         for (var cc = 0; cc < subcorpora.length; cc++) {
-          ld = levenshtein(requested_corpus, subcorpora[cc]["id"]);
-          if (ld == 0) {
+          if (requested_corpus == subcorpora[cc]["id"]) {
             current_corpus = subcorpora[cc]["id"];
             current_folder = corpora[c]["folder"];
             current_group = group_list[g]["id"];
             return;
           }
-          if (ld < best_ld) {
+          cpl = common_prefix_length(requested_corpus, subcorpora[cc]["id"]);
+          ld = levenshtein(requested_corpus, subcorpora[cc]["id"]);
+          if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
+            best_cpl = cpl;
             best_ld = ld;
             current_corpus = subcorpora[cc]["id"];
             current_folder = corpora[c]["folder"];
@@ -337,7 +342,7 @@ function right_pane(base) {
         app.clust1 = "whether";
         // setValue is behind timeout to ensure proper cm update
         setTimeout(function() { // hack for correct update of clust1_cm
-            clust1_cm.setValue(whether);
+          clust1_cm.setValue(whether);
         }, 0)
       }
       // Update of the textarea
@@ -1149,6 +1154,14 @@ function set_amr() {
   $("#add_feats-option").hide();
   $("#add_feats-label").hide();
   $("#export-button").hide();
+}
+
+function common_prefix_length(s1, s2) {
+  var i = 0;
+  while (s1[i] == s2[i] && s1[i] != undefined) {
+    i++;
+  }
+  return (i);
 }
 
 // taken from: https://rosettacode.org/wiki/Levenshtein_distance#JavaScript
