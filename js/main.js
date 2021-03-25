@@ -133,23 +133,16 @@ $(document).ready(function() {
   $('#export-button').tooltipster('content', $("#export-tip").html());
   $('#save-button').tooltipster('content', $("#save-tip").html());
   $('#conll-button').tooltipster('content', $("#conll-tip").html());
-});
 
-// ==================================================================================
-function fill_metadata(meta) {
-  if (meta === undefined || meta.length == 0) {
-    $('#md').hide();
-    $('#meta-collapse').hide();
-  } else {
-    html = ""
-    meta.forEach(item => {
-      html += '<p><b>' + item.key + ' = </b>' + item.value + '</p>\n';
-    });
-    $('#metadata').html(html);
-    $('#md').show();
-    $('#meta-collapse').show();
-  }
-}
+  $('[data-toggle="collapse"]').click(function() {
+    $(this).toggleClass("active");
+    if ($(this).hasClass("active")) {
+      $(this).html('Metadata <span id="md-icon" class="glyphicon glyphicon-chevron-down"></span>');
+    } else {
+      $(this).html('Metadata <span id="md-icon" class="glyphicon glyphicon-chevron-right"></span>');
+    }
+  });
+});
 
 // ==================================================================================
 function set_default() {
@@ -632,7 +625,13 @@ function display_picture(event) {
   }, "fast");
   current_view = event.data.i;
 
-  fill_metadata(event.data.meta);
+  app.meta = event.data.meta;
+  if ("url" in app.meta) {
+    app.doc_url = app.meta.url;
+    delete app.meta.url;
+  } else {
+    app.doc_url = "";
+  }
 
   $("#svg-link").attr("href", event.data.url);
 

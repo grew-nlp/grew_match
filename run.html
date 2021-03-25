@@ -289,14 +289,14 @@
 								<div id="display-sentence" style="display: none;">
 									<div id="passage-text" class="passage">
 
-
 										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
 
-											<a id="md" onclick="toggle_metadata_icon()" data-toggle="collapse" href="#meta-collapse" class="collapsed">
-												<button class="btn btn-primary btn-sm">Metadata
-													<span id="md-icon" class="glyphicon glyphicon-chevron-right"> </span>
-												</button>
-											</a>
+											<button v-show="Object.keys(meta).length > 0" class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+												Metadata <span id="md-icon" class="glyphicon glyphicon-chevron-right"></span>
+											</button>
+
+											<a v-if='doc_url != ""' class="btn btn-primary btn-sm tooltip-desc" :href="doc_url" target="_blank">Doc <span class="glyphicon glyphicon-link"></span></a>
+
 											<button type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:one_conll()">
 												CoNLL
 												<span href="" class="glyphicon glyphicon-export"></span>
@@ -309,14 +309,13 @@
 											</a>
 										</div>
 
-										<div id="meta-collapse" class="panel-collapse collapse">
+										<div class="collapse" id="collapseExample">
 											<div id="metadata" class="panel-body">
 											</div>
+											<p v-for='(item, itemKey) in meta'>
+												<span><b>{{itemKey}}</b>: {{item}}</span>
+											</p>
 										</div>
-
-
-
-
 
 										<h4 id="sentence-txt"></h4>
 									</div>

@@ -6,6 +6,9 @@ var app = new Vue({
     clust1_whether: "",
 
     clust2: "no", // 3 possible values: no, key or whether
+
+    doc_url: "",
+    meta: {},
   },
 });
 
