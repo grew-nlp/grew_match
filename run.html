@@ -121,7 +121,7 @@
 										<button type="button" id="validation" class="btn btn-primary" style="float: right; display: none;">
 											Validation
 										</button>
-										<button type="button" id="tables" class="btn btn-primary" style="float: right;">
+										<button v-if="mode=='syntax'" type="button" id="tables" class="btn btn-primary" style="float: right;">
 											Relation tables
 										</button>
 									</h2>
@@ -162,22 +162,22 @@
 									</div>
 
 									<p>
-										<label id="lemma-option">
+										<label v-if="mode=='syntax'">
 											<input type="checkbox" id="lemma-box" checked> lemma
 										</label>
-										<label id="upos-option">
+										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
 											<input type="checkbox" id="upos-box" checked> upos
 										</label>
-										<label id="xpos-option">
+										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
 											<input type="checkbox" id="xpos-box"> xpos
 										</label>
-										<label>
+										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
 											<input type="checkbox" id="features-box" checked> features </input>
 										</label>
-										<label>
+										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
 											<input type="checkbox" id="tf-wf-box"> textform/wordform </input>
 											<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="tf-wf-tooltip"></span>
@@ -200,7 +200,7 @@
 									<p>
 										<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" style="margin-right:10px">Search</button>
 										<button class="btn btn-primary tooltip-desc" id="save-button" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
-										<button class="btn btn-primary tooltip-desc" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
+										<button class="btn btn-primary tooltip-desc" v-if="mode=='syntax'" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
 
 									</p>
 									<p>
@@ -297,10 +297,16 @@
 
 											<a v-if='doc_url != ""' class="btn btn-primary btn-sm tooltip-desc" :href="doc_url" target="_blank">Doc <span class="glyphicon glyphicon-link"></span></a>
 
-											<button type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:one_conll()">
+											<button v-if="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_conll()">
 												CoNLL
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
+
+											<button v-if="mode=='semantics'" type="button" id="code-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_code()">
+												Code
+												<span href="" class="glyphicon glyphicon-export"></span>
+											</button>
+
 											<a id="svg-link" target="_blank" href="">
 												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
 													SVG
@@ -392,15 +398,15 @@
 		</div>
 
 		<!-- modal for conll export -->
-		<div id="conllModal" class="modal">
+		<div id="code_modal" class="modal">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<button type="button" class="btn btn-primary" style="width:100%" onclick="javascript:copy_conll()">Copy in clipboard</button>
+						<button type="button" class="btn btn-primary" style="width:100%" onclick="javascript:code_copy()">Copy in clipboard</button>
 					</div>
 					<div class="modal-body">
-						<textarea id="conllResult" rows="25" readonly=""></textarea>
+						<textarea id="code_viewer" rows="25" readonly=""></textarea>
 					</div>
 				</div>
 			</div>

@@ -246,7 +246,7 @@ function init_navbar() {
 
 // ==================================================================================
 function tuto() {
-  set_ud();
+  app.mode = "syntax";
 
   // Change background of selecte group
   $(".group").removeClass("active");
@@ -725,7 +725,7 @@ function download() {
 }
 
 // ==================================================================================
-function one_conll() {
+function show_conll() {
   var data = {
     request: "CONLL",
     id: current_request_id,
@@ -745,8 +745,8 @@ function one_conll() {
       if (conll == 'ERROR') {
         direct_error("Disconnected");
       } else {
-        $("#conllResult").html(conll);
-        $('#conllModal').modal('show');
+        $("#code_viewer").html(conll);
+        $('#code_modal').modal('show');
       }
     },
     error: function(x) {
@@ -756,13 +756,13 @@ function one_conll() {
 }
 
 // ==================================================================================
-function one_code() {
-  $("#conllResult").html(app.code);
-  $('#conllModal').modal('show');
+function show_code() {
+  $("#code_viewer").html(app.code);
+  $('#code_modal').modal('show');
 }
 // ==================================================================================
-function copy_conll() {
-  $("#conllResult").select()
+function code_copy() {
+  $("#code_viewer").select()
   document.execCommand('copy');
 }
 
@@ -1010,9 +1010,9 @@ function update_group() {
 
   // update labels of checkboxes
   if (current_group == "semantics") {
-    set_amr();
+    app.mode = "semantics";
   } else {
-    set_ud();
+    app.mode = "syntax";
   }
 
   // sidebar open and button visible
@@ -1142,27 +1142,6 @@ function toggle_metadata_icon() {
 }
 
 // ==================================================================================
-function set_ud() {
-  $("#tables").show();
-  $("#xpos-option").show();
-  $("#upos-option").show();
-  $("#lemma-option").show();
-  $("#add_feats-option").show();
-  $("#add_feats-label").show();
-  $("#export-button").show();
-}
-
-// ==================================================================================
-function set_amr() {
-  $("#tables").hide();
-  $("#xpos-option").hide();
-  $("#upos-option").hide();
-  $("#lemma-option").hide();
-  $("#add_feats-option").hide();
-  $("#add_feats-label").hide();
-  $("#export-button").hide();
-}
-
 function common_prefix_length(s1, s2) {
   var i = 0;
   while (s1[i] == s2[i] && s1[i] != undefined) {
@@ -1171,6 +1150,7 @@ function common_prefix_length(s1, s2) {
   return (i);
 }
 
+// ==================================================================================
 // taken from: https://rosettacode.org/wiki/Levenshtein_distance#JavaScript
 function levenshtein(a, b) {
   var t = [],

@@ -11,6 +11,8 @@ var app = new Vue({
     meta: {},
 
     code: "",
+
+    mode: "",
   },
 });
 
