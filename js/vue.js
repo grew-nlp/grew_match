@@ -9,6 +9,8 @@ var app = new Vue({
 
     doc_url: "",
     meta: {},
+
+    code: "",
   },
 });
 

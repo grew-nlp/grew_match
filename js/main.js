@@ -584,6 +584,7 @@ function load_cluster_file() {
             sentence: obj.sentence,
             audio: obj.audio,
             meta: obj.meta,
+            code: obj.code,
           }, display_picture);
           result_nb++;
           update_progress_num();
@@ -632,6 +633,8 @@ function display_picture(event) {
   } else {
     app.doc_url = "";
   }
+
+  app.code = event.data.code;
 
   $("#svg-link").attr("href", event.data.url);
 
@@ -752,6 +755,11 @@ function one_conll() {
   })
 }
 
+// ==================================================================================
+function one_code() {
+  $("#conllResult").html(app.code);
+  $('#conllModal').modal('show');
+}
 // ==================================================================================
 function copy_conll() {
   $("#conllResult").select()
