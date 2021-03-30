@@ -1,0 +1,10 @@
+{
+  "corpora": [{
+    "id": "The_little_prince_PMB",
+    "kind": "json",
+    "directory": "/home/guillaum/resources/semantics/pmb",
+    "files": [
+      "lpp.drs.json"
+    ]
+  }]
+}
