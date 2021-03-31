@@ -1,6 +1,6 @@
 {
   "corpora": [{
-    "id": "The_little_prince_PMB",
+    "id": "The_little_prince_DRS",
     "kind": "json",
     "directory": "/home/guillaum/resources/semantics/pmb",
     "files": [
