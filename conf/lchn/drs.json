@@ -1,0 +1,19 @@
+{
+  "corpora": [{
+      "id": "The_little_prince_DRS",
+      "kind": "json",
+      "directory": "/home/guillaum/resources/semantics/pmb",
+      "files": [
+        "lpp.drs.json"
+      ]
+    },
+    {
+      "id": "English_gold",
+      "kind": "json",
+      "directory": "/home/guillaum/resources/semantics/pmb_exp_data_3.0.0/en/gold",
+      "files": [
+        "dev.json", "test.json", "train.json"
+      ]
+    }
+  ]
+}
