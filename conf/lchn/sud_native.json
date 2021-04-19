@@ -19,6 +19,11 @@
       "id": "SUD_Naija-NSC@latest",
       "config": "sud",
       "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_Naija-NSC"
+    },
+    {
+      "id": "SUD_Naija-NSC-FULL@latest",
+      "config": "sud",
+      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_Naija-NSC/full"
     }
   ]
 }
