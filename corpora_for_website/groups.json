@@ -370,6 +370,7 @@
       "corpora":
         [
           { "section" : "Native SUD" },
+            { "id": "SUD_Beja@latest" },
             { "id": "SUD_French-GSD@latest" },
             { "id": "SUD_French-Spoken@latest" },
             { "id": "SUD_French-Paris-Stories@latest" },

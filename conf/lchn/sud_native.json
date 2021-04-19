@@ -6,6 +6,11 @@
       "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_French-GSD"
     },
     {
+      "id": "SUD_Beja@latest",
+      "config": "sud",
+      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_Beja"
+    },
+    {
       "id": "SUD_French-Spoken@latest",
       "config": "sud",
       "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_French-Spoken"
