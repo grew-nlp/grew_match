@@ -114,9 +114,8 @@ function search_corpus(requested_corpus) {
 
 
 // ==================================================================================
-// this function is run atfer page loading
+// this function is run after page loading
 $(document).ready(function() {
-  // load the "groups.json" file
   $.getJSON("corpora/groups.json").done(function(data) {
     current_data = data;
     init();
@@ -156,11 +155,6 @@ function init() {
   console.log(current_data);
   set_default();
   current_snippets = get_info(current_corpus, "snippets");
-
-  init_sidebar();
-  init_table_button();
-  init_validation_button();
-  init_log_button();
 
   $('#save-button').prop('disabled', true);
   $('#export-button').prop('disabled', true);
@@ -883,11 +877,9 @@ function last_svg() {
 }
 
 // ==================================================================================
-function init_sidebar() {
-  $('#sidebarCollapse').on('click', function() {
-    $('#sidebar').toggleClass('active');
-    update_but_text();
-  });
+function sidebar_toggle() {
+  $('#sidebar').toggleClass('active');
+  update_but_text();
 }
 
 // ==================================================================================
@@ -901,26 +893,19 @@ function update_but_text() {
 
 
 // ==================================================================================
-function init_table_button() {
-  $('#tables').on('click', function() {
-    window.open('_meta/' + current_corpus + '_table.html');
-  });
+function relation_tables() {
+  window.open('_meta/' + current_corpus + '_table.html');
 }
 
 // ==================================================================================
-function init_validation_button() {
-  $('#validation').on('click', function() {
-    window.open('valid?corpus=' + current_corpus);
-  });
+function validation_page() {
+  window.open('valid?corpus=' + current_corpus);
 }
 
 // ==================================================================================
-function init_log_button() {
-  $('#logs').on('click', function() {
-    window.open('_meta/' + current_corpus + '.log');
-  });
+function logs_page() {
+  window.open('_meta/' + current_corpus + '.log');
 }
-
 
 // ==================================================================================
 function escape(s) {
@@ -1009,7 +994,7 @@ function select_group(group, corpus) {
 function update_group() {
 
   // update labels of checkboxes
-  if (current_group == "semantics") {
+  if (current_group == "semantics" || current_group == "PMB" ) {
     app.mode = "semantics";
   } else {
     app.mode = "syntax";
