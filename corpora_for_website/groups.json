@@ -374,6 +374,7 @@
             { "id": "SUD_French-Spoken@latest" },
             { "id": "SUD_French-Paris-Stories@latest" },
             { "id": "SUD_Naija-NSC@latest" },
+            { "id": "SUD_Naija-NSC_Auto@latest" },
 
           { "section" : "SUD 2.7 (converted from UD 2.7)" },
           { "id": "SUD_Afrikaans-AfriBooms@2.7" },
