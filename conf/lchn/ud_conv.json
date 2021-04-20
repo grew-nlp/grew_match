@@ -1,9 +1,9 @@
 {
   "corpora": [
     {
-      "id": "UD_Beja@conv",
+      "id": "UD_Beja-NSC@conv",
       "config": "ud",
-      "directory": "/home/guillaum/resources/ud-converted-dev/UD_Beja"
+      "directory": "/home/guillaum/resources/ud-converted-dev/UD_Beja-NSC"
     },
     {
       "id": "UD_French-GSD@conv",

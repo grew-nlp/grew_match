@@ -1,9 +1,9 @@
 {
   "corpora": [
     {
-      "id": "SUD_Beja@latest",
+      "id": "SUD_Beja-NSC@latest",
       "config": "sud",
-      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_Beja"
+      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_Beja-NSC"
     },
     {
       "id": "SUD_Naija-NSC@latest",

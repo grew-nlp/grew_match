@@ -344,7 +344,7 @@
 
 
           { "section" : "Converted from native SUD" },
-            { "id": "UD_Beja@conv" },
+            { "id": "UD_Beja-NSC@conv" },
             { "id": "UD_French-GSD@conv" },
             { "id": "UD_French-Spoken@conv" },
             { "id": "UD_French-Paris-Stories@conv" },
@@ -371,7 +371,7 @@
       "corpora":
         [
           { "section" : "Native SUD" },
-            { "id": "SUD_Beja@latest" },
+            { "id": "SUD_Beja-NSC@latest" },
             { "id": "SUD_French-GSD@latest" },
             { "id": "SUD_French-Spoken@latest" },
             { "id": "SUD_French-Paris-Stories@latest" },
