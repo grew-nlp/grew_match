@@ -330,6 +330,16 @@
 								<div id="display-svg">
 									<object id="result-pic" type="image/svg+xml" class="logo"></object>
 								</div>
+
+								<div v-if="parallels.length > 0" class="form-group">
+									<select v-model="parallel" v-on:change="update_parallel_()" class="form-control" id="sel1">
+										<option value="no">{{parallels.length}} parallel corp{{ parallels.length > 1 ? "ora" : "us" }} (none selected)</option>
+										<option v-for="parallel in parallels"> {{ parallel }} </option>
+									</select>
+								</div>
+								<div v-if="parallels.length > 0 && parallel != 'no'" id="display-parallel">
+									<img v-bind:src="parallel_svg"></img>
+								</div>
 							</div>
 						</div>
 					</div>

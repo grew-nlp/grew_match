@@ -13,7 +13,18 @@ var app = new Vue({
     code: "",
 
     mode: "",
+
+    sent_id: "",
+
+    parallel: "no",
+    parallels: [],
+    parallel_svg: undefined,
   },
+  methods: {
+    update_parallel_() {
+      update_parallel();
+    }
+  }
 });
 
 $(document).ready(function() {

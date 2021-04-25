@@ -579,6 +579,7 @@ function load_cluster_file() {
             audio: obj.audio,
             meta: obj.meta,
             code: obj.code,
+            sent_id: obj.sent_id,
           }, display_picture);
           result_nb++;
           update_progress_num();
@@ -595,6 +596,7 @@ function load_cluster_file() {
 
 // ==================================================================================
 function display_picture(event) {
+  app.sent_id = event.data.sent_id;
   $("#sentence-txt").html(event.data.sentence);
 
   if (event.data.audio != undefined) {
@@ -633,6 +635,7 @@ function display_picture(event) {
   $("#svg-link").attr("href", event.data.url);
 
   update_progress_num();
+  update_parallel();
 }
 
 // ==================================================================================
@@ -711,6 +714,36 @@ function export_tsv() {
       alert("[EXPORT] Ajax error:" + JSON.stringify(x));
     }
   });
+}
+
+// ==================================================================================
+function update_parallel() {
+  if (app.parallel != "no") {
+    var data = {
+      request: "PARALLEL",
+      id: current_request_id,
+      corpus: app.parallel,
+      sent_id: app.sent_id,
+    };
+    $.ajax({
+      url: 'main.php',
+      dataType: 'text',
+      data: data,
+      type: 'post',
+      success: function(reply) {
+        var fields = reply.split("@@");
+        if (fields[1] == 'ERROR') {
+          report_error(id);
+        } else {
+          app.parallel_svg = undefined;
+          app.parallel_svg = "data/" + fields[1];
+        }
+      },
+      error: function(x) {
+        alert("[PARALLEL] Ajax error:" + JSON.stringify(x));
+      }
+    });
+  }
 }
 
 // ==================================================================================
@@ -942,6 +975,13 @@ function update_corpus() {
     $('#eud-box').bootstrapToggle('on');
   }
 
+  let parallels = get_info(current_corpus, "parallels");
+  if (parallels) {
+    app.parallels = parallels;
+  } else {
+    app.parallels = [];
+  }
+
   if (current_corpus.startsWith("SUD") && current_corpus.endsWith("latest")) {
     $("#validation").show();
   } else {
@@ -994,7 +1034,7 @@ function select_group(group, corpus) {
 function update_group() {
 
   // update labels of checkboxes
-  if (current_group == "semantics" || current_group == "PMB" ) {
+  if (current_group == "semantics" || current_group == "PMB") {
     app.mode = "semantics";
   } else {
     app.mode = "syntax";

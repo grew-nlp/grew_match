@@ -15,6 +15,8 @@ if ($request == "NEW") {
 	shorten();
 } elseif ($request == "CONLL") {
 	conll();
+} elseif ($request == "PARALLEL") {
+	parallel();
 }
 
 // ============================================================
@@ -71,6 +73,12 @@ function conll() {
 	send($id, $msg);
 }
 
+// ============================================================
+function parallel() {
+	$id = $_POST['id'];
+	$msg = "#PARALLEL#" . $_POST['corpus']. "#" . $_POST['sent_id'];;
+	send($id, $msg);
+}
 
 // ============================================================
 // send the request to the daemon

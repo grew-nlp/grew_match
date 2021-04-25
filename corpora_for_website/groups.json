@@ -77,7 +77,7 @@
               { "id": "UD_English-GUM@2.7" },
               { "id": "UD_English-GUMReddit@2.7", "no_word": true },
               { "id": "UD_English-ParTUT@2.7" },
-              { "id": "UD_English-PUD@2.7", "enhanced": true },
+              { "id": "UD_English-PUD@2.7", "enhanced": true, "parallels": ["UD_French-PUD@2.7"] },
               { "id": "UD_English-LinES@2.7" },
               { "id": "UD_English-Pronouns@2.7" },
               { "id": "UD_English-EWT@2.7", "enhanced": true },
@@ -112,7 +112,7 @@
               { "id": "UD_French-Sequoia@2.7" },
               { "id": "UD_French-FQB@2.7" },
               { "id": "UD_French-Spoken@2.7" },
-              { "id": "UD_French-PUD@2.7" },
+              { "id": "UD_French-PUD@2.7", "parallels": ["UD_English-PUD@2.7"]  },
               { "id": "UD_French-FTB@2.7", "no_word": true }
             ]
           },
@@ -344,12 +344,11 @@
 
 
           { "section" : "Converted from native SUD" },
-            { "id": "UD_Beja-NSC@conv" },
-            { "id": "UD_French-GSD@conv" },
-            { "id": "UD_French-Spoken@conv" },
-            { "id": "UD_French-Paris-Stories@conv" },
-            { "id": "UD_Naija-NSC@conv" },
-
+            { "id": "UD_Beja-NSC@conv", "parallels": ["SUD_Beja-NSC@latest"] },
+            { "id": "UD_French-GSD@conv", "parallels": ["SUD_French-GSD@latest"] },
+            { "id": "UD_French-Spoken@conv", "parallels": ["SUD_French-Spoken@latest"] },
+            { "id": "UD_French-Paris-Stories@conv", "parallels": ["SUD_French-Paris-Stories@latest"]  },
+            { "id": "UD_Naija-NSC@conv", "parallels": ["SUD_Naija-NSC@latest"]  },
 
           { "section" : "GitHub dev branches" },
             { "id": "UD_English-EWT@dev" },
@@ -371,11 +370,11 @@
       "corpora":
         [
           { "section" : "Native SUD" },
-            { "id": "SUD_Beja-NSC@latest" },
-            { "id": "SUD_French-GSD@latest" },
-            { "id": "SUD_French-Spoken@latest" },
-            { "id": "SUD_French-Paris-Stories@latest" },
-            { "id": "SUD_Naija-NSC@latest" },
+            { "id": "SUD_Beja-NSC@latest", "parallels": ["UD_Beja-NSC@conv"]  },
+            { "id": "SUD_French-GSD@latest", "parallels": ["UD_French-GSD@conv"] },
+            { "id": "SUD_French-Spoken@latest", "parallels": ["UD_French-Spoken@conv"]  },
+            { "id": "SUD_French-Paris-Stories@latest", "parallels": ["UD_French-Paris-Stories@conv"]  },
+            { "id": "SUD_Naija-NSC@latest", "parallels": ["UD_Naija-NSC@conv"]  },
             { "id": "SUD_Naija-NSC_Auto@latest" },
 
           { "section" : "SUD 2.7 (converted from UD 2.7)" },
