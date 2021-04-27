@@ -975,6 +975,7 @@ function update_corpus() {
     $('#eud-box').bootstrapToggle('on');
   }
 
+  app.parallel = "no";
   let parallels = get_info(current_corpus, "parallels");
   if (parallels) {
     app.parallels = parallels;
