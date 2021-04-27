@@ -596,7 +596,7 @@ function load_cluster_file() {
 
 // ==================================================================================
 function display_picture(event) {
-  app.sent_id = event.data.sent_id;
+  app.sent_id = event.data.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
   $("#sentence-txt").html(event.data.sentence);
 
   if (event.data.audio != undefined) {
