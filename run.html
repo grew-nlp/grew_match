@@ -163,23 +163,23 @@
 
 									<p>
 										<label v-if="mode=='syntax'">
-											<input type="checkbox" id="lemma-box" checked> lemma
+											<input type="checkbox" v-model="lemma"> lemma
 										</label>
 										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
-											<input type="checkbox" id="upos-box" checked> upos
+											<input type="checkbox" v-model="upos" checked> upos
 										</label>
 										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
-											<input type="checkbox" id="xpos-box"> xpos
+											<input type="checkbox" v-model="xpos"> xpos
 										</label>
 										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
-											<input type="checkbox" id="features-box" checked> features </input>
+											<input type="checkbox" v-model="features"> features
 										</label>
 										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
-											<input type="checkbox" id="tf-wf-box"> textform/wordform </input>
+											<input type="checkbox" v-model="tf_wf"> textform/wordform
 											<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="tf-wf-tooltip"></span>
 										</label>
 										<label>
@@ -194,7 +194,7 @@
 
 										<label>
 											&nbsp;&nbsp;
-											<input type="checkbox" id="context-box"> context
+											<input type="checkbox" v-model="context"> context
 										</label>
 									</p>
 									<p>

@@ -19,6 +19,14 @@ var app = new Vue({
     parallel: "no",
     parallels: [],
     parallel_svg: undefined,
+    
+    // printing parameters
+    lemma: true,
+    upos: true,
+    xpos: false,
+    features: true,
+    tf_wf: false,
+    context: false,
   },
   methods: {
     update_parallel_() {
