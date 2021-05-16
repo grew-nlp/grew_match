@@ -247,8 +247,8 @@
           { "id": "UD_Old_Church_Slavonic-PROIEL@2.8" },
           { "folder": "Old_East_Slavic",
             "corpora": [
-              { "id": "UD_Old_East_Slavic-RNC@2.8" },
-              { "id": "UD_Old_East_Slavic-TOROT@2.8" }
+              { "id": "UD_Old_East_Slavic-RNC@2.8", "new": true },
+              { "id": "UD_Old_East_Slavic-TOROT@2.8", "new": true }
             ]
           },
           { "id": "UD_Old_French-SRCMF@2.8" },
@@ -363,7 +363,7 @@
           { "id": "UD_Wolof-WTB@2.8" },
 
           { "id": "UD_Yoruba-YTB@2.8" },
-
+          { "id": "UD_Yupik-SLI@2.8", "new": true },
 
           { "section" : "Converted from native SUD" },
             { "id": "UD_Beja-NSC@conv", "parallels": ["SUD_Beja-NSC@latest"] },
