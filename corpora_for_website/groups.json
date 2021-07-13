@@ -388,7 +388,7 @@
     {
       "id": "SUD",
       "name": "SUD",
-      "default": "SUD_English-GUM@2.7",
+      "default": "SUD_English-GUM@2.8",
       "corpora":
         [
           { "section" : "Native SUD" },
