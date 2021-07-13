@@ -73,119 +73,206 @@
     },
 
 
+    {
+      "id": "PARSEME-DE@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/DE",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-EL@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/EL",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-EU@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/EU",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-FR@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/FR",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-GA@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/GA",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-HE@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/HE",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-HI@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/HI",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-IT@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/IT",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-PL@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/PL",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-PT@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/PT",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-RO@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/RO",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-SV@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/SV",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-TR@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/TR",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+    {
+      "id": "PARSEME-ZH@1.2",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/PARSEME/1.2/ZH",
+      "files": ["dev.cupt", "test.cupt", "train.cupt"]
+    },
+
+
+
 
     {
-      "id": "PARSEME-BG",
+      "id": "PARSEME-BG@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/BG",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-DE",
+      "id": "PARSEME-DE@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/DE",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-EL",
+      "id": "PARSEME-EL@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/EL",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-EN",
+      "id": "PARSEME-EN@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/EN",
       "files": ["test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-ES",
+      "id": "PARSEME-ES@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/ES",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-EU",
+      "id": "PARSEME-EU@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/EU",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-FA",
+      "id": "PARSEME-FA@1.1",
       "config": "ud",
       "rtl": true,
       "directory": "/home/guillaum/resources/PARSEME/1.1/FA",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-FR",
+      "id": "PARSEME-FR@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/FR",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-HE",
+      "id": "PARSEME-HE@1.1",
       "config": "ud",
       "rtl": true,
       "directory": "/home/guillaum/resources/PARSEME/1.1/HE",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-HI",
+      "id": "PARSEME-HI@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/HI",
       "files": ["test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-HR",
+      "id": "PARSEME-HR@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/HR",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-HU",
+      "id": "PARSEME-HU@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/HU",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-IT",
+      "id": "PARSEME-IT@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/IT",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-LT",
+      "id": "PARSEME-LT@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/LT",
       "files": ["test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-PL",
+      "id": "PARSEME-PL@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/PL",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-PT",
+      "id": "PARSEME-PT@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/PT",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-RO",
+      "id": "PARSEME-RO@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/RO",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-SL",
+      "id": "PARSEME-SL@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/SL",
       "files": ["dev.cupt", "test.cupt", "train.cupt"]
     },
     {
-      "id": "PARSEME-TR",
+      "id": "PARSEME-TR@1.1",
       "config": "ud",
       "directory": "/home/guillaum/resources/PARSEME/1.1/TR",
       "files": ["dev.cupt", "train.cupt"]
