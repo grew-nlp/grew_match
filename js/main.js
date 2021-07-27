@@ -411,10 +411,6 @@ function next_results() {
     })
 }
 
-
-
-
-
 // ==================================================================================
 function search_pattern() {
 
@@ -517,12 +513,7 @@ function search_pattern() {
           };
         }
       });
-
-
-
-
     }
-
   });
 }
 
@@ -542,7 +533,7 @@ function update_modal_pivot() {
 
 // ==================================================================================
 function fill_cluster_buttons() {
-//  $.get("./data/" + current_request_id + "/clusters", function(data) {
+  //  $.get("./data/" + current_request_id + "/clusters", function(data) {
   var data_folder = app.gmb + "/data/" + current_request_id;
   $.get(data_folder + "/clusters", function(data) {
     current_but_sel = undefined;
@@ -591,7 +582,7 @@ function fill_cluster_buttons() {
 
 // ==================================================================================
 function load_cluster_file() {
-//  $.get("./data/" + current_request_id + "/cluster_" + current_cluster, function(data) {
+  //  $.get("./data/" + current_request_id + "/cluster_" + current_cluster, function(data) {
   var data_folder = app.gmb + "/data/" + current_request_id;
   $.get(data_folder + "/cluster_" + current_cluster, function(data) {
     lines = data.split("\n");
@@ -674,7 +665,9 @@ function display_picture(event) {
 
 // ==================================================================================
 function show_export_modal() {
-  $.get('./data/' + current_request_id + '/export.tsv', function(data) {
+  //  $.get('./data/' + current_request_id + '/export.tsv', function(data) {
+  var data_folder = app.gmb + "/data/" + current_request_id;
+  $.get(data_folder + "/export.tsv", function(data) {
     lines = data.split("\n");
 
     var data
@@ -709,7 +702,7 @@ function run_export() {
     current_pivot = current_pivots[0];
     export_tsv();
   } else {
-    current_pivot = undefined;
+    current_pivot = "";
     export_tsv();
   }
 }
@@ -723,32 +716,34 @@ function chose_pivot(pivot) {
 
 // ==================================================================================
 function export_tsv() {
-  var data = {
-    request: "EXPORT",
-    id: current_request_id,
+  var param = {
+    uuid: current_request_id,
     pivot: current_pivot,
   };
-  $.ajax({
-    url: 'main.php',
-    dataType: 'text',
-    data: data,
-    type: 'post',
-    success: function(reply) {
-      var fields = reply.split("@@");
-      var id = fields[0];
-      var msg = fields[1];
 
-      if (msg == 'ERROR') {
-        report_error(id);
-      } else {
-        show_export_modal();
-      }
-    },
-    error: function(x) {
-      alert("[EXPORT] Ajax error:" + JSON.stringify(x));
-    }
-  });
+  var form = new FormData();
+  form.append("param", JSON.stringify(param));
+
+  var settings = {
+    "url": app.gmb + "/export",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": form
+  };
+  $.ajax(settings)
+    .done(function(response) {
+      console.log(response);
+      show_export_modal();
+    })
+    .fail(function() {
+      console.log("FAIL!!!");
+    })
 }
+
+
 
 // ==================================================================================
 function update_parallel() {
@@ -781,8 +776,9 @@ function update_parallel() {
 }
 
 // ==================================================================================
-function download() {
-  window.location = './data/' + current_request_id + '/export.tsv';
+function download() {  
+  var data_folder = app.gmb + "/data/" + current_request_id;
+  window.location = data_folder + '/export.tsv';
 }
 
 // ==================================================================================
