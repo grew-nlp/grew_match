@@ -384,43 +384,49 @@ function report_error(id) {
 
 // ==================================================================================
 function next_results() {
-  var data = {
-    request: "NEXT",
-    id: current_request_id,
-    cluster: current_cluster
+  var param = {
+    uuid: current_request_id,
+    cluster_index: current_cluster
   };
-  $.ajax({
-    url: 'main.php',
-    dataType: 'text',
-    data: data,
-    type: 'post',
-    success: function(reply) {
-      var fields = reply.split("@@");
-      var id = fields[0];
-      var msg = fields[1];
 
-      if (msg == 'ERROR') {
-        report_error(id);
-      } else {
-        load_cluster_file();
-      }
-    },
-    error: function(x) {
-      alert("[NEXT] Ajax error:" + JSON.stringify(x));
-    }
-  });
+  var form = new FormData();
+  form.append("param", JSON.stringify(param));
+
+  var settings = {
+    "url": app.gmb + "/next",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": form
+  };
+  $.ajax(settings)
+    .done(function(response) {
+      console.log(response);
+      load_cluster_file();
+    })
+    .fail(function() {
+      console.log("FAIL!!!");
+    })
 }
+
+
+
+
 
 // ==================================================================================
 function search_pattern() {
+
   $('#results-block').hide();
   $('#cluster-block').hide();
   $('#results-list').empty();
+
   current_line_num = 0;
   result_nb = 0;
   current_view = 0;
-  var data = {
-    request: "NEW",
+
+  var param = {
     pattern: cmEditor.getValue(),
     corpus: current_corpus,
     lemma: app.lemma,
@@ -433,87 +439,95 @@ function search_pattern() {
     eud2ud: (get_info(current_corpus, "enhanced") && !($('#eud-box').prop('checked'))),
   };
 
-  data['clust1-type'] = app.clust1;
-  if (app.clust1 == "key") {
-    data['clust1-data'] = app.clust1_key;
-  }
-  if (app.clust1 == "whether") {
-    data['clust1-data'] = "{" + clust1_cm.getValue() + "}";
-  }
+  var form = new FormData();
+  form.append("param", JSON.stringify(param));
+  var settings = {
+    "url": app.gmb + "/new",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": form
+  };
 
-  console.log(data);
-  $.ajax({
-    url: 'main.php',
-    dataType: 'text',
-    data: data,
-    type: 'post',
-    success: function(reply) {
-      var fields = reply.split("@@");
-      var id = fields[0];
-      var msg = fields[1];
+  $.ajax(settings).done(function(response_string) {
+    var response = JSON.parse(response_string);
+    console.log("----------------------------");
+    console.log(response);
+    console.log("----------------------------");
+    var msg = response["status"];
+    var id = response.data;
 
-      if (msg == 'ERROR') {
-        report_error(id);
+    console.log(id);
+    console.log("----------------------------");
+
+    if (msg == 'ERROR') {
+      report_error(id);
+    } else {
+      // set the writting direction
+      if (get_info(current_corpus, "rtl")) {
+        $('#sentence-txt').attr("dir", "rtl");
       } else {
-
-        // set the writting direction
-        if (get_info(current_corpus, "rtl")) {
-          $('#sentence-txt').attr("dir", "rtl");
-        } else {
-          $('#sentence-txt').removeAttr("dir");
-        }
-
-        if (audio) {
-          $("#audio").show();
-        } else {
-          $("#audio").hide();
-        }
-
-        current_request_id = id;
-        $.get("./data/" + id + "/list", function(data) {
-          $('#save-button').prop('disabled', false);
-          $('#export-button').prop('disabled', false);
-          lines = data.split("\n");
-          if (lines[0] == '<!>') {
-            direct_error('The daemon is not running\n\nTry again in a few minutes');
-          } else {
-            $("#cluster-buttons").empty();
-            for (var i = current_line_num, len = lines.length; i < len; i++) {
-              var fields = lines[i].split("@@");
-              if (fields[0] == '<EMPTY>') {
-                $("#next-results").prop('disabled', true);
-                $('#results-navig').hide();
-                $('#display-sentence').hide();
-                $('#display-svg').hide();
-                $('#progress-txt').html('No results found <span style="font-size: 60%">[' + fields[1] + 's]</span>');
-                $("#export-button").prop('disabled', true);
-                $('#results-block').hide();
-                $('#cluster-block').show();
-              } else if (fields[0] == '<TOTAL>') {
-                $('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
-              } else if (fields[0] == '<OVER>') {
-                $('#progress-txt').html('More than 1000 results found in ' + fields[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
-              } else if (fields[0] == '<ONECLUSTER>') {
-                current_cluster = 0;
-                load_cluster_file();
-                $('#results-block').show();
-                $('#cluster-block').show();
-              } else if (fields[0] == '<CLUSTERS>') {
-                fill_cluster_buttons();
-              } else if (fields[0] == '<PIVOTS>') {
-                current_pivots = fields.slice(1).reverse();
-                update_modal_pivot();
-              }
-            };
-          }
-        });
+        $('#sentence-txt').removeAttr("dir");
       }
-    },
-    error: function(x) {
-      alert("[NEW] Ajax error:" + JSON.stringify(x));
+
+      if (audio) {
+        $("#audio").show();
+      } else {
+        $("#audio").hide();
+      }
+
+      current_request_id = id;
+      var data_folder = app.gmb + "/data/" + current_request_id;
+      $.get(data_folder + "/list", function(data) {
+        $('#save-button').prop('disabled', false);
+        $('#export-button').prop('disabled', false);
+        lines = data.split("\n");
+        if (lines[0] == '<!>') {
+          direct_error('The daemon is not running\n\nTry again in a few minutes');
+        } else {
+          $("#cluster-buttons").empty();
+          for (var i = current_line_num, len = lines.length; i < len; i++) {
+            var fields = lines[i].split("@@");
+            if (fields[0] == '<EMPTY>') {
+              $("#next-results").prop('disabled', true);
+              $('#results-navig').hide();
+              $('#display-sentence').hide();
+              $('#display-svg').hide();
+              $('#progress-txt').html('No results found <span style="font-size: 60%">[' + fields[1] + 's]</span>');
+              $("#export-button").prop('disabled', true);
+              $('#results-block').hide();
+              $('#cluster-block').show();
+            } else if (fields[0] == '<TOTAL>') {
+              $('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
+            } else if (fields[0] == '<OVER>') {
+              $('#progress-txt').html('More than 1000 results found in ' + fields[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
+            } else if (fields[0] == '<ONECLUSTER>') {
+              current_cluster = 0;
+              load_cluster_file();
+              $('#results-block').show();
+              $('#cluster-block').show();
+            } else if (fields[0] == '<CLUSTERS>') {
+              fill_cluster_buttons();
+            } else if (fields[0] == '<PIVOTS>') {
+              current_pivots = fields.slice(1).reverse();
+              update_modal_pivot();
+            }
+          };
+        }
+      });
+
+
+
+
     }
+
   });
 }
+
+// ============
+
 
 // ==================================================================================
 function update_modal_pivot() {
@@ -528,7 +542,9 @@ function update_modal_pivot() {
 
 // ==================================================================================
 function fill_cluster_buttons() {
-  $.get("./data/" + current_request_id + "/clusters", function(data) {
+//  $.get("./data/" + current_request_id + "/clusters", function(data) {
+  var data_folder = app.gmb + "/data/" + current_request_id;
+  $.get(data_folder + "/clusters", function(data) {
     current_but_sel = undefined;
     already_built_cluster_file = [];
     lines = data.split("\n");
@@ -575,7 +591,9 @@ function fill_cluster_buttons() {
 
 // ==================================================================================
 function load_cluster_file() {
-  $.get("./data/" + current_request_id + "/cluster_" + current_cluster, function(data) {
+//  $.get("./data/" + current_request_id + "/cluster_" + current_cluster, function(data) {
+  var data_folder = app.gmb + "/data/" + current_request_id;
+  $.get(data_folder + "/cluster_" + current_cluster, function(data) {
     lines = data.split("\n");
     for (var i = current_line_num, len = lines.length; i < len; i++) {
       try {
@@ -586,7 +604,7 @@ function load_cluster_file() {
           $("#next-results").prop('disabled', false);
         } else {
           $("#results-list").append('<li class="item" id="list-' + result_nb + '"><a>' + obj.sent_id + '</a></li>');
-          url = './data/' + current_request_id + '/' + obj.filename;
+          url = data_folder + '/' + obj.filename;
           $('#list-' + result_nb).click({
             url: url,
             i: result_nb,

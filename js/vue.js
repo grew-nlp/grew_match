@@ -1,6 +1,8 @@
 var app = new Vue({
   el: '#app',
   data: {
+    gmb: "http://localhost:9090",
+    
     clust1: "no", // 3 possible values: no, key or whether
     clust1_key: "",
     clust1_whether: "",
