@@ -116,10 +116,11 @@ function search_corpus(requested_corpus) {
 // ==================================================================================
 // this function is run after page loading
 $(document).ready(function() {
-  $.getJSON("corpora/groups.json").done(function(data) {
-    current_data = data;
-    init();
-  });
+  $.getJSON("corpora/groups.json")
+    .done(function(data) {
+      current_data = data;
+      init();
+    });
 
   $('.tooltip-desc').tooltipster({
     contentAsHTML: true,
@@ -402,9 +403,14 @@ function next_results() {
     "data": form
   };
   $.ajax(settings)
-    .done(function(response) {
-      console.log(response);
-      load_cluster_file();
+    .done(function(response_string) {
+      var response = JSON.parse(response_string);
+      var status = response["status"];
+      if (status == 'ERROR') {
+        report_error(data);
+      } else {
+        load_cluster_file();
+      }
     })
     .fail(function() {
       console.log("FAIL!!!");
@@ -447,74 +453,75 @@ function search_pattern() {
     "data": form
   };
 
-  $.ajax(settings).done(function(response_string) {
-    var response = JSON.parse(response_string);
-    console.log("----------------------------");
-    console.log(response);
-    console.log("----------------------------");
-    var msg = response["status"];
-    var id = response.data;
+  $.ajax(settings)
+    .done(function(response_string) {
+      var response = JSON.parse(response_string);
+      console.log("----------------------------");
+      console.log(response);
+      console.log("----------------------------");
+      var msg = response["status"];
+      var id = response.data;
 
-    console.log(id);
-    console.log("----------------------------");
+      console.log(id);
+      console.log("----------------------------");
 
-    if (msg == 'ERROR') {
-      report_error(id);
-    } else {
-      // set the writting direction
-      if (get_info(current_corpus, "rtl")) {
-        $('#sentence-txt').attr("dir", "rtl");
+      if (msg == 'ERROR') {
+        report_error(id);
       } else {
-        $('#sentence-txt').removeAttr("dir");
-      }
-
-      if (audio) {
-        $("#audio").show();
-      } else {
-        $("#audio").hide();
-      }
-
-      current_request_id = id;
-      var data_folder = app.gmb + "/data/" + current_request_id;
-      $.get(data_folder + "/list", function(data) {
-        $('#save-button').prop('disabled', false);
-        $('#export-button').prop('disabled', false);
-        lines = data.split("\n");
-        if (lines[0] == '<!>') {
-          direct_error('The daemon is not running\n\nTry again in a few minutes');
+        // set the writting direction
+        if (get_info(current_corpus, "rtl")) {
+          $('#sentence-txt').attr("dir", "rtl");
         } else {
-          $("#cluster-buttons").empty();
-          for (var i = current_line_num, len = lines.length; i < len; i++) {
-            var fields = lines[i].split("@@");
-            if (fields[0] == '<EMPTY>') {
-              $("#next-results").prop('disabled', true);
-              $('#results-navig').hide();
-              $('#display-sentence').hide();
-              $('#display-svg').hide();
-              $('#progress-txt').html('No results found <span style="font-size: 60%">[' + fields[1] + 's]</span>');
-              $("#export-button").prop('disabled', true);
-              $('#results-block').hide();
-              $('#cluster-block').show();
-            } else if (fields[0] == '<TOTAL>') {
-              $('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
-            } else if (fields[0] == '<OVER>') {
-              $('#progress-txt').html('More than 1000 results found in ' + fields[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
-            } else if (fields[0] == '<ONECLUSTER>') {
-              current_cluster = 0;
-              load_cluster_file();
-              $('#results-block').show();
-              $('#cluster-block').show();
-            } else if (fields[0] == '<CLUSTERS>') {
-              fill_cluster_buttons();
-            } else if (fields[0] == '<PIVOTS>') {
-              current_pivots = fields.slice(1).reverse();
-              update_modal_pivot();
-            }
-          };
+          $('#sentence-txt').removeAttr("dir");
         }
-      });
-    }
-  });
+
+        if (audio) {
+          $("#audio").show();
+        } else {
+          $("#audio").hide();
+        }
+
+        current_request_id = id;
+        var data_folder = app.gmb + "/data/" + current_request_id;
+        $.get(data_folder + "/list", function(data) {
+          $('#save-button').prop('disabled', false);
+          $('#export-button').prop('disabled', false);
+          lines = data.split("\n");
+          if (lines[0] == '<!>') {
+            direct_error('The daemon is not running\n\nTry again in a few minutes');
+          } else {
+            $("#cluster-buttons").empty();
+            for (var i = current_line_num, len = lines.length; i < len; i++) {
+              var fields = lines[i].split("@@");
+              if (fields[0] == '<EMPTY>') {
+                $("#next-results").prop('disabled', true);
+                $('#results-navig').hide();
+                $('#display-sentence').hide();
+                $('#display-svg').hide();
+                $('#progress-txt').html('No results found <span style="font-size: 60%">[' + fields[1] + 's]</span>');
+                $("#export-button").prop('disabled', true);
+                $('#results-block').hide();
+                $('#cluster-block').show();
+              } else if (fields[0] == '<TOTAL>') {
+                $('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
+              } else if (fields[0] == '<OVER>') {
+                $('#progress-txt').html('More than 1000 results found in ' + fields[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
+              } else if (fields[0] == '<ONECLUSTER>') {
+                current_cluster = 0;
+                load_cluster_file();
+                $('#results-block').show();
+                $('#cluster-block').show();
+              } else if (fields[0] == '<CLUSTERS>') {
+                fill_cluster_buttons();
+              } else if (fields[0] == '<PIVOTS>') {
+                current_pivots = fields.slice(1).reverse();
+                update_modal_pivot();
+              }
+            };
+          }
+        });
+      }
+    });
 }
 
 // ============
@@ -734,9 +741,14 @@ function export_tsv() {
     "data": form
   };
   $.ajax(settings)
-    .done(function(response) {
-      console.log(response);
-      show_export_modal();
+    .done(function(response_string) {
+      var response = JSON.parse(response_string);
+      var status = response["status"];
+      if (status == 'ERROR') {
+        report_error(data);
+      } else {
+        show_export_modal();
+      }
     })
     .fail(function() {
       console.log("FAIL!!!");
@@ -776,40 +788,47 @@ function update_parallel() {
 }
 
 // ==================================================================================
-function download() {  
+function download() {
   var data_folder = app.gmb + "/data/" + current_request_id;
   window.location = data_folder + '/export.tsv';
 }
 
 // ==================================================================================
 function show_conll() {
-  var data = {
-    request: "CONLL",
-    id: current_request_id,
+  var param = {
+    uuid: current_request_id,
     current_view: current_view,
     cluster: current_cluster
   };
-  $.ajax({
-    url: 'main.php',
-    dataType: 'text',
-    data: data,
-    type: 'post',
-    success: function(reply) {
-      var fields = reply.split("@@");
-      var id = fields[0];
-      var conll = fields[1];
 
-      if (conll == 'ERROR') {
-        direct_error("Disconnected");
+  var form = new FormData();
+  form.append("param", JSON.stringify(param));
+
+  var settings = {
+    "url": app.gmb + "/conll",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": form
+  };
+  $.ajax(settings)
+    .done(function(response_string) {
+      var response = JSON.parse(response_string);
+      var status = response["status"];
+      var data = response.data;
+
+      if (status == 'ERROR') {
+        report_error(data);
       } else {
-        $("#code_viewer").html(conll);
+        $("#code_viewer").html(data);
         $('#code_modal').modal('show');
       }
-    },
-    error: function(x) {
-      alert("[CONLL] Ajax error:" + JSON.stringify(x));
-    }
-  })
+    })
+    .fail(function() {
+      console.log("FAIL!!!");
+    })
 }
 
 // ==================================================================================
