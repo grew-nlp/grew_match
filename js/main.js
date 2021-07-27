@@ -272,7 +272,8 @@ function deal_with_get_parameters() {
   // custom get parameter
   if (getParameterByName("custom").length > 0) {
     get_custom = getParameterByName("custom");
-    $.get('./data/shorten/' + get_custom, function(pattern) {
+    
+    $.get(app.gmb + "/shorten/" + get_custom, function(pattern) {
       cmEditor.setValue(pattern);
       setTimeout(search_pattern, 0); // hack: else clust1_cm value is not taken into account.
     });
@@ -405,9 +406,8 @@ function next_results() {
   $.ajax(settings)
     .done(function(response_string) {
       var response = JSON.parse(response_string);
-      var status = response["status"];
-      if (status == 'ERROR') {
-        report_error(data);
+      if (response.status == 'ERROR') {
+        report_error(response.data);
       } else {
         load_cluster_file();
       }
@@ -456,18 +456,11 @@ function search_pattern() {
   $.ajax(settings)
     .done(function(response_string) {
       var response = JSON.parse(response_string);
-      console.log("----------------------------");
-      console.log(response);
-      console.log("----------------------------");
-      var msg = response["status"];
-      var id = response.data;
-
-      console.log(id);
-      console.log("----------------------------");
-
-      if (msg == 'ERROR') {
-        report_error(id);
+      if (response.status == 'ERROR') {
+        report_error(response.data);
       } else {
+        current_request_id = response.data
+
         // set the writting direction
         if (get_info(current_corpus, "rtl")) {
           $('#sentence-txt').attr("dir", "rtl");
@@ -481,7 +474,6 @@ function search_pattern() {
           $("#audio").hide();
         }
 
-        current_request_id = id;
         var data_folder = app.gmb + "/data/" + current_request_id;
         $.get(data_folder + "/list", function(data) {
           $('#save-button').prop('disabled', false);
@@ -743,9 +735,8 @@ function export_tsv() {
   $.ajax(settings)
     .done(function(response_string) {
       var response = JSON.parse(response_string);
-      var status = response["status"];
-      if (status == 'ERROR') {
-        report_error(data);
+      if (response.status == 'ERROR') {
+        report_error(response.data);
       } else {
         show_export_modal();
       }
@@ -755,35 +746,42 @@ function export_tsv() {
     })
 }
 
-
-
 // ==================================================================================
 function update_parallel() {
   if (app.parallel != "no") {
-    var data = {
-      request: "PARALLEL",
-      id: current_request_id,
+    var param = {
+      uuid: current_request_id,
       corpus: app.parallel,
       sent_id: app.sent_id,
     };
-    $.ajax({
-      url: 'main.php',
-      dataType: 'text',
-      data: data,
-      type: 'post',
-      success: function(reply) {
-        var fields = reply.split("@@");
-        if (fields[1] == 'ERROR') {
-          report_error(id);
+
+    var form = new FormData();
+    form.append("param", JSON.stringify(param));
+
+    var settings = {
+      "url": app.gmb + "/parallel",
+      "method": "POST",
+      "timeout": 0,
+      "processData": false,
+      "mimeType": "multipart/form-data",
+      "contentType": false,
+      "data": form
+    };
+    $.ajax(settings)
+      .done(function(response_string) {
+        var response = JSON.parse(response_string);
+        if (response.status == 'ERROR') {
+          report_error(response.data);
         } else {
-          app.parallel_svg = undefined;
-          app.parallel_svg = "data/" + fields[1];
+          console.log(response.data);
+          app.parallel_svg = app.gmb + "/data/" + current_request_id + "/" + response.data;
+
         }
-      },
-      error: function(x) {
-        alert("[PARALLEL] Ajax error:" + JSON.stringify(x));
-      }
-    });
+      })
+      .fail(function() {
+        console.log("FAIL!!!");
+      })
+
   }
 }
 
@@ -816,13 +814,10 @@ function show_conll() {
   $.ajax(settings)
     .done(function(response_string) {
       var response = JSON.parse(response_string);
-      var status = response["status"];
-      var data = response.data;
-
-      if (status == 'ERROR') {
-        report_error(data);
+      if (response.status == 'ERROR') {
+        report_error(response.data);
       } else {
-        $("#code_viewer").html(data);
+        $("#code_viewer").html(response.data);
         $('#code_modal').modal('show');
       }
     })
@@ -844,19 +839,31 @@ function code_copy() {
 
 // ==================================================================================
 function save_pattern() {
-  if (current_request_id.length > 0) {
-    var data = {
-      request: "SHORTEN",
-      pattern: cmEditor.getValue(),
-      id: current_request_id
-    };
-    $.ajax({
-      url: 'main.php',
-      dataType: 'text',
-      data: data,
-      type: 'post',
-      success: function(output) {
-        let get = "?corpus=" + current_corpus + "&custom=" + output;
+  var param = {
+    uuid: current_request_id,
+    pattern: cmEditor.getValue(),
+  };
+
+  var form = new FormData();
+  form.append("param", JSON.stringify(param));
+
+  var settings = {
+    "url": app.gmb + "/save",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": form
+  };
+  $.ajax(settings)
+    .done(function(response_string) {
+      var response = JSON.parse(response_string);
+      if (response.status == 'ERROR') {
+        report_error(response.data);
+      } else {
+
+        let get = "?corpus=" + current_corpus + "&custom=" + current_request_id;
         if (app.clust1 == 'key') {
           get += "&clustering=" + app.clust1_key;
         }
@@ -868,7 +875,7 @@ function save_pattern() {
         }
 
         history.pushState({
-            id: output
+            id: current_request_id
           },
           "Grew - Custom saved pattern",
           get
@@ -876,16 +883,12 @@ function save_pattern() {
         $('#custom-url').text(window.location.href);
         $('#custom-display').show();
         SelectText("custom-url");
-      },
-      error: function(x) {
-        alert("[SHORTEN] Ajax error:" + JSON.stringify(x));
       }
-    });
-  } else {
-    direct_error("An error occured", "You can't save pattern before searching for it.", "error");
-  }
+    })
+    .fail(function() {
+      console.log("FAIL!!!");
+    })
 }
-
 // ==================================================================================
 function SelectText(element) {
   var doc = document,
