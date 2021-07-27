@@ -439,7 +439,15 @@ function search_pattern() {
     order: $('#sentences-order').val(),
     context: app.context,
     eud2ud: (get_info(current_corpus, "enhanced") && !($('#eud-box').prop('checked'))),
+    clust1: app.clust1,
   };
+
+  if (app.clust1 == "key") {
+    param.clust1_data = app.clust1_key;
+  }
+  if (app.clust1 == "whether") {
+    param.clust1_data = "{" + clust1_cm.getValue() + "}";
+  }
 
   var form = new FormData();
   form.append("param", JSON.stringify(param));
@@ -561,7 +569,7 @@ function fill_cluster_buttons() {
             result_nb = 0;
             current_view = 0;
 
-            current_cluster = fields[3]
+            current_cluster = parseInt (fields[3])
 
             if (jQuery.inArray(current_cluster, already_built_cluster_file) == -1) {
               // new cluster, call the server
