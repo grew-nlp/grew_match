@@ -1,4 +1,4 @@
-var current_request_id = ""
+//var current_request_id = ""
 
 var result_nb = 0; // number of given results
 var current_view = 0; // number of the result currently displayed
@@ -15,7 +15,54 @@ var current_pivots;
 var current_but_sel
 var already_built_cluster_file = []
 
-var audio = false;
+// ==================================================================================
+var app = new Vue({
+  el: '#app',
+  data: {
+    gmb: "http://localhost:9090",
+
+    current_request_id: "",
+
+    clust1: "no", // 3 possible values: no, key or whether
+    clust1_key: "",
+    clust1_whether: "",
+
+    clust2: "no", // 3 possible values: no, key or whether
+
+    doc_url: "",
+    meta: {},
+
+    code: "",
+
+    mode: "",
+
+    sent_id: "",
+
+    parallel: "no",
+    parallels: [],
+    parallel_svg: undefined,
+    
+    // printing parameters
+    lemma: true,
+    upos: true,
+    xpos: false,
+    features: true,
+    tf_wf: false,
+    context: false,
+    
+    audio: false,
+  },
+  methods: {
+    update_parallel_() {
+      update_parallel();
+    }
+  }
+});
+
+
+
+
+
 
 // ==================================================================================
 function get_corpora_from_group(group_id) {
@@ -387,7 +434,7 @@ function report_error(id) {
 // ==================================================================================
 function next_results() {
   var param = {
-    uuid: current_request_id,
+    uuid: app.current_request_id,
     cluster_index: current_cluster
   };
 
@@ -467,7 +514,7 @@ function search_pattern() {
       if (response.status == 'ERROR') {
         report_error(response.data);
       } else {
-        current_request_id = response.data
+        app.current_request_id = response.data
 
         // set the writting direction
         if (get_info(current_corpus, "rtl")) {
@@ -476,13 +523,7 @@ function search_pattern() {
           $('#sentence-txt').removeAttr("dir");
         }
 
-        if (audio) {
-          $("#audio").show();
-        } else {
-          $("#audio").hide();
-        }
-
-        var data_folder = app.gmb + "/data/" + current_request_id;
+        var data_folder = app.gmb + "/data/" + app.current_request_id;
         $.get(data_folder + "/list", function(data) {
           $('#save-button').prop('disabled', false);
           $('#export-button').prop('disabled', false);
@@ -540,8 +581,7 @@ function update_modal_pivot() {
 
 // ==================================================================================
 function fill_cluster_buttons() {
-  //  $.get("./data/" + current_request_id + "/clusters", function(data) {
-  var data_folder = app.gmb + "/data/" + current_request_id;
+  var data_folder = app.gmb + "/data/" + app.current_request_id;
   $.get(data_folder + "/clusters", function(data) {
     current_but_sel = undefined;
     already_built_cluster_file = [];
@@ -589,8 +629,7 @@ function fill_cluster_buttons() {
 
 // ==================================================================================
 function load_cluster_file() {
-  //  $.get("./data/" + current_request_id + "/cluster_" + current_cluster, function(data) {
-  var data_folder = app.gmb + "/data/" + current_request_id;
+  var data_folder = app.gmb + "/data/" + app.current_request_id;
   $.get(data_folder + "/cluster_" + current_cluster, function(data) {
     lines = data.split("\n");
     for (var i = current_line_num, len = lines.length; i < len; i++) {
@@ -639,7 +678,7 @@ function display_picture(event) {
     audio[0].load();
   }
 
-  if (audio) {
+  if (app.audio) {
     start_audio();
   }
 
@@ -672,8 +711,7 @@ function display_picture(event) {
 
 // ==================================================================================
 function show_export_modal() {
-  //  $.get('./data/' + current_request_id + '/export.tsv', function(data) {
-  var data_folder = app.gmb + "/data/" + current_request_id;
+  var data_folder = app.gmb + "/data/" + app.current_request_id;
   $.get(data_folder + "/export.tsv", function(data) {
     lines = data.split("\n");
 
@@ -724,7 +762,7 @@ function chose_pivot(pivot) {
 // ==================================================================================
 function export_tsv() {
   var param = {
-    uuid: current_request_id,
+    uuid: app.current_request_id,
     pivot: current_pivot,
   };
 
@@ -758,7 +796,7 @@ function export_tsv() {
 function update_parallel() {
   if (app.parallel != "no") {
     var param = {
-      uuid: current_request_id,
+      uuid: app.current_request_id,
       corpus: app.parallel,
       sent_id: app.sent_id,
     };
@@ -782,7 +820,7 @@ function update_parallel() {
           report_error(response.data);
         } else {
           console.log(response.data);
-          app.parallel_svg = app.gmb + "/data/" + current_request_id + "/" + response.data;
+          app.parallel_svg = app.gmb + "/data/" + app.current_request_id + "/" + response.data;
 
         }
       })
@@ -795,14 +833,14 @@ function update_parallel() {
 
 // ==================================================================================
 function download() {
-  var data_folder = app.gmb + "/data/" + current_request_id;
+  var data_folder = app.gmb + "/data/" + app.current_request_id;
   window.location = data_folder + '/export.tsv';
 }
 
 // ==================================================================================
 function show_conll() {
   var param = {
-    uuid: current_request_id,
+    uuid: app.current_request_id,
     current_view: current_view,
     cluster: current_cluster
   };
@@ -848,7 +886,7 @@ function code_copy() {
 // ==================================================================================
 function save_pattern() {
   var param = {
-    uuid: current_request_id,
+    uuid: app.current_request_id,
     pattern: cmEditor.getValue(),
   };
 
@@ -871,7 +909,7 @@ function save_pattern() {
         report_error(response.data);
       } else {
 
-        let get = "?corpus=" + current_corpus + "&custom=" + current_request_id;
+        let get = "?corpus=" + current_corpus + "&custom=" + app.current_request_id;
         if (app.clust1 == 'key') {
           get += "&clustering=" + app.clust1_key;
         }
@@ -883,7 +921,7 @@ function save_pattern() {
         }
 
         history.pushState({
-            id: current_request_id
+            id: app.current_request_id
           },
           "Grew - Custom saved pattern",
           get
@@ -1049,7 +1087,7 @@ function update_corpus() {
     $("#validation").hide();
   }
 
-  audio = (get_info(current_corpus, "audio") == true);
+  app.audio = (get_info(current_corpus, "audio") == true);
 
   disable_save();
 
