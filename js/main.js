@@ -1,8 +1,3 @@
-//var current_request_id = ""
-
-var result_nb = 0; // number of given results
-var current_view = 0; // number of the result currently displayed
-
 var current_data;
 var current_group;
 var current_corpus;
@@ -22,7 +17,9 @@ var app = new Vue({
     gmb: "http://localhost:9090",
 
     current_request_id: "",
-
+    current_view: 0,
+    result_nb: 0,
+    
     clust1: "no", // 3 possible values: no, key or whether
     clust1_key: "",
     clust1_whether: "",
@@ -472,8 +469,8 @@ function search_pattern() {
   $('#results-list').empty();
 
   current_line_num = 0;
-  result_nb = 0;
-  current_view = 0;
+  app.result_nb = 0;
+  app.current_view = 0;
 
   var param = {
     pattern: cmEditor.getValue(),
@@ -606,8 +603,8 @@ function fill_cluster_buttons() {
             $('#cluster-block').show();
             current_line_num = 0;
             $("#results-list").empty();
-            result_nb = 0;
-            current_view = 0;
+            app.result_nb = 0;
+            app.current_view = 0;
 
             current_cluster = parseInt (fields[3])
 
@@ -640,11 +637,11 @@ function load_cluster_file() {
         } else if (obj.kind == "PAUSE") {
           $("#next-results").prop('disabled', false);
         } else {
-          $("#results-list").append('<li class="item" id="list-' + result_nb + '"><a>' + obj.sent_id + '</a></li>');
+          $("#results-list").append('<li class="item" id="list-' + app.result_nb + '"><a>' + obj.sent_id + '</a></li>');
           url = data_folder + '/' + obj.filename;
-          $('#list-' + result_nb).click({
+          $('#list-' + app.result_nb).click({
             url: url,
-            i: result_nb,
+            i: app.result_nb,
             coord: obj.shift,
             sentence: obj.sentence,
             audio: obj.audio,
@@ -652,7 +649,7 @@ function load_cluster_file() {
             code: obj.code,
             sent_id: obj.sent_id,
           }, display_picture);
-          result_nb++;
+          app.result_nb++;
           update_progress_num();
         }
       } catch (err) {
@@ -691,7 +688,7 @@ function display_picture(event) {
   $("#display-svg").animate({
     scrollLeft: event.data.coord - w / 2
   }, "fast");
-  current_view = event.data.i;
+  app.current_view = event.data.i;
 
   app.meta = event.data.meta;
   if ("url" in app.meta) {
@@ -841,7 +838,7 @@ function download() {
 function show_conll() {
   var param = {
     uuid: app.current_request_id,
-    current_view: current_view,
+    current_view: app.current_view,
     cluster: current_cluster
   };
 
@@ -962,47 +959,47 @@ function getParameterByName(name) {
 
 // ==================================================================================
 function update_progress_num() {
-  if (result_nb != 0) {
+  if (app.result_nb != 0) {
     $('#results-navig').show();
     $('#display-svg').show();
-    $("#progress-num").text((current_view + 1) + " / " + result_nb);
+    $("#progress-num").text((app.current_view + 1) + " / " + app.result_nb);
   }
 }
 
 // ==================================================================================
 function update_view() {
-  $('#list-' + current_view).trigger("click");
+  $('#list-' + app.current_view).trigger("click");
   update_progress_num();
 }
 
 // ==================================================================================
 function first_svg() {
-  if (current_view > 0) {
-    current_view = 0;
+  if (app.current_view > 0) {
+    app.current_view = 0;
     update_view();
   }
 }
 
 // ==================================================================================
 function previous_svg() {
-  if (current_view > 0) {
-    current_view -= 1;
+  if (app.current_view > 0) {
+    app.current_view -= 1;
     update_view();
   }
 }
 
 // ==================================================================================
 function next_svg() {
-  if (current_view < result_nb - 1) {
-    current_view += 1;
+  if (app.current_view < app.result_nb - 1) {
+    app.current_view += 1;
     update_view();
   }
 }
 
 // ==================================================================================
 function last_svg() {
-  if (current_view < result_nb - 1) {
-    current_view = result_nb - 1;
+  if (app.current_view < app.result_nb - 1) {
+    app.current_view = app.result_nb - 1;
     update_view();
   }
 }
