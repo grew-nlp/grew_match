@@ -533,7 +533,6 @@ function search_pattern() {
               var fields = lines[i].split("@@");
               if (fields[0] == '<EMPTY>') {
                 $("#next-results").prop('disabled', true);
-                $('#results-navig').hide();
                 $('#display-sentence').hide();
                 $('#display-svg').hide();
                 $('#progress-txt').html('No results found <span style="font-size: 60%">[' + fields[1] + 's]</span>');
@@ -960,9 +959,7 @@ function getParameterByName(name) {
 // ==================================================================================
 function update_progress_num() {
   if (app.result_nb != 0) {
-    $('#results-navig').show();
     $('#display-svg').show();
-    $("#progress-num").text((app.current_view + 1) + " / " + app.result_nb);
   }
 }
 
