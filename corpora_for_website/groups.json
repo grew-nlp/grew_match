@@ -381,7 +381,9 @@
             { "id": "UD_French-ParTUT@dev" },
             { "id": "UD_French-PUD@dev" },
             { "id": "UD_French-Spoken@dev" },
-            { "id": "UD_Irish-IDT@dev" }
+            { "id": "UD_Irish-IDT@dev" },
+          { "section" : "MISC" },
+              { "id": "UD_French-GSD@2.7" }
         ]
     },
 
@@ -755,8 +757,10 @@
           { "id": "SUD_Wolof-WTB@2.8" },
 
           { "id": "SUD_Yoruba-YTB@2.8" },
-          { "id": "SUD_Yupik-SLI@2.8", "new": true }
+          { "id": "SUD_Yupik-SLI@2.8", "new": true },
 
+        { "section" : "MISC" },
+          { "id": "SUD_French-GSD@2.7" }
 
 
         ]
