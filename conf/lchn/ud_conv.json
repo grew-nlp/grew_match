@@ -11,9 +11,9 @@
       "directory": "/home/guillaum/resources/ud-converted-dev/UD_French-GSD"
     },
     {
-      "id": "UD_French-Spoken@conv",
+      "id": "UD_French-Rhapsodie@conv",
       "config": "ud",
-      "directory": "/home/guillaum/resources/ud-converted-dev/UD_French-Spoken"
+      "directory": "/home/guillaum/resources/ud-converted-dev/UD_French-Rhapsodie"
     },
     {
       "id": "UD_French-Paris-Stories@conv",
