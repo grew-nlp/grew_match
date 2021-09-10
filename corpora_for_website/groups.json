@@ -382,6 +382,8 @@
             { "id": "UD_French-PUD@dev" },
             { "id": "UD_French-Spoken@dev" },
             { "id": "UD_Irish-IDT@dev" },
+            { "id": "UD_Portuguese-Bosque@dev" },
+            { "id": "UD_Portuguese-GSD@dev" },
           { "section" : "MISC" },
               { "id": "UD_French-GSD@2.7" }
         ]
