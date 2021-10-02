@@ -19,7 +19,7 @@ var app = new Vue({
     current_request_id: "",
     current_view: 0,
     result_nb: 0,
-    
+
     clust1: "no", // 3 possible values: no, key or whether
     clust1_key: "",
     clust1_whether: "",
@@ -38,7 +38,7 @@ var app = new Vue({
     parallel: "no",
     parallels: [],
     parallel_svg: undefined,
-    
+
     // printing parameters
     lemma: true,
     upos: true,
@@ -46,7 +46,7 @@ var app = new Vue({
     features: true,
     tf_wf: false,
     context: false,
-    
+
     audio: false,
   },
   methods: {
@@ -316,7 +316,7 @@ function deal_with_get_parameters() {
   // custom get parameter
   if (getParameterByName("custom").length > 0) {
     get_custom = getParameterByName("custom");
-    
+
     $.get(app.gmb + "/shorten/" + get_custom, function(pattern) {
       cmEditor.setValue(pattern);
       setTimeout(search_pattern, 0); // hack: else clust1_cm value is not taken into account.
@@ -417,7 +417,9 @@ function direct_error(msg) {
 }
 
 // ==================================================================================
-function report_error(id) {
+function OLD_report_error(id) {
+  console.log("******************");
+  console.log(id);
   $.get('./data/' + id + '/error', function(msg) {
     let html = md.render(msg)
     Swal.fire({
@@ -427,6 +429,19 @@ function report_error(id) {
     })
   });
 }
+
+// ==================================================================================
+function report_error(id) {
+  console.log("******************");
+  console.log(id);
+  let html = md.render(id.message)
+  Swal.fire({
+    icon: 'error',
+    title: 'An error occurred',
+    html: html
+  });
+}
+
 
 // ==================================================================================
 function next_results() {
@@ -605,7 +620,7 @@ function fill_cluster_buttons() {
             app.result_nb = 0;
             app.current_view = 0;
 
-            current_cluster = parseInt (fields[3])
+            current_cluster = parseInt(fields[3])
 
             if (jQuery.inArray(current_cluster, already_built_cluster_file) == -1) {
               // new cluster, call the server
