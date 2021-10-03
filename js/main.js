@@ -14,7 +14,7 @@ var already_built_cluster_file = []
 var app = new Vue({
   el: '#app',
   data: {
-    gmb: "http://localhost:9090",
+    gmb: "http://localhost:9090/",
 
     current_request_id: "",
     current_view: 0,
@@ -55,11 +55,6 @@ var app = new Vue({
     }
   }
 });
-
-
-
-
-
 
 // ==================================================================================
 function get_corpora_from_group(group_id) {
@@ -417,31 +412,45 @@ function direct_error(msg) {
 }
 
 // ==================================================================================
-function OLD_report_error(id) {
-  console.log("******************");
-  console.log(id);
-  $.get('./data/' + id + '/error', function(msg) {
-    let html = md.render(msg)
-    Swal.fire({
-      icon: 'error',
-      title: 'An error occurred',
-      html: html
+function request(service, form, data_fct) {
+  var settings = {
+    "url": app.gmb + service,
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": form
+  };
+
+  $.ajax(settings)
+    .done(function(response_string) {
+      response = JSON.parse(response_string);
+      if (response.status === "ERROR") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          html: JSON.stringify(response.message),
+        });
+      } else if (response.status === "BUG") {
+        Swal.fire({
+          icon: 'error',
+          title: 'An BUG occurred, please report',
+          html: JSON.stringify(response.exception),
+        });
+      } else {
+        console.log("Success request to service: " + service + "-->" + response.data);
+        data_fct(response.data);
+      }
     })
-  });
+    .fail(function() {
+      Swal.fire({
+        icon: 'error',
+        title: 'Connection fail',
+        html: md.render("The `" + service + "` service is not available."),
+      });
+    });
 }
-
-// ==================================================================================
-function report_error(id) {
-  console.log("******************");
-  console.log(id);
-  let html = md.render(id.message)
-  Swal.fire({
-    icon: 'error',
-    title: 'An error occurred',
-    html: html
-  });
-}
-
 
 // ==================================================================================
 function next_results() {
@@ -453,27 +462,9 @@ function next_results() {
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  var settings = {
-    "url": app.gmb + "/next",
-    "method": "POST",
-    "timeout": 0,
-    "processData": false,
-    "mimeType": "multipart/form-data",
-    "contentType": false,
-    "data": form
-  };
-  $.ajax(settings)
-    .done(function(response_string) {
-      var response = JSON.parse(response_string);
-      if (response.status == 'ERROR') {
-        report_error(response.data);
-      } else {
-        load_cluster_file();
-      }
-    })
-    .fail(function() {
-      console.log("FAIL!!!");
-    })
+  request("next", form, function(data) {
+    load_cluster_file();
+  })
 }
 
 // ==================================================================================
@@ -510,74 +501,57 @@ function search_pattern() {
 
   var form = new FormData();
   form.append("param", JSON.stringify(param));
-  var settings = {
-    "url": app.gmb + "/new",
-    "method": "POST",
-    "timeout": 0,
-    "processData": false,
-    "mimeType": "multipart/form-data",
-    "contentType": false,
-    "data": form
-  };
 
-  $.ajax(settings)
-    .done(function(response_string) {
-      var response = JSON.parse(response_string);
-      if (response.status == 'ERROR') {
-        report_error(response.data);
+  request("new", form, function(data) {
+
+    app.current_request_id = response.data
+
+    // set the writting direction
+    if (get_info(current_corpus, "rtl")) {
+      $('#sentence-txt').attr("dir", "rtl");
+    } else {
+      $('#sentence-txt').removeAttr("dir");
+    }
+    var data_folder = app.gmb + "/data/" + app.current_request_id;
+
+    $.get(data_folder + "/list", function(data) {
+      $('#save-button').prop('disabled', false);
+      $('#export-button').prop('disabled', false);
+      lines = data.split("\n");
+      if (lines[0] == '<!>') {
+        direct_error('The daemon is not running\n\nTry again in a few minutes');
       } else {
-        app.current_request_id = response.data
-
-        // set the writting direction
-        if (get_info(current_corpus, "rtl")) {
-          $('#sentence-txt').attr("dir", "rtl");
-        } else {
-          $('#sentence-txt').removeAttr("dir");
-        }
-
-        var data_folder = app.gmb + "/data/" + app.current_request_id;
-        $.get(data_folder + "/list", function(data) {
-          $('#save-button').prop('disabled', false);
-          $('#export-button').prop('disabled', false);
-          lines = data.split("\n");
-          if (lines[0] == '<!>') {
-            direct_error('The daemon is not running\n\nTry again in a few minutes');
-          } else {
-            $("#cluster-buttons").empty();
-            for (var i = current_line_num, len = lines.length; i < len; i++) {
-              var fields = lines[i].split("@@");
-              if (fields[0] == '<EMPTY>') {
-                $("#next-results").prop('disabled', true);
-                $('#display-sentence').hide();
-                $('#display-svg').hide();
-                $('#progress-txt').html('No results found <span style="font-size: 60%">[' + fields[1] + 's]</span>');
-                $("#export-button").prop('disabled', true);
-                $('#results-block').hide();
-                $('#cluster-block').show();
-              } else if (fields[0] == '<TOTAL>') {
-                $('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
-              } else if (fields[0] == '<OVER>') {
-                $('#progress-txt').html('More than 1000 results found in ' + fields[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
-              } else if (fields[0] == '<ONECLUSTER>') {
-                current_cluster = 0;
-                load_cluster_file();
-                $('#results-block').show();
-                $('#cluster-block').show();
-              } else if (fields[0] == '<CLUSTERS>') {
-                fill_cluster_buttons();
-              } else if (fields[0] == '<PIVOTS>') {
-                current_pivots = fields.slice(1).reverse();
-                update_modal_pivot();
-              }
-            };
+        $("#cluster-buttons").empty();
+        for (var i = current_line_num, len = lines.length; i < len; i++) {
+          var fields = lines[i].split("@@");
+          if (fields[0] == '<EMPTY>') {
+            $("#next-results").prop('disabled', true);
+            $('#display-sentence').hide();
+            $('#display-svg').hide();
+            $('#progress-txt').html('No results found <span style="font-size: 60%">[' + fields[1] + 's]</span>');
+            $("#export-button").prop('disabled', true);
+            $('#results-block').hide();
+            $('#cluster-block').show();
+          } else if (fields[0] == '<TOTAL>') {
+            $('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
+          } else if (fields[0] == '<OVER>') {
+            $('#progress-txt').html('More than 1000 results found in ' + fields[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
+          } else if (fields[0] == '<ONECLUSTER>') {
+            current_cluster = 0;
+            load_cluster_file();
+            $('#results-block').show();
+            $('#cluster-block').show();
+          } else if (fields[0] == '<CLUSTERS>') {
+            fill_cluster_buttons();
+          } else if (fields[0] == '<PIVOTS>') {
+            current_pivots = fields.slice(1).reverse();
+            update_modal_pivot();
           }
-        });
+        };
       }
     });
+  })
 }
-
-// ============
-
 
 // ==================================================================================
 function update_modal_pivot() {
@@ -780,27 +754,9 @@ function export_tsv() {
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  var settings = {
-    "url": app.gmb + "/export",
-    "method": "POST",
-    "timeout": 0,
-    "processData": false,
-    "mimeType": "multipart/form-data",
-    "contentType": false,
-    "data": form
-  };
-  $.ajax(settings)
-    .done(function(response_string) {
-      var response = JSON.parse(response_string);
-      if (response.status == 'ERROR') {
-        report_error(response.data);
-      } else {
-        show_export_modal();
-      }
-    })
-    .fail(function() {
-      console.log("FAIL!!!");
-    })
+  request("export", form, function(data) {
+    show_export_modal();
+  })
 }
 
 // ==================================================================================
@@ -815,30 +771,9 @@ function update_parallel() {
     var form = new FormData();
     form.append("param", JSON.stringify(param));
 
-    var settings = {
-      "url": app.gmb + "/parallel",
-      "method": "POST",
-      "timeout": 0,
-      "processData": false,
-      "mimeType": "multipart/form-data",
-      "contentType": false,
-      "data": form
-    };
-    $.ajax(settings)
-      .done(function(response_string) {
-        var response = JSON.parse(response_string);
-        if (response.status == 'ERROR') {
-          report_error(response.data);
-        } else {
-          console.log(response.data);
-          app.parallel_svg = app.gmb + "/data/" + app.current_request_id + "/" + response.data;
-
-        }
-      })
-      .fail(function() {
-        console.log("FAIL!!!");
-      })
-
+    request("parallel", form, function(data) {
+      app.parallel_svg = app.gmb + "/data/" + app.current_request_id + "/" + data;
+    })
   }
 }
 
@@ -859,28 +794,10 @@ function show_conll() {
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  var settings = {
-    "url": app.gmb + "/conll",
-    "method": "POST",
-    "timeout": 0,
-    "processData": false,
-    "mimeType": "multipart/form-data",
-    "contentType": false,
-    "data": form
-  };
-  $.ajax(settings)
-    .done(function(response_string) {
-      var response = JSON.parse(response_string);
-      if (response.status == 'ERROR') {
-        report_error(response.data);
-      } else {
-        $("#code_viewer").html(response.data);
-        $('#code_modal').modal('show');
-      }
-    })
-    .fail(function() {
-      console.log("FAIL!!!");
-    })
+  request("conll", form, function(data) {
+    $("#code_viewer").html(response.data);
+    $('#code_modal').modal('show');
+  })
 }
 
 // ==================================================================================
@@ -904,48 +821,30 @@ function save_pattern() {
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  var settings = {
-    "url": app.gmb + "/save",
-    "method": "POST",
-    "timeout": 0,
-    "processData": false,
-    "mimeType": "multipart/form-data",
-    "contentType": false,
-    "data": form
-  };
-  $.ajax(settings)
-    .done(function(response_string) {
-      var response = JSON.parse(response_string);
-      if (response.status == 'ERROR') {
-        report_error(response.data);
-      } else {
+  request("save", form, function(data) {
+    let get = "?corpus=" + current_corpus + "&custom=" + app.current_request_id;
+    if (app.clust1 == 'key') {
+      get += "&clustering=" + app.clust1_key;
+    }
+    if (app.clust1 == 'whether') {
+      get += "&whether=" + clust1_cm.getValue();
+    }
+    if (get_info(current_corpus, "enhanced") && $('#eud-box').prop('checked')) {
+      get += "&eud=yes"
+    }
 
-        let get = "?corpus=" + current_corpus + "&custom=" + app.current_request_id;
-        if (app.clust1 == 'key') {
-          get += "&clustering=" + app.clust1_key;
-        }
-        if (app.clust1 == 'whether') {
-          get += "&whether=" + clust1_cm.getValue();
-        }
-        if (get_info(current_corpus, "enhanced") && $('#eud-box').prop('checked')) {
-          get += "&eud=yes"
-        }
-
-        history.pushState({
-            id: app.current_request_id
-          },
-          "Grew - Custom saved pattern",
-          get
-        );
-        $('#custom-url').text(window.location.href);
-        $('#custom-display').show();
-        SelectText("custom-url");
-      }
-    })
-    .fail(function() {
-      console.log("FAIL!!!");
-    })
+    history.pushState({
+        id: app.current_request_id
+      },
+      "Grew - Custom saved pattern",
+      get
+    );
+    $('#custom-url').text(window.location.href);
+    $('#custom-display').show();
+    SelectText("custom-url");
+  })
 }
+
 // ==================================================================================
 function SelectText(element) {
   var doc = document,
