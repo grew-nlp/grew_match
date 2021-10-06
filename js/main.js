@@ -16,6 +16,10 @@ var app = new Vue({
   data: {
     gmb: "http://localhost:9090/",
 
+    left_pane: true, // true iff interface use left_pane
+    view_left_pane: true, // true iff the left_pane is open
+
+
     current_request_id: "",
     current_view: 0,
     result_nb: 0,
@@ -286,13 +290,12 @@ function tuto() {
   $(".group").removeClass("active");
   $("#top-tuto").addClass("active");
 
-  $('#sidebarCollapse').hide();
   search_corpus("UD_English-GUM@2.8");
   update_corpus();
   right_pane("tuto");
 
-  $('#sidebar').removeClass('active');
-  update_but_text();
+  app.left_pane=false;
+  app.view_left_pane=false;
 }
 
 // ==================================================================================
@@ -916,22 +919,6 @@ function last_svg() {
 }
 
 // ==================================================================================
-function sidebar_toggle() {
-  $('#sidebar').toggleClass('active');
-  update_but_text();
-}
-
-// ==================================================================================
-function update_but_text() {
-  if ($('#sidebar').hasClass('active')) {
-    $('#but-text').html("Hide corpora list");
-  } else {
-    $('#but-text').html("Show corpora list");
-  }
-}
-
-
-// ==================================================================================
 function relation_tables() {
   window.open('_meta/' + current_corpus + '_table.html');
 }
@@ -1048,9 +1035,8 @@ function update_group() {
   }
 
   // sidebar open and button visible
-  $('#sidebar').addClass('active');
-  update_but_text();
-  $('#sidebarCollapse').show();
+  app.left_pane=true;
+  app.view_left_pane=true;
 
   // Change background of selecte group
   $(".group").removeClass("active");

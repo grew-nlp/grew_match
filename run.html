@@ -82,7 +82,7 @@
 
 		<!-- wrapper: left menu for corpus selection -->
 		<div class="wrapper" id="wrap">
-			<nav id="sidebar" class="active">
+			<nav id="sidebar" v-bind:class="{ active: view_left_pane }">
 				<div class="panel-group" id="accordion">
 			</nav>
 
@@ -101,8 +101,9 @@
 										<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="warning-tooltip"></span>
 									</h4>
 									<h2 id="corpus">
-										<button type="button" id="sidebarCollapse" onclick="javascript:sidebar_toggle()" class="btn btn-primary">
-											<span id="but-text">Hide corpora list</span>
+										<button v-if="left_pane" type="button" onclick="javascript:app.view_left_pane = !app.view_left_pane" class="btn btn-primary">
+											<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}
+											</span>
 										</button>
 										<span id="corpus-fixed"></span>
 										<span id="eud-span">
