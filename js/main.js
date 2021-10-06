@@ -1,4 +1,4 @@
-var current_data;
+//var app.corpora;
 var current_group;
 var current_corpus;
 var current_folder;
@@ -16,9 +16,10 @@ var app = new Vue({
   data: {
     gmb: "http://localhost:9090/",
 
+    corpora: undefined,
+
     left_pane: true, // true iff interface use left_pane
     view_left_pane: true, // true iff the left_pane is open
-
 
     current_request_id: "",
     current_view: 0,
@@ -57,12 +58,20 @@ var app = new Vue({
     update_parallel_() {
       update_parallel();
     }
+  },
+  computed: {
+    back: function() {
+      if (this.corpora != undefined) {
+        return this.corpora["back"]
+      }
+    },
   }
+
 });
 
 // ==================================================================================
 function get_corpora_from_group(group_id) {
-  group_list = current_data["groups"];
+  group_list = app.corpora["groups"];
   for (var g = 0; g < group_list.length; g++) {
     if (group_list[g]["id"] == group_id) {
       return group_list[g]["corpora"];
@@ -74,7 +83,7 @@ function get_corpora_from_group(group_id) {
 // search for the requested field in the json object which contains the "id" corpus
 function get_info(corpus, field) {
   function aux() {
-    group_list = current_data["groups"];
+    group_list = app.corpora["groups"];
     for (var g = 0; g < group_list.length; g++) {
       corpora = group_list[g]["corpora"];
       for (var c = 0; c < corpora.length; c++) {
@@ -109,7 +118,7 @@ function search_corpus(requested_corpus) {
   current_group = undefined;
   best_cpl = 0;
   best_ld = Number.MAX_SAFE_INTEGER;
-  group_list = current_data["groups"];
+  group_list = app.corpora["groups"];
   for (var g = 0; g < group_list.length; g++) {
     corpora = group_list[g]["corpora"];
     for (var c = 0; c < corpora.length; c++) {
@@ -161,7 +170,7 @@ function search_corpus(requested_corpus) {
 $(document).ready(function() {
   $.getJSON("corpora/groups.json")
     .done(function(data) {
-      current_data = data;
+      app.corpora = data;
       init();
     });
 
@@ -189,14 +198,14 @@ $(document).ready(function() {
 
 // ==================================================================================
 function set_default() {
-  first_group = current_data["groups"][0];
+  first_group = app.corpora["groups"][0];
   current_group = first_group["id"];
   current_corpus = first_group["default"];
 }
 
 // ==================================================================================
 function init() {
-  console.log(current_data);
+  console.log(app.corpora);
   set_default();
   current_snippets = get_info(current_corpus, "snippets");
 
@@ -264,7 +273,7 @@ function disable_save() {
 
 // ==================================================================================
 function init_navbar() {
-  $.each(current_data["groups"], function(index, value) {
+  $.each(app.corpora["groups"], function(index, value) {
     id = value["id"];
     name = value["name"];
     _default = value["default"];
@@ -294,8 +303,8 @@ function tuto() {
   update_corpus();
   right_pane("tuto");
 
-  app.left_pane=false;
-  app.view_left_pane=false;
+  app.left_pane = false;
+  app.view_left_pane = false;
 }
 
 // ==================================================================================
@@ -1035,8 +1044,8 @@ function update_group() {
   }
 
   // sidebar open and button visible
-  app.left_pane=true;
-  app.view_left_pane=true;
+  app.left_pane = true;
+  app.view_left_pane = true;
 
   // Change background of selecte group
   $(".group").removeClass("active");

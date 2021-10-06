@@ -1,0 +1,24 @@
+{
+  "back": {
+    "website": "http://naijasyncor.huma-num.fr/",
+    "logo": "http://naijasyncor.huma-num.fr/assets/images/logo.png"
+  },
+  "groups": [{
+    "id": "local",
+    "name": "Local corpora",
+    "corpora": [{
+        "id": "my_corpora"
+      },
+      {
+        "folder": "Older versions",
+        "corpora": [{
+            "id": "my_corpora@2.0"
+          },
+          {
+            "id": "my_corpora@1.0"
+          }
+        ]
+      }
+    ]
+  }]
+}
