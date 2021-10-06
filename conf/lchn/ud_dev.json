@@ -43,6 +43,16 @@
       "id": "UD_Irish-IDT@dev",
       "config": "ud",
       "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_Irish-IDT"
+    },
+    {
+      "id": "UD_Portuguese-Bosque@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_Portuguese-Bosque"
+    },
+    {
+      "id": "UD_Portuguese-GSD@dev",
+      "config": "ud",
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_Portuguese-GSD"
     }
   ]
 }
