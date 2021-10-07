@@ -3,21 +3,32 @@
     "website": "http://naijasyncor.huma-num.fr/",
     "logo": "http://naijasyncor.huma-num.fr/assets/images/logo.png"
   },
+  "style": "dropdown",
   "groups": [{
-    "id": "local",
-    "name": "Local corpora",
+    "id": "gold",
+    "name": "Naija Gold",
+    "default": "SUD_Naija-NSC@latest",
     "corpora": [{
-        "id": "my_corpora"
+        "id": "SUD_Naija-NSC@2.9"
       },
       {
-        "folder": "Older versions",
-        "corpora": [{
-            "id": "my_corpora@2.0"
-          },
-          {
-            "id": "my_corpora@1.0"
-          }
-        ]
+        "id": "SUD_Naija-NSC@2.8"
+      },
+      {
+        "id": "SUD_Naija-NSC@latest"
+      }
+    ]
+  }, {
+    "id": "non_gold",
+    "name": "Naija Non-Gold",
+    "corpora": [{
+        "id": "SUD_Naija-NSC_Auto@2.9"
+      },
+      {
+        "id": "SUD_Naija-NSC_Auto@2.8"
+      },
+      {
+        "id": "SUD_Naija-NSC_Auto@latest"
       }
     ]
   }]

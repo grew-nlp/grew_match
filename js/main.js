@@ -18,8 +18,8 @@ var app = new Vue({
 
     corpora: undefined,
 
-    left_pane: true, // true iff interface use left_pane
-    view_left_pane: true, // true iff the left_pane is open
+    left_pane: false, // true iff interface use left_pane
+    view_left_pane: false, // true iff the left_pane is open
 
     current_request_id: "",
     current_view: 0,
@@ -57,6 +57,10 @@ var app = new Vue({
   methods: {
     update_parallel_() {
       update_parallel();
+    },
+    update_corpus_(id) {
+      current_corpus=id;
+      update_corpus();
     }
   },
   computed: {
@@ -65,6 +69,11 @@ var app = new Vue({
         return this.corpora["back"]
       }
     },
+    dropdowns: function() {
+      if (this.corpora != undefined && this.corpora["style"] == "dropdown") {
+        return this.corpora["groups"]
+      }
+    }
   }
 
 });
@@ -227,7 +236,11 @@ function init() {
     lineNumbers: true,
   });
 
-  init_navbar();
+  if (app.corpora["style"] == "dropdown") {
+    app.view_left_pane = false;
+  } else {
+    init_navbar();
+  }
 
   deal_with_get_parameters();
 
@@ -259,8 +272,10 @@ function init() {
 
   if (current_group == "tuto") {
     tuto();
-  } else {
+  } else if (app.corpora["style"] != "dropdown") {
     update_group();
+  } else {
+    update_corpus();
   }
 }
 
@@ -1035,7 +1050,6 @@ function select_group(group, corpus) {
 
 // ==================================================================================
 function update_group() {
-
   // update labels of checkboxes
   if (current_group == "semantics" || current_group == "PMB") {
     app.mode = "semantics";
@@ -1136,7 +1150,7 @@ function update_group() {
       html += '</div>\n';
       html += '</div>\n';
     }
-  });
+  });  
   $('#accordion').html(html);
   update_corpus();
 }

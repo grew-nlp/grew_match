@@ -35,6 +35,14 @@ a:hover, a:focus {
   margin-left: 4px;
 }
 
+.dropdown {
+  font-size: large;
+}
+
+.dropdown li {
+  font-size: large;
+}
+
 .table {
   margin-bottom: 0px;
 }
