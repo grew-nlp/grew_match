@@ -1,0 +1,4 @@
+% Search for bigrams of upos
+% For instance: determiner, noun
+
+pattern { N1 [upos=D]; N2 [upos=N]; N1 < N2 }
