@@ -1,0 +1,18 @@
+{
+  "corpora": [
+    {
+      "id": "SUD_Naija-NSC@2.8",
+      "directory": "/home/guillaum/resources/sud-treebanks-v2.8/SUD_Naija-NSC"
+    },
+    {
+      "id": "SUD_Naija-NSC@latest",
+      "config": "sud",
+      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_Naija-NSC"
+    },
+    {
+      "id": "SUD_Naija-NSC_Auto@latest",
+      "config": "sud",
+      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_Naija-NSC/non_gold"
+    }
+  ]
+}
