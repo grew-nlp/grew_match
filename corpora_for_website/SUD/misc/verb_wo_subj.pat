@@ -4,7 +4,11 @@
 pattern { V [upos="VERB", VerbForm <> Ger|Inf|Part, Mood <> Imp] }
 
 % first negative pattern: there is no "subject" node
-without { V -[nsubj|csubj|nsubj:pass]-> S}
+without { V -[1=subj]-> S}
 
-% second negative pattern: the verb if not a dependent of a relation "cop", "aux", …
-without { N -[cop|aux|aux:pass|conj]-> V}
+% remove cases where the verb is in conjuction with another one
+without { * -[1=conj]-> V }
+
+% Remove Idioms
+without { V [Idiom=Yes] }
+without { V [InIdiom=Yes] }
