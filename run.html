@@ -67,10 +67,10 @@
 		<nav id="navbar-grew" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<span v-if="!back" class="navbar-brand" id="title-grew">Grew-match</span>
+					<span v-if="!top_project" class="navbar-brand" id="title-grew">Grew-match</span>
 
-					<a v-bind:href='back["website"]' v-if="back" class="navbar-brand" id="title-grew" style="padding:0px; background-color:white; height:50px;">
-						<img v-bind:src='back["logo"]' alt="LOGO for back site">
+					<a v-bind:href='top_project["website"]' v-if="top_project" class="navbar-brand" id="title-grew" style="padding:0px; background-color:white; height:50px;">
+						<img v-bind:src='top_project["logo"]' alt="LOGO for top_project site">
 					</a>
 
 					<ul class="nav navbar-nav groups">

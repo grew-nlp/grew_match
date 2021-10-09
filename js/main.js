@@ -14,8 +14,6 @@ var already_built_cluster_file = []
 var app = new Vue({
   el: '#app',
   data: {
-    gmb: "http://localhost:9090/",
-
     corpora: undefined,
 
     left_pane: false, // true iff interface use left_pane
@@ -64,14 +62,21 @@ var app = new Vue({
     }
   },
   computed: {
-    back: function() {
+    top_project: function() {
       if (this.corpora != undefined) {
-        return this.corpora["back"]
+        return this.corpora["top_project"]
       }
     },
     dropdowns: function() {
       if (this.corpora != undefined && this.corpora["style"] == "dropdown") {
         return this.corpora["groups"]
+      }
+    },
+    gmb: function () {
+      if (this.corpora["backend_server"] != undefined) {
+        return this.corpora["backend_server"]
+      } else {
+        return "http://localhost:9090"
       }
     }
   }
@@ -694,7 +699,7 @@ function display_picture(event) {
     start_audio();
   }
 
-  var newHtml = "<object id=\"result-pic\" type=\"image/svg+xml\" class=\"logo\" data=\"" + event.data.url + "\" > </object>";
+  var newHtml = "<img id=\"result-pic\" src=\"" + event.data.url + "\" > </img>";  
   document.getElementById('display-svg').innerHTML = newHtml;
 
   $('#results-list li').removeClass('displayed');

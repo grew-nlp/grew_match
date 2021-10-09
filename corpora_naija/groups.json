@@ -1,8 +1,9 @@
 {
-  "back": {
+  "top_project": {
     "website": "http://naijasyncor.huma-num.fr/",
     "logo": "http://naijasyncor.huma-num.fr/assets/images/logo.png"
   },
+  "backend_server": "http://match-back.grew.fr/",
   "style": "dropdown",
   "groups": [{
     "id": "gold",
