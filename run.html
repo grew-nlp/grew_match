@@ -79,8 +79,8 @@
 						<li v-for="dropdown in dropdowns" class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ dropdown["name"] }}<span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li v-for='corpus in dropdown["corpora"]'>
-									<a href="#" v-on:click='update_corpus_(corpus["id"])'>{{corpus["id"]}}</a></li>
+								<li v-for='corpus in dropdown["corpora"]' v-bind:class='{ divider: corpus=="divider" }' >
+									<a href="#" v-if='corpus!="divider"' v-on:click='update_corpus_(corpus["id"])'>{{corpus["id"]}}</a></li>
 							</ul>
 						</li>
 
@@ -88,7 +88,6 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li><a class="navbar-brand" href="https://grew.fr/grew_match/help">Help</a></li>
 						<li><a class="navbar-brand" href="https://github.com/grew-nlp/grew/issues">Issues</a></li>
-						<!-- <li><a class="navbar-brand" href="https://grew.fr">Grew website</a></li> -->
 					</ul>
 				</div>
 			</div>
