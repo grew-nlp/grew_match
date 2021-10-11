@@ -206,7 +206,9 @@
 										</label>
 									</p>
 									<p>
-										<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" style="margin-right:10px">Search</button>
+										<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
+
+
 										<button class="btn btn-primary tooltip-desc" id="save-button" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
 										<button class="btn btn-primary tooltip-desc" v-if="mode=='syntax'" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
 
