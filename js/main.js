@@ -42,6 +42,8 @@ var app = new Vue({
     parallels: [],
     parallel_svg: undefined,
 
+    wait: false,
+
     // printing parameters
     lemma: true,
     upos: true,
@@ -534,6 +536,7 @@ function search_pattern() {
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
+  app.wait=true,
   request("new", form, function(data) {
 
     app.current_request_id = response.data
@@ -582,6 +585,7 @@ function search_pattern() {
         };
       }
     });
+    app.wait=false;
   })
 }
 
