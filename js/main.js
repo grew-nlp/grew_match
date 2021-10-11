@@ -426,6 +426,7 @@ function search_pattern() {
   }
 
   console.log(data);
+  app.wait = true;
   $.ajax({
     url: 'main.php',
     dataType: 'text',
@@ -492,9 +493,11 @@ function search_pattern() {
           }
         });
       }
+      app.wait = false;
     },
     error: function(x) {
       alert("[NEW] Ajax error:" + JSON.stringify(x));
+      app.wait = false;
     }
   });
 }

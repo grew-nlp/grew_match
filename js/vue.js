@@ -20,6 +20,8 @@ var app = new Vue({
     parallels: [],
     parallel_svg: undefined,
     
+    wait: false,
+
     // printing parameters
     lemma: true,
     upos: true,
