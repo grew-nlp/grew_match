@@ -10,28 +10,24 @@
     "name": "Naija Gold",
     "default": "SUD_Naija-NSC@latest",
     "corpora": [{
-        "id": "SUD_Naija-NSC@2.9"
+        "id": "SUD_Naija-NSC@2.8"
       },
       {
-        "id": "SUD_Naija-NSC@2.8"
+        "id": "SUD_Naija-NSC@latest"
       },
       "divider",
       {
-        "id": "SUD_Naija-NSC@latest"
+        "id": "UD_Naija-NSC@2.8"
+      }, {
+        "id": "UD_Naija-NSC@conv"
       }
+
     ]
   }, {
     "id": "non_gold",
     "name": "Naija Non-Gold",
     "corpora": [{
-        "id": "SUD_Naija-NSC_Auto@2.9"
-      },
-      {
-        "id": "SUD_Naija-NSC_Auto@2.8"
-      },
-      {
-        "id": "SUD_Naija-NSC_Auto@latest"
-      }
-    ]
+      "id": "SUD_Naija-NSC_Auto@latest"
+    }]
   }]
 }
