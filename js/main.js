@@ -15,6 +15,7 @@ var app = new Vue({
   el: '#app',
   data: {
     corpora: undefined,
+    backend_server: undefined,
 
     left_pane: false, // true iff interface use left_pane
     view_left_pane: false, // true iff the left_pane is open
@@ -59,7 +60,7 @@ var app = new Vue({
       update_parallel();
     },
     update_corpus_(id) {
-      current_corpus=id;
+      current_corpus = id;
       update_corpus();
     }
   },
@@ -73,16 +74,8 @@ var app = new Vue({
       if (this.corpora != undefined && this.corpora["style"] == "dropdown") {
         return this.corpora["groups"]
       }
-    },
-    gmb: function () {
-      if (this.corpora["backend_server"] != undefined) {
-        return this.corpora["backend_server"]
-      } else {
-        return "http://localhost:9090"
-      }
     }
   }
-
 });
 
 // ==================================================================================
@@ -228,6 +221,11 @@ function init() {
   $('#save-button').prop('disabled', true);
   $('#export-button').prop('disabled', true);
 
+  if (app.corpora["backend_server"] == undefined) {
+    direct_error("Undefined `backend_server` in config file");
+  }
+  app.backend_server = app.corpora["backend_server"]
+
   // Initialise CodeMirror
   cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
     lineNumbers: true,
@@ -346,7 +344,7 @@ function deal_with_get_parameters() {
   if (getParameterByName("custom").length > 0) {
     get_custom = getParameterByName("custom");
 
-    $.get(app.gmb + "/shorten/" + get_custom, function(pattern) {
+    $.get(app.backend_server + "/shorten/" + get_custom, function(pattern) {
       cmEditor.setValue(pattern);
       setTimeout(search_pattern, 0); // hack: else clust1_cm value is not taken into account.
     });
@@ -448,7 +446,7 @@ function direct_error(msg) {
 // ==================================================================================
 function request(service, form, data_fct) {
   var settings = {
-    "url": app.gmb + service,
+    "url": app.backend_server + service,
     "method": "POST",
     "timeout": 0,
     "processData": false,
@@ -536,7 +534,7 @@ function search_pattern() {
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  app.wait=true,
+  app.wait = true;
   request("new", form, function(data) {
 
     app.current_request_id = response.data
@@ -547,7 +545,7 @@ function search_pattern() {
     } else {
       $('#sentence-txt').removeAttr("dir");
     }
-    var data_folder = app.gmb + "/data/" + app.current_request_id;
+    var data_folder = app.backend_server + "/data/" + app.current_request_id;
 
     $.get(data_folder + "/list", function(data) {
       $('#save-button').prop('disabled', false);
@@ -585,7 +583,7 @@ function search_pattern() {
         };
       }
     });
-    app.wait=false;
+    app.wait = false;
   })
 }
 
@@ -602,7 +600,7 @@ function update_modal_pivot() {
 
 // ==================================================================================
 function fill_cluster_buttons() {
-  var data_folder = app.gmb + "/data/" + app.current_request_id;
+  var data_folder = app.backend_server + "/data/" + app.current_request_id;
   $.get(data_folder + "/clusters", function(data) {
     current_but_sel = undefined;
     already_built_cluster_file = [];
@@ -650,7 +648,7 @@ function fill_cluster_buttons() {
 
 // ==================================================================================
 function load_cluster_file() {
-  var data_folder = app.gmb + "/data/" + app.current_request_id;
+  var data_folder = app.backend_server + "/data/" + app.current_request_id;
   $.get(data_folder + "/cluster_" + current_cluster, function(data) {
     lines = data.split("\n");
     for (var i = current_line_num, len = lines.length; i < len; i++) {
@@ -703,7 +701,7 @@ function display_picture(event) {
     start_audio();
   }
 
-  var newHtml = "<img id=\"result-pic\" src=\"" + event.data.url + "\" > </img>";  
+  var newHtml = "<img id=\"result-pic\" src=\"" + event.data.url + "\" > </img>";
   document.getElementById('display-svg').innerHTML = newHtml;
 
   $('#results-list li').removeClass('displayed');
@@ -732,7 +730,7 @@ function display_picture(event) {
 
 // ==================================================================================
 function show_export_modal() {
-  var data_folder = app.gmb + "/data/" + app.current_request_id;
+  var data_folder = app.backend_server + "/data/" + app.current_request_id;
   $.get(data_folder + "/export.tsv", function(data) {
     lines = data.split("\n");
 
@@ -808,14 +806,14 @@ function update_parallel() {
     form.append("param", JSON.stringify(param));
 
     request("parallel", form, function(data) {
-      app.parallel_svg = app.gmb + "/data/" + app.current_request_id + "/" + data;
+      app.parallel_svg = app.backend_server + "/data/" + app.current_request_id + "/" + data;
     })
   }
 }
 
 // ==================================================================================
 function download() {
-  var data_folder = app.gmb + "/data/" + app.current_request_id;
+  var data_folder = app.backend_server + "/data/" + app.current_request_id;
   window.location = data_folder + '/export.tsv';
 }
 
@@ -1159,7 +1157,7 @@ function update_group() {
       html += '</div>\n';
       html += '</div>\n';
     }
-  });  
+  });
   $('#accordion').html(html);
   update_corpus();
 }
