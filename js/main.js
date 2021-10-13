@@ -568,9 +568,9 @@ function search_pattern() {
           } else if (fields[0] == '<TOTAL>') {
             $('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
           } else if (fields[0] == '<OVER>') {
-            $('#progress-txt').html('More than 1000 results found in ' + fields[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
+            $('#progress-txt').html('More than 1000 results found in ' + 100 * fields[1] + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
           } else if (fields[0] == '<TIME>') {
-            $('#progress-txt').html('Timeout after 10s. ' + fields[1] + ' occurrences found in ' + fields[2] + '% of the corpus');
+            $('#progress-txt').html('Timeout after 10s. ' + fields[1] + ' occurrences found in ' + 100 * fields[2] + '% of the corpus');
           } else if (fields[0] == '<ONECLUSTER>') {
             current_cluster = 0;
             load_cluster_file();
