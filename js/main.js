@@ -16,6 +16,8 @@ var app = new Vue({
   data: {
     corpora: undefined,
     backend_server: undefined,
+    meta_url: undefined,
+    tuto: undefined,
 
     left_pane: false, // true iff interface use left_pane
     view_left_pane: false, // true iff the left_pane is open
@@ -177,7 +179,7 @@ function search_corpus(requested_corpus) {
 // ==================================================================================
 // this function is run after page loading
 $(document).ready(function() {
-  $.getJSON("corpora/groups.json")
+  $.getJSON("corpora/config.json")
     .done(function(data) {
       app.corpora = data;
       init();
@@ -222,9 +224,12 @@ function init() {
   $('#export-button').prop('disabled', true);
 
   if (app.corpora["backend_server"] == undefined) {
-    direct_error("Undefined `backend_server` in config file");
+    direct_error("Undefined `backend_server` in config file")
+  } else {
+    app.backend_server = app.corpora["backend_server"]
   }
-  app.backend_server = app.corpora["backend_server"]
+
+  app.tuto = app.corpora["tuto"];
 
   // Initialise CodeMirror
   cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
@@ -272,11 +277,11 @@ function init() {
   });
 
   $('#select-tuto').click(function() {
-    tuto()
+    start_tuto()
   });
 
   if (current_group == "tuto") {
-    tuto();
+    start_tuto();
   } else if (app.corpora["style"] != "dropdown") {
     update_group();
   } else {
@@ -312,14 +317,14 @@ function init_navbar() {
 }
 
 // ==================================================================================
-function tuto() {
+function start_tuto() {
   app.mode = "syntax";
 
   // Change background of selecte group
   $(".group").removeClass("active");
   $("#top-tuto").addClass("active");
 
-  search_corpus("UD_English-GUM@2.8");
+  search_corpus(app.tuto.corpus);
   update_corpus();
   right_pane("tuto");
 
@@ -953,7 +958,7 @@ function last_svg() {
 
 // ==================================================================================
 function relation_tables() {
-  window.open('_meta/' + current_corpus + '_table.html');
+  window.open(app.meta_url + current_corpus + '_table.html');
 }
 
 // ==================================================================================
@@ -963,7 +968,7 @@ function validation_page() {
 
 // ==================================================================================
 function logs_page() {
-  window.open('_meta/' + current_corpus + '.log');
+  window.open(app.meta_url + current_corpus + '.log');
 }
 
 // ==================================================================================
@@ -1034,12 +1039,12 @@ function update_corpus() {
   }
 
   $('#corpus-desc').html("");
-  $.get("_meta/" + current_corpus + "_desc.html", function(data) {
+  $.get(app.meta_url + current_corpus + "_desc.html", function(data) {
     $('#corpus-desc').html(data);
   });
 
   // Show the errors button only if there is a not empty log_file
-  $.get("_meta/" + current_corpus + ".log", function(data) {
+  $.get(app.meta_url + current_corpus + ".log", function(data) {
     if (data.length > 0) {
       $('#logs').show();
     } else {
