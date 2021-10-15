@@ -74,13 +74,15 @@
 					</a>
 
 					<ul class="nav navbar-nav groups">
-						<li class="group" v-show="tuto != undefined" id="top-tuto"><a class="navbar-brand" id="select-tuto" href="#">Tutorial</a></li>
+						<li class="group" v-show="tuto != undefined" v-bind:class="{ active: current_group == 'tuto' }">
+							<a class="navbar-brand" onclick="javascript:start_tuto()" href="#">Tutorial</a>
+						</li>
 
-						<li v-for="dropdown in dropdowns" class="dropdown">
+						<li v-for="dropdown in dropdowns" class="dropdown" v-bind:class='{ active: current_group == dropdown["id"] }'>
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ dropdown["name"] }}<span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li v-for='corpus in dropdown["corpora"]' v-bind:class='{ divider: corpus=="divider" }'>
-									<a href="#" v-if='corpus!="divider"' v-on:click='update_corpus_(corpus["id"])'>{{corpus["id"]}}</a></li>
+									<a href="#" v-if='corpus!="divider"' v-on:click='current_group = dropdown["id"]; set_corpus_(corpus["id"])'>{{corpus["id"]}}</a></li>
 							</ul>
 						</li>
 
