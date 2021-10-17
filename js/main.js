@@ -1,11 +1,11 @@
-var current_folder;
+var current_folder; // TODO: check usage
 var current_snippets;
 var current_cluster;
 var current_pivot;
 var current_pivots;
 
-var current_but_sel
-var already_built_cluster_file = []
+var current_but_sel;
+var already_built_cluster_file = [];
 
 // ==================================================================================
 var app = new Vue({
@@ -21,6 +21,8 @@ var app = new Vue({
 
     current_group: undefined,
     current_corpus: undefined,
+    current_corpus_id: undefined,
+    corpus_desc: "",
     current_request_id: "",
     current_view: 0,
     result_nb: 0,
@@ -119,10 +121,11 @@ function get_info(corpus, field) {
 }
 
 // ==================================================================================
-// return an array [real_corpus_name, folder, group]
+// update the 4 global variables: app.current_corpus, app.current_corpus_id, app.current_group and global_folder
 function search_corpus(requested_corpus) {
   $('#warning').hide();
   app.current_corpus = undefined;
+  app.current_corpus_id = undefined;
   current_folder = undefined;
   app.current_group = undefined;
   best_cpl = 0;
@@ -133,7 +136,8 @@ function search_corpus(requested_corpus) {
     for (var c = 0; c < corpora.length; c++) {
       if (corpora[c]["id"] != undefined) {
         if (requested_corpus == corpora[c]["id"]) {
-          app.current_corpus = corpora[c]["id"];
+          app.current_corpus = corpora[c];
+          app.current_corpus_id = corpora[c]["id"];
           app.current_group = group_list[g]["id"];
           return;
         }
@@ -142,7 +146,8 @@ function search_corpus(requested_corpus) {
         if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
           best_cpl = cpl;
           best_ld = ld;
-          app.current_corpus = corpora[c]["id"];
+          app.current_corpus = corpora[c];
+          app.current_corpus_id = corpora[c]["id"];
           app.current_group = group_list[g]["id"];
         }
       }
@@ -150,7 +155,8 @@ function search_corpus(requested_corpus) {
         subcorpora = corpora[c]["corpora"];
         for (var cc = 0; cc < subcorpora.length; cc++) {
           if (requested_corpus == subcorpora[cc]["id"]) {
-            app.current_corpus = subcorpora[cc]["id"];
+            app.current_corpus = subcorpora[cc];
+            app.current_corpus_id = subcorpora[cc]["id"];
             current_folder = corpora[c]["folder"];
             app.current_group = group_list[g]["id"];
             return;
@@ -160,7 +166,8 @@ function search_corpus(requested_corpus) {
           if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
             best_cpl = cpl;
             best_ld = ld;
-            app.current_corpus = subcorpora[cc]["id"];
+            app.current_corpus = subcorpora[cc];
+            app.current_corpus_id = subcorpora[cc]["id"];
             current_folder = corpora[c]["folder"];
             app.current_group = group_list[g]["id"];
           }
@@ -169,7 +176,7 @@ function search_corpus(requested_corpus) {
     }
   }
   // no exact matching
-  $('#warning-text').html("⚠️ " + requested_corpus + " &rarr; " + app.current_corpus);
+  $('#warning-text').html("⚠️ " + requested_corpus + " &rarr; " + app.current_corpus_id);
   $('#warning').show();
 }
 
@@ -207,16 +214,14 @@ $(document).ready(function() {
 
 // ==================================================================================
 function set_default() {
-  first_group = app.corpora["groups"][0];
-  app.current_group = first_group["id"];
-  app.current_corpus = first_group["default"];
+  search_corpus(app.corpora["groups"][0]["default"]);
 }
 
 // ==================================================================================
 function init() {
   console.log(app.corpora);
   set_default();
-  current_snippets = get_info(app.current_corpus, "snippets");
+  current_snippets = get_info(app.current_corpus_id, "snippets");
 
   $('#save-button').prop('disabled', true);
   $('#export-button').prop('disabled', true);
@@ -313,9 +318,9 @@ function init_navbar() {
 // ==================================================================================
 function start_tuto() {
   app.mode = "syntax";
-  app.current_group = "tuto";
 
-  app.current_corpus = app.tuto.corpus;
+  search_corpus(app.tuto.corpus);
+  app.current_group = "tuto";  // HACK: erase the group defined by previous line --> reconsider...
   update_corpus();
   right_pane("tuto");
 
@@ -508,7 +513,7 @@ function search_pattern() {
 
   var param = {
     pattern: cmEditor.getValue(),
-    corpus: app.current_corpus,
+    corpus: app.current_corpus_id,
     lemma: app.lemma,
     upos: app.upos,
     xpos: app.xpos,
@@ -516,7 +521,7 @@ function search_pattern() {
     tf_wf: app.tf_wf,
     order: $('#sentences-order').val(),
     context: app.context,
-    eud2ud: (get_info(app.current_corpus, "enhanced") && !($('#eud-box').prop('checked'))),
+    eud2ud: (get_info(app.current_corpus_id, "enhanced") && !($('#eud-box').prop('checked'))),
     clust1: app.clust1,
   };
 
@@ -536,7 +541,7 @@ function search_pattern() {
     app.current_request_id = response.data
 
     // set the writting direction
-    if (get_info(app.current_corpus, "rtl")) {
+    if (get_info(app.current_corpus_id, "rtl")) {
       $('#sentence-txt').attr("dir", "rtl");
     } else {
       $('#sentence-txt').removeAttr("dir");
@@ -854,14 +859,14 @@ function save_pattern() {
   form.append("param", JSON.stringify(param));
 
   request("save", form, function(data) {
-    let get = "?corpus=" + app.current_corpus + "&custom=" + app.current_request_id;
+    let get = "?corpus=" + app.current_corpus_id + "&custom=" + app.current_request_id;
     if (app.clust1 == 'key') {
       get += "&clustering=" + app.clust1_key;
     }
     if (app.clust1 == 'whether') {
       get += "&whether=" + clust1_cm.getValue();
     }
-    if (get_info(app.current_corpus, "enhanced") && $('#eud-box').prop('checked')) {
+    if (get_info(app.current_corpus_id, "enhanced") && $('#eud-box').prop('checked')) {
       get += "&eud=yes"
     }
 
@@ -949,17 +954,17 @@ function last_svg() {
 
 // ==================================================================================
 function relation_tables() {
-  window.open(app.meta_url + app.current_corpus + '_table.html');
+  window.open(app.corpora.meta_url + app.current_corpus_id + '_table.html');
 }
 
 // ==================================================================================
 function validation_page() {
-  window.open('valid?corpus=' + app.current_corpus);
+  window.open('valid?corpus=' + app.current_corpus_id);
 }
 
 // ==================================================================================
 function logs_page() {
-  window.open(app.meta_url + app.current_corpus + '.log');
+  window.open(app.meta_url + app.current_corpus_id + '.log');
 }
 
 // ==================================================================================
@@ -971,26 +976,21 @@ function escape(s) {
 
 // ==================================================================================
 function set_corpus(corpus) {
-  app.current_corpus = corpus;
+  search_corpus(corpus);
   $("#warning").hide();
   history.pushState({},
-    "Grew - " + app.current_corpus,
-    "?corpus=" + app.current_corpus
+    "Grew - " + app.current_corpus_id,
+    "?corpus=" + app.current_corpus_id
   );
   update_corpus()
 }
 
 // ==================================================================================
 function update_corpus() {
-  // set the corpus name
-  desc = get_info(app.current_corpus, "desc");
-  if (desc == "") {
-    $('#corpus-fixed').html(app.current_corpus);
-  } else {
-    $('#corpus-fixed').html(desc);
-  }
+  // $('#corpus-fixed').html("["+app.current_corpus_id+"]" + (app.current_corpus["desc"] ? " "+app.current_corpus["desc"] : ""));
+  app.corpus_desc = app.current_corpus["desc"] ? " "+app.current_corpus["desc"] : "";
 
-  if (get_info(app.current_corpus, "enhanced")) {
+  if (get_info(app.current_corpus_id, "enhanced")) {
     $("#eud-span").show();
   } else {
     $("#eud-span").hide();
@@ -998,24 +998,24 @@ function update_corpus() {
   }
 
   app.parallel = "no";
-  let parallels = get_info(app.current_corpus, "parallels");
+  let parallels = get_info(app.current_corpus_id, "parallels");
   if (parallels) {
     app.parallels = parallels;
   } else {
     app.parallels = [];
   }
 
-  if (app.current_corpus.startsWith("SUD") && app.current_corpus.endsWith("latest")) {
+  if (app.current_corpus_id.startsWith("SUD") && app.current_corpus_id.endsWith("latest")) {
     $("#validation").show();
   } else {
     $("#validation").hide();
   }
 
-  app.audio = (get_info(app.current_corpus, "audio") == true);
+  app.audio = (get_info(app.current_corpus_id, "audio") == true);
 
   disable_save();
 
-  current_snippets = get_info(app.current_corpus, "snippets");
+  current_snippets = get_info(app.current_corpus_id, "snippets");
   if (current_snippets == "") {
     right_pane(app.current_group)
   } else {
@@ -1023,19 +1023,19 @@ function update_corpus() {
   }
 
   $(".selected_corpus").removeClass("selected_corpus");
-  $('#' + escape(app.current_corpus)).addClass("selected_corpus");
+  $('#' + escape(app.current_corpus_id)).addClass("selected_corpus");
 
   if (current_folder != undefined) {
     $("#" + current_folder).collapse('show');
   }
 
   $('#corpus-desc').html("");
-  $.get(app.meta_url + app.current_corpus + "_desc.html", function(data) {
+  $.get(app.meta_url + app.current_corpus_id + "_desc.html", function(data) {
     $('#corpus-desc').html(data);
   });
 
   // Show the errors button only if there is a not empty log_file
-  $.get(app.meta_url + app.current_corpus + ".log", function(data) {
+  $.get(app.meta_url + app.current_corpus_id + ".log", function(data) {
     if (data.length > 0) {
       $('#logs').show();
     } else {
@@ -1049,7 +1049,7 @@ function update_corpus() {
 // ==================================================================================
 function select_group(group, corpus) {
   app.current_group = group;
-  app.current_corpus = corpus;
+  app.current_corpus_id = corpus;
   update_group();
 }
 

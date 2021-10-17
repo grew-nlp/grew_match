@@ -120,7 +120,8 @@
 											<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}
 											</span>
 										</button>
-										<span id="corpus-fixed"></span>
+										<span class="label label-default">{{ current_corpus_id }}</span>
+										<span>{{ corpus_desc }}</span>
 										<span id="eud-span">
 											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
 										</span>
