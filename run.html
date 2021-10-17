@@ -73,17 +73,23 @@
 						<img v-bind:src='top_project["logo"]' alt="LOGO for top_project site">
 					</a>
 
-					<ul class="nav navbar-nav groups">
-						<li class="group" v-show="tuto != undefined" v-bind:class="{ active: current_group == 'tuto' }">
-							<a class="navbar-brand" onclick="javascript:start_tuto()" href="#">Tutorial</a>
-						</li>
+					<ul class="nav navbar-nav groups" style="margin-left:30px">
+						<li v-for="group in groups" v-bind:class='{dropdown: group["style"] == "dropdown", active: current_group == group["id"] }'>
 
-						<li v-for="dropdown in dropdowns" class="dropdown" v-bind:class='{ active: current_group == dropdown["id"] }'>
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ dropdown["name"] }}<span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li v-for='corpus in dropdown["corpora"]' v-bind:class='{ divider: corpus=="divider" }'>
-									<a href="#" v-if='corpus!="divider"' v-on:click='current_group = dropdown["id"]; set_corpus_(corpus["id"])'>{{corpus["id"]}}</a></li>
+							<!-- tuto case -->
+							<a v-if='group["style"] == "tuto"' class="navbar-brand" v-on:click='start_tuto_(group["corpus"])' href="#" role="button">{{ group["name"] }} </a>
+
+							<!-- dropdown case -->
+							<a v-if='group["style"] == "dropdown"' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ group["name"] }}
+								<span class="caret"></span>
+							</a>
+							<ul v-if='group["style"] == "dropdown"' class="dropdown-menu">
+								<li v-for='corpus in group["corpora"]' v-bind:class='{ divider: corpus=="divider" }'>
+									<a href="#" v-if='corpus!="divider"' v-on:click='current_group = group["id"]; set_corpus_(corpus["id"])'>{{corpus["id"]}}</a></li>
 							</ul>
+
+							<!-- leftpane case -->
+							<a v-if='group["style"] != "tuto" && group["style"] != "dropdown"' class="navbar-brand" v-on:click='select_group_(group["id"], group["default"])' href="#">{{group["name"]}}</a>
 						</li>
 
 					</ul>

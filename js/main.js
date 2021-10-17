@@ -64,7 +64,13 @@ var app = new Vue({
     },
     set_corpus_(id) {
       set_corpus(id);
-    },    
+    },
+    select_group_(group_id, corpus_id) {
+      select_group(group_id, corpus_id);
+    },
+    start_tuto_(id) {
+      start_tuto(id);
+    },
   },
   computed: {
     top_project: function() {
@@ -72,11 +78,11 @@ var app = new Vue({
         return this.corpora["top_project"]
       }
     },
-    dropdowns: function() {
-      if (this.corpora != undefined && this.corpora["style"] == "dropdown") {
+    groups: function() {
+      if (this.corpora != undefined) {
         return this.corpora["groups"]
       }
-    }
+    },
   }
 });
 
@@ -96,16 +102,19 @@ function get_info(corpus, field) {
   function aux() {
     group_list = app.corpora["groups"];
     for (var g = 0; g < group_list.length; g++) {
-      corpora = group_list[g]["corpora"];
-      for (var c = 0; c < corpora.length; c++) {
-        if (corpora[c]["id"] == corpus) {
-          return corpora[c][field];
-        }
-        if (corpora[c]["folder"] != undefined) {
-          subcorpora = corpora[c]["corpora"];
-          for (var cc = 0; cc < subcorpora.length; cc++) {
-            if (subcorpora[cc]["id"] == corpus) {
-              return subcorpora[cc][field];
+      let group = group_list[g];
+      if (group["style"] != "tuto") {
+        corpora = group_list[g]["corpora"];
+        for (var c = 0; c < corpora.length; c++) {
+          if (corpora[c]["id"] == corpus) {
+            return corpora[c][field];
+          }
+          if (corpora[c]["folder"] != undefined) {
+            subcorpora = corpora[c]["corpora"];
+            for (var cc = 0; cc < subcorpora.length; cc++) {
+              if (subcorpora[cc]["id"] == corpus) {
+                return subcorpora[cc][field];
+              }
             }
           }
         }
@@ -132,44 +141,47 @@ function search_corpus(requested_corpus) {
   best_ld = Number.MAX_SAFE_INTEGER;
   group_list = app.corpora["groups"];
   for (var g = 0; g < group_list.length; g++) {
-    corpora = group_list[g]["corpora"];
-    for (var c = 0; c < corpora.length; c++) {
-      if (corpora[c]["id"] != undefined) {
-        if (requested_corpus == corpora[c]["id"]) {
-          app.current_corpus = corpora[c];
-          app.current_corpus_id = corpora[c]["id"];
-          app.current_group = group_list[g]["id"];
-          return;
-        }
-        cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
-        ld = levenshtein(requested_corpus, corpora[c]["id"]);
-        if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
-          best_cpl = cpl;
-          best_ld = ld;
-          app.current_corpus = corpora[c];
-          app.current_corpus_id = corpora[c]["id"];
-          app.current_group = group_list[g]["id"];
-        }
-      }
-      if (corpora[c]["folder"] != undefined) {
-        subcorpora = corpora[c]["corpora"];
-        for (var cc = 0; cc < subcorpora.length; cc++) {
-          if (requested_corpus == subcorpora[cc]["id"]) {
-            app.current_corpus = subcorpora[cc];
-            app.current_corpus_id = subcorpora[cc]["id"];
-            current_folder = corpora[c]["folder"];
+    let group = group_list[g];
+    if (group["style"] != "tuto") {
+      corpora = group_list[g]["corpora"];
+      for (var c = 0; c < corpora.length; c++) {
+        if (corpora[c]["id"] != undefined) {
+          if (requested_corpus == corpora[c]["id"]) {
+            app.current_corpus = corpora[c];
+            app.current_corpus_id = corpora[c]["id"];
             app.current_group = group_list[g]["id"];
             return;
           }
-          cpl = common_prefix_length(requested_corpus, subcorpora[cc]["id"]);
-          ld = levenshtein(requested_corpus, subcorpora[cc]["id"]);
+          cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
+          ld = levenshtein(requested_corpus, corpora[c]["id"]);
           if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
             best_cpl = cpl;
             best_ld = ld;
-            app.current_corpus = subcorpora[cc];
-            app.current_corpus_id = subcorpora[cc]["id"];
-            current_folder = corpora[c]["folder"];
+            app.current_corpus = corpora[c];
+            app.current_corpus_id = corpora[c]["id"];
             app.current_group = group_list[g]["id"];
+          }
+        }
+        if (corpora[c]["folder"] != undefined) {
+          subcorpora = corpora[c]["corpora"];
+          for (var cc = 0; cc < subcorpora.length; cc++) {
+            if (requested_corpus == subcorpora[cc]["id"]) {
+              app.current_corpus = subcorpora[cc];
+              app.current_corpus_id = subcorpora[cc]["id"];
+              current_folder = corpora[c]["folder"];
+              app.current_group = group_list[g]["id"];
+              return;
+            }
+            cpl = common_prefix_length(requested_corpus, subcorpora[cc]["id"]);
+            ld = levenshtein(requested_corpus, subcorpora[cc]["id"]);
+            if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
+              best_cpl = cpl;
+              best_ld = ld;
+              app.current_corpus = subcorpora[cc];
+              app.current_corpus_id = subcorpora[cc]["id"];
+              current_folder = corpora[c]["folder"];
+              app.current_group = group_list[g]["id"];
+            }
           }
         }
       }
@@ -214,7 +226,7 @@ $(document).ready(function() {
 
 // ==================================================================================
 function set_default() {
-  search_corpus(app.corpora["groups"][0]["default"]);
+  search_corpus(app.corpora["default"]);
 }
 
 // ==================================================================================
@@ -248,12 +260,6 @@ function init() {
   clust2_cm = CodeMirror.fromTextArea(document.getElementById("whether-input2"), {
     lineNumbers: true,
   });
-
-  if (app.corpora["style"] == "dropdown") {
-    app.view_left_pane = false;
-  } else {
-    init_navbar();
-  }
 
   deal_with_get_parameters();
 
@@ -296,34 +302,10 @@ function disable_save() {
 }
 
 // ==================================================================================
-function init_navbar() {
-  $.each(app.corpora["groups"], function(index, value) {
-    id = value["id"];
-    name = value["name"];
-    _default = value["default"];
-    $('.groups').append(
-      '<li class="group" id="top-' +
-      id +
-      '"><a class="navbar-brand" onclick="select_group(\'' +
-      id +
-      '\', \'' +
-      _default +
-      '\')" href="#">' +
-      name +
-      '</a></li>'
-    );
-  });
-}
-
-// ==================================================================================
-function start_tuto() {
-  app.mode = "syntax";
-
-  search_corpus(app.tuto.corpus);
+function start_tuto(corpus) {
+  search_corpus(corpus);
   app.current_group = "tuto";  // HACK: erase the group defined by previous line --> reconsider...
   update_corpus();
-  right_pane("tuto");
-
   app.left_pane = false;
   app.view_left_pane = false;
 }
@@ -987,8 +969,7 @@ function set_corpus(corpus) {
 
 // ==================================================================================
 function update_corpus() {
-  // $('#corpus-fixed').html("["+app.current_corpus_id+"]" + (app.current_corpus["desc"] ? " "+app.current_corpus["desc"] : ""));
-  app.corpus_desc = app.current_corpus["desc"] ? " "+app.current_corpus["desc"] : "";
+  app.corpus_desc = app.current_corpus["desc"] ? " " + app.current_corpus["desc"] : "";
 
   if (get_info(app.current_corpus_id, "enhanced")) {
     $("#eud-span").show();
@@ -1047,9 +1028,9 @@ function update_corpus() {
 }
 
 // ==================================================================================
-function select_group(group, corpus) {
-  app.current_group = group;
-  app.current_corpus_id = corpus;
+function select_group(group_id, corpus_id) {
+  app.current_group = group_id;
+  app.current_corpus_id = corpus_id;
   update_group();
 }
 
