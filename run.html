@@ -74,7 +74,7 @@
 					</a>
 
 					<ul class="nav navbar-nav groups" style="margin-left:30px">
-						<li v-for="group in groups" v-bind:class='{dropdown: group["style"] == "dropdown", active: current_group == group["id"] }'>
+						<li v-for="group in groups" v-bind:class='{dropdown: group["style"] == "dropdown", active: current_group_id == group["id"] }'>
 
 							<!-- tuto case -->
 							<a v-if='group["style"] == "tuto"' class="navbar-brand" v-on:click='start_tuto_(group["corpus"])' href="#" role="button">{{ group["name"] }} </a>
@@ -85,7 +85,7 @@
 							</a>
 							<ul v-if='group["style"] == "dropdown"' class="dropdown-menu">
 								<li v-for='corpus in group["corpora"]' v-bind:class='{ divider: corpus=="divider" }'>
-									<a href="#" v-if='corpus!="divider"' v-on:click='current_group = group["id"]; set_corpus_(corpus["id"])'>{{corpus["id"]}}</a></li>
+									<a href="#" v-if='corpus!="divider"' v-on:click='current_group_id = group["id"]; set_corpus_(corpus["id"])'>{{corpus["id"]}}</a></li>
 							</ul>
 
 							<!-- leftpane case -->

@@ -19,7 +19,7 @@ var app = new Vue({
     left_pane: false, // true iff interface use left_pane
     view_left_pane: false, // true iff the left_pane is open
 
-    current_group: undefined,
+    current_group_id: undefined,
     current_corpus: undefined,
     current_corpus_id: undefined,
     corpus_desc: "",
@@ -130,13 +130,13 @@ function get_info(corpus, field) {
 }
 
 // ==================================================================================
-// update the 4 global variables: app.current_corpus, app.current_corpus_id, app.current_group and global_folder
+// update the 4 global variables: app.current_corpus, app.current_corpus_id, app.current_group_id and global_folder
 function search_corpus(requested_corpus) {
   $('#warning').hide();
   app.current_corpus = undefined;
   app.current_corpus_id = undefined;
   current_folder = undefined;
-  app.current_group = undefined;
+  app.current_group_id = undefined;
   best_cpl = 0;
   best_ld = Number.MAX_SAFE_INTEGER;
   group_list = app.corpora["groups"];
@@ -149,7 +149,7 @@ function search_corpus(requested_corpus) {
           if (requested_corpus == corpora[c]["id"]) {
             app.current_corpus = corpora[c];
             app.current_corpus_id = corpora[c]["id"];
-            app.current_group = group_list[g]["id"];
+            app.current_group_id = group_list[g]["id"];
             return;
           }
           cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
@@ -159,7 +159,7 @@ function search_corpus(requested_corpus) {
             best_ld = ld;
             app.current_corpus = corpora[c];
             app.current_corpus_id = corpora[c]["id"];
-            app.current_group = group_list[g]["id"];
+            app.current_group_id = group_list[g]["id"];
           }
         }
         if (corpora[c]["folder"] != undefined) {
@@ -169,7 +169,7 @@ function search_corpus(requested_corpus) {
               app.current_corpus = subcorpora[cc];
               app.current_corpus_id = subcorpora[cc]["id"];
               current_folder = corpora[c]["folder"];
-              app.current_group = group_list[g]["id"];
+              app.current_group_id = group_list[g]["id"];
               return;
             }
             cpl = common_prefix_length(requested_corpus, subcorpora[cc]["id"]);
@@ -180,7 +180,7 @@ function search_corpus(requested_corpus) {
               app.current_corpus = subcorpora[cc];
               app.current_corpus_id = subcorpora[cc]["id"];
               current_folder = corpora[c]["folder"];
-              app.current_group = group_list[g]["id"];
+              app.current_group_id = group_list[g]["id"];
             }
           }
         }
@@ -285,7 +285,7 @@ function init() {
     disable_save();
   });
 
-  if (app.current_group == "tuto") {
+  if (app.current_group_id == "tuto") {
     start_tuto();
   } else if (app.corpora["style"] != "dropdown") {
     update_group();
@@ -304,7 +304,7 @@ function disable_save() {
 // ==================================================================================
 function start_tuto(corpus) {
   search_corpus(corpus);
-  app.current_group = "tuto";  // HACK: erase the group defined by previous line --> reconsider...
+  app.current_group_id = "tuto";  // HACK: erase the group defined by previous line --> reconsider...
   update_corpus();
   app.left_pane = false;
   app.view_left_pane = false;
@@ -998,9 +998,9 @@ function update_corpus() {
 
   current_snippets = get_info(app.current_corpus_id, "snippets");
   if (current_snippets == "") {
-    right_pane(app.current_group)
+    right_pane(app.current_group_id)
   } else {
-    right_pane(app.current_group + "/" + current_snippets);
+    right_pane(app.current_group_id + "/" + current_snippets);
   }
 
   $(".selected_corpus").removeClass("selected_corpus");
@@ -1029,7 +1029,7 @@ function update_corpus() {
 
 // ==================================================================================
 function select_group(group_id, corpus_id) {
-  app.current_group = group_id;
+  app.current_group_id = group_id;
   app.current_corpus_id = corpus_id;
   update_group();
 }
@@ -1037,17 +1037,19 @@ function select_group(group_id, corpus_id) {
 // ==================================================================================
 function update_group() {
   // update labels of checkboxes
-  if (app.current_group == "semantics" || app.current_group == "PMB") {
+  if (app.current_group_id == "semantics" || app.current_group_id == "PMB") {
     app.mode = "semantics";
   } else {
     app.mode = "syntax";
   }
 
+
+
   // sidebar open and button visible
   app.left_pane = true;
   app.view_left_pane = true;
 
-  corpora = get_corpora_from_group(app.current_group);
+  corpora = get_corpora_from_group(app.current_group_id);
 
   html = "";
   $.each(corpora, function(index, value) {
