@@ -14,12 +14,14 @@ var app = new Vue({
     corpora: undefined,
     backend_server: undefined,
     meta_url: undefined,
-    tuto: undefined,
 
     left_pane: false, // true iff interface use left_pane
     view_left_pane: false, // true iff the left_pane is open
 
+    tuto_active: false,
+
     current_group_id: undefined,
+    current_group: undefined,
     current_corpus: undefined,
     current_corpus_id: undefined,
     corpus_desc: "",
@@ -68,14 +70,16 @@ var app = new Vue({
     select_group_(group_id, corpus_id) {
       select_group(group_id, corpus_id);
     },
-    start_tuto_(id) {
-      start_tuto(id);
-    },
   },
   computed: {
     top_project: function() {
       if (this.corpora != undefined) {
         return this.corpora["top_project"]
+      }
+    },
+    tuto: function() {
+      if (this.corpora != undefined) {
+        return this.corpora["tuto"]
       }
     },
     groups: function() {
@@ -103,18 +107,16 @@ function get_info(corpus, field) {
     group_list = app.corpora["groups"];
     for (var g = 0; g < group_list.length; g++) {
       let group = group_list[g];
-      if (group["style"] != "tuto") {
-        corpora = group_list[g]["corpora"];
-        for (var c = 0; c < corpora.length; c++) {
-          if (corpora[c]["id"] == corpus) {
-            return corpora[c][field];
-          }
-          if (corpora[c]["folder"] != undefined) {
-            subcorpora = corpora[c]["corpora"];
-            for (var cc = 0; cc < subcorpora.length; cc++) {
-              if (subcorpora[cc]["id"] == corpus) {
-                return subcorpora[cc][field];
-              }
+      corpora = group_list[g]["corpora"];
+      for (var c = 0; c < corpora.length; c++) {
+        if (corpora[c]["id"] == corpus) {
+          return corpora[c][field];
+        }
+        if (corpora[c]["folder"] != undefined) {
+          subcorpora = corpora[c]["corpora"];
+          for (var cc = 0; cc < subcorpora.length; cc++) {
+            if (subcorpora[cc]["id"] == corpus) {
+              return subcorpora[cc][field];
             }
           }
         }
@@ -137,51 +139,54 @@ function search_corpus(requested_corpus) {
   app.current_corpus_id = undefined;
   current_folder = undefined;
   app.current_group_id = undefined;
+  app.current_group = undefined;
   best_cpl = 0;
   best_ld = Number.MAX_SAFE_INTEGER;
   group_list = app.corpora["groups"];
   for (var g = 0; g < group_list.length; g++) {
     let group = group_list[g];
-    if (group["style"] != "tuto") {
-      corpora = group_list[g]["corpora"];
-      for (var c = 0; c < corpora.length; c++) {
-        if (corpora[c]["id"] != undefined) {
-          if (requested_corpus == corpora[c]["id"]) {
-            app.current_corpus = corpora[c];
-            app.current_corpus_id = corpora[c]["id"];
+    corpora = group_list[g]["corpora"];
+    for (var c = 0; c < corpora.length; c++) {
+      if (corpora[c]["id"] != undefined) {
+        if (requested_corpus == corpora[c]["id"]) {
+          app.current_corpus = corpora[c];
+          app.current_corpus_id = corpora[c]["id"];
+          app.current_group = group_list[g];
+          app.current_group_id = group_list[g]["id"];
+          return;
+        }
+        cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
+        ld = levenshtein(requested_corpus, corpora[c]["id"]);
+        if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
+          best_cpl = cpl;
+          best_ld = ld;
+          app.current_corpus = corpora[c];
+          app.current_corpus_id = corpora[c]["id"];
+          app.current_group = group_list[g];
+          app.current_group_id = group_list[g]["id"];
+        }
+      }
+      if (corpora[c]["folder"] != undefined) {
+        subcorpora = corpora[c]["corpora"];
+        for (var cc = 0; cc < subcorpora.length; cc++) {
+          if (requested_corpus == subcorpora[cc]["id"]) {
+            app.current_corpus = subcorpora[cc];
+            app.current_corpus_id = subcorpora[cc]["id"];
+            current_folder = corpora[c]["folder"];
+            app.current_group = group_list[g];
             app.current_group_id = group_list[g]["id"];
             return;
           }
-          cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
-          ld = levenshtein(requested_corpus, corpora[c]["id"]);
+          cpl = common_prefix_length(requested_corpus, subcorpora[cc]["id"]);
+          ld = levenshtein(requested_corpus, subcorpora[cc]["id"]);
           if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
             best_cpl = cpl;
             best_ld = ld;
-            app.current_corpus = corpora[c];
-            app.current_corpus_id = corpora[c]["id"];
+            app.current_corpus = subcorpora[cc];
+            app.current_corpus_id = subcorpora[cc]["id"];
+            current_folder = corpora[c]["folder"];
+            app.current_group = group_list[g];
             app.current_group_id = group_list[g]["id"];
-          }
-        }
-        if (corpora[c]["folder"] != undefined) {
-          subcorpora = corpora[c]["corpora"];
-          for (var cc = 0; cc < subcorpora.length; cc++) {
-            if (requested_corpus == subcorpora[cc]["id"]) {
-              app.current_corpus = subcorpora[cc];
-              app.current_corpus_id = subcorpora[cc]["id"];
-              current_folder = corpora[c]["folder"];
-              app.current_group_id = group_list[g]["id"];
-              return;
-            }
-            cpl = common_prefix_length(requested_corpus, subcorpora[cc]["id"]);
-            ld = levenshtein(requested_corpus, subcorpora[cc]["id"]);
-            if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
-              best_cpl = cpl;
-              best_ld = ld;
-              app.current_corpus = subcorpora[cc];
-              app.current_corpus_id = subcorpora[cc]["id"];
-              current_folder = corpora[c]["folder"];
-              app.current_group_id = group_list[g]["id"];
-            }
           }
         }
       }
@@ -225,15 +230,9 @@ $(document).ready(function() {
 });
 
 // ==================================================================================
-function set_default() {
-  search_corpus(app.corpora["default"]);
-}
-
-// ==================================================================================
 function init() {
   console.log(app.corpora);
-  set_default();
-  current_snippets = get_info(app.current_corpus_id, "snippets");
+  search_corpus(app.corpora["default"]);
 
   $('#save-button').prop('disabled', true);
   $('#export-button').prop('disabled', true);
@@ -243,8 +242,6 @@ function init() {
   } else {
     app.backend_server = app.corpora["backend_server"]
   }
-
-  app.tuto = app.corpora["tuto"];
 
   // Initialise CodeMirror
   cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
@@ -280,14 +277,11 @@ function init() {
     disable_save();
   });
 
-
   $('input:radio[name="clust1"]').change(function() {
     disable_save();
   });
 
-  if (app.current_group_id == "tuto") {
-    start_tuto();
-  } else if (app.corpora["style"] != "dropdown") {
+  if (app.corpora["style"] != "dropdown") {
     update_group();
   } else {
     update_corpus();
@@ -302,9 +296,15 @@ function disable_save() {
 }
 
 // ==================================================================================
-function start_tuto(corpus) {
-  search_corpus(corpus);
-  app.current_group_id = "tuto";  // HACK: erase the group defined by previous line --> reconsider...
+function start_tuto() {
+  app.tuto_active = true;
+  search_corpus(app.tuto.corpus);
+
+  history.pushState({},
+    "Grew - " + app.current_corpus_id,
+    "?tutorial=yes"
+  );
+
   update_corpus();
   app.left_pane = false;
   app.view_left_pane = false;
@@ -382,7 +382,7 @@ function deal_with_get_parameters() {
 // ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
-  if (base == "tuto") {
+  if (app.tuto_active) {
     dir = "tuto";
   } else {
     dir = "corpora/" + base
