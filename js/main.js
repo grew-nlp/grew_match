@@ -132,8 +132,9 @@ function get_info(corpus, field) {
 }
 
 // ==================================================================================
-// update the 4 global variables: app.current_corpus, app.current_corpus_id, app.current_group_id and global_folder
+// update the 5 global variables: app.current_corpus, app.current_corpus_id, app.current_group, app.current_group_id and global_folder
 function search_corpus(requested_corpus) {
+  console.log(requested_corpus);
   $('#warning').hide();
   app.current_corpus = undefined;
   app.current_corpus_id = undefined;
@@ -153,6 +154,7 @@ function search_corpus(requested_corpus) {
           app.current_corpus_id = corpora[c]["id"];
           app.current_group = group_list[g];
           app.current_group_id = group_list[g]["id"];
+          app.mode = app.current_group["mode"];
           return;
         }
         cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
@@ -164,6 +166,7 @@ function search_corpus(requested_corpus) {
           app.current_corpus_id = corpora[c]["id"];
           app.current_group = group_list[g];
           app.current_group_id = group_list[g]["id"];
+          app.mode = app.current_group["mode"];
         }
       }
       if (corpora[c]["folder"] != undefined) {
@@ -175,6 +178,7 @@ function search_corpus(requested_corpus) {
             current_folder = corpora[c]["folder"];
             app.current_group = group_list[g];
             app.current_group_id = group_list[g]["id"];
+            app.mode = app.current_group["mode"];
             return;
           }
           cpl = common_prefix_length(requested_corpus, subcorpora[cc]["id"]);
@@ -187,6 +191,7 @@ function search_corpus(requested_corpus) {
             current_folder = corpora[c]["folder"];
             app.current_group = group_list[g];
             app.current_group_id = group_list[g]["id"];
+            app.mode = app.current_group["mode"];
           }
         }
       }
@@ -1036,14 +1041,6 @@ function select_group(group_id, corpus_id) {
 
 // ==================================================================================
 function update_group() {
-  // update labels of checkboxes
-  if (app.current_group_id == "semantics" || app.current_group_id == "PMB") {
-    app.mode = "semantics";
-  } else {
-    app.mode = "syntax";
-  }
-
-
 
   // sidebar open and button visible
   app.left_pane = true;
