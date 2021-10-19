@@ -369,7 +369,7 @@
             { "id": "UD_Beja-NSC@conv", "parallels": ["SUD_Beja-NSC@latest"] },
             { "id": "UD_French-GSD@conv", "parallels": ["SUD_French-GSD@latest"] },
             { "id": "UD_French-Rhapsodie@conv", "parallels": ["SUD_French-Rhapsodie@latest"] },
-            { "id": "UD_French-Paris-Stories@conv", "parallels": ["SUD_French-Paris-Stories@latest"]  },
+            { "id": "UD_French-ParisStories@conv", "parallels": ["SUD_French-ParisStories@latest"]  },
             { "id": "UD_Naija-NSC@conv", "parallels": ["SUD_Naija-NSC@latest"]  },
 
           { "section" : "GitHub dev branches" },
@@ -399,7 +399,7 @@
             { "id": "SUD_Beja-NSC@latest", "parallels": ["UD_Beja-NSC@conv"]  },
             { "id": "SUD_French-GSD@latest", "parallels": ["UD_French-GSD@conv"] },
             { "id": "SUD_French-Rhapsodie@latest", "parallels": ["UD_French-Rhapsodie@conv"]  },
-            { "id": "SUD_French-Paris-Stories@latest", "parallels": ["UD_French-Paris-Stories@conv"]  },
+            { "id": "SUD_French-ParisStories@latest", "parallels": ["UD_French-ParisStories@conv"]  },
             { "id": "SUD_Naija-NSC@latest", "parallels": ["UD_Naija-NSC@conv"]  },
             { "id": "SUD_Naija-NSC_Auto@latest" },
 

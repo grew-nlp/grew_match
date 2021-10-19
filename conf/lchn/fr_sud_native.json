@@ -11,9 +11,9 @@
       "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_French-Rhapsodie"
     },
     {
-      "id": "SUD_French-Paris-Stories@latest",
+      "id": "SUD_French-ParisStories@latest",
       "config": "sud",
-      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_French-Paris-Stories"
+      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_French-ParisStories"
     }
   ]
 }
