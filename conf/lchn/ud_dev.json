@@ -37,7 +37,7 @@
     {
       "id": "UD_French-Rhapsodie@dev",
       "config": "ud",
-      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_French-Spoken"
+      "directory": "/home/guillaum/resources/ud-treebanks-dev/UD_French-Rhapsodie"
     },
     {
       "id": "UD_Irish-IDT@dev",
