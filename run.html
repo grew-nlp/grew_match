@@ -272,21 +272,6 @@
 										<em>(It seems your browser does not support <code>HTMLMediaElement.playbackRate</code>, so you will not be able to change the speech rate.)</em>
 									</p>
 								</div>
-								<script>
-									window.addEventListener('scroll', function() {
-										var audio = document.querySelector('.passage-audio');
-										var audioPosition = audio.getBoundingClientRect().top;
-										if (window.pageYOffset >= audioPosition) {
-											audio.style.position = 'fixed';
-											audio.style.right = '2%';
-											audio.style.top = '10%';
-											audio.style.width = '8%';
-										} else {
-											audio.style.position = 'static';
-											audio.style.width = '100%';
-										}
-									});
-								</script>
 
 								<div id="display-sentence" style="display: none;">
 									<div id="passage-text" class="passage">
