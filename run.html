@@ -77,7 +77,7 @@
 
 						<!-- tuto -->
 						<li v-bind:class='{active: tuto_active }'>
-						<a v-if='tuto' class="navbar-brand" onclick='start_tuto()' href="#" role="button">{{ tuto["name"] }} </a>
+							<a v-if='tuto' class="navbar-brand" onclick='start_tuto()' href="#" role="button">{{ tuto["name"] }} </a>
 						</li>
 
 						<li v-for="group in groups" v-bind:class='{dropdown: group["style"] == "dropdown", active: !tuto_active && current_group_id == group["id"] }'>
@@ -86,13 +86,19 @@
 							<a v-if='group["style"] == "dropdown"' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ group["name"] }}
 								<span class="caret"></span>
 							</a>
+							
 							<ul v-if='group["style"] == "dropdown"' class="dropdown-menu">
 								<li v-for='corpus in group["corpora"]' v-bind:class='{ divider: corpus=="divider" }'>
-									<a href="#" v-if='corpus!="divider"' v-on:click='tuto_active=false; current_group_id = group["id"]; set_corpus_(corpus["id"])'>{{corpus["id"]}}</a></li>
+									<a href="#" v-if='corpus!="divider"' v-on:click='tuto_active=false; current_group_id = group["id"]; set_corpus_(corpus["id"])'>
+										{{corpus["id"]}}
+									</a>
+								</li>
 							</ul>
 
 							<!-- leftpane case -->
-							<a v-if='group["style"] != "tuto" && group["style"] != "dropdown"' class="navbar-brand" v-on:click='tuto_active=false; select_group_(group["id"], group["default"])' href="#">{{group["name"]}}</a>
+							<a v-if='group["style"] != "tuto" && group["style"] != "dropdown"' class="navbar-brand" v-on:click='tuto_active=false; select_group_(group["id"], group["default"])' href="#">
+								{{group["name"]}}
+							</a>
 						</li>
 
 					</ul>

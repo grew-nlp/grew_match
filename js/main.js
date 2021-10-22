@@ -286,7 +286,7 @@ function init() {
     disable_save();
   });
 
-  if (app.corpora["style"] != "dropdown") {
+  if (app.current_group["style"] != "dropdown") {
     update_group();
   } else {
     update_corpus();
