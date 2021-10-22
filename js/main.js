@@ -22,7 +22,7 @@ var app = new Vue({
 
     current_group_id: undefined,
     current_group: undefined,
-    current_corpus: undefined,
+    current_corpus: {},
     current_corpus_id: undefined,
     corpus_desc: "",
     current_request_id: "",
@@ -388,7 +388,7 @@ function deal_with_get_parameters() {
 // Binding for interactive part in snippets part
 function right_pane(base) {
   if (app.tuto_active) {
-    dir = "tuto";
+    dir = "corpora/tuto";
   } else {
     dir = "corpora/" + base
   }
@@ -1005,7 +1005,7 @@ function update_corpus() {
   if (current_snippets == "") {
     right_pane(app.current_group_id)
   } else {
-    right_pane(app.current_group_id + "/" + current_snippets);
+    right_pane(current_snippets);
   }
 
   $(".selected_corpus").removeClass("selected_corpus");

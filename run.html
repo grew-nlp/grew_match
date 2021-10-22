@@ -92,7 +92,7 @@
 							</ul>
 
 							<!-- leftpane case -->
-							<a v-if='group["style"] != "tuto" && group["style"] != "dropdown"' class="navbar-brand" v-on:click='select_group_(group["id"], group["default"])' href="#">{{group["name"]}}</a>
+							<a v-if='group["style"] != "tuto" && group["style"] != "dropdown"' class="navbar-brand" v-on:click='tuto_active=false; select_group_(group["id"], group["default"])' href="#">{{group["name"]}}</a>
 						</li>
 
 					</ul>
@@ -130,6 +130,7 @@
 											</span>
 										</button>
 										<span class="label label-default">{{ current_corpus_id }}</span>
+										<span v-if='current_corpus["url"]'><a v-bind:href='current_corpus["url"]' target="_blank"><span class="glyphicon glyphicon-link"></span></a></span>
 										<span>{{ corpus_desc }}</span>
 										<span id="eud-span">
 											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
