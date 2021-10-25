@@ -42,6 +42,9 @@
 	<script src="vendor/audio/read-along.js"></script>
 	<script src="vendor/audio/read-along-main.js"></script>
 
+	<!-- Font awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<!-- favicons -->
 	<link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png?v=2">
 	<link rel="icon" type="image/png" sizes="32x32" href="icon/favicon-32x32.png?v=2">
@@ -86,7 +89,7 @@
 							<a v-if='group["style"] == "dropdown"' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ group["name"] }}
 								<span class="caret"></span>
 							</a>
-							
+
 							<ul v-if='group["style"] == "dropdown"' class="dropdown-menu">
 								<li v-for='corpus in group["corpora"]' v-bind:class='{ divider: corpus=="divider" }'>
 									<a href="#" v-if='corpus!="divider"' v-on:click='tuto_active=false; current_group_id = group["id"]; set_corpus_(corpus["id"])'>
@@ -136,21 +139,47 @@
 											</span>
 										</button>
 										<span class="label label-default">{{ current_corpus_id }}</span>
-										<span v-if='current_corpus["url"]'><a v-bind:href='current_corpus["url"]' target="_blank"><span class="glyphicon glyphicon-link"></span></a></span>
+
 										<span>{{ corpus_desc }}</span>
 										<span id="eud-span">
 											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
 										</span>
-										<span style="font-size: 66%" id="corpus-desc"></span>
-										<button type="button" id="logs" onclick="javascript:logs_page()" class="btn btn-danger" style="float: right; display: none;">
-											Errors
-										</button>
-										<button type="button" id="validation" onclick="javascript:validation_page()" class="btn btn-primary" style="float: right; display: none;">
-											Validation
-										</button>
-										<button v-if="mode=='syntax'" type="button" onclick="javascript:relation_tables()" class="btn btn-primary" style="float: right;">
-											<span class="glyphicon glyphicon-th"></span>
-										</button>
+										
+										<!-- Error button -->
+										<a v-if='meta_log != ""' v-bind:href="meta_log" target="_blank">
+											<button type="button" class="btn btn-danger" style="float: right;">
+												<i class="fa fa-exclamation-triangle fa-lg"></i>
+											</button>
+										</a>
+
+										<!-- Github button -->
+										<a v-if='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">
+											<button  type="button" class="btn btn-primary" style="float: right;">
+												<i class="fa fa-github fa-lg"></i>
+											</button>
+										</a>
+
+										<!-- Link button -->
+										<a v-if='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
+											<button  type="button" class="btn btn-primary" style="float: right;">
+												<i class="fa fa-link fa-lg"></i>
+											</button>
+										</a>
+
+										<!-- Table button -->
+										<a v-if='meta_table != ""' v-bind:href="meta_table" target="_blank">
+											<button type="button" class="btn btn-primary" style="float: right;">
+												<i class="fa fa-table fa-lg"></i>
+											</button>
+										</a>
+
+										<!-- Validation button -->
+										<a v-if='meta_valid != ""' v-bind:href="meta_valid" target="_blank">
+											<button type="button" class="btn btn-primary" style="float: right;">
+												<i class="fa fa-check fa-lg"></i>
+											</button>
+										</a>
+
 									</h2>
 									<textarea id="pattern-input"></textarea>
 									<h4 id="warning-misc" style="display: none; color: red">
@@ -161,7 +190,6 @@
 										</a>
 										for more info.
 									</h4>
-
 
 									<div>
 										<b>Clustering 1:</b>
@@ -305,11 +333,9 @@
 
 										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
 
-											<button v-show="Object.keys(meta).length > 0" class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+											<button v-show="Object.keys(sent_metadata).length > 0" class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 												Metadata <span id="md-icon" class="glyphicon glyphicon-chevron-right"></span>
 											</button>
-
-											<a v-if='doc_url != ""' class="btn btn-primary btn-sm tooltip-desc" :href="doc_url" target="_blank">Doc <span class="glyphicon glyphicon-link"></span></a>
 
 											<button v-if="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_conll()">
 												CoNLL
@@ -321,7 +347,7 @@
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
 
-											<a id="svg-link" target="_blank" href="">
+											<a target="_blank" v-bind:href="svg_link">
 												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
 													SVG
 													<span href="" class="glyphicon glyphicon-export"></span>
@@ -332,7 +358,7 @@
 										<div class="collapse" id="collapseExample">
 											<div id="metadata" class="panel-body">
 											</div>
-											<p v-for='(item, itemKey) in meta'>
+											<p v-for='(item, itemKey) in sent_metadata'>
 												<span><b>{{itemKey}}</b>: {{item}}</span>
 											</p>
 										</div>

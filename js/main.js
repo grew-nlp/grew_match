@@ -13,7 +13,6 @@ var app = new Vue({
   data: {
     corpora: undefined,
     backend_server: undefined,
-    meta_url: undefined,
 
     left_pane: false, // true iff interface use left_pane
     view_left_pane: false, // true iff the left_pane is open
@@ -29,14 +28,17 @@ var app = new Vue({
     current_view: 0,
     result_nb: 0,
 
+    meta_table: "", // URL to relation table or ""
+    meta_valid: "", // URL to validation page or ""
+    meta_log: "", // URL to non-empty log page or ""
+
     clust1: "no", // 3 possible values: no, key or whether
     clust1_key: "",
     clust1_whether: "",
 
     clust2: "no", // 3 possible values: no, key or whether
 
-    doc_url: "",
-    meta: {},
+    sent_metadata: {},
 
     code: "",
 
@@ -59,6 +61,7 @@ var app = new Vue({
     context: false,
 
     audio: false,
+    svg_link: "",
   },
   methods: {
     update_parallel_() {
@@ -85,6 +88,11 @@ var app = new Vue({
     groups: function() {
       if (this.corpora != undefined) {
         return this.corpora["groups"]
+      }
+    },
+    meta_url: function() {
+      if (this.corpora != undefined) {
+        return this.corpora["meta_url"]
       }
     },
   }
@@ -431,6 +439,32 @@ function direct_error(msg) {
   })
 }
 
+
+// ==================================================================================
+function ping(url, set_fct) {
+  var form = new FormData();
+  var settings = {
+    "url": url,
+    "method": "HEAD",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": form
+  };
+
+  $.ajax(settings)
+    .done(function(response) {
+      console.log(url + "--> YES");
+      set_fct(true);
+    })
+    .fail(function() {
+      console.log(url + "--> NO");
+      set_fct(false);
+    });
+}
+
+
 // ==================================================================================
 function request(service, form, data_fct) {
   var settings = {
@@ -702,17 +736,11 @@ function display_picture(event) {
   }, "fast");
   app.current_view = event.data.i;
 
-  app.meta = event.data.meta;
-  if ("url" in app.meta) {
-    app.doc_url = app.meta.url;
-    delete app.meta.url;
-  } else {
-    app.doc_url = "";
-  }
+  app.sent_metadata = event.data.meta;
 
   app.code = event.data.code;
 
-  $("#svg-link").attr("href", event.data.url);
+  app.svg_link = event.data.url
 
   update_progress_num();
   update_parallel();
@@ -940,16 +968,6 @@ function last_svg() {
 }
 
 // ==================================================================================
-function relation_tables() {
-  window.open(app.corpora.meta_url + app.current_corpus_id + '_table.html?top=' + window.location.origin + window.location.pathname);
-}
-
-// ==================================================================================
-function validation_page() {
-  window.open('valid?corpus=' + app.current_corpus_id);
-}
-
-// ==================================================================================
 function logs_page() {
   window.open(app.meta_url + app.current_corpus_id + '.log');
 }
@@ -1021,15 +1039,40 @@ function update_corpus() {
   });
 
   // Show the errors button only if there is a not empty log_file
-  $.get(app.meta_url + app.current_corpus_id + ".log", function(data) {
+  app.meta_log = "";
+  let log_url = app.meta_url + app.current_corpus_id + ".log"
+  $.get(log_url, function(data) {
     if (data.length > 0) {
-      $('#logs').show();
-    } else {
-      $('#logs').hide();
+      app.meta_log = log_url;
     }
-  }).fail(function() {
-    $('#logs').hide();
   });
+
+  // Show the table button only if the file is available
+  let url = app.meta_url + app.current_corpus_id + "_table.html";
+  ping(
+    url,
+    function(bool) {
+      if (bool) {
+        app.meta_table = url + '?top=' + window.location.origin + window.location.pathname;
+      } else {
+        app.meta_table = "";
+      }
+    }
+  )
+
+
+  // is the table button visible?
+  let json_url = app.meta_url + "validator/" + app.current_corpus_id + ".json";
+  ping(
+    json_url,
+    function(bool) {
+      if (bool) {
+        app.meta_valid = "validator?corpus="+json_url + '&top=' + window.location.origin + window.location.pathname;
+      } else {
+        app.meta_valid = "";
+      }
+    }
+  )
 }
 
 // ==================================================================================
