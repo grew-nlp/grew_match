@@ -144,7 +144,7 @@
 										<span id="eud-span">
 											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
 										</span>
-										
+
 										<!-- Error button -->
 										<a v-if='meta_log != ""' v-bind:href="meta_log" target="_blank">
 											<button type="button" class="btn btn-danger" style="float: right;">
@@ -154,14 +154,14 @@
 
 										<!-- Github button -->
 										<a v-if='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">
-											<button  type="button" class="btn btn-primary" style="float: right;">
+											<button type="button" class="btn btn-primary" style="float: right;">
 												<i class="fa fa-github fa-lg"></i>
 											</button>
 										</a>
 
 										<!-- Link button -->
 										<a v-if='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
-											<button  type="button" class="btn btn-primary" style="float: right;">
+											<button type="button" class="btn btn-primary" style="float: right;">
 												<i class="fa fa-link fa-lg"></i>
 											</button>
 										</a>
@@ -232,7 +232,7 @@
 											&nbsp;&nbsp;
 											<input type="checkbox" v-model="features"> features
 										</label>
-										<label v-if="mode=='syntax'">
+										<label v-show="mode=='syntax'">
 											&nbsp;&nbsp;
 											<input type="checkbox" v-model="tf_wf"> textform/wordform
 											<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="tf-wf-tooltip"></span>
@@ -257,7 +257,7 @@
 
 
 										<button class="btn btn-primary tooltip-desc" id="save-button" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
-										<button class="btn btn-primary tooltip-desc" v-if="mode=='syntax'" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
+										<button class="btn btn-primary tooltip-desc" v-show="mode=='syntax'" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
 
 									</p>
 									<p>
@@ -337,7 +337,7 @@
 												Metadata <span id="md-icon" class="glyphicon glyphicon-chevron-right"></span>
 											</button>
 
-											<button v-if="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_conll()">
+											<button v-show="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_conll()">
 												CoNLL
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
@@ -389,7 +389,8 @@
 
 		<!-- tooltip content -->
 		<div id="warning-tip" style="display: none;">
-			<p>No corpus found with the requested name, the closest one (Longuest common prefix then Levenshtein distance) is chosen.</p>
+			<p>No corpus found with the requested name,</p>
+			<p>the closest one (Longuest common prefix then Levenshtein distance) is chosen.</p>
 		</div>
 
 		<!-- tooltip content -->
