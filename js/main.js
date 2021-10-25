@@ -941,7 +941,7 @@ function last_svg() {
 
 // ==================================================================================
 function relation_tables() {
-  window.open(app.corpora.meta_url + app.current_corpus_id + '_table.html');
+  window.open(app.corpora.meta_url + app.current_corpus_id + '_table.html?top=' + window.location.origin + window.location.pathname);
 }
 
 // ==================================================================================
