@@ -232,6 +232,13 @@ $(document).ready(function() {
   $('#save-button').tooltipster('content', $("#save-tip").html());
   $('#conll-button').tooltipster('content', $("#conll-tip").html());
 
+  $('#github-button').tooltipster('content', $("#github-tip").html());
+  $('#link-button').tooltipster('content', $("#link-tip").html());
+  $('#valid-button').tooltipster('content', $("#valid-tip").html());
+  $('#table-button').tooltipster('content', $("#table-tip").html());
+
+
+
   $('[data-toggle="collapse"]').click(function() {
     $(this).toggleClass("active");
     if ($(this).hasClass("active")) {
@@ -992,7 +999,14 @@ function set_corpus(corpus) {
 
 // ==================================================================================
 function update_corpus() {
-  app.corpus_desc = app.current_corpus["desc"] ? " " + app.current_corpus["desc"] : "";
+  app.corpus_desc = app.current_corpus["desc"] ? app.current_corpus["desc"] : "";
+
+  if (app.corpus_desc == "") {
+    $('#corpus-desc-label').tooltipster('disable');
+  } else {
+    $('#corpus-desc-label').tooltipster('enable');
+    $('#corpus-desc-label').tooltipster('content', app.corpus_desc);
+  }
 
   if (get_info(app.current_corpus_id, "enhanced")) {
     $("#eud-span").show();
@@ -1067,7 +1081,7 @@ function update_corpus() {
     json_url,
     function(bool) {
       if (bool) {
-        app.meta_valid = "validator?corpus="+json_url + '&top=' + window.location.origin + window.location.pathname;
+        app.meta_valid = "validator?corpus=" + json_url + '&top=' + window.location.origin + window.location.pathname;
       } else {
         app.meta_valid = "";
       }

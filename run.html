@@ -138,50 +138,57 @@
 											<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}
 											</span>
 										</button>
-										<span class="label label-default">{{ current_corpus_id }}</span>
+										<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus_id }}</span>
 
-										<span>{{ corpus_desc }}</span>
 										<span id="eud-span">
 											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
 										</span>
 
 										<!-- Error button -->
 										<a v-if='meta_log != ""' v-bind:href="meta_log" target="_blank">
-											<button type="button" class="btn btn-danger" style="float: right;">
+											<button type="button" class="btn btn-danger">
 												<i class="fa fa-exclamation-triangle fa-lg"></i>
 											</button>
 										</a>
 
 										<!-- Github button -->
-										<a v-if='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">
-											<button type="button" class="btn btn-primary" style="float: right;">
-												<i class="fa fa-github fa-lg"></i>
-											</button>
+										<a v-show='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">
+											<button id="github-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-github fa-lg"></i></button>
 										</a>
+										<div class="tooltip-content" id="github-tip">
+											GitHub repository of the corpus
+										</div>
 
 										<!-- Link button -->
-										<a v-if='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
-											<button type="button" class="btn btn-primary" style="float: right;">
-												<i class="fa fa-link fa-lg"></i>
-											</button>
+										<a v-show='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
+											<button id="link-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-link fa-lg"></i></button>
 										</a>
+										<div class="tooltip-content" id="link-tip">
+											External link for the corpus
+										</div>
 
 										<!-- Table button -->
-										<a v-if='meta_table != ""' v-bind:href="meta_table" target="_blank">
-											<button type="button" class="btn btn-primary" style="float: right;">
-												<i class="fa fa-table fa-lg"></i>
-											</button>
+										<a v-show='meta_table != ""' v-bind:href="meta_table" target="_blank">
+											<button id="table-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-table fa-lg"></i></button>
 										</a>
+										<div class="tooltip-content" id="table-tip">
+											Open a new page relations tables
+										</div>
 
 										<!-- Validation button -->
-										<a v-if='meta_valid != ""' v-bind:href="meta_valid" target="_blank">
-											<button type="button" class="btn btn-primary" style="float: right;">
-												<i class="fa fa-check fa-lg"></i>
-											</button>
+										<a v-show='meta_valid != ""' v-bind:href="meta_valid" target="_blank">
+											<button id="valid-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
 										</a>
+										<div class="tooltip-content" id="valid-tip">
+											Open a new page with automatic validation of the corpus data
+										</div>
 
 									</h2>
-									<textarea id="pattern-input"></textarea>
+
+									<div>
+										<textarea id="pattern-input"></textarea>
+									</div>
+
 									<h4 id="warning-misc" style="display: none; color: red">
 										⚠️ prefixes _MISC_ and _UD_ are deprecated.
 										See
@@ -393,10 +400,13 @@
 			<p>the closest one (Longuest common prefix then Levenshtein distance) is chosen.</p>
 		</div>
 
+
 		<!-- tooltip content -->
 		<div id="export-tip" style="display: none;">
 			<p>Export the sentence text of each occurrence like in a concordancer.</p>
 		</div>
+
+
 
 		<!-- tooltip content -->
 		<div id="conll-tip" style="display: none;">
