@@ -28,7 +28,7 @@
     {
       "id": "SUD_Naija-NSC_Auto@latest",
       "config": "sud",
-      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_Naija-NSC/non_gold"
+      "directory": "/home/guillaum/resources/sud-treebanks-dev/SUD_Naija-NSC_Auto"
     }
   ]
 }
