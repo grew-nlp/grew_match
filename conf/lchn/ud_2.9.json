@@ -106,6 +106,10 @@
       "preapply": "eud2ud"
     },
     {
+      "id": "UD_Bengali-BRU@2.9",
+      "directory": "/home/guillaum/resources/ud-treebanks-v2.9/UD_Bengali-BRU"
+    },
+    {
       "id": "UD_Bhojpuri-BHTB@2.9",
       "directory": "/home/guillaum/resources/ud-treebanks-v2.9/UD_Bhojpuri-BHTB"
     },
