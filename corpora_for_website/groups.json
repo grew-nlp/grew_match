@@ -4,7 +4,7 @@
     {
       "id": "UD",
       "name": "UD",
-      "default": "UD_English-GUM@2.8",
+      "default": "UD_English-GUM@2.9",
       "corpora": [{
           "section": "UD 2.9"
         },
