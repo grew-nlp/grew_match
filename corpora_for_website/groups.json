@@ -958,7 +958,7 @@
     {
       "id": "SUD",
       "name": "SUD",
-      "default": "SUD_English-GUM@2.8",
+      "default": "SUD_English-GUM@2.9",
       "corpora":
         [
           { "section" : "Native SUD" },
@@ -969,363 +969,383 @@
             { "id": "SUD_Naija-NSC@latest", "parallels": ["UD_Naija-NSC@conv"]  },
             { "id": "SUD_Naija-NSC_Auto@latest" },
 
-          { "section" : "SUD 2.8" },
-          { "id": "SUD_Afrikaans-AfriBooms@2.8" },
+          { "section" : "SUD 2.9" },
+          { "id": "SUD_Afrikaans-AfriBooms@2.9" },
           { "folder": "Akkadian",
             "corpora": [
-              { "id": "SUD_Akkadian-PISANDUB@2.8" },
-              { "id": "SUD_Akkadian-RIAO@2.8" }
+              { "id": "SUD_Akkadian-PISANDUB@2.9" },
+              { "id": "SUD_Akkadian-RIAO@2.9" }
             ]
           },
-          { "id": "SUD_Akuntsu-TuDeT@2.8" },
-          { "id": "SUD_Albanian-TSA@2.8" },
-          { "id": "SUD_Amharic-ATT@2.8" },
+          { "id": "SUD_Akuntsu-TuDeT@2.9" },
+          { "id": "SUD_Albanian-TSA@2.9" },
+          { "id": "SUD_Amharic-ATT@2.9" },
           { "folder": "Ancient Greek",
             "corpora": [
-              { "id": "SUD_Ancient_Greek-PROIEL@2.8" },
-              { "id": "SUD_Ancient_Greek-Perseus@2.8" }
+              { "id": "SUD_Ancient_Greek-PROIEL@2.9" },
+              { "id": "SUD_Ancient_Greek-Perseus@2.9" }
             ]
           },
-          { "id": "SUD_Apurina-UFPA@2.8"  },
+          { "id": "SUD_Apurina-UFPA@2.9"  },
           { "folder": "Arabic",
             "corpora": [
-              { "id": "SUD_Arabic-NYUAD@2.8", "rtl": true, "no_word": true },
-              { "id": "SUD_Arabic-PADT@2.8", "rtl": true },
-              { "id": "SUD_Arabic-PUD@2.8", "rtl": true }
+              { "id": "SUD_Arabic-NYUAD@2.9", "rtl": true, "no_word": true },
+              { "id": "SUD_Arabic-PADT@2.9", "rtl": true },
+              { "id": "SUD_Arabic-PUD@2.9", "rtl": true }
             ]
           },
-          { "id": "SUD_Armenian-ArmTDP@2.8" },
-          { "id": "SUD_Assyrian-AS@2.8", "rtl": true },
-          { "id": "SUD_Bambara-CRB@2.8" },
-          { "id": "SUD_Basque-BDT@2.8" },
-          { "id": "SUD_Beja-NSC@2.8", "new": true },
-          { "id": "SUD_Belarusian-HSE@2.8"  },
-          { "id": "SUD_Bhojpuri-BHTB@2.8"},
-          { "id": "SUD_Breton-KEB@2.8" },
-          { "id": "SUD_Bulgarian-BTB@2.8" },
-          { "id": "SUD_Buryat-BDT@2.8" },
-          { "id": "SUD_Cantonese-HK@2.8" },
-          { "id": "SUD_Catalan-AnCora@2.8" },
+        {
+          "folder": "Armenian",
+          "corpora": [
+            { "id": "SUD_Armenian-ArmTDP@2.9" },
+            { "id": "SUD_Armenian-BSUT@2.9", "new": true }
+          ]
+        },
+          { "id": "SUD_Assyrian-AS@2.9", "rtl": true },
+          { "id": "SUD_Bambara-CRB@2.9" },
+          { "id": "SUD_Basque-BDT@2.9" },
+          { "id": "SUD_Beja-NSC@2.9" },
+          { "id": "SUD_Belarusian-HSE@2.9"  },
+          { "id": "UD_Bengali-BRU@2.9", "new": true },
+          { "id": "SUD_Bhojpuri-BHTB@2.9"},
+          { "id": "SUD_Breton-KEB@2.9" },
+          { "id": "SUD_Bulgarian-BTB@2.9" },
+          { "id": "SUD_Buryat-BDT@2.9" },
+          { "id": "SUD_Cantonese-HK@2.9" },
+          { "id": "SUD_Catalan-AnCora@2.9" },
           { "folder": "Chinese",
             "corpora": [
-              { "id": "SUD_Chinese-GSDSimp@2.8" },
-              { "id": "SUD_Chinese-GSD@2.8" },
-              { "id": "SUD_Chinese-PUD@2.8" },
-              { "id": "SUD_Chinese-HK@2.8" },
-              { "id": "SUD_Chinese-CFL@2.8" }
+              { "id": "SUD_Chinese-GSDSimp@2.9" },
+              { "id": "SUD_Chinese-GSD@2.9" },
+              { "id": "SUD_Chinese-PUD@2.9" },
+              { "id": "SUD_Chinese-HK@2.9" },
+              { "id": "SUD_Chinese-CFL@2.9" }
             ]
           },
-          { "id": "SUD_Chukchi-HSE@2.8" },
-          { "id": "SUD_Classical_Chinese-Kyoto@2.8"},
-          { "id": "SUD_Coptic-Scriptorium@2.8"},
-          { "id": "SUD_Croatian-SET@2.8" },
+          { "id": "SUD_Chukchi-HSE@2.9" },
+          { "id": "SUD_Classical_Chinese-Kyoto@2.9"},
+          { "id": "SUD_Coptic-Scriptorium@2.9"},
+          { "id": "SUD_Croatian-SET@2.9" },
           { "folder": "Czech",
             "corpora": [
-            { "id": "SUD_Czech-PDT@2.8" },
-            { "id": "SUD_Czech-FicTree@2.8" },
-            { "id": "SUD_Czech-PUD@2.8"  },
-            { "id": "SUD_Czech-CAC@2.8" },
-            { "id": "SUD_Czech-CLTT@2.8"}
+            { "id": "SUD_Czech-PDT@2.9" },
+            { "id": "SUD_Czech-FicTree@2.9" },
+            { "id": "SUD_Czech-PUD@2.9"  },
+            { "id": "SUD_Czech-CAC@2.9" },
+            { "id": "SUD_Czech-CLTT@2.9"}
             ]
           },
-          { "id": "SUD_Danish-DDT@2.8" },
+          { "id": "SUD_Danish-DDT@2.9" },
           { "folder": "Dutch",
             "corpora": [
-            { "id": "SUD_Dutch-Alpino@2.8" },
-            { "id": "SUD_Dutch-LassySmall@2.8" }
+            { "id": "SUD_Dutch-Alpino@2.9" },
+            { "id": "SUD_Dutch-LassySmall@2.9" }
             ]
           },
           { "folder": "English",
             "corpora": [
-              { "id": "SUD_English-GUM@2.8" },
-              { "id": "SUD_English-GUMReddit@2.8", "no_word": true },
-              { "id": "SUD_English-ParTUT@2.8" },
-              { "id": "SUD_English-PUD@2.8", "parallels": ["SUD_French-PUD@2.8"] },
-              { "id": "SUD_English-LinES@2.8" },
-              { "id": "SUD_English-Pronouns@2.8" },
-              { "id": "SUD_English-EWT@2.8" },
-              { "id": "SUD_English-ESL@2.8", "no_word": true }
+              { "id": "SUD_English-Atis@2.9", "new": true },
+              { "id": "SUD_English-GUM@2.9" },
+              { "id": "SUD_English-GUMReddit@2.9", "no_word": true },
+              { "id": "SUD_English-ParTUT@2.9" },
+              { "id": "SUD_English-PUD@2.9", "parallels": ["SUD_French-PUD@2.9"] },
+              { "id": "SUD_English-LinES@2.9" },
+              { "id": "SUD_English-Pronouns@2.9" },
+              { "id": "SUD_English-EWT@2.9" },
+              { "id": "SUD_English-ESL@2.9", "no_word": true }
             ]
           },
-          { "id": "SUD_Erzya-JR@2.8" },
+          { "id": "SUD_Erzya-JR@2.9" },
           { "folder": "Estonian",
             "corpora": [
-              { "id": "SUD_Estonian-EDT@2.8" },
-              { "id": "SUD_Estonian-EWT@2.8" }
+              { "id": "SUD_Estonian-EDT@2.9" },
+              { "id": "SUD_Estonian-EWT@2.9" }
             ]
           },
           { "folder": "Faroese",
             "corpora": [
-              { "id": "SUD_Faroese-OFT@2.8" },
-              { "id": "SUD_Faroese-FarPaHC@2.8" }
+              { "id": "SUD_Faroese-OFT@2.9" },
+              { "id": "SUD_Faroese-FarPaHC@2.9" }
             ]
           },
           { "folder": "Finnish",
             "corpora": [
-              { "id": "SUD_Finnish-TDT@2.8" },
-              { "id": "SUD_Finnish-PUD@2.8" },
-              { "id": "SUD_Finnish-FTB@2.8" },
-              { "id": "SUD_Finnish-OOD@2.8" }
+              { "id": "SUD_Finnish-TDT@2.9" },
+              { "id": "SUD_Finnish-PUD@2.9" },
+              { "id": "SUD_Finnish-FTB@2.9" },
+              { "id": "SUD_Finnish-OOD@2.9" }
             ]
           },
           { "folder": "French",
             "corpora": [
-              { "id": "SUD_French-ParTUT@2.8" },
-              { "id": "SUD_French-GSD@2.8" },
-              { "id": "SUD_French-Sequoia@2.8" },
-              { "id": "SUD_French-FQB@2.8" },
-              { "id": "SUD_French-Spoken@2.8" },
-              { "id": "SUD_French-PUD@2.8", "parallels": ["SUD_English-PUD@2.8"]  },
-              { "id": "SUD_French-FTB@2.8", "no_word": true }
+              { "id": "SUD_French-ParTUT@2.9" },
+              { "id": "SUD_French-GSD@2.9" },
+              { "id": "SUD_French-Sequoia@2.9" },
+              { "id": "SUD_French-FQB@2.9" },
+              { "id": "SUD_French-ParisStories@2.9", "new": true },
+              { "id": "SUD_French-Rhapsodie@2.9" },
+              { "id": "SUD_French-PUD@2.9", "parallels": ["SUD_English-PUD@2.9"]  },
+              { "id": "SUD_French-FTB@2.9", "no_word": true }
             ]
           },
-          { "id": "SUD_Frisian_Dutch-Fame@2.8", "new": true },
+          { "id": "SUD_Frisian_Dutch-Fame@2.9" },
           { "folder": "Galician",
             "corpora": [
-              { "id": "SUD_Galician-TreeGal@2.8" },
-              { "id": "SUD_Galician-CTG@2.8" }
+              { "id": "SUD_Galician-TreeGal@2.9" },
+              { "id": "SUD_Galician-CTG@2.9" }
             ]
           },
           { "folder": "German",
             "corpora": [
-              { "id": "SUD_German-HDT@2.8" },
-              { "id": "SUD_German-GSD@2.8" },
-              { "id": "SUD_German-PUD@2.8" },
-              { "id": "SUD_German-LIT@2.8" }
+              { "id": "SUD_German-HDT@2.9" },
+              { "id": "SUD_German-GSD@2.9" },
+              { "id": "SUD_German-PUD@2.9" },
+              { "id": "SUD_German-LIT@2.9" }
             ]
           },
-          { "id": "SUD_Gothic-PROIEL@2.8" },
-          { "id": "SUD_Greek-GDT@2.8" },
-          { "id": "SUD_Guajajara-TuDeT@2.8", "new": true },
-          { "id": "SUD_Hebrew-HTB@2.8", "rtl": true },
+          { "id": "SUD_Gothic-PROIEL@2.9" },
+          { "id": "SUD_Greek-GDT@2.9" },
+          { "id": "SUD_Guajajara-TuDeT@2.9", "new": true },
+          { "id": "SUD_Hebrew-HTB@2.9", "rtl": true },
           { "folder": "Hindi",
             "corpora": [
-            { "id": "SUD_Hindi-HDTB@2.8" },
-            { "id": "SUD_Hindi-PUD@2.8" }
+            { "id": "SUD_Hindi-HDTB@2.9" },
+            { "id": "SUD_Hindi-PUD@2.9" }
             ]
           },
-          { "id": "SUD_Hindi_English-HIENCS@2.8", "no_word": true },
-          { "id": "SUD_Hungarian-Szeged@2.8" },
+          { "id": "SUD_Hindi_English-HIENCS@2.9", "no_word": true },
+          { "id": "SUD_Hungarian-Szeged@2.9" },
           { "folder": "Icelandic",
             "corpora": [
-              { "id": "SUD_Icelandic-PUD@2.8" },
-              { "id": "SUD_Icelandic-Modern@2.8", "new": true },
-              { "id": "SUD_Icelandic-IcePaHC@2.8" }
+              { "id": "SUD_Icelandic-PUD@2.9" },
+              { "id": "SUD_Icelandic-Modern@2.9" },
+              { "id": "SUD_Icelandic-IcePaHC@2.9" }
             ]
           },
           { "folder": "Indonesian",
             "corpora": [
-              { "id": "SUD_Indonesian-GSD@2.8" },
-              { "id": "SUD_Indonesian-PUD@2.8" },
-              { "id": "SUD_Indonesian-CSUI@2.8" }
+              { "id": "SUD_Indonesian-GSD@2.9" },
+              { "id": "SUD_Indonesian-PUD@2.9" },
+              { "id": "SUD_Indonesian-CSUI@2.9" }
             ]
           },
           { "folder": "Irish",
             "corpora": [
-              { "id": "SUD_Irish-IDT@2.8" },
-              { "id": "SUD_Irish-TwittIrish@2.8", "new": true }
+              { "id": "SUD_Irish-IDT@2.9" },
+              { "id": "SUD_Irish-TwittIrish@2.9" }
             ]
           },
           { "folder": "Italian",
             "corpora": [
-              { "id": "SUD_Italian-ISDT@2.8" },
-              { "id": "SUD_Italian-VIT@2.8" },
-              { "id": "SUD_Italian-ParTUT@2.8" },
-              { "id": "SUD_Italian-TWITTIRO@2.8" },
-              { "id": "SUD_Italian-PoSTWITA@2.8" },
-              { "id": "SUD_Italian-PUD@2.8" },
-              { "id": "SUD_Italian-Valico@2.8", "new": true }
+              { "id": "SUD_Italian-ISDT@2.9" },
+              { "id": "SUD_Italian-VIT@2.9" },
+              { "id": "SUD_Italian-ParTUT@2.9" },
+              { "id": "SUD_Italian-TWITTIRO@2.9" },
+              { "id": "SUD_Italian-PoSTWITA@2.9" },
+              { "id": "SUD_Italian-PUD@2.9" },
+              { "id": "SUD_Italian-Valico@2.9" }
             ]
           },
           { "folder": "Japanese",
             "corpora": [
-              { "id": "SUD_Japanese-GSD@2.8" },
-              { "id": "SUD_Japanese-PUD@2.8" },
-              { "id": "SUD_Japanese-Modern@2.8" },
-              { "id": "SUD_Japanese-BCCWJ@2.8", "no_word": true }
+              { "id": "SUD_Japanese-GSD@2.9" },
+              { "id": "SUD_Japanese-GSDLUW@2.9", "new": true },
+              { "id": "SUD_Japanese-PUD@2.9" },
+              { "id": "SUD_Japanese-PUDLUW@2.9", "new": true },
+              { "id": "SUD_Japanese-Modern@2.9" },
+              { "id": "SUD_Japanese-BCCWJ@2.9", "no_word": true },
+              { "id": "SUD_Japanese-BCCWJLUW@2.9", "no_word": true, "new": true }
             ]
           },
-          { "id": "SUD_Kaapor-TuDeT@2.8", "new": true },
-          { "id": "SUD_Kangri-KDTB@2.8", "new": true },
-          { "id": "SUD_Karelian-KKPP@2.8" },
-          { "id": "SUD_Kazakh-KTB@2.8" },
-          { "id": "SUD_Khunsari-AHA@2.8", "rtl": true },
-          { "id": "SUD_Kiche-IU@2.8", "new": true },
-          { "id": "SUD_Komi_Permyak-UH@2.8" },
+          { "id": "UD_Javanese-CSUI@2.9" },
+          { "id": "SUD_Kaapor-TuDeT@2.9" },
+          { "id": "SUD_Karo-TuDeT@2.9", "new": true },
+          { "id": "SUD_Kangri-KDTB@2.9" },
+          { "id": "SUD_Karelian-KKPP@2.9" },
+          { "id": "SUD_Kazakh-KTB@2.9" },
+          { "id": "SUD_Khunsari-AHA@2.9", "rtl": true },
+          { "id": "SUD_Kiche-IU@2.9" },
+          { "id": "SUD_Komi_Permyak-UH@2.9" },
           { "folder": "Komi_Zyrian",
             "corpora": [
-              { "id": "SUD_Komi_Zyrian-Lattice@2.8" },
-              { "id": "SUD_Komi_Zyrian-IKDP@2.8" }
+              { "id": "SUD_Komi_Zyrian-Lattice@2.9" },
+              { "id": "SUD_Komi_Zyrian-IKDP@2.9" }
             ]
           },
           { "folder": "Korean",
             "corpora": [
-              { "id": "SUD_Korean-Kaist@2.8" },
-              { "id": "SUD_Korean-GSD@2.8" },
-              { "id": "SUD_Korean-PUD@2.8" }
+              { "id": "SUD_Korean-Kaist@2.9" },
+              { "id": "SUD_Korean-GSD@2.9" },
+              { "id": "SUD_Korean-PUD@2.9" }
             ]
           },
-          { "id": "SUD_Kurmanji-MG@2.8" },
+          { "id": "SUD_Kurmanji-MG@2.9" },
           { "folder": "Latin",
             "corpora": [
-              { "id": "SUD_Latin-PROIEL@2.8" },
-              { "id": "SUD_Latin-ITTB@2.8" },
-              { "id": "SUD_Latin-LLCT@2.8" },
-              { "id": "SUD_Latin-Perseus@2.8" },
-              { "id": "SUD_Latin-UDante@2.8", "new": true  }
+              { "id": "SUD_Latin-PROIEL@2.9" },
+              { "id": "SUD_Latin-ITTB@2.9" },
+              { "id": "SUD_Latin-LLCT@2.9" },
+              { "id": "SUD_Latin-Perseus@2.9" },
+              { "id": "SUD_Latin-UDante@2.9"  }
             ]
           },
-          { "id": "SUD_Latvian-LVTB@2.8" },
+          { "id": "SUD_Latvian-LVTB@2.9" },
+          { "id": "SUD_Ligurian-GLT@2.9", "new": true },
           { "folder": "Lithuanian",
             "corpora": [
-              { "id": "SUD_Lithuanian-ALKSNIS@2.8" },
-              { "id": "SUD_Lithuanian-HSE@2.8" }
+              { "id": "SUD_Lithuanian-ALKSNIS@2.9" },
+              { "id": "SUD_Lithuanian-HSE@2.9" }
             ]
           },
-          { "id": "SUD_Livvi-KKPP@2.8" },
-          { "id": "SUD_Low_Saxon-LSDC@2.8", "new": true },
-          { "id": "SUD_Makurap-TuDeT@2.8", "new": true },
-          { "id": "SUD_Maltese-MUDT@2.8" },
-          { "id": "SUD_Manx-Cadhan@2.8" },
-          { "id": "SUD_Marathi-UFAL@2.8" },
+          { "id": "SUD_Livvi-KKPP@2.9" },
+          { "id": "SUD_Low_Saxon-LSDC@2.9" },
+          { "id": "SUD_Makurap-TuDeT@2.9" },
+          { "id": "SUD_Maltese-MUDT@2.9" },
+          { "id": "SUD_Manx-Cadhan@2.9" },
+          { "id": "SUD_Marathi-UFAL@2.9" },
           { "folder": "Mbya_Guarani",
             "corpora": [
-              { "id": "SUD_Mbya_Guarani-Thomas@2.8" },
-              { "id": "SUD_Mbya_Guarani-Dooley@2.8", "no_word": true }
+              { "id": "SUD_Mbya_Guarani-Thomas@2.9" },
+              { "id": "SUD_Mbya_Guarani-Dooley@2.9", "no_word": true }
             ]
           },
-          { "id": "SUD_Moksha-JR@2.8" },
-          { "id": "SUD_Munduruku-TuDeT@2.8" },
-          { "id": "SUD_Naija-NSC@2.8" },
-          { "id": "SUD_Nayini-AHA@2.8", "rtl": true },
-          { "id": "SUD_North_Sami-Giella@2.8" },
+          { "id": "SUD_Moksha-JR@2.9" },
+          { "id": "SUD_Munduruku-TuDeT@2.9" },
+          { "id": "SUD_Neapolitan-RB@2.9", "new": true },
+          { "id": "SUD_Naija-NSC@2.9" },
+          { "id": "SUD_Nayini-AHA@2.9", "rtl": true },
+          { "id": "SUD_North_Sami-Giella@2.9" },
           { "folder": "Norwegian",
             "corpora": [
-              { "id": "SUD_Norwegian-Bokmaal@2.8" },
-              { "id": "SUD_Norwegian-Nynorsk@2.8" },
-              { "id": "SUD_Norwegian-NynorskLIA@2.8" }
+              { "id": "SUD_Norwegian-Bokmaal@2.9" },
+              { "id": "SUD_Norwegian-Nynorsk@2.9" },
+              { "id": "SUD_Norwegian-NynorskLIA@2.9" }
             ]
           },
-          { "id": "SUD_Old_Church_Slavonic-PROIEL@2.8" },
+          { "id": "SUD_Old_Church_Slavonic-PROIEL@2.9" },
           { "folder": "Old_East_Slavic",
             "corpora": [
-              { "id": "SUD_Old_East_Slavic-RNC@2.8", "new": true },
-              { "id": "SUD_Old_East_Slavic-TOROT@2.8", "new": true }
+              { "id": "SUD_Old_East_Slavic-RNC@2.9" },
+              { "id": "SUD_Old_East_Slavic-TOROT@2.9" }
             ]
           },
-          { "id": "SUD_Old_French-SRCMF@2.8" },
-          { "id": "SUD_Old_Turkish-Tonqq@2.8" },
+          { "id": "SUD_Old_French-SRCMF@2.9" },
+          { "id": "SUD_Old_Turkish-Tonqq@2.9" },
           { "folder": "Persian",
             "corpora": [
-              { "id": "SUD_Persian-Seraji@2.8", "rtl": true  },
-              { "id": "SUD_Persian-PerDT@2.8", "rtl": true }
+              { "id": "SUD_Persian-Seraji@2.9", "rtl": true  },
+              { "id": "SUD_Persian-PerDT@2.9", "rtl": true }
             ]
           },
           { "folder": "Polish",
             "corpora": [
-              { "id": "SUD_Polish-PDB@2.8" },
-              { "id": "SUD_Polish-LFG@2.8" },
-              { "id": "SUD_Polish-PUD@2.8" }
+              { "id": "SUD_Polish-PDB@2.9" },
+              { "id": "SUD_Polish-LFG@2.9" },
+              { "id": "SUD_Polish-PUD@2.9" }
             ]
           },
           { "folder": "Portuguese",
             "corpora": [
-              { "id": "SUD_Portuguese-Bosque@2.8" },
-              { "id": "SUD_Portuguese-GSD@2.8" },
-              { "id": "SUD_Portuguese-PUD@2.8" }
+              { "id": "SUD_Portuguese-Bosque@2.9" },
+              { "id": "SUD_Portuguese-GSD@2.9" },
+              { "id": "SUD_Portuguese-PUD@2.9" }
             ]
           },
           { "folder": "Romanian",
             "corpora": [
-              { "id": "SUD_Romanian-ArT@2.8", "new": true },
-              { "id": "SUD_Romanian-Nonstandard@2.8" },
-              { "id": "SUD_Romanian-SiMoNERo@2.8" },
-              { "id": "SUD_Romanian-RRT@2.8" }
+              { "id": "SUD_Romanian-ArT@2.9" },
+              { "id": "SUD_Romanian-Nonstandard@2.9" },
+              { "id": "SUD_Romanian-SiMoNERo@2.9" },
+              { "id": "SUD_Romanian-RRT@2.9" }
             ]
           },
           { "folder": "Russian",
             "corpora": [
-              { "id": "SUD_Russian-GSD@2.8" },
-              { "id": "SUD_Russian-Taiga@2.8" },
-              { "id": "SUD_Russian-PUD@2.8" },
-              { "id": "SUD_Russian-SynTagRus@2.8" }
+              { "id": "SUD_Russian-GSD@2.9" },
+              { "id": "SUD_Russian-Taiga@2.9" },
+              { "id": "SUD_Russian-PUD@2.9" },
+              { "id": "SUD_Russian-SynTagRus@2.9" }
             ]
           },
           { "folder": "Sanskrit",
             "corpora": [
-              { "id": "SUD_Sanskrit-UFAL@2.8" },
-              { "id": "SUD_Sanskrit-Vedic@2.8" }
+              { "id": "SUD_Sanskrit-UFAL@2.9" },
+              { "id": "SUD_Sanskrit-Vedic@2.9" }
             ]
           },
-          { "id": "SUD_Scottish_Gaelic-ARCOSG@2.8" },
-          { "id": "SUD_Serbian-SET@2.8" },
-          { "id": "SUD_Skolt_Sami-Giellagas@2.8"  },
-          { "id": "SUD_Slovak-SNK@2.8" },
+          { "id": "SUD_Scottish_Gaelic-ARCOSG@2.9" },
+          { "id": "SUD_Serbian-SET@2.9" },
+          { "id": "SUD_Skolt_Sami-Giellagas@2.9"  },
+          { "id": "SUD_Slovak-SNK@2.9" },
           { "folder": "Slovenian",
             "corpora": [
-              { "id": "SUD_Slovenian-SSJ@2.8" },
-              { "id": "SUD_Slovenian-SST@2.8" }
+              { "id": "SUD_Slovenian-SSJ@2.9" },
+              { "id": "SUD_Slovenian-SST@2.9" }
             ]
           },
-          { "id": "SUD_Soi-AHA@2.8", "rtl": true },
-          { "id": "SUD_South_Levantine_Arabic-MADAR@2.8", "rtl": true },
+          { "id": "SUD_Soi-AHA@2.9", "rtl": true },
+          { "id": "SUD_South_Levantine_Arabic-MADAR@2.9", "rtl": true },
           { "folder": "Spanish",
             "corpora": [
-              { "id": "SUD_Spanish-AnCora@2.8" },
-              { "id": "SUD_Spanish-GSD@2.8" },
-              { "id": "SUD_Spanish-PUD@2.8" }
+              { "id": "SUD_Spanish-AnCora@2.9" },
+              { "id": "SUD_Spanish-GSD@2.9" },
+              { "id": "SUD_Spanish-PUD@2.9" }
             ]
           },
           { "folder": "Swedish",
             "corpora": [
-              { "id": "SUD_Swedish-Talbanken@2.8" },
-              { "id": "SUD_Swedish-LinES@2.8" },
-              { "id": "SUD_Swedish-PUD@2.8" }
+              { "id": "SUD_Swedish-Talbanken@2.9" },
+              { "id": "SUD_Swedish-LinES@2.9" },
+              { "id": "SUD_Swedish-PUD@2.9" }
             ]
           },
-          { "id": "SUD_Swedish_Sign_Language-SSLC@2.8" },
-          { "id": "SUD_Swiss_German-UZH@2.8" },
+          { "id": "SUD_Swedish_Sign_Language-SSLC@2.9" },
+          { "id": "SUD_Swiss_German-UZH@2.9" },
           { "folder": "Tagalog",
             "corpora": [
-              { "id": "SUD_Tagalog-TRG@2.8" },
-              { "id": "SUD_Tagalog-Ugnayan@2.8" }
+              { "id": "SUD_Tagalog-TRG@2.9" },
+              { "id": "SUD_Tagalog-Ugnayan@2.9" }
             ]
           },
+          { "id": "SUD_Tatar-NMCTT@2.9", "new": true },
           { "folder": "Tamil",
             "corpora": [
-              { "id": "SUD_Tamil-TTB@2.8" },
-              { "id": "SUD_Tamil-MWTT@2.8" }
+              { "id": "SUD_Tamil-TTB@2.9" },
+              { "id": "SUD_Tamil-MWTT@2.9" }
             ]
           },
-          { "id": "SUD_Telugu-MTG@2.8" },
-          { "id": "SUD_Thai-PUD@2.8" },
-          { "id": "SUD_Tupinamba-TuDeT@2.8" },
+          { "id": "SUD_Telugu-MTG@2.9" },
+          { "id": "SUD_Thai-PUD@2.9" },
+          { "id": "SUD_Tupinamba-TuDeT@2.9" },
           { "folder": "Turkish",
             "corpora": [
-              { "id": "SUD_Turkish-BOUN@2.8" },
-              { "id": "SUD_Turkish-FrameNet@2.8", "new": true },
-              { "id": "SUD_Turkish-GB@2.8" },
-              { "id": "SUD_Turkish-IMST@2.8" },
-              { "id": "SUD_Turkish-Kenet@2.8", "new": true },
-              { "id": "SUD_Turkish-PUD@2.8" },
-              { "id": "SUD_Turkish-Penn@2.8", "new": true },
-              { "id": "SUD_Turkish-Tourism@2.8", "new": true }
+              { "id": "SUD_Turkish-Atis@2.9", "new": true },
+              { "id": "SUD_Turkish-BOUN@2.9" },
+              { "id": "SUD_Turkish-FrameNet@2.9" },
+              { "id": "SUD_Turkish-GB@2.9" },
+              { "id": "SUD_Turkish-IMST@2.9" },
+              { "id": "SUD_Turkish-Kenet@2.9" },
+              { "id": "SUD_Turkish-PUD@2.9" },
+              { "id": "SUD_Turkish-Penn@2.9" },
+              { "id": "SUD_Turkish-Tourism@2.9" }
             ]
           },
-          { "id": "SUD_Turkish_German-SAGT@2.8" },
-          { "id": "SUD_Ukrainian-IU@2.8" },
-          { "id": "SUD_Upper_Sorbian-UFAL@2.8" },
-          { "id": "SUD_Urdu-UDTB@2.8", "rtl": true  },
-          { "id": "SUD_Uyghur-UDT@2.8", "rtl": true  },
-          { "id": "SUD_Vietnamese-VTB@2.8" },
-          { "id": "SUD_Warlpiri-UFAL@2.8" },
+          { "id": "SUD_Turkish_German-SAGT@2.9" },
+          { "id": "SUD_Ukrainian-IU@2.9" },
+          { "id": "SUD_Upper_Sorbian-UFAL@2.9" },
+          { "id": "SUD_Urdu-UDTB@2.9", "rtl": true  },
+          { "id": "SUD_Uyghur-UDT@2.9", "rtl": true  },
+          { "id": "SUD_Vietnamese-VTB@2.9" },
+          { "id": "SUD_Warlpiri-UFAL@2.9" },
 
-          { "id": "SUD_Welsh-CCG@2.8" },
-          { "id": "SUD_Western_Armenian-ArmTDP@2.8", "new": true },
-          { "id": "SUD_Wolof-WTB@2.8" },
+          { "id": "SUD_Welsh-CCG@2.9" },
+          { "id": "SUD_Western_Armenian-ArmTDP@2.9" },
+          { "id": "SUD_Wolof-WTB@2.9" },
+          { "id": "SUD_Xibe-XDT@2.9", "new": true },
+          { "id": "SUD_Yakut-YKTDT@2.9", "new": true },
 
-          { "id": "SUD_Yoruba-YTB@2.8" },
-          { "id": "SUD_Yupik-SLI@2.8", "new": true }
+          { "id": "SUD_Yoruba-YTB@2.9" },
+          { "id": "SUD_Yupik-SLI@2.9" }
         ]
     },
 
