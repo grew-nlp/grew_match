@@ -1006,7 +1006,7 @@
           { "id": "SUD_Basque-BDT@2.9" },
           { "id": "SUD_Beja-NSC@2.9" },
           { "id": "SUD_Belarusian-HSE@2.9"  },
-          { "id": "UD_Bengali-BRU@2.9", "new": true },
+          { "id": "SUD_Bengali-BRU@2.9", "new": true },
           { "id": "SUD_Bhojpuri-BHTB@2.9"},
           { "id": "SUD_Breton-KEB@2.9" },
           { "id": "SUD_Bulgarian-BTB@2.9" },
@@ -1157,7 +1157,7 @@
               { "id": "SUD_Japanese-BCCWJLUW@2.9", "no_word": true, "new": true }
             ]
           },
-          { "id": "UD_Javanese-CSUI@2.9" },
+          { "id": "SUD_Javanese-CSUI@2.9" },
           { "id": "SUD_Kaapor-TuDeT@2.9" },
           { "id": "SUD_Karo-TuDeT@2.9", "new": true },
           { "id": "SUD_Kangri-KDTB@2.9" },
