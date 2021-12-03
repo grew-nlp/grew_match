@@ -325,6 +325,8 @@ function start_tuto() {
     "?tutorial=yes"
   );
 
+  $('#sidebarCollapse').hide();
+  search_corpus("UD_English-GUM@2.9");
   update_corpus();
   app.left_pane = false;
   app.view_left_pane = false;
