@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Grew-match main page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    a {
+      color: black;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: black;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    .card {
+      margin-top: 40px;
+      min-height: 260px;
+    }
+
+    .card-body {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+  </style>
+
+  <script>
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    let corpus = getParameterByName("corpus");
+    console.log(corpus);
+    if (corpus.length > 0) {
+      if (corpus.includes("Naija")) {
+        location.replace("http://naija.grew.fr" + location.search);
+      }
+      if (corpus.includes("PARSEME")) {
+        location.replace("http://parseme.grew.fr" + location.search);
+      }
+      if (corpus.includes("UD")) {
+        location.replace("http://universal.grew.fr" + location.search);
+      }
+      const orfeo_list = ["cefc-gold", "fleuron", "ofrom", "valibel", "frenchoralnarrative", "crfp", "cfbp", "cfpp", "coralrom", "clapi", "tufs", "reunions-de-travail", "tcof", "annodis", "comere", "frantext", "scientext", "est-republicain",
+        "chambers-rostand"
+      ];
+      if (orfeo_list.includes(corpus)) {
+        location.replace("http://orfeo.grew.fr" + location.search);
+      }
+      const semantics_list = ["Little_Prince", "Bio_AMR_Corpus", "Spec_1.2.5", "pmb-3.0.0-sample_en_gold", "dmrs_appos"];
+      if (semantics_list.includes(corpus)) {
+        location.replace("http://semantics.grew.fr" + location.search);
+      }
+      // TODO message for unknown corpus
+    };
+  </script>
+</head>
+
+<body>
+
+  <div class="container-fluid p-5 text-center" style="background-color: #eee; ">
+    <h1>Grew-match</h1>
+    <p>There are several instances of Grew-match for subset of corpora</p>
+  </div>
+
+  <div class="row" style="width: 80%; margin: auto">
+    <div class="col-sm-4">
+      <a href="http://universal.grew.fr">
+        <div class="card">
+          <div class="card-header">UD / SUD</div>
+          <div class="card-body">
+            <img src="https://universaldependencies.org/logos/logo-ud.png" style="width:15%; margin-right:30px;" alt="UD">
+            <img src="https://surfacesyntacticud.github.io/images/sud.svg" style="width:15%; margin-left:30px" alt="SUD">
+          </div>
+          <div class="card-footer">Corpora from UD (Universal Dependencies) and SUD (Surface Syntactic Universal Dependencies)</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4">
+      <a href="http://parseme.grew.fr">
+        <div class="card">
+          <div class="card-header">Header</div>
+          <div class="card-body">
+            <img src="https://parsemefr.lis-lab.fr/parseme-st-guidelines/img/parseme-logo.png" style="width:100%" alt="Parseme"> </div>
+          <div class="card-footer">Corpora annotated with MWE from the Parseme project</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4">
+      <a href="http://semantics.grew.fr">
+        <div class="card">
+          <div class="card-header">Semantics</div>
+          <div class="card-body align-items-center">
+            <img src="https://amr.isi.edu/amr-quant4.jpg" style="width:25%; margin-right:30px;" alt="AMR">
+            <img src="https://pmb.let.rug.nl/img/logo.png" style="width:25%; margin-left:30px;" alt="PMB">
+          </div>
+          <div class="card-footer">Some semantically annotated corpora (AMR, DMRS, PMB)</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+
+  <div class="row" style="width: 80%; margin: auto;">
+    <div class="col-sm-4">
+      <a href="http://orfeo.grew.fr">
+        <div class="card">
+          <div class="card-header">Orfeo</div>
+          <div class="card-body">
+            <img src="https://orfeo.ortolang.fr/annis-sample/files/logo-orfeo.png" style="width:60%;" alt="Orfeo">
+          </div>
+          <div class="card-footer">Corpus for the French Orfeo project</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4">
+      <a href="http://sequoia.grew.fr">
+        <div class="card">
+          <div class="card-header">Sequoia</div>
+          <div class="card-body">
+            <h2>Deep-Sequoia</h2>
+          </div>
+          <div class="card-footer">Some annotation layers from the French Sequoia corpus</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4">
+      <a href="http://naija.grew.fr">
+        <div class="card">
+          <div class="card-header">Naija</div>
+          <div class="card-body">
+            <img src="http://naijasyncor.huma-num.fr/assets/images/logo.png" style="width:60%;" alt="NaijaSynCor">
+          </div>
+          <div class="card-footer">NaijaSynCor project</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+
+</html>
