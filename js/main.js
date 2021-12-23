@@ -115,16 +115,23 @@ function get_info(corpus, field) {
     group_list = app.corpora["groups"];
     for (var g = 0; g < group_list.length; g++) {
       let group = group_list[g];
+      let value = group[field]; // the "field" value can be defined at the group level
       corpora = group_list[g]["corpora"];
       for (var c = 0; c < corpora.length; c++) {
+        if (corpora[c][field] != undefined) {
+          value = corpora[c][field]; // the "field" value can be defined at the corpus/folder level
+        }
         if (corpora[c]["id"] == corpus) {
-          return corpora[c][field];
+          return (value);
         }
         if (corpora[c]["folder"] != undefined) {
           subcorpora = corpora[c]["corpora"];
           for (var cc = 0; cc < subcorpora.length; cc++) {
             if (subcorpora[cc]["id"] == corpus) {
-              return subcorpora[cc][field];
+              if (subcorpora[cc][field] != undefined) {
+                value = subcorpora[cc][field]; // the "field" value can be defined at the subcorpus level
+              }
+              return (value);
             }
           }
         }
