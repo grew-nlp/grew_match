@@ -422,7 +422,7 @@ function search_pattern() {
     data['clust1-data'] = app.clust1_key;
   }
   if (app.clust1 == "whether") {
-    data['clust1-data'] = "{" + clust1_cm.getValue() + "}";
+    data['clust1-data'] = "{\n" + clust1_cm.getValue() + "\n}";
   }
 
   console.log(data);
