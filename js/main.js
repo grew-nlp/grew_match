@@ -366,7 +366,7 @@ function deal_with_get_parameters() {
 
     $.get(app.backend_server + "/shorten/" + get_custom, function(pattern) {
       cmEditor.setValue(pattern);
-      setTimeout(search_pattern, 0); // hack: else clust1_cm value is not taken into account.
+      setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
     });
   }
 
@@ -405,11 +405,11 @@ function deal_with_get_parameters() {
   if (get_cluster.length > 0) {
     app.clust1 = "key";
     app.clust1_key = get_cluster;
-  } else if (whether.length > 0) {
+  } else if (whether.length > 50) {
     app.clust1 = "whether";
     setTimeout(function() {
       clust1_cm.setValue(whether); // hack for correct init of clust1_cm
-    }, 0)
+    }, 50)
   } else {
     app.clust1 = "no";
   }
