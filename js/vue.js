@@ -38,7 +38,7 @@ var app = new Vue({
 });
 
 $(document).ready(function() {
-  setTimeout(start, 100); // hack for correct init of clust1_cm
+  setTimeout(start, 50); // hack for correct init of clust1_cm
 })
 
 function start() {
@@ -51,7 +51,7 @@ function start() {
     app.clust1 = "whether";
     setTimeout(function() {
       clust1_cm.setValue(whether); // hack for correct init of clust1_cm
-    }, 100)
+    }, 50)
   } else {
     app.clust1 = "no";
   }

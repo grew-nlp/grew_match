@@ -273,7 +273,7 @@ function deal_with_get_parameters() {
     get_custom = getParameterByName("custom");
     $.get('./data/shorten/' + get_custom, function(pattern) {
       cmEditor.setValue(pattern);
-      setTimeout(search_pattern, 0); // hack: else clust1_cm value is not taken into account.
+      setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
     });
   }
 
