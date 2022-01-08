@@ -574,7 +574,7 @@ function search_pattern() {
     param.clust1_data = app.clust1_key;
   }
   if (app.clust1 == "whether") {
-    param.clust1_data = "{" + clust1_cm.getValue() + "}";
+    param.clust1_data = "{\n" + clust1_cm.getValue() + "\n}";
   }
 
   var form = new FormData();
