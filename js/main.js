@@ -1065,8 +1065,12 @@ function update_corpus() {
   }
 
   $('#corpus-desc').html("");
-  $.get(app.meta_url + app.current_corpus_id + "_desc.html", function(data) {
-    $('#corpus-desc').html(data);
+  $.ajax({
+    url: "_meta/" + current_corpus + "_desc.html",
+    success: function(data) {
+      $('#corpus-desc').html(data);
+    },
+    cache: false
   });
 
   // Show the errors button only if there is a not empty log_file
