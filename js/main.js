@@ -1066,7 +1066,7 @@ function update_corpus() {
 
   $('#corpus-desc').html("");
   $.ajax({
-    url: "_meta/" + current_corpus + "_desc.html",
+    url: app.meta_url + app.current_corpus_id + "_desc.html",
     success: function(data) {
       $('#corpus-desc').html(data);
     },
