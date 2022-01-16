@@ -90,11 +90,6 @@ var app = new Vue({
         return this.corpora["groups"]
       }
     },
-    meta_url: function() {
-      if (this.corpora != undefined) {
-        return this.corpora["meta_url"]
-      }
-    },
   }
 });
 
@@ -993,7 +988,7 @@ function last_svg() {
 
 // ==================================================================================
 function logs_page() {
-  window.open(app.meta_url + app.current_corpus_id + '.log');
+  window.open("meta/" + app.current_corpus_id + '.log');
 }
 
 // ==================================================================================
@@ -1066,7 +1061,7 @@ function update_corpus() {
 
   $('#corpus-desc').html("");
   $.ajax({
-    url: app.meta_url + app.current_corpus_id + "_desc.html",
+    url: "meta/" + app.current_corpus_id + "_desc.html",
     success: function(data) {
       $('#corpus-desc').html(data);
     },
@@ -1075,7 +1070,7 @@ function update_corpus() {
 
   // Show the errors button only if there is a not empty log_file
   app.meta_log = "";
-  let log_url = app.meta_url + app.current_corpus_id + ".log"
+  let log_url = "meta/" + app.current_corpus_id + ".log"
   $.get(log_url, function(data) {
     if (data.length > 0) {
       app.meta_log = log_url;
@@ -1083,7 +1078,7 @@ function update_corpus() {
   });
 
   // Show the table button only if the file is available
-  let url = app.meta_url + app.current_corpus_id + "_table.html";
+  let url = "meta/" + app.current_corpus_id + "_table.html";
   ping(
     url,
     function(bool) {
@@ -1097,7 +1092,7 @@ function update_corpus() {
 
 
   // is the table button visible?
-  let json_url = app.meta_url + "validator/" + app.current_corpus_id + ".json";
+  let json_url = "meta/" + "validator/" + app.current_corpus_id + ".json";
   ping(
     json_url,
     function(bool) {
