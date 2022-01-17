@@ -28,6 +28,7 @@ var app = new Vue({
     current_view: 0,
     result_nb: 0,
 
+    meta_info: "",
     meta_table: "", // URL to relation table or ""
     meta_valid: "", // URL to validation page or ""
     meta_log: "", // URL to non-empty log page or ""
@@ -236,18 +237,19 @@ $(document).ready(function() {
     interactive: true,
     position: 'bottom'
   });
+
+  // Long HTML tooltip are defined in run.html
   $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
   $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
-  $('#export-button').tooltipster('content', $("#export-tip").html());
-  $('#save-button').tooltipster('content', $("#save-tip").html());
-  $('#conll-button').tooltipster('content', $("#conll-tip").html());
 
-  $('#github-button').tooltipster('content', $("#github-tip").html());
-  $('#link-button').tooltipster('content', $("#link-tip").html());
-  $('#valid-button').tooltipster('content', $("#valid-tip").html());
-  $('#table-button').tooltipster('content', $("#table-tip").html());
+  $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
+  $('#save-button').tooltipster('content', "Build a permanent URL with the current request");
+  $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
 
-
+  $('#github-button').tooltipster('content', "GitHub repository");
+  $('#link-button').tooltipster('content', "External link");
+  $('#valid-button').tooltipster('content', "Automatic validation (new page)");
+  $('#table-button').tooltipster('content', "Relation tables (new page)");
 
   $('[data-toggle="collapse"]').click(function() {
     $(this).toggleClass("active");
@@ -1091,13 +1093,25 @@ function update_corpus() {
   )
 
 
+  // Show the info button only if there is a not empty log_file
+  app.meta_info = "";
+  let info_url = "meta/" + app.current_corpus_id + "_desc.html"
+  $.get(info_url, function(data) {
+    if (data.length > 0) {
+      app.meta_info = data;
+      $('#info-button').tooltipster('content', data);
+    }
+  });
+
+
+
   // is the table button visible?
   let json_url = "meta/" + "validator/" + app.current_corpus_id + ".json";
   ping(
     json_url,
     function(bool) {
       if (bool) {
-        app.meta_valid = "validator?corpus=" + json_url + '&top=' + window.location.origin + window.location.pathname;
+        app.meta_valid = "validator.html?corpus=" + json_url + '&top=' + window.location.origin + window.location.pathname;
       } else {
         app.meta_valid = "";
       }
