@@ -7,6 +7,8 @@ var current_pivots;
 var current_but_sel;
 var already_built_cluster_file = [];
 
+var hack_audio;
+
 // ==================================================================================
 var app = new Vue({
   el: '#app',
@@ -738,11 +740,11 @@ function display_picture(event) {
   $("#sentence-txt").html(event.data.sentence);
 
   if (event.data.audio != undefined) {
-    var audio = $("#passage-audio");
+    hack_audio = $("#passage-audio");
     $("#source-audio").attr("src", event.data.audio);
     // Next two line: force reload (stackoverflow.com/questions/9421505)
-    audio[0].pause();
-    audio[0].load();
+    hack_audio[0].pause();
+    hack_audio[0].load();
   }
 
   if (app.audio) {

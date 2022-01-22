@@ -66,7 +66,10 @@ var ReadAlong = {
         }
 
         if (!word) {
-            throw Error('Unable to find current word and we should always be able to.');
+          // HACK Grew-match: when we can't find the current word --> back at the beginning of the sentence, using global var hack_audio
+          hack_audio[0].pause();
+          hack_audio[0].load();
+          //throw Error('Unable to find current word and we should always be able to.');
         }
         return word;
     },
