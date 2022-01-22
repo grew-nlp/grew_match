@@ -563,7 +563,10 @@ function search_pattern() {
     tf_wf: app.tf_wf,
     order: $('#sentences-order').val(),
     context: app.context,
-    eud2ud: (get_info(app.current_corpus_id, "enhanced") && !($('#eud-box').prop('checked'))),
+    eud2ud: (
+      (get_info(app.current_corpus_id, "enhanced") != "") &&
+      !($('#eud-box').prop('checked'))
+    ),
     clust1: app.clust1,
   };
 
