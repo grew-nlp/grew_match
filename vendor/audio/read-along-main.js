@@ -15,7 +15,7 @@ function start_audio() {
       // No error messaging is needed because error message appears in <audio> fallback
       throw new Error('HTML5 Audio not supported');
     }
-    // Grew-match changes: disable next 4 lines to avoir error at loading (don't know why)
+    // Grew-match changes: disable next 4 lines to avoid error at loading (don't know why)
     // if (args.audio_element.networkState === args.audio_element.NETWORK_NO_SOURCE) {
     //   document.querySelector('.passage-audio-unavailable').hidden = false;
     //   throw new Error('Cannot play any of the available sources');
@@ -57,4 +57,12 @@ function start_audio() {
   }
   document.body.classList.add('initialized');
   document.querySelector('.loading').hidden = true;
+}
+
+function stop_audio() {
+  var args = {
+    text_element: null,
+    audio_element: null,
+  };
+  ReadAlong.init(args);
 }

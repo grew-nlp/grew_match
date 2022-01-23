@@ -749,6 +749,8 @@ function display_picture(event) {
 
   if (app.audio) {
     start_audio();
+  } else {
+    stop_audio();
   }
 
   var newHtml = "<img id=\"result-pic\" src=\"" + event.data.url + "\" > </img>";
