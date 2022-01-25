@@ -32,7 +32,8 @@ var app = new Vue({
 
     meta_info: "",
     meta_table: "", // URL to relation table or ""
-    meta_valid: "", // URL to validation page or ""
+    meta_sud_valid: "", // URL to SUD validation page or ""
+    meta_ud_valid: "", // URL to UD validation page or ""
     meta_log: "", // URL to non-empty log page or ""
 
     clust1: "no", // 3 possible values: no, key or whether
@@ -250,7 +251,8 @@ $(document).ready(function() {
 
   $('#github-button').tooltipster('content', "GitHub repository");
   $('#link-button').tooltipster('content', "External link");
-  $('#valid-button').tooltipster('content', "Automatic validation (new page)");
+  $('#sud-valid-button').tooltipster('content', "SUD validation (new page)");
+  $('#ud-valid-button').tooltipster('content', "UD validation (new page)");
   $('#table-button').tooltipster('content', "Relation tables (new page)");
 
   $('[data-toggle="collapse"]').click(function() {
@@ -1110,17 +1112,28 @@ function update_corpus() {
     }
   });
 
-
-
-  // is the table button visible?
+  // is the SUD validation button visible?
   let json_url = "meta/" + "validator/" + app.current_corpus_id + ".json";
   ping(
     json_url,
     function(bool) {
       if (bool) {
-        app.meta_valid = "validator.html?corpus=" + json_url + '&top=' + window.location.origin + window.location.pathname;
+        app.meta_sud_valid = "validator.html?corpus=" + json_url + '&top=' + window.location.origin + window.location.pathname;
       } else {
-        app.meta_valid = "";
+        app.meta_sud_valid = "";
+      }
+    }
+  )
+
+  // is the UD validation button visible?
+  let valid_url = "meta/" + "valid_ud/" + app.current_corpus_id + ".valid";
+  ping(
+    valid_url,
+    function(bool) {
+      if (bool) {
+        app.meta_ud_valid = valid_url;
+      } else {
+        app.meta_ud_valid = "";
       }
     }
   )
