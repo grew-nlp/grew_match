@@ -15,9 +15,11 @@ var ReadAlong = {
         for (name in args) {
             this[name] = args[name];
         }
-        this.generateWordList();
-        this.addEventListeners();
-        this.selectCurrentWord();
+        if (this.text_element && this.audio_element) {
+          this.generateWordList();
+          this.addEventListeners();
+          this.selectCurrentWord();
+      }
     },
 
     /**
