@@ -317,7 +317,7 @@ function init() {
     disable_save();
   });
 
-  if (app.current_group["style"] != "dropdown") {
+  if (!app.tuto_active && app.current_group["style"] != "dropdown") {
     update_group();
   } else {
     update_corpus();
