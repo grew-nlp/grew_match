@@ -47,6 +47,10 @@
       return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
+    if (getParameterByName("tutorial") == "yes") {
+        location.replace("http://universal.grew.fr?tutorial=yes");
+    }
+
     let corpus = getParameterByName("corpus");
     console.log(corpus);
     if (corpus.length > 0) {
