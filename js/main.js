@@ -1046,12 +1046,6 @@ function update_corpus() {
     app.parallels = [];
   }
 
-  if (app.current_corpus_id.startsWith("SUD") && app.current_corpus_id.endsWith("latest")) {
-    $("#validation").show();
-  } else {
-    $("#validation").hide();
-  }
-
   app.audio = (get_info(app.current_corpus_id, "audio") == true);
 
   disable_save();
