@@ -57,6 +57,18 @@
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
+	<script src="js/vendor/jquery.timeago.js"></script>
+
+	<script type="text/javascript">
+		jQuery.timeago.settings.strings.prefixAgo = "updated";
+		jQuery.timeago.settings.strings.seconds = "less than 1 minute";
+		jQuery.timeago.settings.strings.minute = "1 minute";
+		jQuery.timeago.settings.strings.hour = "1 hour";
+		jQuery.timeago.settings.strings.month = "1 month";
+		jQuery.timeago.settings.strings.hours = "%d hours";
+		jQuery.timeago.settings.strings.year = "1 year";
+	</script>
+
 	<script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js"></script>
 	<script>
 		var md = new Remarkable();
@@ -157,6 +169,9 @@
 											</span>
 										</button>
 										<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus_id }}</span>
+
+
+										<span id="update_ago" style="font-size: initial;"></span>
 
 										<span id="eud-span">
 											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">

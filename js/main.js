@@ -30,7 +30,7 @@ var app = new Vue({
     current_view: 0,
     result_nb: 0,
 
-    meta_info: "",
+    meta_info: false,
     meta_table: "", // URL to relation table or ""
     meta_sud_valid: "", // URL to SUD validation page or ""
     meta_ud_valid: "", // URL to UD validation page or ""
@@ -1064,15 +1064,6 @@ function update_corpus() {
     $("#" + current_folder).collapse('show');
   }
 
-  $('#corpus-desc').html("");
-  $.ajax({
-    url: "meta/" + app.current_corpus_id + "_desc.html",
-    success: function(data) {
-      $('#corpus-desc').html(data);
-    },
-    cache: false
-  });
-
   // Show the errors button only if there is a not empty log_file
   app.meta_log = "";
   let log_url = "meta/" + app.current_corpus_id + ".log"
@@ -1095,15 +1086,30 @@ function update_corpus() {
     }
   )
 
+  // update info button + update timestamp if needed
+  $('.timeago').remove();
+  $.ajax({
+    url: "meta/" + app.current_corpus_id + "_desc.json",
+    success: function(data) {
+      app.meta_info = true;
+      var html = "";
+      for (let key in data) {
+        if (key == "update") {
+          const event = new Date(data[key]);
+          $('#update_ago').html("<time class=\"timeago\" datetime=\"" + event.toISOString() + "\">update time</time>");
+          $('#update_ago > time').timeago(); // make it dynamic
+        } else {
+          html += "<p>" + key + ": " + data[key] + "</p>";
+        }
+      }
+      console.log(html);
+      $('#info-button').tooltipster('content', html);
 
-  // Show the info button only if there is a not empty log_file
-  app.meta_info = "";
-  let info_url = "meta/" + app.current_corpus_id + "_desc.html"
-  $.get(info_url, function(data) {
-    if (data.length > 0) {
-      app.meta_info = data;
-      $('#info-button').tooltipster('content', data);
-    }
+    },
+    error: function() {
+      app.meta_info = false;
+    },
+    cache: false
   });
 
   // is the SUD validation button visible?
