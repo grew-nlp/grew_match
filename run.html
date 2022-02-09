@@ -82,7 +82,7 @@
 		<nav id="navbar-grew" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<a href="http://test.grew.fr" class="navbar-brand" style="padding-left: 5px; padding-top: 10px; padding-right: 20px;">
+					<a href="http://match.grew.fr" class="navbar-brand" style="padding-left: 5px; padding-top: 10px; padding-right: 20px;">
 						<img src="images/grew-match.svg" alt="LOGO for grew_match" style="height:50px;">
 					</a>
 
@@ -123,7 +123,7 @@
 
 						<li class="dropdown">
 							<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
-								<i class="fa fa-question-circle fa-lg"></i> 
+								<i class="fa fa-question-circle fa-lg"></i>
 							</a>
 							<ul class="dropdown-menu">
 								<li class="">
@@ -185,7 +185,7 @@
 										</a>
 
 										<!-- Info button -->
-										<a v-show='meta_info != ""' v-bind:href='current_corpus["github"]' target="_blank">
+										<a v-show='meta_info'>
 											<button id="info-button" type="button" class="tooltip-desc btn btn-primary">
 												<i class="fa fa-info-circle fa-lg"></i>
 											</button>
@@ -374,11 +374,12 @@
 
 										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
 
-											<button v-show="Object.keys(sent_metadata).length > 0" class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-												Metadata <span id="md-icon" class="glyphicon glyphicon-chevron-right"></span>
+											<button v-show="Object.keys(sent_metadata).length > 0" class="btn btn-primary btn-sm" type="button" v-on:click="metadata_open=!metadata_open">
+												Metadata
+												<span id="md-icon" class="glyphicon" v-bind:class="metadata_open ? ['glyphicon-chevron-down'] : ['glyphicon-chevron-right']"></span>
 											</button>
 
-											<button v-show="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_conll()">
+											<button v-show="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="show_conll()">
 												CoNLL
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
@@ -396,9 +397,7 @@
 											</a>
 										</div>
 
-										<div class="collapse" id="collapseExample">
-											<div id="metadata" class="panel-body">
-											</div>
+										<div v-show="metadata_open">
 											<p v-for='(item, itemKey) in sent_metadata'>
 												<span><b>{{itemKey}}</b>: {{item}}</span>
 											</p>

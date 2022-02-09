@@ -13,6 +13,9 @@ var hack_audio;
 var app = new Vue({
   el: '#app',
   data: {
+
+    metadata_open: false,
+
     corpora: undefined,
     backend_server: undefined,
 
@@ -1254,18 +1257,6 @@ function toggle_folder_icon(arg) {
     console.log("CLOSE");
     icon.removeClass("glyphicon-folder-open");
     icon.addClass("glyphicon-folder-close");
-  }
-}
-
-// ==================================================================================
-function toggle_metadata_icon() {
-  let icon = $("#md-icon");
-  if ($("#md").hasClass("collapsed")) {
-    icon.removeClass("glyphicon-chevron-right");
-    icon.addClass("glyphicon-chevron-down");
-  } else {
-    icon.removeClass("glyphicon-chevron-down");
-    icon.addClass("glyphicon-chevron-right");
   }
 }
 
