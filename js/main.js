@@ -16,6 +16,8 @@ var app = new Vue({
 
     metadata_open: false,
 
+    corpora_list: ["corp1", "corp2"],
+
     corpora: undefined,
     backend_server: undefined,
 
@@ -81,6 +83,17 @@ var app = new Vue({
     select_group_(group_id, corpus_id) {
       select_group(group_id, corpus_id);
     },
+    select_corpus_event(event) {
+      const corpus_id = event.target.id;
+      console.log("*****************");
+      console.log(corpus_id);
+      if (corpus_id != app.current_corpus_id) {
+        console.log("++++++++++++++++");
+        app.current_corpus_id = corpus_id;
+      }
+    },
+
+
   },
   computed: {
     top_project: function() {
@@ -1159,6 +1172,7 @@ function update_corpus() {
 function select_group(group_id, corpus_id) {
   app.current_group_id = group_id;
   app.current_corpus_id = corpus_id;
+  app.corpora_list = get_corpora_from_group(app.current_group_id);
   update_group();
 }
 

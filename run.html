@@ -146,7 +146,44 @@
 		<!-- wrapper: left menu for corpus selection -->
 		<div class="wrapper" id="wrap">
 			<nav id="sidebar" v-bind:class="{ active: view_left_pane }">
-				<div class="panel-group" id="accordion">
+				<!-- <div class="panel-group" id="accordion"> -->
+
+
+
+				<h3>TOP!!</h3>
+				<div>
+					Filter:
+					<!-- <input type="text" v-model="search" /> -->
+					<input type="text" />
+					<i class="fa fa-times-circle fa-lg"></i>
+				</div>
+
+				<div style="height: calc(100% - 90px);padding-top:10px">
+					<div style="max-height:100%;overflow:auto;">
+
+
+						<div class="corpus" v-for="corpus in corpora_list">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td class="alone" v-bind:class="{ selected: corpus == current_corpus_id }" v-bind:id="corpus" v-on:click="select_corpus_event" href="#">
+											<span class="glyphicon glyphicon-align-justify"></span>
+											{{ corpus }}
+											<object type="image/svg+xml" data="icon/enhanced.svg" width="20" height="20" style="float: right;"></object>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+
 			</nav>
 
 			<div id="grew-main" class="container-fluid">

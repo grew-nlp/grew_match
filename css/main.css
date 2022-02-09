@@ -6,6 +6,14 @@ body {
   overflow: hidden;
 }
 
+#sidebar {
+  padding-top: 10px;
+}
+
+.selected {
+  background-color: #8bf56e;
+}
+
 a {
   color: black;
 }
