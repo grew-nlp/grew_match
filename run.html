@@ -418,7 +418,13 @@
 									</select>
 								</div>
 								<div v-if="parallels.length > 0 && parallel != 'no'" id="display-parallel">
-									<img v-bind:src="parallel_svg"></img>
+									<div v-if="parallel_svg">
+										<img v-bind:src="parallel_svg"></img>
+									</div>
+									<div v-else>
+										<h4>{{parallel_message}}</h4>
+									</div>
+									
 								</div>
 							</div>
 						</div>

@@ -56,6 +56,7 @@ var app = new Vue({
     parallel: "no",
     parallels: [],
     parallel_svg: undefined,
+    parallel_message: "",
 
     wait: false,
 
@@ -494,7 +495,7 @@ function ping(url, set_fct) {
 
 
 // ==================================================================================
-function request(service, form, data_fct) {
+function request(service, form, data_fct, error_fct) {
   var settings = {
     "url": app.backend_server + service,
     "method": "POST",
@@ -509,11 +510,15 @@ function request(service, form, data_fct) {
     .done(function(response_string) {
       response = JSON.parse(response_string);
       if (response.status === "ERROR") {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          html: JSON.stringify(response.message),
-        });
+        if (error_fct === undefined) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            html: JSON.stringify(response.message),
+          });
+        } else {
+          error_fct(response.message);
+        }
       } else if (response.status === "BUG") {
         Swal.fire({
           icon: 'error',
@@ -856,9 +861,17 @@ function update_parallel() {
     var form = new FormData();
     form.append("param", JSON.stringify(param));
 
-    request("parallel", form, function(data) {
-      app.parallel_svg = app.backend_server + "/data/" + app.current_request_id + "/" + data;
-    })
+    request(
+      "parallel",
+      form,
+      function(data) {
+        app.parallel_svg = app.backend_server + "/data/" + app.current_request_id + "/" + data;
+      },
+      function(message) {
+        app.parallel_svg = undefined;
+        app.parallel_message = ("No sentence with sent_id: " + message.sent_id) ;
+      }
+    )
   }
 }
 
