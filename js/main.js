@@ -147,28 +147,11 @@ function get_info(corpus, field) {
             return (group_value);
           }
         }
-        if (corpora[c]["folder"] != undefined) {
-          subcorpora = corpora[c]["corpora"];
-          let folder_value = corpora[c][field];
-          for (var cc = 0; cc < subcorpora.length; cc++) {
-            if (subcorpora[cc]["id"] == corpus) {
-              if (subcorpora[cc][field] != undefined) {
-                return (subcorpora[cc][field]); // the "field" value can be defined at the subcorpus level
-              } else {
-                if (folder_value != undefined) {
-                  return folder_value; // the "field" value can be defined at the folder level
-                } else {
-                  return group_value
-                }
-              }
-              return (value);
-            }
-          }
-        }
       }
     }
   }
   snip_opt = aux();
+  // replace undefined by ""
   if (snip_opt != undefined) {
     return snip_opt
   } else {
@@ -366,8 +349,6 @@ function start_tuto() {
     "?tutorial=yes"
   );
 
-  $('#sidebarCollapse').hide();
-  search_corpus("UD_English-GUM@2.9");
   update_corpus();
   app.left_pane = false;
   app.view_left_pane = false;
@@ -431,7 +412,7 @@ function deal_with_get_parameters() {
   if (get_cluster.length > 0) {
     app.clust1 = "key";
     app.clust1_key = get_cluster;
-  } else if (whether.length > 50) {
+  } else if (whether.length > 50) { // TODO check 50?
     app.clust1 = "whether";
     setTimeout(function() {
       clust1_cm.setValue(whether); // hack for correct init of clust1_cm
@@ -1181,118 +1162,6 @@ function select_group(group_id, corpus_id) {
   app.current_group_id = group_id;
   app.current_corpus_id = corpus_id;
   app.corpora_list = get_corpora_from_group(app.current_group_id);
-  update_group();
-}
-
-// ==================================================================================
-function update_group() {
-
-  // sidebar open and button visible
-  app.left_pane = true;
-  app.view_left_pane = true;
-
-  corpora = get_corpora_from_group(app.current_group_id);
-
-  html = "";
-  $.each(corpora, function(index, value) {
-    if ("section" in value) {
-      html += '<div class="sidebar-header">\n';
-      html += '  <h3>' + value["section"] + '</h3>\n';
-      html += '</div>\n';
-    } else if ("id" in value) {
-      id = value["id"];
-      esc_id = escape(id);
-      if ("name" in value) {
-        name = value["name"];
-      } else {
-        name = id;
-      }
-      html += '<div class="corpus">\n';
-      html += '<table id="' + esc_id + '" class="table" onclick="set_corpus(\'' + id + '\');return false;" href="#">\n';
-      html += '<tr><td class="alone">\n';
-      html += '<span class="glyphicon glyphicon-align-justify"></span>\n';
-      html += name + '\n';
-      if (value["no_word"]) {
-        html += '<object type="image/svg+xml" data="icon/no_word.svg" width="20" height="20" style="float: right;"></object>'
-      }
-      if (value["enhanced"]) {
-        html += '<object type="image/svg+xml" data="icon/enhanced.svg" width="20" height="20" style="float: right;"></object>'
-      }
-      if (value["new"]) {
-        html += '<object type="image/svg+xml" data="icon/new.svg" width="23" height="23" style="float: right;"></object>'
-      }
-      if (value["audio"]) {
-        html += '<object id="audio-svg" type="image/svg+xml" data="icon/audio.svg" width="20" height="20" style="float: right;"></object>'
-      }
-      html += '</td></tr>\n';
-      html += '</table>\n';
-      html += '</div>\n';
-    } else {
-      var href = "none"
-      if (value["href"]) {
-        href = value["href"];
-      } else {
-        href = value["folder"].replace(" ", "_");
-      }
-      html += '<div class="panel panel-default">\n';
-      html += '<div class="panel-heading">\n';
-      html += '<h4 class="panel-title">\n';
-      html += '<a onclick="toggle_folder_icon(\'' + href + '\');" data-toggle="collapse" href="#' + href + '" id="folder_' + href + '" class="collapsed corpus-folder">\n';
-      html += '<span id = "icon_' + href + '" class="glyphicon glyphicon-folder-close"></span>\n';
-      html += value["folder"] + '\n';
-
-
-      html += '<span class="badge badge-danger">' + value["corpora"].length + '</span>';
-
-
-      html += '</a>\n';
-      html += '</h4>\n';
-      html += '</div>\n';
-      html += '<div id="' + href + '" class="panel-collapse collapse">\n';
-      html += '<div class="panel-body">\n';
-      html += '<table class="table">\n';
-      $.each(value["corpora"], function(index, value) {
-        id = value["id"];
-        esc_id = escape(id);
-        html += '<tr id="' + esc_id + '" class="corpus" onclick="set_corpus(\'' + id + '\');return false;"><td>\n';
-        html += '<a href="#" >\n';
-        html += '&#8627;<span class="glyphicon glyphicon-align-justify"></span>\n';
-        html += id + '\n';
-        html += '</a>\n';
-        if (value["no_word"]) {
-          html += '<object type="image/svg+xml" data="icon/no_word.svg" width="20" height="20" style="float: right;"></object>'
-        }
-        if (value["enhanced"]) {
-          html += '<object type="image/svg+xml" data="icon/enhanced.svg" width="20" height="20" style="float: right;"></object>'
-        }
-        if (value["new"]) {
-          html += '<object type="image/svg+xml" data="icon/new.svg" width="23" height="23" style="float: right;"></object>'
-        }
-        html += '</td></tr>\n';
-      });
-      html += '</table>\n';
-      html += '</div>\n';
-      html += '</div>\n';
-      html += '</div>\n';
-    }
-  });
-  $('#accordion').html(html);
-  update_corpus();
-}
-
-// ==================================================================================
-function toggle_folder_icon(arg) {
-  let folder = $("#folder_" + arg);
-  let icon = $("#icon_" + arg);
-  if (folder.hasClass("collapsed")) {
-    console.log("OPEN");
-    icon.removeClass("glyphicon-folder-close");
-    icon.addClass("glyphicon-folder-open");
-  } else {
-    console.log("CLOSE");
-    icon.removeClass("glyphicon-folder-open");
-    icon.addClass("glyphicon-folder-close");
-  }
 }
 
 // ==================================================================================
