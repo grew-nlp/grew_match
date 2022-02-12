@@ -85,11 +85,9 @@ var app = new Vue({
     },
     select_corpus_event(event) {
       const corpus_id = event.target.id;
-      console.log("*****************");
-      console.log(corpus_id);
       if (corpus_id != app.current_corpus_id) {
-        console.log("++++++++++++++++");
         app.current_corpus_id = corpus_id;
+        update_corpus();
       }
     },
 

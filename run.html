@@ -150,7 +150,9 @@
 
 
 
-				<h3>TOP!!</h3>
+
+
+				<h4>{{corpora_list.length}} corp{{ corpora_list.length > 1 ? "ora" : "us" }}</h4>
 				<div>
 					Filter:
 					<!-- <input type="text" v-model="search" /> -->
@@ -161,15 +163,16 @@
 				<div style="height: calc(100% - 90px);padding-top:10px">
 					<div style="max-height:100%;overflow:auto;">
 
-
+<!-- XXX -->
 						<div class="corpus" v-for="corpus in corpora_list">
 							<table class="table">
 								<tbody>
 									<tr>
-										<td class="alone" v-bind:class="{ selected: corpus == current_corpus_id }" v-bind:id="corpus" v-on:click="select_corpus_event" href="#">
+										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-bind:id="corpus.id" v-on:click="select_corpus_event" href="#">
 											<span class="glyphicon glyphicon-align-justify"></span>
-											{{ corpus }}
-											<object type="image/svg+xml" data="icon/enhanced.svg" width="20" height="20" style="float: right;"></object>
+											{{ corpus.id }}
+											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
+											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
 										</td>
 									</tr>
 								</tbody>
