@@ -1161,6 +1161,10 @@ function update_corpus() {
 function select_group(group_id, corpus_id) {
   app.current_group_id = group_id;
   app.current_corpus_id = corpus_id;
+  if (!app.tuto_active && app.current_group["style"] != "dropdown") {
+    app.left_pane = true;
+    app.view_left_pane = true;
+  }
   app.corpora_list = get_corpora_from_group(app.current_group_id);
 }
 
