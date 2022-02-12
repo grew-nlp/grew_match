@@ -155,16 +155,14 @@
 				<h4>{{corpora_list.length}} corp{{ corpora_list.length > 1 ? "ora" : "us" }}</h4>
 				<div>
 					Filter:
-					<!-- <input type="text" v-model="search" /> -->
-					<input type="text" />
-					<i class="fa fa-times-circle fa-lg"></i>
+					<input type="text" v-model="corpora_filter" />
+					<i v-on:click="corpora_filter = ''" class="fa fa-times-circle fa-lg"></i>
 				</div>
 
 				<div style="height: calc(100% - 90px);padding-top:10px">
 					<div style="max-height:100%;overflow:auto;">
 
-<!-- XXX -->
-						<div class="corpus" v-for="corpus in corpora_list">
+						<div class="corpus" v-for="corpus in filtered_corpora_list">
 							<table class="table">
 								<tbody>
 									<tr>
@@ -173,6 +171,7 @@
 											{{ corpus.id }}
 											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
+											<img v-if="corpus.audio" src="icon/audio.svg" width="20" height="20" style="float: right;"></img>
 										</td>
 									</tr>
 								</tbody>

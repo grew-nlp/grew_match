@@ -16,7 +16,8 @@ var app = new Vue({
 
     metadata_open: false,
 
-    corpora_list: ["corp1", "corp2"],
+    corpora_list: [],
+    corpora_filter: "",
 
     corpora: undefined,
     backend_server: undefined,
@@ -92,6 +93,7 @@ var app = new Vue({
     },
 
 
+
   },
   computed: {
     top_project: function() {
@@ -108,6 +110,12 @@ var app = new Vue({
       if (this.corpora != undefined) {
         return this.corpora["groups"]
       }
+    },
+    filtered_corpora_list: function() {
+      var self = this;
+      return this.corpora_list.filter(function(corpus) {
+        return corpus.id.toLowerCase().indexOf(self.corpora_filter.toLowerCase()) >= 0;
+      });
     },
   }
 });
@@ -333,7 +341,9 @@ function init() {
   });
 
   if (!app.tuto_active && app.current_group["style"] != "dropdown") {
-    update_group();
+    app.left_pane = true;
+    app.view_left_pane = true;
+    app.corpora_list = get_corpora_from_group(app.current_group_id);
   } else {
     update_corpus();
   }
@@ -880,7 +890,7 @@ function update_parallel() {
       },
       function(message) {
         app.parallel_svg = undefined;
-        app.parallel_message = ("No sentence with sent_id: " + message.sent_id) ;
+        app.parallel_message = ("No sentence with sent_id: " + message.sent_id);
       }
     )
   }
