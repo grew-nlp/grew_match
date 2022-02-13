@@ -18,7 +18,7 @@ var app = new Vue({
     corpora_list: [],
     corpora_filter: "",
 
-    corpora: undefined,
+    config: undefined,
     backend_server: undefined,
 
     left_pane: false, // true iff interface use left_pane
@@ -96,18 +96,18 @@ var app = new Vue({
   },
   computed: {
     top_project: function() {
-      if (this.corpora != undefined) {
-        return this.corpora["top_project"]
+      if (this.config != undefined) {
+        return this.config["top_project"]
       }
     },
     tuto: function() {
-      if (this.corpora != undefined) {
-        return this.corpora["tuto"]
+      if (this.config != undefined) {
+        return this.config["tuto"]
       }
     },
     groups: function() {
-      if (this.corpora != undefined) {
-        return this.corpora["groups"]
+      if (this.config != undefined) {
+        return this.config["groups"]
       }
     },
     filtered_corpora_list: function() {
@@ -121,7 +121,7 @@ var app = new Vue({
 
 // ==================================================================================
 function get_corpora_from_group(group_id) {
-  group_list = app.corpora["groups"];
+  group_list = app.config["groups"];
   for (var g = 0; g < group_list.length; g++) {
     if (group_list[g]["id"] == group_id) {
       return group_list[g]["corpora"];
@@ -133,7 +133,7 @@ function get_corpora_from_group(group_id) {
 // search for the requested field in the json object which contains the "id" corpus
 function get_info(corpus, field) {
   function aux() {
-    group_list = app.corpora["groups"];
+    group_list = app.config["groups"];
     for (var g = 0; g < group_list.length; g++) {
       let group = group_list[g];
       let group_value = group[field]; // the "field" value can be defined at the group level
@@ -169,7 +169,7 @@ function search_corpus(requested_corpus) {
   app.current_group = undefined;
   best_cpl = 0;
   best_ld = Number.MAX_SAFE_INTEGER;
-  group_list = app.corpora["groups"];
+  group_list = app.config["groups"];
   for (var g = 0; g < group_list.length; g++) {
     let group = group_list[g];
     corpora = group_list[g]["corpora"];
@@ -208,7 +208,7 @@ function search_corpus(requested_corpus) {
 $(document).ready(function() {
   $.getJSON("corpora/config.json")
     .done(function(data) {
-      app.corpora = data;
+      app.config = data;
       init();
     });
 
@@ -245,16 +245,16 @@ $(document).ready(function() {
 
 // ==================================================================================
 function init() {
-  console.log(app.corpora);
-  search_corpus(app.corpora["default"]);
+  console.log(app.config);
+  search_corpus(app.config["default"]);
 
   $('#save-button').prop('disabled', true);
   $('#export-button').prop('disabled', true);
 
-  if (app.corpora["backend_server"] == undefined) {
+  if (app.config["backend_server"] == undefined) {
     direct_error("Undefined `backend_server` in config file")
   } else {
-    app.backend_server = app.corpora["backend_server"]
+    app.backend_server = app.config["backend_server"]
   }
 
   // Initialise CodeMirror
