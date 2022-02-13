@@ -1,4 +1,3 @@
-var current_folder; // TODO: check usage
 var current_snippets;
 var current_cluster;
 var current_pivot;
@@ -160,13 +159,12 @@ function get_info(corpus, field) {
 }
 
 // ==================================================================================
-// update the 5 global variables: app.current_corpus, app.current_corpus_id, app.current_group, app.current_group_id and global_folder
+// update the 4 global variables: app.current_corpus, app.current_corpus_id, app.current_group, app.current_group_id
 function search_corpus(requested_corpus) {
   console.log(requested_corpus);
   $('#warning').hide();
   app.current_corpus = undefined;
   app.current_corpus_id = undefined;
-  current_folder = undefined;
   app.current_group_id = undefined;
   app.current_group = undefined;
   best_cpl = 0;
@@ -203,7 +201,6 @@ function search_corpus(requested_corpus) {
           if (requested_corpus == subcorpora[cc]["id"]) {
             app.current_corpus = subcorpora[cc];
             app.current_corpus_id = subcorpora[cc]["id"];
-            current_folder = corpora[c]["folder"];
             app.current_group = group_list[g];
             app.current_group_id = group_list[g]["id"];
             app.mode = app.current_group["mode"];
@@ -216,7 +213,6 @@ function search_corpus(requested_corpus) {
             best_ld = ld;
             app.current_corpus = subcorpora[cc];
             app.current_corpus_id = subcorpora[cc]["id"];
-            current_folder = corpora[c]["folder"];
             app.current_group = group_list[g];
             app.current_group_id = group_list[g]["id"];
             app.mode = app.current_group["mode"];
@@ -1077,10 +1073,6 @@ function update_corpus() {
 
   $(".selected_corpus").removeClass("selected_corpus");
   $('#' + escape(app.current_corpus_id)).addClass("selected_corpus");
-
-  if (current_folder != undefined) {
-    $("#" + current_folder).collapse('show');
-  }
 
   // Show the errors button only if there is a not empty log_file
   app.meta_log = "";
