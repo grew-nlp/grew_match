@@ -110,20 +110,29 @@ var app = new Vue({
       }
     },
     number_of_corpora: function() {
-      if (this.current_group) {
-        return this.current_group["corpora"].length;
-      } else {
-        return 0;
+      if (this.aaa_current_group) {
+        console.log(this.aaa_current_group["corpora"].length);
+        return this.aaa_current_group["corpora"].length;
       }
     },
     filtered_corpora_list: function() {
       var self = this;
-      if (this.current_group) {
-        return this.current_group["corpora"].filter(function(corpus) {
+      if (this.aaa_current_group) {
+        return this.aaa_current_group["corpora"].filter(function(corpus) {
           return corpus.id.toLowerCase().indexOf(self.corpora_filter.toLowerCase()) >= 0;
         });
       }
     },
+    aaa_current_group: function() {
+      if (this.config) {
+        groups = app.config["groups"];
+        for (var g = 0; g < groups.length; g++) {
+          if (groups[g]["id"] == app.current_group_id) {
+            return groups[g];
+          }
+        }
+      }
+    }
   }
 });
 
@@ -313,7 +322,7 @@ function init() {
     disable_save();
   });
 
-  if (!app.tuto_active && app.current_group["style"] != "dropdown") {
+  if (!app.tuto_active && app.aaa_current_group["style"] != "dropdown") {
     app.left_pane = true;
     app.view_left_pane = true;
   } else {
@@ -1144,7 +1153,7 @@ function select_group(group_id, corpus_id) {
   app.current_group_id = group_id;
   update_current_group(group_id);
   app.current_corpus_id = corpus_id;
-  if (!app.tuto_active && app.current_group["style"] != "dropdown") {
+  if (!app.tuto_active && app.aaa_current_group["style"] != "dropdown") {
     app.left_pane = true;
     app.view_left_pane = true;
   }
