@@ -195,30 +195,6 @@ function search_corpus(requested_corpus) {
           app.mode = app.current_group["mode"];
         }
       }
-      if (corpora[c]["folder"] != undefined) {
-        subcorpora = corpora[c]["corpora"];
-        for (var cc = 0; cc < subcorpora.length; cc++) {
-          if (requested_corpus == subcorpora[cc]["id"]) {
-            app.current_corpus = subcorpora[cc];
-            app.current_corpus_id = subcorpora[cc]["id"];
-            app.current_group = group_list[g];
-            app.current_group_id = group_list[g]["id"];
-            app.mode = app.current_group["mode"];
-            return;
-          }
-          cpl = common_prefix_length(requested_corpus, subcorpora[cc]["id"]);
-          ld = levenshtein(requested_corpus, subcorpora[cc]["id"]);
-          if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
-            best_cpl = cpl;
-            best_ld = ld;
-            app.current_corpus = subcorpora[cc];
-            app.current_corpus_id = subcorpora[cc]["id"];
-            app.current_group = group_list[g];
-            app.current_group_id = group_list[g]["id"];
-            app.mode = app.current_group["mode"];
-          }
-        }
-      }
     }
   }
   // no exact matching
