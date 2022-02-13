@@ -34,10 +34,6 @@ a:hover, a:focus {
   background: #F5D76E;
 }
 
-.selected_corpus:hover {
-  background: #8bf56e;
-}
-
 .glyphicon {
   margin-right: 4px;
   margin-left: 4px;

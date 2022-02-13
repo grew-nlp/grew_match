@@ -15,7 +15,6 @@ var app = new Vue({
 
     metadata_open: false,
 
-    corpora_list: [],
     corpora_filter: "",
 
     config: undefined,
@@ -110,11 +109,20 @@ var app = new Vue({
         return this.config["groups"]
       }
     },
+    number_of_corpora: function() {
+      if (this.current_group) {
+        return this.current_group["corpora"].length;
+      } else {
+        return 0;
+      }
+    },
     filtered_corpora_list: function() {
       var self = this;
-      return this.corpora_list.filter(function(corpus) {
-        return corpus.id.toLowerCase().indexOf(self.corpora_filter.toLowerCase()) >= 0;
-      });
+      if (this.current_group) {
+        return this.current_group["corpora"].filter(function(corpus) {
+          return corpus.id.toLowerCase().indexOf(self.corpora_filter.toLowerCase()) >= 0;
+        });
+      }
     },
   }
 });
@@ -125,6 +133,16 @@ function get_corpora_from_group(group_id) {
   for (var g = 0; g < group_list.length; g++) {
     if (group_list[g]["id"] == group_id) {
       return group_list[g]["corpora"];
+    }
+  }
+}
+
+// ==================================================================================
+function update_current_group(group_id) {
+  groups = app.config["groups"];
+  for (var g = 0; g < groups.length; g++) {
+    if (groups[g]["id"] == group_id) {
+      app.current_group = groups[g];
     }
   }
 }
@@ -298,7 +316,6 @@ function init() {
   if (!app.tuto_active && app.current_group["style"] != "dropdown") {
     app.left_pane = true;
     app.view_left_pane = true;
-    app.corpora_list = get_corpora_from_group(app.current_group_id);
   } else {
     update_corpus();
   }
@@ -1047,9 +1064,6 @@ function update_corpus() {
     right_pane(current_snippets);
   }
 
-  $(".selected_corpus").removeClass("selected_corpus");
-  $('#' + escape(app.current_corpus_id)).addClass("selected_corpus");
-
   // Show the errors button only if there is a not empty log_file
   app.meta_log = "";
   let log_url = "meta/" + app.current_corpus_id + ".log"
@@ -1128,12 +1142,13 @@ function update_corpus() {
 // ==================================================================================
 function select_group(group_id, corpus_id) {
   app.current_group_id = group_id;
+  update_current_group(group_id);
   app.current_corpus_id = corpus_id;
   if (!app.tuto_active && app.current_group["style"] != "dropdown") {
     app.left_pane = true;
     app.view_left_pane = true;
   }
-  app.corpora_list = get_corpora_from_group(app.current_group_id);
+  update_corpus();
 }
 
 // ==================================================================================
