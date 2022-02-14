@@ -498,6 +498,9 @@
 						<p>Chose the pivot</p>
 					</div>
 					<div id="pivot-list" class="modal-body" style="text-align: center; padding-bottom: 15px">
+						<p v-for="pivot in current_pivots">
+							<button type="button" class="btn btn-primary" v-on:click="export_tsv_(pivot)"> {{ pivot }} </button>
+						</p>
 					</div>
 				</div>
 			</div>

@@ -1,7 +1,5 @@
 var current_snippets;
 var current_cluster;
-var current_pivot;
-var current_pivots;
 
 var current_but_sel;
 var already_built_cluster_file = [];
@@ -64,10 +62,15 @@ var app = new Vue({
     context: false,
 
     svg_link: "",
+
+    current_pivots: [],
   },
   methods: {
     update_parallel_() {
       update_parallel();
+    },
+    export_tsv_(pivot) {
+      export_tsv(pivot);
     },
     select_group_(group_id) {
       select_group(group_id);
@@ -572,25 +575,13 @@ function search_pattern() {
           } else if (fields[0] == '<CLUSTERS>') {
             fill_cluster_buttons();
           } else if (fields[0] == '<PIVOTS>') {
-            current_pivots = fields.slice(1).reverse();
-            update_modal_pivot();
+            app.current_pivots = fields.slice(1).reverse();
           }
         };
       }
     });
   });
   app.wait = false;
-}
-
-// ==================================================================================
-function update_modal_pivot() {
-  if (current_pivots.length > 1) {
-    $("#pivot-list").html("");
-    current_pivots.forEach(function(pivot) {
-      var text = "<p><button type=\"button\" class=\"btn btn-primary\" onclick=\"javascript:chose_pivot('" + pivot + "')\">" + pivot + "</button></p>\n";
-      $("#pivot-list").append(text);
-    });
-  }
 }
 
 // ==================================================================================
@@ -751,29 +742,21 @@ function show_export_modal() {
 
 // ==================================================================================
 function run_export() {
-  if (current_pivots.length > 1) {
+  if (app.current_pivots.length > 1) {
     $('#pivot-modal').modal('show');
-  } else if (current_pivots.length == 1) {
-    current_pivot = current_pivots[0];
-    export_tsv();
+  } else if (app.current_pivots.length == 1) {
+    export_tsv(app.current_pivots[0]);
   } else {
-    current_pivot = "";
-    export_tsv();
+    export_tsv("");
   }
 }
 
 // ==================================================================================
-function chose_pivot(pivot) {
+function export_tsv(pivot) {
   $('#pivot-modal').modal('hide');
-  current_pivot = pivot;
-  export_tsv();
-}
-
-// ==================================================================================
-function export_tsv() {
   var param = {
     uuid: app.current_request_id,
-    pivot: current_pivot,
+    pivot: pivot,
   };
 
   var form = new FormData();
