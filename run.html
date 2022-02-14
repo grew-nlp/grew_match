@@ -106,14 +106,14 @@
 
 							<ul v-if='group["style"] == "dropdown"' class="dropdown-menu">
 								<li v-for='corpus in group["corpora"]' v-bind:class='{ divider: corpus=="divider" }'>
-									<a href="#" v-if='corpus!="divider"' v-on:click='tuto_active=false; current_group_id = group["id"]; set_corpus_(corpus["id"])'>
+									<a href="#" v-if='corpus!="divider"' v-on:click='tuto_active=false; current_group_id = group["id"]; current_corpus_id = corpus["id"]'>
 										{{corpus["id"]}}
 									</a>
 								</li>
 							</ul>
 
 							<!-- leftpane case -->
-							<a v-if='group["style"] != "tuto" && group["style"] != "dropdown"' class="navbar-brand" v-on:click='tuto_active=false; select_group_(group["id"], group["default"])' href="#">
+							<a v-if='group["style"] != "tuto" && group["style"] != "dropdown"' class="navbar-brand" v-on:click='tuto_active=false; select_group_(group["id"])' href="#">
 								{{group["name"]}}
 							</a>
 						</li>

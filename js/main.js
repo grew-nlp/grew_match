@@ -74,9 +74,6 @@ var app = new Vue({
     update_parallel_() {
       update_parallel();
     },
-    set_corpus_(id) {
-      set_corpus(id);
-    },
     select_group_(group_id, corpus_id) {
       select_group(group_id, corpus_id);
     },
@@ -109,7 +106,6 @@ var app = new Vue({
     },
     number_of_corpora: function() {
       if (this.current_group) {
-        console.log(this.current_group["corpora"].length);
         return this.current_group["corpora"].length;
       }
     },
@@ -1020,17 +1016,6 @@ function escape(s) {
 }
 
 // ==================================================================================
-function set_corpus(corpus) {
-  search_corpus(corpus);
-  $("#warning").hide();
-  history.pushState({},
-    "Grew - " + app.current_corpus_id,
-    "?corpus=" + app.current_corpus_id
-  );
-  update_corpus()
-}
-
-// ==================================================================================
 function update_corpus() {
   app.corpus_desc = app.current_corpus["desc"] ? app.current_corpus["desc"] : "";
 
@@ -1143,17 +1128,15 @@ function update_corpus() {
 }
 
 // ==================================================================================
-function select_group(group_id, corpus_id) {
+function select_group(group_id) {
   app.current_group_id = group_id;
+  app.current_corpus_id = app.current_group["default"];
+  update_corpus();
 
-  console.log("++++++++++++++++++++");
-
-  app.current_corpus_id = corpus_id;
   if (!app.tuto_active && app.current_group["style"] != "dropdown") {
     app.left_pane = true;
     app.view_left_pane = true;
   }
-  update_corpus();
 }
 
 // ==================================================================================
