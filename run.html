@@ -145,13 +145,7 @@
 
 		<!-- wrapper: left menu for corpus selection -->
 		<div class="wrapper" id="wrap">
-			<nav id="sidebar" v-bind:class="{ active: view_left_pane }">
-				<!-- <div class="panel-group" id="accordion"> -->
-
-
-
-
-
+			<nav id="sidebar" v-if="left_pane" v-bind:class="{ active: view_left_pane }">
 				<h4>{{number_of_corpora}} corp{{ number_of_corpora > 1 ? "ora" : "us" }}</h4>
 				<div>
 					Filter:
@@ -179,13 +173,6 @@
 						</div>
 					</div>
 				</div>
-
-
-
-
-
-
-
 			</nav>
 
 			<div id="grew-main" class="container-fluid">
@@ -477,7 +464,6 @@
 									<div v-else>
 										<h4>{{parallel_message}}</h4>
 									</div>
-									
 								</div>
 							</div>
 						</div>

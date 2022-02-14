@@ -20,7 +20,6 @@ var app = new Vue({
     config: undefined,
     backend_server: undefined,
 
-    left_pane: false, // true iff interface use left_pane
     view_left_pane: false, // true iff the left_pane is open
 
     tuto_active: false,
@@ -48,8 +47,6 @@ var app = new Vue({
 
     code: "",
 
-    //mode: "",
-
     sent_id: "",
 
     parallel: "no",
@@ -74,8 +71,8 @@ var app = new Vue({
     update_parallel_() {
       update_parallel();
     },
-    select_group_(group_id, corpus_id) {
-      select_group(group_id, corpus_id);
+    select_group_(group_id) {
+      select_group(group_id);
     },
     select_corpus_event(event) {
       const corpus_id = event.target.id;
@@ -84,8 +81,6 @@ var app = new Vue({
         update_corpus();
       }
     },
-
-
 
   },
   computed: {
@@ -145,6 +140,12 @@ var app = new Vue({
         return this.current_group["mode"]
       } else {
         return "";
+      }
+    },
+    left_pane: function() {
+      if (this.current_group) {
+        this.view_left_pane = true;  // always make left pane visible when the left_pane is recomputed
+        return (!this.tuto_active && this.current_group["style"] != "dropdown");
       }
     }
   }
@@ -232,7 +233,7 @@ $(document).ready(function() {
   $.getJSON("corpora/config.json")
     .done(function(data) {
       app.config = data;
-      init();
+      init(); // ensure init is ran after config loading
     });
 
   $('.tooltip-desc').tooltipster({
@@ -312,12 +313,7 @@ function init() {
     disable_save();
   });
 
-  if (!app.tuto_active && app.current_group["style"] != "dropdown") {
-    app.left_pane = true;
-    app.view_left_pane = true;
-  } else {
-    update_corpus();
-  }
+  update_corpus();
 }
 
 // ==================================================================================
@@ -338,8 +334,6 @@ function start_tuto() {
   );
 
   update_corpus();
-  app.left_pane = false;
-  app.view_left_pane = false;
 }
 
 // ==================================================================================
@@ -1132,11 +1126,6 @@ function select_group(group_id) {
   app.current_group_id = group_id;
   app.current_corpus_id = app.current_group["default"];
   update_corpus();
-
-  if (!app.tuto_active && app.current_group["style"] != "dropdown") {
-    app.left_pane = true;
-    app.view_left_pane = true;
-  }
 }
 
 // ==================================================================================
