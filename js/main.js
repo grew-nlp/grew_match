@@ -26,7 +26,6 @@ var app = new Vue({
 
     current_group_id: undefined,
     current_corpus_id: undefined,
-    corpus_desc: "",
     current_request_id: "",
     current_view: 0,
     result_nb: 0,
@@ -963,13 +962,11 @@ function escape(s) {
 
 // ==================================================================================
 function update_corpus() {
-  app.corpus_desc = app.current_corpus["desc"] ? app.current_corpus["desc"] : "";
-
-  if (app.corpus_desc == "") {
-    $('#corpus-desc-label').tooltipster('disable');
-  } else {
+  if (app.current_corpus["desc"]) {
     $('#corpus-desc-label').tooltipster('enable');
-    $('#corpus-desc-label').tooltipster('content', app.corpus_desc);
+    $('#corpus-desc-label').tooltipster('content', app.current_corpus["desc"]);
+  } else {
+    $('#corpus-desc-label').tooltipster('disable');
   }
 
   app.parallel = "no";
@@ -977,11 +974,12 @@ function update_corpus() {
 
   disable_save();
 
-  current_snippets = app.current_corpus["snippets"];
-  if (current_snippets) {
-    right_pane(current_snippets);
+  if (app.current_corpus["snippets"]) {
+    right_pane(app.current_corpus["snippets"]);
+  } else if (app.current_group["snippets"]) {
+    right_pane(app.current_group["snippets"]);
   } else {
-    right_pane(app.current_group_id)
+    right_pane(app.current_group_id);
   }
 
   // Show the errors button only if there is a not empty log_file
