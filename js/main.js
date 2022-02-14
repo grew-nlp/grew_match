@@ -26,7 +26,6 @@ var app = new Vue({
     tuto_active: false,
 
     current_group_id: undefined,
-    current_corpus: {},
     current_corpus_id: undefined,
     corpus_desc: "",
     current_request_id: "",
@@ -132,6 +131,19 @@ var app = new Vue({
         }
       }
     },
+    current_corpus: function() {
+      if (this.current_group) {
+        corpora = this.current_group["corpora"];
+        for (var g = 0; g < corpora.length; g++) {
+          if (corpora[g]["id"] == this.current_corpus_id) {
+            return corpora[g];
+          }
+        }
+        return {};
+      } else {
+        return {};
+      }
+    },
     mode: function() {
       if (this.current_group) {
         return this.current_group["mode"]
@@ -182,11 +194,10 @@ function get_info(corpus, field) {
 }
 
 // ==================================================================================
-// update the 3 global variables: app.current_corpus, app.current_corpus_id, app.current_group_id
+// update the global variables app.current_corpus_id and app.current_group_id
 function search_corpus(requested_corpus) {
   console.log(requested_corpus);
   $('#warning').hide();
-  app.current_corpus = undefined;
   app.current_corpus_id = undefined;
   app.current_group_id = undefined;
   best_cpl = 0;
@@ -198,7 +209,6 @@ function search_corpus(requested_corpus) {
     for (var c = 0; c < corpora.length; c++) {
       if (corpora[c]["id"] != undefined) {
         if (requested_corpus == corpora[c]["id"]) {
-          app.current_corpus = corpora[c];
           app.current_corpus_id = corpora[c]["id"];
           app.current_group_id = group_list[g]["id"];
           return;
@@ -208,7 +218,6 @@ function search_corpus(requested_corpus) {
         if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
           best_cpl = cpl;
           best_ld = ld;
-          app.current_corpus = corpora[c];
           app.current_corpus_id = corpora[c]["id"];
           app.current_group_id = group_list[g]["id"];
         }
@@ -246,19 +255,13 @@ $(document).ready(function() {
   $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
 
   $('#github-button').tooltipster('content', "GitHub repository");
+  $('#guidelines-button').tooltipster('content', "Guidelines");
+  $('#issue-button').tooltipster('content', "Report error");
   $('#link-button').tooltipster('content', "External link");
   $('#sud-valid-button').tooltipster('content', "SUD validation (new page)");
   $('#ud-valid-button').tooltipster('content', "UD validation (new page)");
   $('#table-button').tooltipster('content', "Relation tables (new page)");
 
-  $('[data-toggle="collapse"]').click(function() {
-    $(this).toggleClass("active");
-    if ($(this).hasClass("active")) {
-      $(this).html('Metadata <span id="md-icon" class="glyphicon glyphicon-chevron-down"></span>');
-    } else {
-      $(this).html('Metadata <span id="md-icon" class="glyphicon glyphicon-chevron-right"></span>');
-    }
-  });
 });
 
 // ==================================================================================
@@ -1142,7 +1145,9 @@ function update_corpus() {
 // ==================================================================================
 function select_group(group_id, corpus_id) {
   app.current_group_id = group_id;
-  //update_current_group(group_id);
+
+  console.log("++++++++++++++++++++");
+
   app.current_corpus_id = corpus_id;
   if (!app.tuto_active && app.current_group["style"] != "dropdown") {
     app.left_pane = true;

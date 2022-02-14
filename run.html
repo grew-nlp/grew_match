@@ -237,6 +237,20 @@
 											</button>
 										</a>
 
+										<!-- issue button -->
+										<a v-show='current_corpus["issue"]' v-bind:href='current_corpus["issue"]' target="_blank">
+											<button id="issue-button" type="button" class="tooltip-desc btn btn-primary">
+												<i class="fa fa-bug fa-lg"></i>
+											</button>
+										</a>
+
+										<!-- guidelines button -->
+										<a v-show='current_corpus["guidelines"]' v-bind:href='current_corpus["guidelines"]' target="_blank">
+											<button id="guidelines-button" type="button" class="tooltip-desc btn btn-primary">
+												<i class="fa fa-book fa-lg"></i>
+											</button>
+										</a>
+
 										<!-- Link button -->
 										<a v-show='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
 											<button id="link-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-link fa-lg"></i></button>
