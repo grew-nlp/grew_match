@@ -26,7 +26,6 @@ var app = new Vue({
     tuto_active: false,
 
     current_group_id: undefined,
-    current_group: undefined,
     current_corpus: {},
     current_corpus_id: undefined,
     corpus_desc: "",
@@ -50,7 +49,7 @@ var app = new Vue({
 
     code: "",
 
-    mode: "",
+    //mode: "",
 
     sent_id: "",
 
@@ -110,27 +109,34 @@ var app = new Vue({
       }
     },
     number_of_corpora: function() {
-      if (this.aaa_current_group) {
-        console.log(this.aaa_current_group["corpora"].length);
-        return this.aaa_current_group["corpora"].length;
+      if (this.current_group) {
+        console.log(this.current_group["corpora"].length);
+        return this.current_group["corpora"].length;
       }
     },
     filtered_corpora_list: function() {
       var self = this;
-      if (this.aaa_current_group) {
-        return this.aaa_current_group["corpora"].filter(function(corpus) {
+      if (this.current_group) {
+        return this.current_group["corpora"].filter(function(corpus) {
           return corpus.id.toLowerCase().indexOf(self.corpora_filter.toLowerCase()) >= 0;
         });
       }
     },
-    aaa_current_group: function() {
+    current_group: function() {
       if (this.config) {
-        groups = app.config["groups"];
+        groups = this.config["groups"];
         for (var g = 0; g < groups.length; g++) {
-          if (groups[g]["id"] == app.current_group_id) {
+          if (groups[g]["id"] == this.current_group_id) {
             return groups[g];
           }
         }
+      }
+    },
+    mode: function() {
+      if (this.current_group) {
+        return this.current_group["mode"]
+      } else {
+        return "";
       }
     }
   }
@@ -142,16 +148,6 @@ function get_corpora_from_group(group_id) {
   for (var g = 0; g < group_list.length; g++) {
     if (group_list[g]["id"] == group_id) {
       return group_list[g]["corpora"];
-    }
-  }
-}
-
-// ==================================================================================
-function update_current_group(group_id) {
-  groups = app.config["groups"];
-  for (var g = 0; g < groups.length; g++) {
-    if (groups[g]["id"] == group_id) {
-      app.current_group = groups[g];
     }
   }
 }
@@ -186,14 +182,13 @@ function get_info(corpus, field) {
 }
 
 // ==================================================================================
-// update the 4 global variables: app.current_corpus, app.current_corpus_id, app.current_group, app.current_group_id
+// update the 3 global variables: app.current_corpus, app.current_corpus_id, app.current_group_id
 function search_corpus(requested_corpus) {
   console.log(requested_corpus);
   $('#warning').hide();
   app.current_corpus = undefined;
   app.current_corpus_id = undefined;
   app.current_group_id = undefined;
-  app.current_group = undefined;
   best_cpl = 0;
   best_ld = Number.MAX_SAFE_INTEGER;
   group_list = app.config["groups"];
@@ -205,9 +200,7 @@ function search_corpus(requested_corpus) {
         if (requested_corpus == corpora[c]["id"]) {
           app.current_corpus = corpora[c];
           app.current_corpus_id = corpora[c]["id"];
-          app.current_group = group_list[g];
           app.current_group_id = group_list[g]["id"];
-          app.mode = app.current_group["mode"];
           return;
         }
         cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
@@ -217,9 +210,7 @@ function search_corpus(requested_corpus) {
           best_ld = ld;
           app.current_corpus = corpora[c];
           app.current_corpus_id = corpora[c]["id"];
-          app.current_group = group_list[g];
           app.current_group_id = group_list[g]["id"];
-          app.mode = app.current_group["mode"];
         }
       }
     }
@@ -322,7 +313,7 @@ function init() {
     disable_save();
   });
 
-  if (!app.tuto_active && app.aaa_current_group["style"] != "dropdown") {
+  if (!app.tuto_active && app.current_group["style"] != "dropdown") {
     app.left_pane = true;
     app.view_left_pane = true;
   } else {
@@ -1151,9 +1142,9 @@ function update_corpus() {
 // ==================================================================================
 function select_group(group_id, corpus_id) {
   app.current_group_id = group_id;
-  update_current_group(group_id);
+  //update_current_group(group_id);
   app.current_corpus_id = corpus_id;
-  if (!app.tuto_active && app.aaa_current_group["style"] != "dropdown") {
+  if (!app.tuto_active && app.current_group["style"] != "dropdown") {
     app.left_pane = true;
     app.view_left_pane = true;
   }
