@@ -64,7 +64,6 @@ var app = new Vue({
     tf_wf: false,
     context: false,
 
-    audio: false,
     svg_link: "",
   },
   methods: {
@@ -144,51 +143,13 @@ var app = new Vue({
     },
     left_pane: function() {
       if (this.current_group) {
-        this.view_left_pane = true;  // always make left pane visible when the left_pane is recomputed
+        this.view_left_pane = true; // always make left pane visible when the left_pane is recomputed
         return (!this.tuto_active && this.current_group["style"] != "dropdown");
       }
     }
   }
 });
 
-// ==================================================================================
-function get_corpora_from_group(group_id) {
-  group_list = app.config["groups"];
-  for (var g = 0; g < group_list.length; g++) {
-    if (group_list[g]["id"] == group_id) {
-      return group_list[g]["corpora"];
-    }
-  }
-}
-
-// ==================================================================================
-// search for the requested field in the json object which contains the "id" corpus
-function get_info(corpus, field) {
-  function aux() {
-    group_list = app.config["groups"];
-    for (var g = 0; g < group_list.length; g++) {
-      let group = group_list[g];
-      let group_value = group[field]; // the "field" value can be defined at the group level
-      corpora = group_list[g]["corpora"];
-      for (var c = 0; c < corpora.length; c++) {
-        if (corpora[c]["id"] == corpus) {
-          if (corpora[c][field] != undefined) {
-            return (corpora[c][field]) // the "field" value can be defined at the corpus level
-          } else {
-            return (group_value);
-          }
-        }
-      }
-    }
-  }
-  snip_opt = aux();
-  // replace undefined by ""
-  if (snip_opt != undefined) {
-    return snip_opt
-  } else {
-    return ""
-  }
-}
 
 // ==================================================================================
 // update the global variables app.current_corpus_id and app.current_group_id
@@ -559,10 +520,7 @@ function search_pattern() {
     tf_wf: app.tf_wf,
     order: $('#sentences-order').val(),
     context: app.context,
-    eud2ud: (
-      (get_info(app.current_corpus_id, "enhanced") != "") &&
-      !($('#eud-box').prop('checked'))
-    ),
+    eud2ud: (app.current_corpus["enhanced"]) && !($('#eud-box').prop('checked')),
     clust1: app.clust1,
   };
 
@@ -581,12 +539,6 @@ function search_pattern() {
 
     app.current_request_id = response.data
 
-    // set the writting direction
-    if (get_info(app.current_corpus_id, "rtl")) {
-      $('#sentence-txt').attr("dir", "rtl");
-    } else {
-      $('#sentence-txt').removeAttr("dir");
-    }
     var data_folder = app.backend_server + "/data/" + app.current_request_id;
 
     $.get(data_folder + "/list", function(data) {
@@ -741,7 +693,7 @@ function display_picture(event) {
     hack_audio[0].load();
   }
 
-  if (app.audio) {
+  if (app.current_corpus["audio"]) {
     start_audio();
   } else {
     stop_audio();
@@ -911,7 +863,7 @@ function save_pattern() {
     if (app.clust1 == 'whether') {
       get += "&whether=" + clust1_cm.getValue();
     }
-    if (get_info(app.current_corpus_id, "enhanced") && $('#eud-box').prop('checked')) {
+    if (app.current_corpus["enhanced"] && $('#eud-box').prop('checked')) {
       get += "&eud=yes"
     }
 
@@ -1020,30 +972,16 @@ function update_corpus() {
     $('#corpus-desc-label').tooltipster('content', app.corpus_desc);
   }
 
-  if (get_info(app.current_corpus_id, "enhanced")) {
-    $("#eud-span").show();
-  } else {
-    $("#eud-span").hide();
-    $('#eud-box').bootstrapToggle('on');
-  }
-
   app.parallel = "no";
-  let parallels = get_info(app.current_corpus_id, "parallels");
-  if (parallels) {
-    app.parallels = parallels;
-  } else {
-    app.parallels = [];
-  }
-
-  app.audio = (get_info(app.current_corpus_id, "audio") == true);
+  app.parallels = app.current_corpus["parallels"] ? app.current_corpus["parallels"] : [];
 
   disable_save();
 
-  current_snippets = get_info(app.current_corpus_id, "snippets");
-  if (current_snippets == "") {
-    right_pane(app.current_group_id)
-  } else {
+  current_snippets = app.current_corpus["snippets"];
+  if (current_snippets) {
     right_pane(current_snippets);
+  } else {
+    right_pane(app.current_group_id)
   }
 
   // Show the errors button only if there is a not empty log_file

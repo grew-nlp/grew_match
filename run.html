@@ -199,7 +199,7 @@
 
 										<span id="update_ago" style="font-size: initial;"></span>
 
-										<span id="eud-span">
+										<span id="eud-span" v-show="current_corpus['enhanced']">
 											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
 										</span>
 
@@ -387,7 +387,7 @@
 							<div class="col-md-9">
 
 
-								<div v-if="audio">
+								<div v-if="current_corpus['audio']">
 									<p class="loading">
 										<em>Loading audio…</em>
 									</p>
@@ -443,7 +443,7 @@
 											</p>
 										</div>
 
-										<h4 id="sentence-txt"></h4>
+										<h4 id="sentence-txt" v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'"></h4>
 									</div>
 								</div>
 
