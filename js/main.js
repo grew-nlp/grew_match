@@ -284,7 +284,11 @@ function deal_with_get_parameters() {
 
   // corpus get parameter
   if (getParameterByName("tutorial") == "yes") {
-    console.log("TODO");
+    if (app.config["tutorial"]) {
+      search_corpus(app.config["tutorial"]);
+    } else {
+      direct_info ("No tutorial in this instance");
+    }
   } else
 
   if (getParameterByName("corpus").length > 0) {
@@ -331,12 +335,12 @@ function deal_with_get_parameters() {
   }
 
 
-  const get_cluster = getParameterByName("clustering");
+  const clustering = getParameterByName("clustering");
   const whether = getParameterByName("whether");
-  if (get_cluster.length > 0) {
+  if (clustering.length > 0) {
     app.clust1 = "key";
-    app.clust1_key = get_cluster;
-  } else if (whether.length > 50) { // TODO check 50?
+    app.clust1_key = clustering;
+  } else if (whether.length > 0) {
     app.clust1 = "whether";
     setTimeout(function() {
       clust1_cm.setValue(whether); // hack for correct init of clust1_cm
@@ -390,6 +394,15 @@ function direct_error(msg) {
   })
 }
 
+// ==================================================================================
+function direct_info(msg) {
+  let html = md.render(msg)
+  Swal.fire({
+    icon: 'info',
+    title: 'Info',
+    html: html
+  })
+}
 
 // ==================================================================================
 function ping(url, set_fct) {
