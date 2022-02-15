@@ -19,8 +19,6 @@ var app = new Vue({
 
     view_left_pane: false, // true iff the left_pane is open
 
-    tuto_active: false,
-
     current_group_id: undefined,
     current_corpus_id: undefined,
     current_request_id: "",
@@ -89,11 +87,6 @@ var app = new Vue({
         return this.config["top_project"]
       }
     },
-    tuto: function() {
-      if (this.config != undefined) {
-        return this.config["tuto"]
-      }
-    },
     groups: function() {
       if (this.config != undefined) {
         return this.config["groups"]
@@ -145,7 +138,7 @@ var app = new Vue({
     left_pane: function() {
       if (this.current_group) {
         this.view_left_pane = true; // always make left pane visible when the left_pane is recomputed
-        return (!this.tuto_active && this.current_group["style"] != "dropdown");
+        return (this.current_group["style"] == "left_pane");
       }
     }
   }
@@ -286,25 +279,12 @@ function disable_save() {
 }
 
 // ==================================================================================
-function start_tuto() {
-  app.tuto_active = true;
-  search_corpus(app.tuto.corpus);
-
-  history.pushState({},
-    "Grew - " + app.current_corpus_id,
-    "?tutorial=yes"
-  );
-
-  update_corpus();
-}
-
-// ==================================================================================
 // force to interpret get parameters after the update of groups menus
 function deal_with_get_parameters() {
 
   // corpus get parameter
   if (getParameterByName("tutorial") == "yes") {
-    start_tuto();
+    console.log("TODO");
   } else
 
   if (getParameterByName("corpus").length > 0) {
@@ -370,11 +350,7 @@ function deal_with_get_parameters() {
 // ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
-  if (app.tuto_active) {
-    dir = "corpora/tuto";
-  } else {
-    dir = "corpora/" + base
-  }
+  dir = "corpora/" + base
   $.get(dir + "/right_pane.html", function(data) {
     $('#right-pane').html(data);
     $(".inter").click(function() {
