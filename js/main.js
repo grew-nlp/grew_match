@@ -1,4 +1,3 @@
-var current_snippets;
 var current_cluster;
 
 var current_but_sel;
@@ -929,18 +928,6 @@ function last_svg() {
     app.current_view = app.result_nb - 1;
     update_view();
   }
-}
-
-// ==================================================================================
-function logs_page() {
-  window.open("meta/" + app.current_corpus_id + '.log');
-}
-
-// ==================================================================================
-function escape(s) {
-  s1 = s.split('@').join('_AT_');
-  s2 = s1.split('.').join('_DOT_');
-  return s2;
 }
 
 // ==================================================================================
