@@ -116,7 +116,7 @@
 							<a v-if='group["style"] == "single"' class="navbar-brand" v-on:click='select_group_(group["id"])' href="#">
 								{{ group["name"] }}
 							</a>
-							
+
 						</li>
 
 					</ul>
@@ -360,11 +360,28 @@
 				</div>
 
 				<!-- Middle part: clusters buttons -->
+				<div v-if='result_message != ""' class="row">
+					<div class="jumbotron" id="jumbo-clust">
+						<div class="container-fluid">
+							<h3 id="result_message">
+								{{ result_message }}
+								<span style="font-size: 60%">[ {{current_time_request.toFixed(3)}}s]</span>
+							</h3>
+							<div class="row" id="cluster-buttons">
+								<button v-for="cluster in clusters" type="button" class="btn" v-on:click="zzz_(cluster)" v-bind:class="cluster.index == current_cluster ? 'btn-success' : 'btn-default'">
+									<span class="badge badge-pill badge-info">{{cluster.size}}</span>
+									{{cluster.key}}
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="row">
 					<div class="jumbotron" id="jumbo-clust">
 						<div class="container-fluid" id="cluster-block">
 							<h3 id="progress-txt"></h3>
-							<div class="row" id="cluster-buttons">
+							<div class="row" id="xxx_cluster-buttons">
 							</div>
 						</div>
 					</div>
@@ -372,10 +389,10 @@
 
 				<!-- Lower part: Display the results -->
 				<div class="row">
-					<div class="container-fluid" id="results-block">
+					<div v-show="result_nb > 0" class="container-fluid" id="results-block">
 						<div class="row">
 							<div class="col-md-3">
-								<div v-show="result_nb > 0" id="results-navig">
+								<div id="results-navig">
 									<button class="btn btn-primary btn-results" id="next-results" onclick="javascript:next_results()">More results</button>
 									<br />
 									<button class="btn btn-primary btn-results" onclick="javascript:first_svg()">⇤</button>

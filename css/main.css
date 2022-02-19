@@ -89,12 +89,6 @@ h3 {
   margin-top: 0px;
 }
 
-.checkbos {
-  width: 50%;
-  display: -moz-box;
-  -moz-box-orient: vertical;
-}
-
 .grew-label {
   font-size: 24px;
 }
@@ -103,9 +97,9 @@ h3 {
   padding-top: 0px;
 }
 
-#results-block, #cluster-block {
+/* #results-block, #cluster-block {
   display: none;
-}
+} */
 
 .badge-pill {
   margin-right: 7px;
@@ -151,7 +145,7 @@ h3 {
   margin-top: 10px;
 }
 
-#progress-txt {
+#result_message {
   margin-bottom: 0;
   padding-top: 10px;
   padding-bottom: 10px;

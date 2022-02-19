@@ -1,5 +1,3 @@
-var current_cluster;
-
 var current_but_sel;
 var already_built_cluster_file = [];
 
@@ -61,8 +59,16 @@ var app = new Vue({
     svg_link: "",
 
     current_pivots: [],
+    result_message: "",
+    clusters: [],
+    current_cluster: undefined,
+    current_time_request: 0,
+
   },
   methods: {
+    zzz_(data) {
+      zzz(data);
+    },
     update_parallel_() {
       update_parallel();
     },
@@ -283,7 +289,7 @@ function deal_with_get_parameters() {
     if (app.config["tutorial"]) {
       search_corpus(app.config["tutorial"]);
     } else {
-      direct_info ("No tutorial in this instance");
+      direct_info("No tutorial in this instance");
     }
   } else
 
@@ -437,6 +443,9 @@ function request(service, form, data_fct, error_fct) {
     "data": form
   };
 
+  console.log(service);
+  console.log(settings);
+
   $.ajax(settings)
     .done(function(response_string) {
       response = JSON.parse(response_string);
@@ -474,7 +483,7 @@ function request(service, form, data_fct, error_fct) {
 function next_results() {
   var param = {
     uuid: app.current_request_id,
-    cluster_index: current_cluster
+    cluster_index: app.current_cluster
   };
 
   var form = new FormData();
@@ -495,6 +504,8 @@ function search_pattern() {
   current_line_num = 0;
   app.result_nb = 0;
   app.current_view = 0;
+  app.current_cluster = undefined;
+  app.result_message = "";
 
   var param = {
     pattern: cmEditor.getValue(),
@@ -523,7 +534,37 @@ function search_pattern() {
   app.wait = true;
   request("new", form, function(data) {
 
-    app.current_request_id = response.data
+    console.log("*******************************************");
+    console.log(response.data);
+    console.log("*******************************************");
+
+    app.current_request_id = response.data.uuid;
+    app.current_pivots = response.data.pivots;
+    app.current_time_request = response.data.time;
+
+    switch (response.data.status) {
+      case "complete":
+        if (response.data.solutions == 0) {
+          app.result_message = "No results"
+        } else {
+          app.result_message = response.data.solutions + ' occurrence' + ((response.data.solutions > 1) ? 's' : '')
+        }
+        break;
+      case "max_results":
+        app.result_message = 'More than 1000 results found in ' + (100 * response.data.ratio).toFixed(2) + '% of the corpus'
+        break;
+      case "timeout":
+        app.result_message = 'Timeout; ' + response.data.solutions + ' occurrences found in ' + (100 * response.data.ratio).toFixed(2) + '% of the corpus'
+        break;
+      default:
+        direct_error("unknown status: " + response.data.status)
+    }
+
+    app.clusters = response.data.clusters;
+    // if (response.data.clusters == null && response.data.solutions > 0) {
+    //   app.current_cluster = 0;
+    //   load_cluster_file();
+    // }
 
     var data_folder = app.backend_server + "/data/" + app.current_request_id;
 
@@ -534,7 +575,7 @@ function search_pattern() {
       if (lines[0] == '<!>') {
         direct_error('The daemon is not running\n\nTry again in a few minutes');
       } else {
-        $("#cluster-buttons").empty();
+        $("#xxx_cluster-buttons").empty();
         for (var i = current_line_num, len = lines.length; i < len; i++) {
           var fields = lines[i].split("@@");
           if (fields[0] == '<EMPTY>') {
@@ -551,21 +592,49 @@ function search_pattern() {
             $('#progress-txt').html('More than 1000 results found in ' + (100 * fields[1]).toFixed(2) + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
           } else if (fields[0] == '<TIME>') {
             $('#progress-txt').html('Timeout after 10s. ' + fields[1] + ' occurrences found in ' + (100 * fields[2]).toFixed(2) + '% of the corpus');
+            if (fields[1] == 0) {
+              console.log("AAAAAA");
+              $('#results-block').hide();
+              console.log("BBBBBB");
+            }
           } else if (fields[0] == '<ONECLUSTER>') {
-            current_cluster = 0;
+            app.current_cluster = 0;
             load_cluster_file();
+            console.log("XXXXXXXX");
             $('#results-block').show();
             $('#cluster-block').show();
           } else if (fields[0] == '<CLUSTERS>') {
             fill_cluster_buttons();
-          } else if (fields[0] == '<PIVOTS>') {
-            app.current_pivots = fields.slice(1).reverse();
+            // } else if (fields[0] == '<PIVOTS>') {
+            //   app.current_pivots = fields.slice(1).reverse();
           }
         };
       }
     });
   });
   app.wait = false;
+}
+
+// ==================================================================================
+function zzz(data) {
+  console.log("----------------------------");
+  if (app.current_cluster != data.index) {
+    console.log(data.index);
+    app.current_cluster = data.index; // TODO: check string VS int
+  }
+  current_line_num = 0;
+  $("#results-list").empty();
+
+  if (jQuery.inArray(app.current_cluster, already_built_cluster_file) == -1) {
+    // new cluster, call the server
+    next_results();
+    already_built_cluster_file.push(app.current_cluster);
+  } else {
+    // previously seen cluster -> only reload the file
+    load_cluster_file();
+  }
+
+  console.log("----------------------------");
 }
 
 // ==================================================================================
@@ -580,7 +649,7 @@ function fill_cluster_buttons() {
       var fields = line.split("@@");
       var but_sel = "#cb-" + fields[3];
       if (fields[0] == "<CLUSTER>") {
-        $("#cluster-buttons").append('<button type="button" class="btn btn-default" id="cb-' + fields[3] + '"><span class="badge badge-pill badge-info">' + fields[2] + '</span>' + fields[1] + '</button>');
+        $("#xxx_cluster-buttons").append('<button type="button" class="btn btn-default" id="cb-' + fields[3] + '"><span class="badge badge-pill badge-info">' + fields[2] + '</span>' + fields[1] + '</button>');
         $(but_sel).click(function() {
           if (current_but_sel != but_sel) {
             if (current_but_sel) {
@@ -591,6 +660,7 @@ function fill_cluster_buttons() {
             $(but_sel).addClass("btn-success");
             current_but_sel = but_sel;
 
+            console.log("ZZZZZZZZ");
             $('#results-block').show();
             $('#cluster-block').show();
             current_line_num = 0;
@@ -598,12 +668,12 @@ function fill_cluster_buttons() {
             app.result_nb = 0;
             app.current_view = 0;
 
-            current_cluster = parseInt(fields[3])
+            app.current_cluster = parseInt(fields[3])
 
-            if (jQuery.inArray(current_cluster, already_built_cluster_file) == -1) {
+            if (jQuery.inArray(app.current_cluster, already_built_cluster_file) == -1) {
               // new cluster, call the server
               next_results();
-              already_built_cluster_file.push(current_cluster);
+              already_built_cluster_file.push(app.current_cluster);
             } else {
               // previously seen cluster -> only reload the file
               load_cluster_file();
@@ -619,7 +689,7 @@ function fill_cluster_buttons() {
 // ==================================================================================
 function load_cluster_file() {
   var data_folder = app.backend_server + "/data/" + app.current_request_id;
-  $.get(data_folder + "/cluster_" + current_cluster, function(data) {
+  $.get(data_folder + "/cluster_" + app.current_cluster, function(data) {
     lines = data.split("\n");
     for (var i = current_line_num, len = lines.length; i < len; i++) {
       try {
@@ -788,7 +858,7 @@ function show_conll() {
   var param = {
     uuid: app.current_request_id,
     current_view: app.current_view,
-    cluster: current_cluster
+    cluster: app.current_cluster
   };
 
   var form = new FormData();
