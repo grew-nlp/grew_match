@@ -63,7 +63,6 @@ var app = new Vue({
     clusters: [],
     current_cluster: undefined,
     current_time_request: 0,
-
   },
   methods: {
     zzz_(data) {
@@ -490,7 +489,8 @@ function next_results() {
   form.append("param", JSON.stringify(param));
 
   request("next", form, function(data) {
-    load_cluster_file();
+    app.clusters[app.current_cluster].items.push(...data.items);
+    load_cluster_file(); // TODO clean
   })
 }
 

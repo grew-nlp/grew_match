@@ -55,22 +55,22 @@ a:hover, a:focus {
   padding: 0px;
 }
 
-#snippets ul, #results-navig ul {
+#snippets ul, .results-navig ul {
   list-style-type: none;
   margin: 0;
   margin-left: 20px;
   padding: 0;
 }
 
-#snippets li, #results-navig li {
+#snippets li, .results-navig li {
   border-bottom: 1px solid #ccc;
 }
 
-#snippets li:last-child, #results-navig li:last-child {
+#snippets li:last-child, .results-navig li:last-child {
   border: none;
 }
 
-#snippets li a, #results-navig li a {
+#snippets li a, .results-navig li a {
   text-decoration: none;
   color: #000;
   display: block;
@@ -81,7 +81,7 @@ a:hover, a:focus {
   transition: font-size 0.3s ease, background-color 0.3s ease;
 }
 
-#snippets li a:hover, #results-navig li a:hover {
+#snippets li a:hover, .results-navig li a:hover {
   background: #F5D76E;
 }
 
