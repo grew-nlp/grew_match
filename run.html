@@ -161,7 +161,7 @@
 							<table class="table">
 								<tbody>
 									<tr>
-										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-bind:id="corpus.id" v-on:click="select_corpus_event" href="#">
+										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-bind:id="corpus.id" v-on:click="current_corpus_id=corpus.id" href="#">
 											<span class="glyphicon glyphicon-align-justify"></span>
 											{{ corpus.id }}
 											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>

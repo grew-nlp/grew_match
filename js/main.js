@@ -72,14 +72,12 @@ var app = new Vue({
     select_group_(group_id) {
       select_group(group_id);
     },
-    select_corpus_event(event) {
-      const corpus_id = event.target.id;
-      if (corpus_id != app.current_corpus_id) {
-        app.current_corpus_id = corpus_id;
-        update_corpus();
-      }
-    },
-
+  },
+  watch: {
+    current_corpus_id: function () {
+      console.log("current_corpus_id has changed");
+      update_corpus();
+    }
   },
   computed: {
     top_project: function() {
@@ -267,8 +265,6 @@ function init() {
   $('input:radio[name="clust1"]').change(function() {
     disable_save();
   });
-
-  update_corpus();
 }
 
 // ==================================================================================
@@ -1020,7 +1016,6 @@ function update_corpus() {
 function select_group(group_id) {
   app.current_group_id = group_id;
   app.current_corpus_id = app.current_group["default"];
-  update_corpus();
 }
 
 // ==================================================================================
