@@ -367,8 +367,8 @@
 								{{ result_message }}
 								<span style="font-size: 60%">[ {{current_time_request.toFixed(3)}}s]</span>
 							</h3>
-							<div class="row" id="cluster-buttons">
-								<button v-for="cluster in clusters" type="button" class="btn" v-on:click="zzz_(cluster)" v-bind:class="cluster.index == current_cluster ? 'btn-success' : 'btn-default'">
+							<div v-if="show_cluters" class="row">
+								<button v-for="(cluster, cluster_index) in clusters" type="button" class="btn" v-on:click="zzz_(cluster_index)" v-bind:class="cluster_index == current_cluster ? 'btn-success' : 'btn-default'" style="margin:10px">
 									<span class="badge badge-pill badge-info">{{cluster.size}}</span>
 									{{cluster.key}}
 								</button>
@@ -377,7 +377,7 @@
 					</div>
 				</div>
 
-				<div class="row">
+				<!-- <div class="row">
 					<div class="jumbotron" id="jumbo-clust">
 						<div class="container-fluid" id="cluster-block">
 							<h3 id="progress-txt"></h3>
@@ -385,7 +385,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<!-- Lower part: Display the results -->
 
@@ -395,14 +395,14 @@
 						<div class="row">
 							<div class="col-md-3">
 								<div class="results-navig">
-									<button class="btn btn-primary btn-results" id="next-results" onclick="javascript:next_results()">More results</button>
+									<button class="btn btn-primary btn-results" id="next-results" onclick="javascript:next_results(false)">More results</button>
 									<br />
 									<button class="btn btn-primary btn-results" onclick="javascript:first_svg()">⇤</button>
 									<button class="btn btn-primary btn-results" onclick="javascript:previous_svg()">←</button>
 									<span class="btn-results" style="font-size: 150%">{{ current_view + 1 }} / {{ result_nb }}</span>
 									<button class="btn btn-primary btn-results" onclick="javascript:next_svg()">→</button>
 									<button class="btn btn-primary btn-results" onclick="javascript:last_svg()">⇥</button>
-									<ul id="results-list"></ul>
+									<ul id="xxx_results-list"></ul>
 								</div>
 							</div>
 							<div class="col-md-9">
@@ -468,7 +468,7 @@
 									</div>
 								</div>
 
-								<div id="display-svg">
+								<div id="xxx_display-svg">
 									<object id="result-pic" type="image/svg+xml" class="logo"></object>
 								</div>
 
@@ -491,30 +491,30 @@
 					</div>
 				</div>
 
-<!-- XXX -->
+				<!-- XXX -->
 				<div class="row">
-					<div v-show="result_nb > 0" class="container-fluid">
+					<div v-if="result_nb > 0" class="container-fluid">
 						<div class="row">
 							<div class="col-md-3">
 								<div class="results-navig" v-if="result_nb > 0">
-									<button class="btn btn-primary btn-results" onclick="javascript:next_results()">More results</button>
+									<button class="btn btn-primary btn-results" onclick="javascript:next_results(false)">More results</button>
 									<br />
 									<button class="btn btn-primary btn-results" onclick="javascript:first_svg()">⇤</button>
 									<button class="btn btn-primary btn-results" onclick="javascript:previous_svg()">←</button>
 									<span class="btn-results" style="font-size: 150%">{{ current_view + 1 }} / {{ result_nb }}</span>
 									<button class="btn btn-primary btn-results" onclick="javascript:next_svg()">→</button>
 									<button class="btn btn-primary btn-results" onclick="javascript:last_svg()">⇥</button>
-									<ul>
+									<ul id="results-list">
 										<li v-for="(item, itemKey) in clusters[current_cluster].items" v-bind:class='{ displayed: itemKey==current_view }'>
-											<a v-on:click='current_view = itemKey'>{{ item.sent_id }}</a>
+											<a v-on:click='select_item(itemKey)'>{{ item.sent_id }}</a>
 										</li>
 									</ul>
 								</div>
 							</div>
 							<div class="col-md-9">
 
-
-								<!-- <div v-if="current_corpus['audio']">
+								<!-- 
+								<div v-if="current_corpus['audio']">
 									<p class="loading">
 										<em>Loading audio…</em>
 									</p>
@@ -536,7 +536,7 @@
 									</p>
 								</div> -->
 
-								<!-- <div id="display-sentence" style="display: none;">
+								<div>
 									<div id="passage-text" class="passage">
 
 										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
@@ -556,7 +556,7 @@
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
 
-											<a target="_blank" v-bind:href="svg_link">
+											<a target="_blank" v-bind:href="backend_server + 'data/' + clusters[current_cluster].items[current_view].filename">
 												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
 													SVG
 													<span href="" class="glyphicon glyphicon-export"></span>
@@ -570,13 +570,12 @@
 											</p>
 										</div>
 
-										<h4 id="sentence-txt" v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'"></h4>
+										<h4 v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="clusters[current_cluster].items[current_view].sentence"></h4>
 									</div>
 								</div>
- -->
- 
-								<!-- <div id="display-svg">
-									<object id="result-pic" type="image/svg+xml" class="logo"></object>
+
+								<div id="display-svg">
+									<img v-bind:src="backend_server + 'data/' + clusters[current_cluster].items[current_view].filename"></img>
 								</div>
 
 								<div v-if="parallels.length > 0" class="form-group">
@@ -585,6 +584,7 @@
 										<option v-for="parallel in parallels"> {{ parallel }} </option>
 									</select>
 								</div>
+								
 								<div v-if="parallels.length > 0 && parallel != 'no'" id="display-parallel">
 									<div v-if="parallel_svg">
 										<img v-bind:src="parallel_svg"></img>
@@ -594,13 +594,12 @@
 									</div>
 								</div>
 								
-								 -->
 								
 							</div>
 						</div>
 					</div>
 				</div>
-<!-- XXX -->
+				<!-- XXX -->
 
 
 			</div> <!-- container -->

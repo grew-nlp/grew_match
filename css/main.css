@@ -105,12 +105,15 @@ h3 {
   margin-right: 7px;
 }
 
-#cluster-buttons .btn {
-  margin: 10px;
-}
-
 .displayed {
   background-color: #8bf56e;
+}
+
+#display-svg {
+  overflow: auto;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ccc;
 }
 
 /* Style de display-svg */
@@ -122,15 +125,8 @@ h3 {
   max-height: 400px;
 }
 
-#display-svg, #results-list {
+#results-list {
   overflow: auto;
-  /*display: none;*/
-}
-
-#display-svg {
-  border-style: solid;
-  border-width: 1px;
-  border-color: #ccc;
 }
 
 #display-parallel {

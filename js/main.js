@@ -21,7 +21,7 @@ var app = new Vue({
     current_corpus_id: undefined,
     current_request_id: "",
     current_view: 0,
-    result_nb: 0,
+    // result_nb: 0,
 
     meta_info: false,
     meta_table: "", // URL to relation table or ""
@@ -60,6 +60,7 @@ var app = new Vue({
 
     current_pivots: [],
     result_message: "",
+    show_cluters: false,
     clusters: [],
     current_cluster: undefined,
     current_time_request: 0,
@@ -67,6 +68,35 @@ var app = new Vue({
   methods: {
     zzz_(data) {
       zzz(data);
+    },
+    select_item(index) {
+      app.current_view = index;
+      app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
+      setTimeout(function() {
+        $("#display-svg").animate({
+          scrollLeft: app.current_item.shift / 2
+        }, "fast");
+      }, 0)
+
+      // if (app.current_item) {
+      //   audio = app.clusters[app.current_cluster].items[app.current_view].audio;
+      //   console.log("=============audio="+audio);
+      //   hack_audio = $("#passage-audio");
+      //   $("#source-audio").attr("src", audio);
+      //   // Next two line: force reload (stackoverflow.com/questions/9421505)
+      //   console.log("++++++++++++++++++++");
+      //   console.log(hack_audio);
+      //   hack_audio[0].pause();
+      //   hack_audio[0].load();
+      // } else {
+      //   console.log("==== undefined current_item");
+      // }
+
+      // if (app.current_corpus["audio"]) {
+      //   start_audio();
+      // } else {
+      //   stop_audio();
+      // }
     },
     update_parallel_() {
       update_parallel();
@@ -85,6 +115,14 @@ var app = new Vue({
     }
   },
   computed: {
+    result_nb: function() {
+      if (this.clusters[this.current_cluster]) {
+        return this.clusters[this.current_cluster].items.length
+      }
+    },
+    current_item: function() {
+      return (app.clusters[app.current_cluster].items[app.current_view]);
+    },
     top_project: function() {
       if (this.config != undefined) {
         return this.config["top_project"]
@@ -479,17 +517,23 @@ function request(service, form, data_fct, error_fct) {
 }
 
 // ==================================================================================
-function next_results() {
+function next_results(flag) {
+  console.log("===next_results===");
   var param = {
     uuid: app.current_request_id,
     cluster_index: app.current_cluster
   };
+  console.log(param);
+  console.log("===next_results===");
 
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
   request("next", form, function(data) {
     app.clusters[app.current_cluster].items.push(...data.items);
+    if (flag) {
+      app.select_item(0);
+    }
     load_cluster_file(); // TODO clean
   })
 }
@@ -499,10 +543,10 @@ function search_pattern() {
 
   $('#results-block').hide();
   $('#cluster-block').hide();
-  $('#results-list').empty();
+  $('#xxx_results-list').empty();
 
   current_line_num = 0;
-  app.result_nb = 0;
+  //app.result_nb = 0;
   app.current_view = 0;
   app.current_cluster = undefined;
   app.result_message = "";
@@ -560,7 +604,21 @@ function search_pattern() {
         direct_error("unknown status: " + response.data.status)
     }
 
-    app.clusters = response.data.clusters;
+    if (response.data.clusters.length == 0) {
+      app.show_cluters = false;
+      app.clusters = [{
+        items: []
+      }];
+      app.current_cluster = 0;
+      console.log("AAA");
+      next_results(true);
+      console.log("AABB");
+      //app.select_item(0); // select the first item 
+      console.log("BBB");
+    } else {
+      app.show_cluters = true;
+      app.clusters = response.data.clusters;
+    }
     // if (response.data.clusters == null && response.data.solutions > 0) {
     //   app.current_cluster = 0;
     //   load_cluster_file();
@@ -617,20 +675,26 @@ function search_pattern() {
 
 // ==================================================================================
 function zzz(data) {
-  console.log("----------------------------");
-  if (app.current_cluster != data.index) {
+  console.log(data);
+  console.log("------111----------------------");
+  if (app.current_cluster != data) {
+    console.log("------222----------------------");
+    console.log("------333----------------------");
     console.log(data.index);
-    app.current_cluster = data.index; // TODO: check string VS int
+    console.log("------444----------------------");
+    app.current_cluster = data; // TODO: check string VS int
+    //app.select_item(0);
   }
   current_line_num = 0;
-  $("#results-list").empty();
+  $("#xxx_results-list").empty();
 
   if (jQuery.inArray(app.current_cluster, already_built_cluster_file) == -1) {
     // new cluster, call the server
-    next_results();
+    next_results(true);
     already_built_cluster_file.push(app.current_cluster);
   } else {
     // previously seen cluster -> only reload the file
+    app.select_item(0);
     load_cluster_file();
   }
 
@@ -664,8 +728,8 @@ function fill_cluster_buttons() {
             $('#results-block').show();
             $('#cluster-block').show();
             current_line_num = 0;
-            $("#results-list").empty();
-            app.result_nb = 0;
+            $("#xxx_results-list").empty();
+            //app.result_nb = 0;
             app.current_view = 0;
 
             app.current_cluster = parseInt(fields[3])
@@ -699,8 +763,8 @@ function load_cluster_file() {
         } else if (obj.kind == "PAUSE") {
           $("#next-results").prop('disabled', false);
         } else {
-          $("#results-list").append('<li class="item" id="list-' + app.result_nb + '"><a>' + obj.sent_id + '</a></li>');
-          url = data_folder + '/' + obj.filename;
+          $("#xxx_results-list").append('<li class="item" id="list-' + app.result_nb + '"><a>' + obj.sent_id + '</a></li>');
+          //url = data_folder + '/' + obj.filename.split("/")[1];
           $('#list-' + app.result_nb).click({
             url: url,
             i: app.result_nb,
@@ -711,7 +775,7 @@ function load_cluster_file() {
             code: obj.code,
             sent_id: obj.sent_id,
           }, display_picture);
-          app.result_nb++;
+          //app.result_nb++;
           update_progress_num();
         }
       } catch (err) {
@@ -726,27 +790,28 @@ function load_cluster_file() {
 
 // ==================================================================================
 function display_picture(event) {
+  console.log("display_picture");
   app.sent_id = event.data.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
   $("#sentence-txt").html(event.data.sentence);
 
-  if (event.data.audio != undefined) {
-    hack_audio = $("#passage-audio");
-    $("#source-audio").attr("src", event.data.audio);
-    // Next two line: force reload (stackoverflow.com/questions/9421505)
-    hack_audio[0].pause();
-    hack_audio[0].load();
-  }
-
-  if (app.current_corpus["audio"]) {
-    start_audio();
-  } else {
-    stop_audio();
-  }
+  // if (event.data.audio != undefined) {
+  //   hack_audio = $("#passage-audio");
+  //   $("#source-audio").attr("src", event.data.audio);
+  //   // Next two line: force reload (stackoverflow.com/questions/9421505)
+  //   hack_audio[0].pause();
+  //   hack_audio[0].load();
+  // }
+  // 
+  // if (app.current_corpus["audio"]) {
+  //   start_audio();
+  // } else {
+  //   stop_audio();
+  // }
 
   var newHtml = "<img id=\"result-pic\" src=\"" + event.data.url + "\" > </img>";
   document.getElementById('display-svg').innerHTML = newHtml;
 
-  $('#results-list li').removeClass('displayed');
+  $('#xxx_results-list li').removeClass('displayed');
   $('#list-' + event.data.i).addClass('displayed');
   var w = $("#display-svg").width();
   $("#display-svg").animate({
