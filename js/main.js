@@ -195,7 +195,6 @@ var app = new Vue({
 // ==================================================================================
 // update the global variables app.current_corpus_id and app.current_group_id
 function search_corpus(requested_corpus) {
-  console.log(requested_corpus);
   $('#warning').hide();
   app.current_corpus_id = undefined;
   app.current_group_id = undefined;
@@ -265,7 +264,6 @@ $(document).ready(function() {
 
 // ==================================================================================
 function init() {
-  console.log(app.config);
   search_corpus(app.config["default"]);
 
   $('#save-button').prop('disabled', true);
@@ -352,7 +350,6 @@ function deal_with_get_parameters() {
 
   // If there is a get arg in the URL named "relation" -> make the request directly
   if (getParameterByName("relation").length > 0) {
-    console.log("get_parameter relation: " + getParameterByName("relation"));
     if (getParameterByName("source").length > 0) {
       source = "GOV [upos=\"" + (getParameterByName("source")) + "\"]; "
     } else {
@@ -464,11 +461,9 @@ function ping(url, set_fct) {
 
   $.ajax(settings)
     .done(function(response) {
-      console.log(url + "--> YES");
       set_fct(true);
     })
     .fail(function() {
-      console.log(url + "--> NO");
       set_fct(false);
     });
 }
@@ -485,9 +480,6 @@ function request(service, form, data_fct, error_fct) {
     "contentType": false,
     "data": form
   };
-
-  console.log(service);
-  console.log(settings);
 
   $.ajax(settings)
     .done(function(response_string) {
@@ -523,7 +515,7 @@ function request(service, form, data_fct, error_fct) {
 }
 
 // ==================================================================================
-function next_results(flag) {
+function next_results(flag) { // if [flag] then select the first item after the call
   var param = {
     uuid: app.current_request_id,
     cluster_index: app.current_cluster
@@ -853,7 +845,6 @@ function update_corpus() {
           html += "<p>" + key + ": " + data[key] + "</p>";
         }
       }
-      console.log(html);
       $('#info-button').tooltipster('content', html);
 
     },
