@@ -18,7 +18,6 @@ var app = new Vue({
     current_corpus_id: undefined,
     current_request_id: "",
     current_view: 0,
-    // result_nb: 0,
 
     meta_info: false,
     meta_table: "", // URL to relation table or ""
@@ -542,10 +541,8 @@ function search_pattern() {
 
   $('#results-block').hide();
   $('#cluster-block').hide();
-  $('#xxx_results-list').empty();
 
   current_line_num = 0;
-  //app.result_nb = 0;
   app.current_view = 0;
   app.current_cluster = undefined;
   app.result_message = "";
@@ -601,7 +598,8 @@ function search_pattern() {
     if (response.data.clusters.length == 0) {
       app.show_cluters = false;
       app.clusters = [{
-        items: []
+        items: [],
+        size: response.data.solutions
       }];
       app.current_cluster = 0;
       next_results(true);
