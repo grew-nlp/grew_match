@@ -56,7 +56,7 @@ var app = new Vue({
 
     current_pivots: [],
     result_message: "",
-    show_cluters: false,
+    show_clusters: false,
     clusters: [],
     current_cluster: undefined,
     current_time_request: 0,
@@ -113,6 +113,8 @@ var app = new Vue({
   watch: {
     current_corpus_id: function() {
       console.log("current_corpus_id has changed");
+      app.clusters = [];
+      app.result_message = "";
       update_corpus();
     }
   },
@@ -120,6 +122,8 @@ var app = new Vue({
     result_nb: function() {
       if (this.clusters[this.current_cluster]) {
         return this.clusters[this.current_cluster].items.length
+      } else {
+        return 0
       }
     },
     current_item: function() {
@@ -596,15 +600,17 @@ function search_pattern() {
     }
 
     if (response.data.clusters.length == 0) {
-      app.show_cluters = false;
+      app.show_clusters = false; // No clustering
       app.clusters = [{
         items: [],
         size: response.data.solutions
       }];
-      app.current_cluster = 0;
-      next_results(true);
+      if (response.data.solutions > 0) {
+        app.current_cluster = 0;
+        next_results(true);
+      }
     } else {
-      app.show_cluters = true;
+      app.show_clusters = true;
       app.clusters = response.data.clusters;
     }
   });

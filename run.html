@@ -339,8 +339,8 @@
 										<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
 
 
-										<button class="btn btn-primary tooltip-desc" id="save-button" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
-										<button class="btn btn-primary tooltip-desc" v-show="mode=='syntax'" id="export-button" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
+										<button class="btn btn-primary tooltip-desc" :disabled="result_nb==0" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
+										<button class="btn btn-primary tooltip-desc" :disabled="result_nb==0" v-show="mode=='syntax'" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
 
 									</p>
 									<p>
@@ -367,7 +367,7 @@
 								{{ result_message }}
 								<span style="font-size: 60%">[ {{current_time_request.toFixed(3)}}s]</span>
 							</h3>
-							<div v-if="show_cluters" class="row">
+							<div v-if="show_clusters" class="row">
 								<button v-for="(cluster, cluster_index) in clusters" type="button" class="btn" v-on:click="select_cluster(cluster_index)" v-bind:class="cluster_index == current_cluster ? 'btn-success' : 'btn-default'" style="margin:10px">
 									<span class="badge badge-pill badge-info">{{cluster.size}}</span>
 									{{cluster.key}}
