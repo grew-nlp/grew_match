@@ -1,6 +1,3 @@
-var current_but_sel;
-var already_built_cluster_file = [];
-
 var hack_audio;
 
 // ==================================================================================
@@ -66,8 +63,12 @@ var app = new Vue({
     current_time_request: 0,
   },
   methods: {
-    zzz_(data) {
-      zzz(data);
+    select_cluster(data) {
+      if (app.current_cluster != data) {
+        app.current_cluster = data; // TODO: check string VS int
+      }
+      current_line_num = 0;
+      next_results(true);
     },
     select_item(index) {
       app.current_view = index;
@@ -76,7 +77,8 @@ var app = new Vue({
         $("#display-svg").animate({
           scrollLeft: app.current_item.shift / 2
         }, "fast");
-      }, 0)
+      }, 0);
+      update_parallel();
 
       // if (app.current_item) {
       //   audio = app.clusters[app.current_cluster].items[app.current_view].audio;
@@ -104,12 +106,13 @@ var app = new Vue({
     export_tsv_(pivot) {
       export_tsv(pivot);
     },
-    select_group_(group_id) {
-      select_group(group_id);
+    select_group(group_id) {
+      app.current_group_id = group_id;
+      app.current_corpus_id = app.current_group["default"];
     },
   },
   watch: {
-    current_corpus_id: function () {
+    current_corpus_id: function() {
       console.log("current_corpus_id has changed");
       update_corpus();
     }
@@ -518,13 +521,10 @@ function request(service, form, data_fct, error_fct) {
 
 // ==================================================================================
 function next_results(flag) {
-  console.log("===next_results===");
   var param = {
     uuid: app.current_request_id,
     cluster_index: app.current_cluster
   };
-  console.log(param);
-  console.log("===next_results===");
 
   var form = new FormData();
   form.append("param", JSON.stringify(param));
@@ -534,7 +534,6 @@ function next_results(flag) {
     if (flag) {
       app.select_item(0);
     }
-    load_cluster_file(); // TODO clean
   })
 }
 
@@ -577,11 +576,6 @@ function search_pattern() {
 
   app.wait = true;
   request("new", form, function(data) {
-
-    console.log("*******************************************");
-    console.log(response.data);
-    console.log("*******************************************");
-
     app.current_request_id = response.data.uuid;
     app.current_pivots = response.data.pivots;
     app.current_time_request = response.data.time;
@@ -610,223 +604,13 @@ function search_pattern() {
         items: []
       }];
       app.current_cluster = 0;
-      console.log("AAA");
       next_results(true);
-      console.log("AABB");
-      //app.select_item(0); // select the first item 
-      console.log("BBB");
     } else {
       app.show_cluters = true;
       app.clusters = response.data.clusters;
     }
-    // if (response.data.clusters == null && response.data.solutions > 0) {
-    //   app.current_cluster = 0;
-    //   load_cluster_file();
-    // }
-
-    var data_folder = app.backend_server + "/data/" + app.current_request_id;
-
-    $.get(data_folder + "/list", function(data) {
-      $('#save-button').prop('disabled', false);
-      $('#export-button').prop('disabled', false);
-      lines = data.split("\n");
-      if (lines[0] == '<!>') {
-        direct_error('The daemon is not running\n\nTry again in a few minutes');
-      } else {
-        $("#xxx_cluster-buttons").empty();
-        for (var i = current_line_num, len = lines.length; i < len; i++) {
-          var fields = lines[i].split("@@");
-          if (fields[0] == '<EMPTY>') {
-            $("#next-results").prop('disabled', true);
-            $('#display-sentence').hide();
-            $('#display-svg').hide();
-            $('#progress-txt').html('No results found <span style="font-size: 60%">[' + fields[1] + 's]</span>');
-            $("#export-button").prop('disabled', true);
-            $('#results-block').hide();
-            $('#cluster-block').show();
-          } else if (fields[0] == '<TOTAL>') {
-            $('#progress-txt').html(fields[1] + ' occurrence' + ((fields[1] > 1) ? 's' : '') + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
-          } else if (fields[0] == '<OVER>') {
-            $('#progress-txt').html('More than 1000 results found in ' + (100 * fields[1]).toFixed(2) + '% of the corpus' + ' <span style="font-size: 60%">[' + fields[2] + 's]</span>');
-          } else if (fields[0] == '<TIME>') {
-            $('#progress-txt').html('Timeout after 10s. ' + fields[1] + ' occurrences found in ' + (100 * fields[2]).toFixed(2) + '% of the corpus');
-            if (fields[1] == 0) {
-              console.log("AAAAAA");
-              $('#results-block').hide();
-              console.log("BBBBBB");
-            }
-          } else if (fields[0] == '<ONECLUSTER>') {
-            app.current_cluster = 0;
-            load_cluster_file();
-            console.log("XXXXXXXX");
-            $('#results-block').show();
-            $('#cluster-block').show();
-          } else if (fields[0] == '<CLUSTERS>') {
-            fill_cluster_buttons();
-            // } else if (fields[0] == '<PIVOTS>') {
-            //   app.current_pivots = fields.slice(1).reverse();
-          }
-        };
-      }
-    });
   });
   app.wait = false;
-}
-
-// ==================================================================================
-function zzz(data) {
-  console.log(data);
-  console.log("------111----------------------");
-  if (app.current_cluster != data) {
-    console.log("------222----------------------");
-    console.log("------333----------------------");
-    console.log(data.index);
-    console.log("------444----------------------");
-    app.current_cluster = data; // TODO: check string VS int
-    //app.select_item(0);
-  }
-  current_line_num = 0;
-  $("#xxx_results-list").empty();
-
-  if (jQuery.inArray(app.current_cluster, already_built_cluster_file) == -1) {
-    // new cluster, call the server
-    next_results(true);
-    already_built_cluster_file.push(app.current_cluster);
-  } else {
-    // previously seen cluster -> only reload the file
-    app.select_item(0);
-    load_cluster_file();
-  }
-
-  console.log("----------------------------");
-}
-
-// ==================================================================================
-function fill_cluster_buttons() {
-  var data_folder = app.backend_server + "/data/" + app.current_request_id;
-  $.get(data_folder + "/clusters", function(data) {
-    current_but_sel = undefined;
-    already_built_cluster_file = [];
-    lines = data.split("\n");
-    lines.forEach(function(line) {
-      console.log(line);
-      var fields = line.split("@@");
-      var but_sel = "#cb-" + fields[3];
-      if (fields[0] == "<CLUSTER>") {
-        $("#xxx_cluster-buttons").append('<button type="button" class="btn btn-default" id="cb-' + fields[3] + '"><span class="badge badge-pill badge-info">' + fields[2] + '</span>' + fields[1] + '</button>');
-        $(but_sel).click(function() {
-          if (current_but_sel != but_sel) {
-            if (current_but_sel) {
-              $(current_but_sel).removeClass("btn-success");
-              $(current_but_sel).addClass("btn-default");
-            }
-            $(but_sel).removeClass("btn-default");
-            $(but_sel).addClass("btn-success");
-            current_but_sel = but_sel;
-
-            console.log("ZZZZZZZZ");
-            $('#results-block').show();
-            $('#cluster-block').show();
-            current_line_num = 0;
-            $("#xxx_results-list").empty();
-            //app.result_nb = 0;
-            app.current_view = 0;
-
-            app.current_cluster = parseInt(fields[3])
-
-            if (jQuery.inArray(app.current_cluster, already_built_cluster_file) == -1) {
-              // new cluster, call the server
-              next_results();
-              already_built_cluster_file.push(app.current_cluster);
-            } else {
-              // previously seen cluster -> only reload the file
-              load_cluster_file();
-            }
-          }
-        })
-      }
-    });
-  });
-  $('#cluster-block').show();
-}
-
-// ==================================================================================
-function load_cluster_file() {
-  var data_folder = app.backend_server + "/data/" + app.current_request_id;
-  $.get(data_folder + "/cluster_" + app.current_cluster, function(data) {
-    lines = data.split("\n");
-    for (var i = current_line_num, len = lines.length; i < len; i++) {
-      try {
-        var obj = JSON.parse(lines[i]);
-        if (obj.kind == "END") {
-          $("#next-results").prop('disabled', true);
-        } else if (obj.kind == "PAUSE") {
-          $("#next-results").prop('disabled', false);
-        } else {
-          $("#xxx_results-list").append('<li class="item" id="list-' + app.result_nb + '"><a>' + obj.sent_id + '</a></li>');
-          //url = data_folder + '/' + obj.filename.split("/")[1];
-          $('#list-' + app.result_nb).click({
-            url: url,
-            i: app.result_nb,
-            coord: obj.shift,
-            sentence: obj.sentence,
-            audio: obj.audio,
-            meta: obj.meta,
-            code: obj.code,
-            sent_id: obj.sent_id,
-          }, display_picture);
-          //app.result_nb++;
-          update_progress_num();
-        }
-      } catch (err) {
-        console.log("Ignore line: " + i);
-      }
-    }
-    update_view();
-    $("#display-sentence").show();
-    current_line_num = lines.length - 1; // prepare position for next parsing
-  });
-}
-
-// ==================================================================================
-function display_picture(event) {
-  console.log("display_picture");
-  app.sent_id = event.data.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
-  $("#sentence-txt").html(event.data.sentence);
-
-  // if (event.data.audio != undefined) {
-  //   hack_audio = $("#passage-audio");
-  //   $("#source-audio").attr("src", event.data.audio);
-  //   // Next two line: force reload (stackoverflow.com/questions/9421505)
-  //   hack_audio[0].pause();
-  //   hack_audio[0].load();
-  // }
-  // 
-  // if (app.current_corpus["audio"]) {
-  //   start_audio();
-  // } else {
-  //   stop_audio();
-  // }
-
-  var newHtml = "<img id=\"result-pic\" src=\"" + event.data.url + "\" > </img>";
-  document.getElementById('display-svg').innerHTML = newHtml;
-
-  $('#xxx_results-list li').removeClass('displayed');
-  $('#list-' + event.data.i).addClass('displayed');
-  var w = $("#display-svg").width();
-  $("#display-svg").animate({
-    scrollLeft: event.data.coord - w / 2
-  }, "fast");
-  app.current_view = event.data.i;
-
-  app.sent_metadata = event.data.meta;
-
-  app.code = event.data.code;
-
-  app.svg_link = event.data.url
-
-  update_progress_num();
-  update_parallel();
 }
 
 // ==================================================================================
@@ -1006,51 +790,6 @@ function getParameterByName(name) {
 }
 
 // ==================================================================================
-function update_progress_num() {
-  if (app.result_nb != 0) {
-    $('#display-svg').show();
-  }
-}
-
-// ==================================================================================
-function update_view() {
-  $('#list-' + app.current_view).trigger("click");
-  update_progress_num();
-}
-
-// ==================================================================================
-function first_svg() {
-  if (app.current_view > 0) {
-    app.current_view = 0;
-    update_view();
-  }
-}
-
-// ==================================================================================
-function previous_svg() {
-  if (app.current_view > 0) {
-    app.current_view -= 1;
-    update_view();
-  }
-}
-
-// ==================================================================================
-function next_svg() {
-  if (app.current_view < app.result_nb - 1) {
-    app.current_view += 1;
-    update_view();
-  }
-}
-
-// ==================================================================================
-function last_svg() {
-  if (app.current_view < app.result_nb - 1) {
-    app.current_view = app.result_nb - 1;
-    update_view();
-  }
-}
-
-// ==================================================================================
 function update_corpus() {
   if (app.current_corpus["desc"]) {
     $('#corpus-desc-label').tooltipster('enable');
@@ -1145,12 +884,6 @@ function update_corpus() {
       }
     }
   )
-}
-
-// ==================================================================================
-function select_group(group_id) {
-  app.current_group_id = group_id;
-  app.current_corpus_id = app.current_group["default"];
 }
 
 // ==================================================================================
