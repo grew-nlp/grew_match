@@ -31,8 +31,6 @@ var app = new Vue({
 
     clust2: "no", // 3 possible values: no, key or whether
 
-    sent_metadata: {},
-
     code: "",
 
     sent_id: "",
