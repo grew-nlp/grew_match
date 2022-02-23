@@ -385,11 +385,11 @@
 								<div class="results-navig" v-if="result_nb > 0">
 									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: result_nb == clusters[current_cluster].size }" onclick="javascript:next_results(false)">More results</button>
 									<br />
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="current_view = 0">⇤</button>
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="current_view -= 1">←</button>
+									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(0)">⇤</button>
+									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(current_view-1)">←</button>
 									<span class="btn-results" style="font-size: 150%">{{ current_view + 1 }} / {{ result_nb }}</span>
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="current_view += 1">→</button>
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="current_view = result_nb-1">⇥</button>
+									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(current_view+1)">→</button>
+									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(result_nb-1)">⇥</button>
 									<ul id="results-list">
 										<li v-for="(item, itemKey) in items" v-bind:class='{ displayed: itemKey==current_view }'>
 											<a v-on:click='select_item(itemKey)'>{{ item.sent_id }}</a>

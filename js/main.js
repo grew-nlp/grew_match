@@ -73,7 +73,8 @@ var app = new Vue({
       app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
       setTimeout(function() {
         $("#display-svg").animate({
-          scrollLeft: app.current_item.shift / 2
+          scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth
+ / 2)
         }, "fast");
       }, 0);
       update_parallel();
