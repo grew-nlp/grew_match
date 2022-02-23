@@ -70,6 +70,7 @@ var app = new Vue({
       next_results(true);
     },
     select_item(index) {
+      console.log("=== select_item ===");
       app.current_view = index;
       app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
       setTimeout(function() {
@@ -79,25 +80,21 @@ var app = new Vue({
       }, 0);
       update_parallel();
 
-      // if (app.current_item) {
-      //   audio = app.clusters[app.current_cluster].items[app.current_view].audio;
-      //   console.log("=============audio="+audio);
-      //   hack_audio = $("#passage-audio");
-      //   $("#source-audio").attr("src", audio);
-      //   // Next two line: force reload (stackoverflow.com/questions/9421505)
-      //   console.log("++++++++++++++++++++");
-      //   console.log(hack_audio);
-      //   hack_audio[0].pause();
-      //   hack_audio[0].load();
-      // } else {
-      //   console.log("==== undefined current_item");
-      // }
+      if (app.current_item.audio) {
+        $("#source-audio").attr("src", app.current_item.audio);
+        hack_audio = $("#passage-audio");
+        // Next two lines: force reload (stackoverflow.com/questions/9421505)
+        hack_audio[0].pause();
+        hack_audio[0].load();
+        setTimeout(function() {
+          if (app.current_corpus["audio"]) {
+            start_audio();
+          } else {
+            stop_audio();
+          }
+        }, 0)
+      }
 
-      // if (app.current_corpus["audio"]) {
-      //   start_audio();
-      // } else {
-      //   stop_audio();
-      // }
     },
     update_parallel_() {
       update_parallel();
