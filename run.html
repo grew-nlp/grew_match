@@ -76,12 +76,12 @@
 </head>
 
 <body>
-	<!-- Top Navbar -->
 
 	<div id="app">
+		<!-- Top Navbar -->
 		<nav id="navbar-grew" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container-fluid">
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<div class="collapse navbar-collapse">
 					<a href="http://match.grew.fr" class="navbar-brand" style="padding-left: 5px; padding-top: 10px; padding-right: 20px;">
 						<img src="images/grew-match.svg" alt="LOGO for grew_match" style="height:50px;">
 					</a>
@@ -127,16 +127,8 @@
 								<i class="fa fa-question-circle fa-lg"></i>
 							</a>
 							<ul class="dropdown-menu">
-								<li class="">
-									<a href="https://grew.fr/grew_match/help" target="_blank">
-										Documentation
-									</a>
-								</li>
-								<li class="">
-									<a href="https://github.com/grew-nlp/grew/issues" target="_blank">
-										Report an issue
-									</a>
-								</li>
+								<li><a href="https://grew.fr/grew_match/help" target="_blank">Documentation</a></li>
+								<li><a href="https://github.com/grew-nlp/grew/issues" target="_blank">Report an issue</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -161,7 +153,7 @@
 							<table class="table">
 								<tbody>
 									<tr>
-										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-bind:id="corpus.id" v-on:click="current_corpus_id=corpus.id" href="#">
+										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-on:click="current_corpus_id=corpus.id" href="#">
 											<span class="glyphicon glyphicon-align-justify"></span>
 											{{ corpus.id }}
 											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
@@ -193,15 +185,13 @@
 									</h4>
 									<h2 id="corpus">
 										<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
-											<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}
-											</span>
+											<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>
 										</button>
 										<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus_id }}</span>
 
-
 										<span id="update_ago" style="font-size: initial;"></span>
 
-										<span id="eud-span" v-show="current_corpus['enhanced']">
+										<span v-show="current_corpus['enhanced']">
 											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
 										</span>
 
@@ -337,11 +327,8 @@
 									</p>
 									<p>
 										<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
-
-
-										<button class="btn btn-primary tooltip-desc" :disabled="result_nb==0" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
-										<button class="btn btn-primary tooltip-desc" :disabled="result_nb==0" v-show="mode=='syntax'" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
-
+										<button id="save-button" class="btn btn-primary tooltip-desc" :disabled="result_nb==0" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
+										<button id="export-button" class="btn btn-primary tooltip-desc" :disabled="result_nb==0" v-show="mode=='syntax'" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
 									</p>
 									<p>
 										<span id='custom-display'>Your pattern URL:
@@ -421,7 +408,6 @@
 									</p>
 								</div>
 								
-								
 								<div v-if="result_nb > 0">
 									<div id="passage-text" class="passage">
 
@@ -479,14 +465,10 @@
 										<h4>{{parallel_message}}</h4>
 									</div>
 								</div>
-								
-								
 							</div>
 						</div>
 					</div>
 				</div>
-
-
 			</div> <!-- container -->
 		</div> <!-- wrapper -->
 

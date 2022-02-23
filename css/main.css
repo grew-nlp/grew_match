@@ -123,9 +123,6 @@ h3 {
 
 #results-list {
   max-height: 400px;
-}
-
-#results-list {
   overflow: auto;
 }
 

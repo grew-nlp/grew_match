@@ -272,8 +272,6 @@ $(document).ready(function() {
 function init() {
   search_corpus(app.config["default"]);
 
-  $('#save-button').prop('disabled', true);
-  $('#export-button').prop('disabled', true);
 
   if (app.config["backend_server"] == undefined) {
     direct_error("Undefined `backend_server` in config file")
@@ -322,8 +320,6 @@ function init() {
 
 // ==================================================================================
 function disable_save() {
-  $('#save-button').prop('disabled', true);
-  $('#export-button').prop('disabled', true);
   $('#custom-display').hide();
 }
 
@@ -726,6 +722,7 @@ function show_code() {
   $("#code_viewer").html(app.code);
   $('#code_modal').modal('show');
 }
+
 // ==================================================================================
 function code_copy() {
   $("#code_viewer").select()
@@ -783,6 +780,7 @@ function SelectText(element) {
     selection.addRange(range);
   }
 }
+
 // ==================================================================================
 function getParameterByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
