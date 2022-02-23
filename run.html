@@ -379,7 +379,7 @@
 
 				<!-- Lower part: Display the results -->
 				<div class="row">
-					<div v-if="result_nb > 0" class="container-fluid">
+					<div v-show="result_nb > 0" class="container-fluid">
 						<div class="row">
 							<div class="col-md-3">
 								<div class="results-navig" v-if="result_nb > 0">
@@ -391,7 +391,7 @@
 									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="current_view += 1">→</button>
 									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="current_view = result_nb-1">⇥</button>
 									<ul id="results-list">
-										<li v-for="(item, itemKey) in clusters[current_cluster].items" v-bind:class='{ displayed: itemKey==current_view }'>
+										<li v-for="(item, itemKey) in items" v-bind:class='{ displayed: itemKey==current_view }'>
 											<a v-on:click='select_item(itemKey)'>{{ item.sent_id }}</a>
 										</li>
 									</ul>
@@ -422,7 +422,7 @@
 									</p>
 								</div> -->
 
-								<div>
+								<div v-if="result_nb > 0">
 									<div id="passage-text" class="passage">
 
 										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
@@ -460,7 +460,7 @@
 									</div>
 								</div>
 
-								<div id="display-svg">
+								<div v-if="result_nb > 0" id="display-svg">
 									<img v-bind:src="backend_server + 'data/' + clusters[current_cluster].items[current_view].filename"></img>
 								</div>
 

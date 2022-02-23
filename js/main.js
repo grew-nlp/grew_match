@@ -119,7 +119,16 @@ var app = new Vue({
     }
   },
   computed: {
+    items: function() {
+      console.log("=== computed: items ===");
+      if (this.clusters[this.current_cluster]) {
+        return this.clusters[this.current_cluster].items;
+      } else {
+        return []
+      }
+    },
     result_nb: function() {
+      console.log("=== computed: result_nb ===");
       if (this.clusters[this.current_cluster]) {
         return this.clusters[this.current_cluster].items.length
       } else {
@@ -127,7 +136,8 @@ var app = new Vue({
       }
     },
     current_item: function() {
-      return (app.clusters[app.current_cluster].items[app.current_view]);
+      console.log("=== computed: current_item ===");
+      return (this.clusters[this.current_cluster].items[this.current_view]);
     },
     top_project: function() {
       if (this.config != undefined) {
