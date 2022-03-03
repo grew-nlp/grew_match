@@ -73,8 +73,8 @@ var app = new Vue({
       app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
       setTimeout(function() {
         $("#display-svg").animate({
-          scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth
- / 2)
+          scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
+            2)
         }, "fast");
       }, 0);
       update_parallel();
@@ -754,7 +754,7 @@ function save_pattern() {
     history.pushState({
         id: app.current_request_id
       },
-      "Grew - Custom saved pattern",
+      "",
       get
     );
     $('#custom-url').text(window.location.href);
@@ -869,7 +869,7 @@ function update_corpus() {
         app.meta_sud_valid = "";
       }
     }
-  )
+  );
 
   // is the UD validation button visible?
   let valid_url = "meta/" + "valid_ud/" + app.current_corpus_id + ".valid";
@@ -882,7 +882,13 @@ function update_corpus() {
         app.meta_ud_valid = "";
       }
     }
-  )
+  );
+
+  history.pushState({},
+    "",
+    "?corpus=" + app.current_corpus_id
+  );
+
 }
 
 // ==================================================================================
