@@ -216,6 +216,13 @@
 											</button>
 										</a>
 
+										<!-- Gitlab button -->
+										<a v-show='current_corpus["gitlab"]' v-bind:href='current_corpus["gitlab"]' target="_blank">
+											<button id="gitlab-button" type="button" class="tooltip-desc btn btn-primary">
+												<i class="fa fa-gitlab fa-lg"></i>
+											</button>
+										</a>
+
 										<!-- issue button -->
 										<a v-show='current_corpus["issue"]' v-bind:href='current_corpus["issue"]' target="_blank">
 											<button id="issue-button" type="button" class="tooltip-desc btn btn-primary">
