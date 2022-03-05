@@ -334,7 +334,7 @@
 									</p>
 									<p>
 										<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
-										<button id="save-button" class="btn btn-primary tooltip-desc" :disabled="result_nb==0" onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
+										<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
 										<button id="export-button" class="btn btn-primary tooltip-desc" :disabled="result_nb==0" v-show="mode=='syntax'" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
 									</p>
 									<p>
