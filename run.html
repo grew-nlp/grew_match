@@ -414,7 +414,7 @@
 										<em>(It seems your browser does not support <code>HTMLMediaElement.playbackRate</code>, so you will not be able to change the speech rate.)</em>
 									</p>
 								</div>
-								
+
 								<div v-if="result_nb > 0">
 									<div id="passage-text" class="passage">
 
@@ -430,12 +430,17 @@
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
 
+											<!-- Link button -->
+											<a v-show='current_item["url"]' v-bind:href='current_item["url"]' target="_blank">
+												<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-link fa-lg"></i></button>
+											</a>
+
 											<button v-if="mode=='semantics'" type="button" id="code-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_code()">
 												Code
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
 
-											<a target="_blank" v-bind:href="backend_server + 'data/' + clusters[current_cluster].items[current_view].filename">
+											<a target="_blank" v-bind:href="backend_server + 'data/' + current_item.filename">
 												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
 													SVG
 													<span href="" class="glyphicon glyphicon-export"></span>
@@ -463,7 +468,7 @@
 										<option v-for="parallel in parallels"> {{ parallel }} </option>
 									</select>
 								</div>
-								
+
 								<div v-if="parallels.length > 0 && parallel != 'no'" id="display-parallel">
 									<div v-if="parallel_svg">
 										<img v-bind:src="parallel_svg"></img>

@@ -31,8 +31,6 @@ var app = new Vue({
 
     clust2: "no", // 3 possible values: no, key or whether
 
-    code: "",
-
     sent_id: "",
 
     parallel: "no",
@@ -93,8 +91,8 @@ var app = new Vue({
           }
         }, 0)
       }
-
     },
+
     update_parallel_() {
       update_parallel();
     },
@@ -719,7 +717,7 @@ function show_conll() {
 
 // ==================================================================================
 function show_code() {
-  $("#code_viewer").html(app.code);
+  $("#code_viewer").html(app.current_item.code);
   $('#code_modal').modal('show');
 }
 
