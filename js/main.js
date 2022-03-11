@@ -857,7 +857,7 @@ function update_corpus() {
   });
 
   // is the SUD validation button visible?
-  let json_url = "meta/" + "validator/" + app.current_corpus_id + ".json";
+  let json_url = "meta/" + "valid_SUD/" + app.current_corpus_id + ".json";
   ping(
     json_url,
     function(bool) {
