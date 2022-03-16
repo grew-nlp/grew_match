@@ -340,12 +340,15 @@ function deal_with_get_parameters() {
 
   // custom get parameter
   if (getParameterByName("custom").length > 0) {
-    get_custom = getParameterByName("custom");
+    const get_custom = getParameterByName("custom");
 
     $.get(app.backend_server + "/shorten/" + get_custom, function(pattern) {
-      cmEditor.setValue(pattern);
-      setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
-    });
+        cmEditor.setValue(pattern);
+        setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
+      })
+      .error(function() {
+        direct_error("Cannot find custom pattern `"+get_custom+"`\n\nCheck the URL.")
+      });
   }
 
   // If there is a get arg in the URL named "relation" -> make the request directly
