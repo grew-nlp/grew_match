@@ -824,7 +824,7 @@ function update_corpus() {
     url,
     function(bool) {
       if (bool) {
-        app.meta_table = url + '?top=' + window.location.origin + window.location.pathname;
+        app.meta_table = url;
       } else {
         app.meta_table = "";
       }

@@ -365,7 +365,7 @@
 							<div v-if="show_clusters" class="row">
 								<button v-for="(cluster, cluster_index) in clusters" type="button" class="btn" v-on:click="select_cluster(cluster_index)" v-bind:class="cluster_index == current_cluster ? 'btn-success' : 'btn-default'" style="margin:10px">
 									<span class="badge badge-pill badge-info">{{cluster.size}}</span>
-									{{cluster.key}}
+									{{ cluster.key }}
 								</button>
 							</div>
 						</div>
