@@ -6,4 +6,9 @@ Vue.component("cluster-grid", {
     rows: Array,
     cells: Object,
   },
+  methods: {
+     xxx(c,r) {
+       console.log(c,r);
+    }
+  }
 });
