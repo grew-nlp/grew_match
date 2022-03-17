@@ -5,6 +5,19 @@ var app = new Vue({
   el: '#app',
   data: {
 
+    gridColumns: ["сила", "VERB"],
+    gridRows: ["@@", "INTJ"],
+    gridCells: {
+      "@@": {
+        "сила": 1,
+        "VERB": 2
+      },
+      "INTJ": {
+        "сила": 3,
+        "VERB": 4
+      },
+    },
+
     metadata_open: false,
 
     corpora_filter: "",
@@ -347,7 +360,7 @@ function deal_with_get_parameters() {
         setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
       })
       .error(function() {
-        direct_error("Cannot find custom pattern `"+get_custom+"`\n\nCheck the URL.")
+        direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
       });
   }
 

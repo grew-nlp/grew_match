@@ -482,8 +482,18 @@
 						</div>
 					</div>
 				</div>
+										<cluster-grid 
+										  :columns="gridColumns" 
+										  :rows="gridRows" 
+										  :cells="gridCells">
+										</cluster-grid>
+
 			</div> <!-- container -->
 		</div> <!-- wrapper -->
+
+
+
+
 
 		<!-- tooltip content -->
 		<div id="warning-tip" style="display: none;">
@@ -550,8 +560,37 @@
 		</div>
 	</div>
 
+
+	<!-- component template -->
+	<script type="text/x-template" id="grid-template">
+		<table>
+		<thead>
+			<tr>
+				<td>2 \ 1</td>
+				<th v-for="col in columns">
+					{{ col }}
+					<!-- <span class="label label-default">{{col}}</span> -->
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="row in rows">
+				<th> {{ row }} </th>
+				<td v-for="col in columns">
+					{{ cells[row][col] }}
+					<!-- ({{col}}, {{row}}) -->
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</script>
+
+
+
 	<!-- Grew-match specific CSS and JS -->
+	<script src="js/grid_comp.js"></script>
 	<script src="js/main.js"></script>
+	<link rel="stylesheet" href="css/grid.css">
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/sidebar.css">
 	<link rel="stylesheet" href="css/tooltip.css">
