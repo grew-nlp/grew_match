@@ -906,6 +906,12 @@ function update_corpus() {
 }
 
 // ==================================================================================
+function select_cell(c, r) {
+  console.log(c, r);
+}
+
+
+// ==================================================================================
 function common_prefix_length(s1, s2) {
   var i = 0;
   while (s1[i] == s2[i] && s1[i] != undefined) {
