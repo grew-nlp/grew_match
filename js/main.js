@@ -67,13 +67,13 @@ var app = new Vue({
     result_message: "",
     show_clusters: false,
     clusters: [],
-    current_cluster: undefined,
+    current_cluster_index: undefined,
     current_time_request: 0,
   },
   methods: {
     select_cluster(data) {
-      if (app.current_cluster != data) {
-        app.current_cluster = data; // TODO: check string VS int
+      if (app.current_cluster_index != data) {
+        app.current_cluster_index = data; // TODO: check string VS int
       }
       current_line_num = 0;
       next_results(true);
@@ -126,25 +126,24 @@ var app = new Vue({
     }
   },
   computed: {
+    current_cluster: function () {
+      return this.clusters[this.current_cluster_index];
+    },
     items: function() {
       console.log("=== computed: items ===");
-      if (this.clusters[this.current_cluster]) {
-        return this.clusters[this.current_cluster].items;
+      if (this.current_cluster) {
+        return this.current_cluster.items;
       } else {
         return []
       }
     },
     result_nb: function() {
       console.log("=== computed: result_nb ===");
-      if (this.clusters[this.current_cluster]) {
-        return this.clusters[this.current_cluster].items.length
-      } else {
-        return 0
-      }
+      return (this.items.length);
     },
     current_item: function() {
       console.log("=== computed: current_item ===");
-      return (this.clusters[this.current_cluster].items[this.current_view]);
+      return (this.items[this.current_view]);
     },
     top_project: function() {
       if (this.config != undefined) {
@@ -534,14 +533,14 @@ function request(service, form, data_fct, error_fct) {
 function next_results(flag) { // if [flag] then select the first item after the call
   var param = {
     uuid: app.current_request_id,
-    cluster_index: app.current_cluster
+    cluster_index: app.current_cluster_index
   };
 
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
   request("next", form, function(data) {
-    app.clusters[app.current_cluster].items.push(...data.items);
+    app.items.push(...data.items);
     if (flag) {
       app.select_item(0);
     }
@@ -556,7 +555,7 @@ function search_pattern() {
 
   current_line_num = 0;
   app.current_view = 0;
-  app.current_cluster = undefined;
+  app.current_cluster_index = undefined;
   app.result_message = "";
 
   var param = {
@@ -614,7 +613,7 @@ function search_pattern() {
         size: response.data.solutions
       }];
       if (response.data.solutions > 0) {
-        app.current_cluster = 0;
+        app.current_cluster_index = 0;
         next_results(true);
       }
     } else {
@@ -719,7 +718,7 @@ function show_conll() {
   var param = {
     uuid: app.current_request_id,
     current_view: app.current_view,
-    cluster: app.current_cluster
+    cluster: app.current_cluster_index
   };
 
   var form = new FormData();
