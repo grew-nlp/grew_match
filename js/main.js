@@ -607,7 +607,7 @@ function search_pattern() {
         direct_error("unknown status: " + response.data.status)
     }
 
-    if (response.data.clusters.length == 0) {
+    if ("cluster_single" in response.data) {
       app.show_clusters = false; // No clustering
       app.clusters = [{
         items: [],
@@ -619,7 +619,7 @@ function search_pattern() {
       }
     } else {
       app.show_clusters = true;
-      app.clusters = response.data.clusters;
+      app.clusters = response.data.cluster_array;
     }
   });
   app.wait = false;
