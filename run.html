@@ -362,15 +362,17 @@
 								{{ result_message }}
 								<span style="font-size: 60%">[ {{current_time_request.toFixed(3)}}s]</span>
 							</h3>
-							<div v-if="show_clusters" class="row">
-								<button v-for="(cluster, cluster_index) in clusters" type="button" class="btn" v-on:click="select_cluster(cluster_index)" v-bind:class="cluster_index == current_cluster_index ? 'btn-success' : 'btn-default'" style="margin:10px">
+							<div v-if="cluster_dim == 1" class="row">
+								<button v-for="(cluster, cluster_index) in clusters" type="button" class="btn" v-on:click="select_cluster([cluster_index])" v-bind:class="[cluster_index] == current_cluster_path ? 'btn-success' : 'btn-default'" style="margin:10px">
 									<span class="badge badge-pill badge-info">{{cluster.size}}</span>
 									{{ cluster.key }}
 								</button>
 							</div>
 
-							<cluster-grid :columns="gridColumns" :rows="gridRows" :cells="gridCells">
-							</cluster-grid>
+							<div v-if="cluster_dim == 2" class="row">
+								<cluster-grid :columns="gridColumns" :rows="gridRows" :cells="gridCells">
+								</cluster-grid>
+							</div>
 
 
 						</div>

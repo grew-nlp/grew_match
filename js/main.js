@@ -65,15 +65,15 @@ var app = new Vue({
 
     current_pivots: [],
     result_message: "",
-    show_clusters: false,
+    cluster_dim: 0,  // 0 -> no cluster, 1 -> linear clustering, 2 -> grid clustering
     clusters: [],
-    current_cluster_index: undefined,
+    current_cluster_path: undefined,
     current_time_request: 0,
   },
   methods: {
     select_cluster(data) {
-      if (app.current_cluster_index != data) {
-        app.current_cluster_index = data; // TODO: check string VS int
+      if (app.current_cluster_path != data) {
+        app.current_cluster_path = data;
       }
       current_line_num = 0;
       next_results(true);
@@ -126,8 +126,10 @@ var app = new Vue({
     }
   },
   computed: {
-    current_cluster: function () {
-      return this.clusters[this.current_cluster_index];
+    current_cluster: function() {
+      if (this.current_cluster_path) {
+        return search_path(this.current_cluster_path, this.clusters)
+      }
     },
     items: function() {
       console.log("=== computed: items ===");
@@ -207,6 +209,16 @@ var app = new Vue({
   }
 });
 
+// ==================================================================================
+function search_path(path, data) {
+  if (path.length == 0) {
+    return data
+  } else {
+    var head = path[0];
+    var tail = path.slice(1);
+    return (search_path(tail, data[head]));
+  }
+}
 
 // ==================================================================================
 // update the global variables app.current_corpus_id and app.current_group_id
@@ -280,7 +292,7 @@ $(document).ready(function() {
 
 // ==================================================================================
 function init() {
-  search_corpus(app.config["default"]);
+  search_corpus(app.config["default"]); // TODO: useless if corpus get parameter or tutorial
 
 
   if (app.config["backend_server"] == undefined) {
@@ -533,7 +545,7 @@ function request(service, form, data_fct, error_fct) {
 function next_results(flag) { // if [flag] then select the first item after the call
   var param = {
     uuid: app.current_request_id,
-    cluster_index: app.current_cluster_index
+    cluster_path: app.current_cluster_path
   };
 
   var form = new FormData();
@@ -555,7 +567,7 @@ function search_pattern() {
 
   current_line_num = 0;
   app.current_view = 0;
-  app.current_cluster_index = undefined;
+  app.current_cluster_path = undefined;
   app.result_message = "";
 
   var param = {
@@ -607,17 +619,17 @@ function search_pattern() {
     }
 
     if ("cluster_single" in response.data) {
-      app.show_clusters = false; // No clustering
-      app.clusters = [{
+      app.cluster_dim = 0;
+      app.clusters = {
         items: [],
         size: response.data.solutions
-      }];
+      };
       if (response.data.solutions > 0) {
-        app.current_cluster_index = 0;
+        app.current_cluster_path = [];
         next_results(true);
       }
     } else {
-      app.show_clusters = true;
+      app.cluster_dim = 1;
       app.clusters = response.data.cluster_array;
     }
   });
@@ -718,7 +730,7 @@ function show_conll() {
   var param = {
     uuid: app.current_request_id,
     current_view: app.current_view,
-    cluster: app.current_cluster_index
+    cluster_path: app.current_cluster_path
   };
 
   var form = new FormData();
