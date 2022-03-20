@@ -7,7 +7,10 @@ var app = new Vue({
 
     gridColumns: ["сила", "VERB"],
     gridRows: ["@@", "INTJ"],
-    gridCells: [[12,34],[56,78]],
+    gridCells: [
+      [12, 34],
+      [56, 78]
+    ],
 
     metadata_open: false,
 
@@ -56,13 +59,17 @@ var app = new Vue({
 
     current_pivots: [],
     result_message: "",
-    cluster_dim: 0,  // 0 -> no cluster, 1 -> linear clustering, 2 -> grid clustering
+    nb_solutions: 0,
+    cluster_dim: 0, // 0 -> no cluster, 1 -> linear clustering, 2 -> grid clustering
     clusters: [],
-    current_cluster_path: undefined,
+    cluster_list: [],
+    current_cluster_path: [],
+    current_cluster: [],
     current_time_request: 0,
   },
   methods: {
     select_cluster(data) {
+      console.log("=== select_cluster ===");
       if (app.current_cluster_path != data) {
         app.current_cluster_path = data;
       }
@@ -72,8 +79,8 @@ var app = new Vue({
     select_item(index) {
       console.log("=== select_item ===");
       app.current_view = index;
-      app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
       setTimeout(function() {
+        app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
         $("#display-svg").animate({
           scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
             2)
@@ -107,36 +114,35 @@ var app = new Vue({
       app.current_group_id = group_id;
       app.current_corpus_id = app.current_group["default"];
     },
+    update_current_cluster() {
+      app.current_cluster = search_path(this.current_cluster_path, this.clusters);
+    }
   },
   watch: {
     current_corpus_id: function() {
       console.log("current_corpus_id has changed");
-      app.clusters = [];
       app.result_message = "";
       update_corpus();
     }
   },
   computed: {
-    current_cluster: function() {
-      if (this.current_cluster_path) {
-        return search_path(this.current_cluster_path, this.clusters)
-      }
-    },
-    items: function() {
-      console.log("=== computed: items ===");
-      if (this.current_cluster) {
-        return this.current_cluster.items;
-      } else {
-        return []
+    current_cluster_size: function() {
+      console.log("=== computed: current_cluster_size ===");
+      if (app.cluster_dim == 0) {
+        return app.nb_solutions
+      } else if (app.cluster_dim == 1) {
+        return this.cluster_list[this.current_cluster_path[0]].size
+      } else if (app.cluster_dim == 2) {
+        // TODO
       }
     },
     result_nb: function() {
       console.log("=== computed: result_nb ===");
-      return (this.items.length);
+      return (this.current_cluster.length);
     },
     current_item: function() {
       console.log("=== computed: current_item ===");
-      return (this.items[this.current_view]);
+      return (this.current_cluster[this.current_view]);
     },
     top_project: function() {
       if (this.config != undefined) {
@@ -519,7 +525,8 @@ function request(service, form, data_fct, error_fct) {
           html: JSON.stringify(response.exception),
         });
       } else {
-        console.log("Success request to service: " + service + "-->" + response.data);
+        console.log("Success request to service: " + service + "-->");
+        console.log(response.data);
         data_fct(response.data);
       }
     })
@@ -543,7 +550,15 @@ function next_results(flag) { // if [flag] then select the first item after the 
   form.append("param", JSON.stringify(param));
 
   request("next", form, function(data) {
-    app.items.push(...data.items);
+    if (app.cluster_dim == 0) {
+      app.clusters = app.clusters.concat(data.items);
+      app.update_current_cluster();
+    } else if (app.cluster_dim == 1) {
+      var old_items = app.clusters[app.current_cluster_path[0]];
+      const new_items = old_items.concat(data.items);
+      app.clusters[app.current_cluster_path[0]] = new_items;
+      app.update_current_cluster();
+    }
     if (flag) {
       app.select_item(0);
     }
@@ -557,8 +572,9 @@ function search_pattern() {
   $('#cluster-block').hide();
 
   current_line_num = 0;
+  app.clusters = [];
   app.current_view = 0;
-  app.current_cluster_path = undefined;
+  app.current_cluster_path = [];
   app.result_message = "";
 
   var param = {
@@ -590,6 +606,7 @@ function search_pattern() {
     app.current_request_id = response.data.uuid;
     app.current_pivots = response.data.pivots;
     app.current_time_request = response.data.time;
+    app.nb_solutions = response.data.solutions;
 
     switch (response.data.status) {
       case "complete":
@@ -611,17 +628,15 @@ function search_pattern() {
 
     if ("cluster_single" in response.data) {
       app.cluster_dim = 0;
-      app.clusters = {
-        items: [],
-        size: response.data.solutions
-      };
+      app.clusters = [];
       if (response.data.solutions > 0) {
         app.current_cluster_path = [];
         next_results(true);
       }
     } else {
       app.cluster_dim = 1;
-      app.clusters = response.data.cluster_array;
+      app.cluster_list = response.data.cluster_array["cluster_list"];
+      app.clusters = Array(app.cluster_list.length).fill([]);
     }
   });
   app.wait = false;

@@ -363,7 +363,7 @@
 								<span style="font-size: 60%">[ {{current_time_request.toFixed(3)}}s]</span>
 							</h3>
 							<div v-if="cluster_dim == 1" class="row">
-								<button v-for="(cluster, cluster_index) in clusters" type="button" class="btn" v-on:click="select_cluster([cluster_index])" v-bind:class="[cluster_index] == current_cluster_path ? 'btn-success' : 'btn-default'" style="margin:10px">
+								<button v-for="(cluster, cluster_index) in cluster_list" type="button" class="btn" v-on:click="select_cluster([cluster_index])" v-bind:class="cluster_index == current_cluster_path[0] ? 'btn-success' : 'btn-default'" style="margin:10px">
 									<span class="badge badge-pill badge-info">{{cluster.size}}</span>
 									{{ cluster.key }}
 								</button>
@@ -380,11 +380,11 @@
 
 				<!-- Lower part: Display the results -->
 				<div class="row">
-					<div v-show="result_nb > 0" class="container-fluid">
+					<div v-show="current_cluster_path != undefined && result_nb > 0" class="container-fluid">
 						<div class="row">
 							<div class="col-md-3">
 								<div class="results-navig" v-if="result_nb > 0">
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: result_nb == current_cluster.size }" onclick="javascript:next_results(false)">More results</button>
+									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: result_nb == current_cluster_size }" onclick="javascript:next_results(false)">More results</button>
 									<br />
 									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(0)">⇤</button>
 									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(current_view-1)">←</button>
@@ -392,7 +392,7 @@
 									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(current_view+1)">→</button>
 									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(result_nb-1)">⇥</button>
 									<ul id="results-list">
-										<li v-for="(item, itemKey) in items" v-bind:class='{ displayed: itemKey==current_view }'>
+										<li v-for="(item, itemKey) in current_cluster" v-bind:class='{ displayed: itemKey==current_view }'>
 											<a v-on:click='select_item(itemKey)'>{{ item.sent_id }}</a>
 										</li>
 									</ul>
@@ -461,12 +461,12 @@
 											</p>
 										</div>
 
-										<h4 v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="items[current_view].sentence"></h4>
+										<h4 v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
 									</div>
 								</div>
 
 								<div v-if="result_nb > 0" id="display-svg">
-									<img v-bind:src="backend_server + 'data/' + items[current_view].filename"></img>
+									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
 								</div>
 
 								<div v-if="parallels.length > 0" class="form-group">
