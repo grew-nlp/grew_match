@@ -68,13 +68,17 @@ var app = new Vue({
     current_time_request: 0,
   },
   methods: {
-    select_cluster(data) {
-      console.log("=== select_cluster ===");
-      if (app.current_cluster_path != data) {
-        app.current_cluster_path = data;
+    select_cluster_1d(index) {
+      console.log("=== select_cluster_1d ===");
+      if (app.current_cluster_path[0] != index) {
+        app.current_cluster_path = [index];
+        current_line_num = 0;
+        if (app.clusters[index].length == 0) {
+          next_results(true);
+        } else {
+          app.update_current_cluster();
+        }
       }
-      current_line_num = 0;
-      next_results(true);
     },
     select_item(index) {
       console.log("=== select_item ===");
