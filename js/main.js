@@ -7,16 +7,7 @@ var app = new Vue({
 
     gridColumns: ["сила", "VERB"],
     gridRows: ["@@", "INTJ"],
-    gridCells: {
-      "@@": {
-        "сила": 1,
-        "VERB": 2
-      },
-      "INTJ": {
-        "сила": 3,
-        "VERB": 4
-      },
-    },
+    gridCells: [[12,34],[56,78]],
 
     metadata_open: false,
 

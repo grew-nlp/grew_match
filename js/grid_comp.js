@@ -10,7 +10,7 @@ Vue.component("cluster-grid", {
   props: {
     columns: Array,
     rows: Array,
-    cells: Object,
+    cells: Array,
   },
   methods: {
      select_cell_ (c,r) {

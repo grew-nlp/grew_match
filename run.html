@@ -374,7 +374,6 @@
 								</cluster-grid>
 							</div>
 
-
 						</div>
 					</div>
 				</div>
@@ -583,7 +582,7 @@
 				<th> <span class="label label-default">{{row}}</span> </th>
 				<td v-for="(col,col_index) in columns">
 					<a class="btn" v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'" v-on:click="select_cell_(col_index,row_index)">
-						{{ cells[row][col] }}
+						{{ cells[row_index][col_index] }}
 					</a>
 				</td>
 			</tr>
