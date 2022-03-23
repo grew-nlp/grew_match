@@ -48,7 +48,7 @@ code {
 /* Code borrowed from https://www.peterkrautzberger.org/0213/ */
 .cell {
   display: grid;
-  width: max-content;
+  width: 100%;
   justify-content: space-between;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 1fr;

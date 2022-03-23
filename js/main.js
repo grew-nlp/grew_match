@@ -208,7 +208,21 @@ var app = new Vue({
         this.view_left_pane = true; // always make left pane visible when the left_pane is recomputed
         return (this.current_group["style"] == "left_pane");
       }
-    }
+    },
+    col_label: function() {
+      if (app.clust2 == "key") {
+        return app.clust2_key
+      } else {
+        return "Whether_2"
+      }
+    },
+    row_label: function() {
+      if (app.clust1 == "key") {
+        return app.clust1_key
+      } else {
+        return "Whether_1"
+      }
+    },
   }
 });
 
