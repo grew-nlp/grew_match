@@ -37,6 +37,8 @@ var app = new Vue({
     clust1_whether: "",
 
     clust2: "no", // 3 possible values: no, key or whether
+    clust2_key: "",
+    clust2_whether: "",
 
     sent_id: "",
 
@@ -593,6 +595,7 @@ function search_pattern() {
     context: app.context,
     eud2ud: (app.current_corpus["enhanced"]) && !($('#eud-box').prop('checked')),
     clust1: app.clust1,
+    clust2: app.clust2,
   };
 
   if (app.clust1 == "key") {
@@ -600,6 +603,13 @@ function search_pattern() {
   }
   if (app.clust1 == "whether") {
     param.clust1_data = "{\n" + clust1_cm.getValue() + "\n}";
+  }
+
+  if (app.clust2 == "key") {
+    param.clust2_data = app.clust2_key;
+  }
+  if (app.clust2 == "whether") {
+    param.clust2_data = "{\n" + clust2_cm.getValue() + "\n}";
   }
 
   var form = new FormData();
@@ -637,10 +647,16 @@ function search_pattern() {
         app.current_cluster_path = [];
         next_results(true);
       }
-    } else {
+    } else if ("cluster_array" in response.data) {
       app.cluster_dim = 1;
-      app.cluster_list = response.data.cluster_array["cluster_list"];
+      app.cluster_list = response.data.cluster_array;
       app.clusters = Array(app.cluster_list.length).fill([]);
+    } else if ("cluster_grid" in response.data) {
+      app.cluster_dim = 2;
+      console.log(response.data.cluster_grid);
+      app.gridColumns = response.data.cluster_grid[1];
+      app.gridRows = response.data.cluster_grid[0];
+      app.gridCells = response.data.cluster_grid[2];
     }
   });
   app.wait = false;
