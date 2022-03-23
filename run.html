@@ -581,7 +581,7 @@
 			<tr v-for="(row,row_index) in rows">
 				<th> <span class="label label-default"><span class="badge badge-pill"style="background-color: black;">{{row.size}}</span> {{row.value}}</span> </th>
 				<td v-for="(col,col_index) in columns">
-					<a v-if="cells[row_index][col_index] > 0" class="btn" v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'" v-on:click="select_cell_(col_index,row_index)">
+					<a v-if="cells[row_index][col_index] > 0" class="btn" v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'" v-on:click="select_cluster_2d_(col_index,row_index)">
 						{{ cells[row_index][col_index] }}
 					</a>
 				</td>

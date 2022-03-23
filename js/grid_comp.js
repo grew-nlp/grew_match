@@ -15,10 +15,10 @@ Vue.component("cluster-grid", {
     cells: Array,
   },
   methods: {
-     select_cell_ (c,r) {
+     select_cluster_2d_ (c,r) {
        this.selected_col = c;
        this.selected_row = r;
-       select_cell(c*10, r*10);
+       select_cluster_2d(c, r);
     }
   }
 });
