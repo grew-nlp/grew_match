@@ -362,7 +362,7 @@
 								<span style="font-size: 60%">[ {{current_time_request.toFixed(3)}}s]</span>
 							</h3>
 							<div v-if="cluster_dim == 1" class="row">
-								<button v-for="(cluster, cluster_index) in cluster_list" type="button" class="btn" v-on:click="select_cluster_1d(cluster_index)" v-bind:class="cluster_index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
+								<button v-for="(cluster, cluster_index) in cluster_list" type="button" class="btn" v-on:click="select_cluster_1d(cluster_index)" v-bind:class="current_cluster_path != undefined && cluster_index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
 									style="margin:10px">
 									<span class="badge badge-pill badge-info">{{cluster.size}}</span>
 									{{ cluster.value }}
@@ -380,7 +380,7 @@
 
 				<!-- Lower part: Display the results -->
 				<div class="row">
-					<div v-show="current_cluster_path != undefined && result_nb > 0" class="container-fluid">
+					<div v-show="result_message != '' && current_cluster_path != undefined && result_nb > 0" class="container-fluid">
 						<div class="row">
 							<div class="col-md-3">
 								<div class="results-navig" v-if="result_nb > 0">
@@ -563,7 +563,7 @@
 
 	<!-- component template -->
 	<script type="text/x-template" id="grid-template">
-		<table class="table-bordered">
+		<table class="table-bordered" style="margin-bottom: 10px;" >
 		<thead>
 			<tr>
 				<td style="padding:0px">
@@ -572,15 +572,15 @@
 						<div class="cell--bottomLeft"><code>{{row_label}}</code></div>
 					</div>
 				</td>
-				<th v-for="col in columns">
+				<th class="th-grid" v-for="col in columns">
 					<span class="label label-default"><span class="badge badge-pill"style="background-color: black;">{{col.size}}</span> {{col.value}}</span>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr v-for="(row,row_index) in rows">
-				<th> <span class="label label-default"><span class="badge badge-pill"style="background-color: black;">{{row.size}}</span> {{row.value}}</span> </th>
-				<td v-for="(col,col_index) in columns">
+				<th class="th-grid"> <span class="label label-default"><span class="badge badge-pill"style="background-color: black;">{{row.size}}</span> {{row.value}}</span> </th>
+				<td class="td-grid" v-for="(col,col_index) in columns">
 					<a v-if="cells[row_index][col_index] > 0" class="btn" v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'" v-on:click="select_cluster_2d_(col_index,row_index)">
 						{{ cells[row_index][col_index] }}
 					</a>

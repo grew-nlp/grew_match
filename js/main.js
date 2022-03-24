@@ -62,7 +62,7 @@ var app = new Vue({
     cluster_dim: 0, // 0 -> no cluster, 1 -> linear clustering, 2 -> grid clustering
     clusters: [],
     cluster_list: [],
-    current_cluster_path: [],
+    current_cluster_path: undefined,
     current_cluster: [],
     current_cluster_size: 0,
     current_time_request: 0,
@@ -70,7 +70,7 @@ var app = new Vue({
   methods: {
     select_cluster_1d(index) {
       console.log("=== select_cluster_1d ===");
-      if (app.current_cluster_path[0] != index) {
+      if (app.current_cluster_path == undefined || app.current_cluster_path[0] != index) {
         app.current_cluster_path = [index];
         current_line_num = 0;
         if (app.clusters[index].length == 0) {
@@ -118,19 +118,19 @@ var app = new Vue({
       app.current_group_id = group_id;
       app.current_corpus_id = app.current_group["default"];
     },
-    update_current_cluster() {
-      app.current_cluster = search_path(this.current_cluster_path, this.clusters);
 
-      console.log("=== computed: current_cluster_size ===");
-      if (app.cluster_dim == 0) {
-        app.current_cluster_size = app.nb_solutions
-      } else if (app.cluster_dim == 1) {
-        app.current_cluster_size = this.cluster_list[this.current_cluster_path[0]].size
-      } else if (app.cluster_dim == 2) {
-        app.current_cluster_size = this.gridCells[this.current_cluster_path[0]][this.current_cluster_path[1]]
+    update_current_cluster() { // also update app.current_cluster_size
+      console.log("=== update_current_cluster ===");
+      if (this.current_cluster_path != undefined) {
+        app.current_cluster = search_path(this.current_cluster_path, this.clusters);
+        if (app.cluster_dim == 0) {
+          app.current_cluster_size = app.nb_solutions
+        } else if (app.cluster_dim == 1) {
+          app.current_cluster_size = this.cluster_list[this.current_cluster_path[0]].size
+        } else if (app.cluster_dim == 2) {
+          app.current_cluster_size = this.gridCells[this.current_cluster_path[0]][this.current_cluster_path[1]]
+        }
       }
-
-
     }
   },
   watch: {
@@ -598,7 +598,7 @@ function search_pattern() {
   current_line_num = 0;
   app.clusters = [];
   app.current_view = 0;
-  app.current_cluster_path = [];
+  app.current_cluster_path = undefined;
   app.result_message = "";
 
   var param = {
@@ -670,7 +670,6 @@ function search_pattern() {
       app.clusters = Array(app.cluster_list.length).fill([]);
       app.cluster_dim = 1;
     } else if ("cluster_grid" in response.data) {
-      console.log(response.data.cluster_grid);
       app.gridColumns = response.data.cluster_grid[1];
       app.gridRows = response.data.cluster_grid[0];
       app.gridCells = response.data.cluster_grid[2];
@@ -963,9 +962,9 @@ function update_corpus() {
 
 // ==================================================================================
 function select_cluster_2d(c, r) {
-  console.log("=== select_cluster_1d ===");
+  console.log("=== select_cluster_2d ===");
   console.log(c, r);
-  if (app.current_cluster_path[0] != r || app.current_cluster_path[1] != c) {
+  if (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c) {
     app.current_cluster_path = [r, c];
     current_line_num = 0;
     if (app.clusters[r][c].length == 0) {
