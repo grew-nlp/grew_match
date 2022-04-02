@@ -1,1 +1,0 @@
-pattern { GOV -[amod]-> DEP }

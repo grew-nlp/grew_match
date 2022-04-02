@@ -1,4 +1,0 @@
-% Search for a verb without a subject
-
-pattern { V [upos=VRB]; }
-without { V -[subj]-> O }

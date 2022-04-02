@@ -1,7 +1,0 @@
-{
-  "corpora": [{
-    "id": "quantml",
-    "kind": "json",
-    "directory": "/home/guillaum/resources/semantics/quantml"
-  }]
-}

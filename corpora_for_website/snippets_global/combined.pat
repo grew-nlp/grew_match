@@ -1,6 +1,0 @@
-% global can be used in conjunction with other clauses
-% In the example below, we are looking for a non projective sentence with a specific word (in French for the example)
-% Warning: the pattern may returns accidental occurences with both non-projectivity and the serached word in two different parts of the sentences.
-
-global { is_not_projective }
-pattern { N[lemma="dont"] }
