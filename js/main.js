@@ -66,7 +66,7 @@ var app = new Vue({
     current_cluster: [],
     current_cluster_size: 0,
     current_time_request: 0,
-    skip_history: false,  // flag used to avoid history to be rewritten when loading a custom pattern
+    skip_history: false, // flag used to avoid history to be rewritten when loading a custom pattern
   },
   methods: {
     select_cluster_1d(index) {
@@ -240,11 +240,15 @@ function search_path(path, data) {
 // ==================================================================================
 // update the global variables app.current_corpus_id and app.current_group_id
 function search_corpus(requested_corpus) {
+  console.log("=== search_corpus === " + requested_corpus);
+
   $('#warning').hide();
   app.current_corpus_id = undefined;
   app.current_group_id = undefined;
   best_cpl = 0;
   best_ld = Number.MAX_SAFE_INTEGER;
+  best_corpus_id = undefined;
+  best_group_id = undefined;
   group_list = app.config["groups"];
   for (var g = 0; g < group_list.length; g++) {
     let group = group_list[g];
@@ -261,13 +265,15 @@ function search_corpus(requested_corpus) {
         if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
           best_cpl = cpl;
           best_ld = ld;
-          app.current_corpus_id = corpora[c]["id"];
-          app.current_group_id = group_list[g]["id"];
+          best_corpus_id = corpora[c]["id"];
+          best_group_id = group_list[g]["id"];
         }
       }
     }
   }
   // no exact matching
+  app.current_corpus_id = best_corpus_id;
+  app.current_group_id = best_group_id;
   $('#warning-text').html("⚠️ " + requested_corpus + " &rarr; " + app.current_corpus_id);
   $('#warning').show();
 }
@@ -309,9 +315,6 @@ $(document).ready(function() {
 
 // ==================================================================================
 function init() {
-  search_corpus(app.config["default"]); // TODO: useless if corpus get parameter or tutorial
-
-
   if (app.config["backend_server"] == undefined) {
     direct_error("Undefined `backend_server` in config file")
   } else {
@@ -365,7 +368,6 @@ function disable_save() {
 // ==================================================================================
 // force to interpret get parameters after the update of groups menus
 function deal_with_get_parameters() {
-
   // corpus get parameter
   if (getParameterByName("tutorial") == "yes") {
     if (app.config["tutorial"]) {
@@ -388,8 +390,14 @@ function deal_with_get_parameters() {
     $.getJSON(app.backend_server + "/shorten/" + get_custom + ".json")
       .done(function(data) {
         cmEditor.setValue(data.pattern);
-        if ("corpus" in data) {
-          app.current_corpus_id = data.corpus;
+
+        // if corpus is given are GET parameter, it has priority
+        if (app.current_corpus_id == undefined) {
+          if ("corpus" in data) {
+            search_corpus(data.corpus);
+          } else {
+            search_corpus(app.config["default"]);
+          }
         }
         if ("clust1_key" in data) {
           app.clust1 = "key";
@@ -397,7 +405,9 @@ function deal_with_get_parameters() {
         }
         if ("clust1_whether" in data) {
           app.clust1 = "whether";
-          clust1_cm.setValue(data.clust1_whether)
+          setTimeout(function() {
+            clust1_cm.setValue(data.clust1_whether);
+          }, 0)
         }
         if ("clust2_key" in data) {
           app.clust2 = "key";
@@ -405,7 +415,9 @@ function deal_with_get_parameters() {
         }
         if ("clust2_whether" in data) {
           app.clust2 = "whether";
-          clust2_cm.setValue(data.clust2_whether)
+          setTimeout(function() {
+            clust2_cm.setValue(data.clust2_whether);
+          }, 0)
         }
         if ("eud" in data) {
           $('#eud-box').bootstrapToggle('on');
@@ -424,6 +436,10 @@ function deal_with_get_parameters() {
             direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
           });
       })
+  } else {
+    if (app.current_corpus_id == undefined) {
+      search_corpus(app.config["default"]);
+    }
   }
 
   // If there is a get arg in the URL named "relation" -> make the request directly
