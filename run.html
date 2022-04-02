@@ -369,7 +369,7 @@
 								</button>
 							</div>
 
-							<div v-if="cluster_dim == 2" class="row">
+							<div v-if="cluster_dim == 2 && nb_solutions > 0" class="row">
 								<cluster-grid :columns="gridColumns" :rows="gridRows" :cells="gridCells" :col_label="col_label" :row_label="row_label">
 								</cluster-grid>
 							</div>

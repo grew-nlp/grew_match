@@ -66,6 +66,7 @@ var app = new Vue({
     current_cluster: [],
     current_cluster_size: 0,
     current_time_request: 0,
+    skip_history: false,  // flag used to avoid history to be rewritten when loading a custom pattern
   },
   methods: {
     select_cluster_1d(index) {
@@ -382,13 +383,47 @@ function deal_with_get_parameters() {
   if (getParameterByName("custom").length > 0) {
     const get_custom = getParameterByName("custom");
 
-    $.get(app.backend_server + "/shorten/" + get_custom, function(pattern) {
-        cmEditor.setValue(pattern);
+    app.skip_history = true;
+
+    $.getJSON(app.backend_server + "/shorten/" + get_custom + ".json")
+      .done(function(data) {
+        cmEditor.setValue(data.pattern);
+        if ("corpus" in data) {
+          app.current_corpus_id = data.corpus;
+        }
+        if ("clust1_key" in data) {
+          app.clust1 = "key";
+          app.clust1_key = data.clust1_key
+        }
+        if ("clust1_whether" in data) {
+          app.clust1 = "whether";
+          clust1_cm.setValue(data.clust1_whether)
+        }
+        if ("clust2_key" in data) {
+          app.clust2 = "key";
+          app.clust2_key = data.clust2_key
+        }
+        if ("clust2_whether" in data) {
+          app.clust2 = "whether";
+          clust2_cm.setValue(data.clust2_whether)
+        }
+        if ("eud" in data) {
+          $('#eud-box').bootstrapToggle('on');
+        } else {
+          $('#eud-box').bootstrapToggle('off')
+        }
         setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
       })
       .error(function() {
-        direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
-      });
+        // backup on old custom saving
+        $.get(app.backend_server + "/shorten/" + get_custom, function(pattern) {
+            cmEditor.setValue(pattern);
+            setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
+          })
+          .error(function() {
+            direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
+          });
+      })
   }
 
   // If there is a get arg in the URL named "relation" -> make the request directly
@@ -620,14 +655,14 @@ function search_pattern() {
     param.clust1_data = app.clust1_key;
   }
   if (app.clust1 == "whether") {
-    param.clust1_data = "{\n" + clust1_cm.getValue() + "\n}";
+    param.clust1_data = clust1_cm.getValue();
   }
 
   if (app.clust2 == "key") {
     param.clust2_data = app.clust2_key;
   }
   if (app.clust2 == "whether") {
-    param.clust2_data = "{\n" + clust2_cm.getValue() + "\n}";
+    param.clust2_data = clust2_cm.getValue();
   }
 
   var form = new FormData();
@@ -803,22 +838,32 @@ function save_pattern() {
   var param = {
     uuid: app.current_request_id,
     pattern: cmEditor.getValue(),
+    corpus: app.current_corpus_id,
   };
+
+  if (app.current_corpus["enhanced"] && $('#eud-box').prop('checked')) {
+    param.eud = "yes"
+  }
+
+  if (app.clust1 == "key") {
+    param.clust1_key = app.clust1_key;
+  }
+  if (app.clust1 == "whether") {
+    param.clust1_whether = clust1_cm.getValue();
+  }
+
+  if (app.clust2 == "key") {
+    param.clust2_key = app.clust2_key;
+  }
+  if (app.clust2 == "whether") {
+    param.clust2_whether = clust2_cm.getValue();
+  }
 
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
   request("save", form, function(data) {
-    let get = "?corpus=" + app.current_corpus_id + "&custom=" + app.current_request_id;
-    if (app.clust1 == 'key') {
-      get += "&clustering=" + app.clust1_key;
-    }
-    if (app.clust1 == 'whether') {
-      get += "&whether=" + clust1_cm.getValue();
-    }
-    if (app.current_corpus["enhanced"] && $('#eud-box').prop('checked')) {
-      get += "&eud=yes"
-    }
+    let get = "?custom=" + app.current_request_id;
 
     history.pushState({
         id: app.current_request_id
@@ -953,11 +998,14 @@ function update_corpus() {
     }
   );
 
-  history.pushState({},
-    "",
-    "?corpus=" + app.current_corpus_id
-  );
-
+  if (app.skip_history) {
+    app.skip_history = false;
+  } else {
+    history.pushState({},
+      "",
+      "?corpus=" + app.current_corpus_id
+    );
+  }
 }
 
 // ==================================================================================
