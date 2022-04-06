@@ -248,13 +248,18 @@
 											<button id="table-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-table fa-lg"></i></button>
 										</a>
 
-										<!-- Validation button -->
+										<!-- SUD validation button -->
 										<a v-show='meta_sud_valid != ""' v-bind:href="meta_sud_valid" target="_blank">
 											<button id="sud-valid-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
 										</a>
 
-										<!-- Validation button -->
+										<!-- UD validation button -->
 										<a v-show='meta_ud_valid != ""' v-bind:href="meta_ud_valid" target="_blank">
+											<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
+										</a>
+
+										<!-- PARSEME validation button -->
+										<a v-show='current_corpus["consistencyCheck"]' v-bind:href='current_corpus["consistencyCheck"]' target="_blank">
 											<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
 										</a>
 									</h2>
