@@ -139,7 +139,14 @@ var app = new Vue({
       console.log("current_corpus_id has changed");
       app.result_message = "";
       update_corpus();
-    }
+    },
+    clust1: function() {
+      console.log("clust1 has changed to " + app.clust1);
+      if (app.clust1 == "no") {
+        app.clust2 = "no";
+      }
+    },
+    
   },
   computed: {
     result_nb: function() {
