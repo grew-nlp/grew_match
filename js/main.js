@@ -140,13 +140,13 @@ var app = new Vue({
       app.result_message = "";
       update_corpus();
     },
-    clust1: function() {
+    clust1: function() { // close clust1 ==> close clust2
       console.log("clust1 has changed to " + app.clust1);
       if (app.clust1 == "no") {
         app.clust2 = "no";
       }
     },
-    
+
   },
   computed: {
     result_nb: function() {
@@ -515,6 +515,20 @@ function right_pane(base) {
           clust1_cm.setValue(whether);
         }, 0)
       }
+      const clustering2 = $(this).attr('clustering2');
+      if (clustering2) {
+        app.clust2 = "key";
+        app.clust2_key = clustering2;
+      }
+      const whether2 = $(this).attr('whether2');
+      if (whether2) {
+        app.clust2 = "whether";
+        // setValue is behind timeout to ensure proper cm update
+        setTimeout(function() { // hack for correct update of clust1_cm
+          clust2_cm.setValue(whether2);
+        }, 0)
+      }
+
       // Update of the textarea
       const file = dir + "/" + $(this).attr('snippet-file');
       $.get(file, function(pattern) {
