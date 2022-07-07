@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Grew stats</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- JQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- Bootstrap 4 and Cie -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+  <!-- Remarkable -->
+  <script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js"></script>
+
+  <!-- Grid.js -->
+  <link href="https://unpkg.com/gridjs/dist/theme/mermaid.css" rel="stylesheet" />
+  <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+
+  <script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var current
+    var grid
+    var suff = ""
+
+    $(document).ready(function() {
+      $('#toggle').change(function() {
+        if ($(this).prop('checked')) {
+          update(current.stats);
+          suff = "";
+        } else {
+          update(current.ratio);
+          suff = "%";
+        }
+      })
+
+      if (urlParams.has('data')) {
+        $.getJSON(urlParams.get('data') + ".json")
+          .done(function(data) {
+            current = data;
+            fill_table(data.patterns, data.stats);
+          })
+          .fail(function() {
+            $("#wrapper").html(`<h1>Fail to load "${urlParams.get('data')}.json"<h1>`);
+          })
+      } else {
+        $("#wrapper").html("<h1>This web page is expected a `data` GET argument!<h1>");
+      }
+    })
+
+    function update(stats) {
+      grid.updateConfig({
+        search: true,
+        data: stats
+      }).forceRender();
+      post_grid();
+    }
+
+    function fill_table(patterns, stats) {
+      grid = new gridjs.Grid({
+        columns: ["Corpus"].concat(Object.keys(patterns).map(build_col)),
+        search: true,
+        sort: true,
+        fixedHeader: true,
+        data: stats
+      }).render(document.getElementById("wrapper"));
+      post_grid();
+    }
+
+    function post_grid() {
+      $(".gridjs-input").attr("placeholder", "Search");
+    }
+
+    function build_col(name) {
+      return ({
+        name: name,
+        formatter: (cell, row) =>
+          gridjs.html(`<a class="btn btn-success" onclick='grew_match("${row.cells[0].data}","${name}")'>${cell}${suff}</a>`)
+      })
+    }
+
+    function grew_match(v, n) {
+      pattern_lines = current.patterns[n]["code"];
+      pattern = pattern_lines.join("\n");
+      console.log(pattern);
+      let get_param = "?corpus=" + v;
+      get_param += "&pattern=" + encodeURIComponent(pattern);
+      window.open('http://match.grew.fr' + get_param, '_blank');
+    }
+  </script>
+
+  <style>
+    td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    td.gridjs-td {
+      background-color: #DDD;
+    }
+
+    td.gridjs-td:hover {
+      background-color: #CCC;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div>
+      <input id="toggle" type="checkbox" checked data-toggle="toggle" data-on="Raw" data-off="Ratio" data-onstyle="success" data-offstyle="success" style="text-align: right;">
+    </div>
+    <div id="wrapper"></div>
+  </div>
+</body>
+
+</html>
