@@ -18,15 +18,9 @@
     }
   },
   "stats": [
-    ["UD_French-GSD@2.7", 24, 45],
+    ["UD_French-GSD@2.7", 124, 45],
     ["UD_French-Sequoia@2.7", 124, 145],
     ["UD_French-Sequoia@2.7", 124, 145],
     ["SUD_Naija-NSC@2.7", 66, 234]
-  ],
-  "ratio": [
-    ["UD_French-GSD@2.7", 42, 58],
-    ["UD_French-Sequoia@2.7", 8, 92 ],
-    ["UD_French-Sequoia@2.7", 12, 88],
-    ["SUD_Naija-NSC@2.7", 60, 40]
   ]
 }

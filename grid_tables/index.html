@@ -26,19 +26,8 @@
     var urlParams = new URLSearchParams(window.location.search);
     var current
     var grid
-    var suff = ""
 
     $(document).ready(function() {
-      $('#toggle').change(function() {
-        if ($(this).prop('checked')) {
-          update(current.stats);
-          suff = "";
-        } else {
-          update(current.ratio);
-          suff = "%";
-        }
-      })
-
       if (urlParams.has('data')) {
         $.getJSON(urlParams.get('data') + ".json")
           .done(function(data) {
@@ -52,14 +41,6 @@
         $("#wrapper").html("<h1>This web page is expected a `data` GET argument!<h1>");
       }
     })
-
-    function update(stats) {
-      grid.updateConfig({
-        search: true,
-        data: stats
-      }).forceRender();
-      post_grid();
-    }
 
     function fill_table(patterns, stats) {
       grid = new gridjs.Grid({
@@ -80,7 +61,7 @@
       return ({
         name: name,
         formatter: (cell, row) =>
-          gridjs.html(`<a class="btn btn-success" onclick='grew_match("${row.cells[0].data}","${name}")'>${cell}${suff}</a>`)
+          gridjs.html(`<a class="btn btn-success" onclick='grew_match("${row.cells[0].data}","${name}")'>${cell}</a>`)
       })
     }
 
@@ -112,9 +93,6 @@
 
 <body>
   <div class="container">
-    <div>
-      <input id="toggle" type="checkbox" checked data-toggle="toggle" data-on="Raw" data-off="Ratio" data-onstyle="success" data-offstyle="success" style="text-align: right;">
-    </div>
     <div id="wrapper"></div>
   </div>
 </body>
