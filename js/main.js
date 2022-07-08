@@ -345,19 +345,6 @@ function init() {
 
   deal_with_get_parameters();
 
-  // Binding on CodeMirror change
-  cmEditor.on("change", function() {
-    disable_save();
-    let current_pat = cmEditor.getValue();
-    if (current_pat.includes("_MISC_") || current_pat.includes("_UD_")) {
-      $('#submit-pattern').prop('disabled', true);
-      $('#warning-misc').show();
-    } else {
-      $('#submit-pattern').prop('disabled', false);
-      $('#warning-misc').hide();
-    }
-  });
-
   $('#clust1-key').bind('input', function() {
     disable_save();
   });
