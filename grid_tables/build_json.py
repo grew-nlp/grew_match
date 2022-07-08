@@ -1,14 +1,13 @@
 import subprocess
 import json
 import re
+import glob
+import os.path
 
 basedir = "/users/guillaum/resources/ud-treebanks-v2.10"
 
-corpus_list = [
-    "UD_French-PUD",
-    "UD_French-ParTUT",
-    "UD_French-Rhapsodie"
-]
+corpus_list = [os.path.basename(d) for d in glob.glob(basedir+"/UD_*")]
+print (corpus_list)
 
 dict={}
 
