@@ -48,6 +48,7 @@
         search: true,
         sort: true,
         fixedHeader: true,
+        height: 'calc(100vh - 70px)',
         data: stats
       }).render(document.getElementById("wrapper"));
       post_grid();
@@ -61,7 +62,7 @@
       return ({
         name: name,
         formatter: (cell, row) =>
-          gridjs.html(`<a class="btn btn-success" onclick='grew_match("${row.cells[0].data}","${name}")'>${cell}</a>`)
+          (cell == 0 ? "" : gridjs.html(`<a class="btn btn-success" onclick='grew_match("${row.cells[0].data}","${name}")'>${cell}</a>`))
       })
     }
 
@@ -90,7 +91,11 @@
     }
 
     th.gridjs-th-sort .gridjs-th-content {
-      width: 100%;
+      width: 100%
+    }
+
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+      max-width: 100%;
     }
   </style>
 </head>
