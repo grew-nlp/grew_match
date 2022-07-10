@@ -72,6 +72,10 @@
       console.log(pattern);
       let get_param = "?corpus=" + v;
       get_param += "&pattern=" + encodeURIComponent(pattern);
+      if (current.patterns[n]["key"] != undefined) {
+        get_param += "&clustering=" + encodeURIComponent(current.patterns[n]["key"]);
+      }
+      console.log (get_param);
       window.open('http://match.grew.fr' + get_param, '_blank');
     }
   </script>

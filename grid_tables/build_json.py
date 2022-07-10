@@ -6,6 +6,9 @@ import os.path
 
 basedir = "/users/guillaum/resources/ud-treebanks-v2.10"
 
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# ==== Step 1 ====
+# Build the list in corpora to consider in [corpus_list]
 corpus_list = [os.path.basename(d) for d in glob.glob(basedir+"/UD_*")]
 print (corpus_list)
 
@@ -36,15 +39,14 @@ def get_occ(corpus, feature):
     return sub.get(feature, 0)
 
 def pattern (feature):
+    # turn UD notation "Number[psor]" into Grew notation "Number__psor"
     sp = re.split("\[|\]", feature)
-    if len(sp) > 1:
-        return (['pattern { N [%s] }' % (sp[0]+"__"+sp[1])])
-    else:
-        return (['pattern { N [%s] }' % feature])
+    grew_feature = sp[0]+"__"+sp[1] if len(sp) > 1 else feature
+    return (['pattern { N [%s] }' % grew_feature], "N.%s" % grew_feature)
 
 grid = {
-    "patterns": {k: {"code": pattern(k)} for k in key_list},
-    "stats": [[c+"@2.10"]+[get_occ(c,f) for f in key_list] for c in corpus_list]
+    "patterns": {feat: {"code": pattern(feat)[0], "key": pattern(feat)[1], "users": users} for (feat, users) in key_list},
+    "stats": [[c+"@2.10"]+[get_occ(c,f) for (f,_) in key_list] for c in corpus_list]
 }
 
 # the json file where the output must be stored
