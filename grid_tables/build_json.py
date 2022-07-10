@@ -10,29 +10,42 @@ basedir = "/users/guillaum/resources/ud-treebanks-v2.10"
 version = "2.10"
 filter = "UD_Ak*"
 out_file = "out.json"
+verbose = True
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 # ==== Step 1 ====
 # Build the list in corpora to consider in [corpus_list]
 corpus_list = [os.path.basename(d) for d in glob.glob(basedir+"/"+filter)]
-print (corpus_list)
+if verbose:
+    print ("%d corpora found: %s" % (len(corpus_list), str(corpus_list)))
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 # ==== Step 2 ====
 # Fill [dict] with the ouputs of the unix commands
 dict={}
+nb_col={}
+
+corpus_cpt = 0
 
 def add_corpus (corpus):
-    dict[corpus] = {}
+    global corpus_cpt
+    corpus_cpt += 1
+    sub_dict = {}
 
     command = 'cat %s/%s/*.conllu | egrep "^[0-9]+\t" | cut -f 6 | grep -v "_" | tr "|" "\n" | cut -f 1 -d "=" | sort | uniq -c' % (basedir, corpus)
     raw = subprocess.run([command], capture_output=True, shell=True, encoding='UTF-8')
+    col_cpt = 0 
     for line in raw.stdout.split("\n"):
         fields = line.strip().split(" ")
         if len(fields) == 2:
-            dict[corpus][fields[1]] = int(fields[0])
+            col_cpt += 1
+            sub_dict[fields[1]] = int(fields[0])
+    nb_col[corpus] = col_cpt
+    dict[corpus] = sub_dict
 
 for corpus in corpus_list:
+    if verbose:
+        print ("---> %d/%d: %s" % (corpus_cpt, len(corpus_list), corpus))
     add_corpus(corpus)
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -73,7 +86,7 @@ def pattern (feature):
 
 grid = {
     "patterns": {feat: {"code": pattern(feat)[0], "key": pattern(feat)[1], "users": users} for (feat, users) in key_list},
-    "stats": [[corpus+"@"+version]+[get_occ(corpus,feature) for (feature,_) in key_list] for corpus in corpus_list]
+    "stats": [[corpus+"@"+version+" ["+str(nb_col[corpus])+"]"]+[get_occ(corpus,feature) for (feature,_) in key_list] for corpus in corpus_list]
 }
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
