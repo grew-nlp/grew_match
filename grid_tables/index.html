@@ -64,6 +64,16 @@
       $(".gridjs-input").attr("placeholder", "Search");
     }
 
+
+    function get_before_whitespace (s) {
+      index = s.indexOf(' ');
+      if (index == -1) {
+        return s
+      } else {
+        return s.slice(0,index)
+      }
+    }
+
     function build_col(name) {
       return ({
         name: name,
@@ -73,15 +83,14 @@
     }
 
     function grew_match(v, n) {
+      let corpus = get_before_whitespace(v);
       pattern_lines = current.patterns[n]["code"];
       pattern = pattern_lines.join("\n");
-      console.log(pattern);
-      let get_param = "?corpus=" + v;
+      let get_param = "?corpus=" + corpus;
       get_param += "&pattern=" + encodeURIComponent(pattern);
-      if (current.patterns[n]["key"] != undefined) {
+      if (current.patterns[n]["key"] != undefined && current.patterns[n]["key"] != null) {
         get_param += "&clustering=" + encodeURIComponent(current.patterns[n]["key"]);
       }
-      console.log (get_param);
       window.open('http://match.grew.fr' + get_param, '_blank');
     }
   </script>

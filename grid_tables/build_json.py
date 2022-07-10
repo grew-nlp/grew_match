@@ -8,10 +8,10 @@ import os.path
 # Parameters
 basedir = "/users/guillaum/resources/ud-treebanks-v2.10"
 version = "2.10"
-filter = "UD_Ak*"
+filter = "UD_Po*"
 out_file = "out.json"
 verbose = True
-col = "DEPS"  # Should be "FEATS" et "DEPS"
+col = "MISC"  # Should be "FEATS", "MISC" or "DEPS"
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 # ==== Step 1 ====
@@ -37,6 +37,9 @@ def add_corpus (corpus):
         command = 'cat %s/%s/*.conllu | egrep "^[0-9]+\t" | cut -f 6 | grep -v "_" | tr "|" "\n" | cut -f 1 -d "=" | sort | uniq -c' % (basedir, corpus)
     elif col == "DEPS":
         command = 'cat %s/%s/*.conllu | egrep "^[0-9]+\t" | cut -f 8 | sort | uniq -c' % (basedir, corpus)
+    elif col == "MISC":
+        command = 'cat %s/%s/*.conllu | egrep "^[0-9]+\t" | cut -f 10 | grep -v "_" | tr "|" "\n" | grep "=" | cut -f 1 -d "=" | sort | uniq -c' % (
+            basedir, corpus)
     else:
         print ("Unknown col spec `%s`, stopped" % col)
     raw = subprocess.run([command], capture_output=True, shell=True, encoding='UTF-8')
@@ -57,8 +60,8 @@ for corpus in corpus_list:
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 # ==== Step 3 ====
 # build [key_list]: the list of couple (feature_name, nb_of_corpora_using_this_feature), 
-# sorted by deacreasing order of nb_of_corpora_using_this_feature
 
+# sorted by decreasing order of nb_of_corpora_using_this_feature
 # Compute from data in [dict], how many corpora use the feature [feat]
 def nb_corpora(feat):
     cpt = 0
@@ -94,7 +97,7 @@ def pattern_dep (dep):
     return (['pattern {M -[%s]-> N}' %dep], None)
 
 def pattern (x):
-    if col == "FEATS":
+    if col == "FEATS" or col == "MISC":
         return pattern_feature(x)
     elif col == "DEPS":
         return pattern_dep(x)
