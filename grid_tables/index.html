@@ -43,8 +43,14 @@
     })
 
     function fill_table(patterns, stats) {
+      function add_users (col) {
+        col["name"] = col["name"] + " ["+ patterns[col["name"]]["users"] +"]"
+        return col
+      }
       grid = new gridjs.Grid({
-        columns: ["Corpus"].concat(Object.keys(patterns).map(build_col)),
+        columns: 
+          ["Corpus"] 
+          .concat(Object.keys(patterns).map(build_col).map(add_users)),
         search: true,
         sort: true,
         fixedHeader: true,

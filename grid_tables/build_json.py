@@ -12,6 +12,10 @@ basedir = "/users/guillaum/resources/ud-treebanks-v2.10"
 corpus_list = [os.path.basename(d) for d in glob.glob(basedir+"/UD_*")]
 print (corpus_list)
 
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# ==== Step 2 ====
+# Fill [dict] with the ouputs of the unix commands
 dict={}
 
 def add_corpus (dir):
@@ -27,17 +31,40 @@ def add_corpus (dir):
 for corpus in corpus_list:
     add_corpus(corpus)
 
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# ==== Step 3 ====
+# build [key_list]: the list of couple (feature_name, nb_of_corpora_using_this_feature), 
+# sorted by deacreasing order of nb_of_corpora_using_this_feature
+
+# Compute from data in [dict], how many corpora use the feature [feat]
+def nb_corpora(feat):
+    cpt = 0
+    for corpus in dict:
+        if feat in dict[corpus]:
+            cpt += 1 
+    return cpt
+
 # Compute a set [keys] with the union of all corpora keys (will be the columns)
 keys = set()
 for k in dict:
     keys = keys.union(set(dict[k].keys()))
-key_list = list(keys)
-key_list.sort()
 
+key_list = [(k,nb_corpora(k)) for k in list(keys)]
+
+key_list.sort(key=lambda k: k[1], reverse=True)
+
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# ==== Step 4 ====
+# Build the final JSON object
+
+# get the value of a cell, with default as 0
 def get_occ(corpus, feature):
     sub=dict[corpus]
     return sub.get(feature, 0)
 
+# build the Grew pattern
 def pattern (feature):
     # turn UD notation "Number[psor]" into Grew notation "Number__psor"
     sp = re.split("\[|\]", feature)
@@ -49,9 +76,9 @@ grid = {
     "stats": [[c+"@2.10"]+[get_occ(c,f) for (f,_) in key_list] for c in corpus_list]
 }
 
-# the json file where the output must be stored
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# ==== Step 5 ====
+# Store the final JSON object in a file
 out_file = open("out.json", "w")
-
 json.dump(grid, out_file, indent=6)
-
 out_file.close()
