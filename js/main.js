@@ -467,7 +467,9 @@ function deal_with_get_parameters() {
 
   if (getParameterByName("pattern").length > 0) {
     cmEditor.setValue(getParameterByName("pattern"));
-    search_pattern();
+    setTimeout(function () {
+      search_pattern(); 
+    }, 0)
   }
 
   // NB: this is run only if no custom, relation or pattern (select UD by default)
