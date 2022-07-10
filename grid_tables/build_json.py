@@ -11,6 +11,7 @@ version = "2.10"
 filter = "UD_Ak*"
 out_file = "out.json"
 verbose = True
+col = "DEPS"  # Should be "FEATS" et "DEPS"
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 # ==== Step 1 ====
@@ -32,7 +33,12 @@ def add_corpus (corpus):
     corpus_cpt += 1
     sub_dict = {}
 
-    command = 'cat %s/%s/*.conllu | egrep "^[0-9]+\t" | cut -f 6 | grep -v "_" | tr "|" "\n" | cut -f 1 -d "=" | sort | uniq -c' % (basedir, corpus)
+    if col == "FEATS":
+        command = 'cat %s/%s/*.conllu | egrep "^[0-9]+\t" | cut -f 6 | grep -v "_" | tr "|" "\n" | cut -f 1 -d "=" | sort | uniq -c' % (basedir, corpus)
+    elif col == "DEPS":
+        command = 'cat %s/%s/*.conllu | egrep "^[0-9]+\t" | cut -f 8 | sort | uniq -c' % (basedir, corpus)
+    else:
+        print ("Unknown col spec `%s`, stopped" % col)
     raw = subprocess.run([command], capture_output=True, shell=True, encoding='UTF-8')
     col_cpt = 0 
     for line in raw.stdout.split("\n"):
@@ -78,11 +84,22 @@ def get_occ(corpus, feature):
     return sub.get(feature, 0)
 
 # build the Grew pattern
-def pattern (feature):
+def pattern_feature (feature):
     # turn UD notation "Number[psor]" into Grew notation "Number__psor"
     sp = re.split("\[|\]", feature)
     grew_feature = sp[0]+"__"+sp[1] if len(sp) > 1 else feature
     return (['pattern { N [%s] }' % grew_feature], "N.%s" % grew_feature)
+
+def pattern_dep (dep):
+    return (['pattern {M -[%s]-> N}' %dep], None)
+
+def pattern (x):
+    if col == "FEATS":
+        return pattern_feature(x)
+    elif col == "DEPS":
+        return pattern_dep(x)
+    else:
+        print("Unknown col spec `%s`, stopped" % col)
 
 grid = {
     "patterns": {feat: {"code": pattern(feat)[0], "key": pattern(feat)[1], "users": users} for (feat, users) in key_list},
