@@ -32,7 +32,7 @@ ud_feats_2_10 = [
 # Parameters
 basedir = "/users/guillaum/resources/ud-treebanks-v2.10"
 version = "2.10"
-filter = "UD_Po*"
+filter = "UD_*"
 out_file = "out.json"
 verbose = True
 col = "MISC"  # Should be "FEATS", "MISC" or "DEPS"
@@ -137,10 +137,23 @@ def pattern (x):
         return pattern_misc(x)
     else:
         print("Unknown col spec `%s`, stopped" % col)
+        exit(2)
+
+def title (x):
+    if col == "FEATS":
+        return "Usage of features in UD treebanks (version 2.10) in `FEATS` CoNLL column"
+    elif col == "DEPS":
+        return "Usage of dependency relations in UD treebanks (version 2.10)"
+    elif col == "MISC":
+        return "Usage of features in UD treebanks (version 2.10) in `MISC` CoNLL column (see [Grew doc](https://grew.fr/doc/conllu/#how-the-misc-field-is-handled-by-grew))"
+    else:
+        print("Unknown col spec `%s`, stopped" % col)
+        exit(2)
 
 grid = {
+    "title": title(col),
     "patterns": {feat: {"code": pattern(feat)[0], "key": pattern(feat)[1], "users": users} for (feat, users) in key_list},
-    "stats": [[corpus+"@"+version+" ["+str(nb_col[corpus])+"]"]+[get_occ(corpus,feature) for (feature,_) in key_list] for corpus in corpus_list]
+    "stats": [[corpus+"@"+version+" ⮕ "+str(nb_col[corpus])]+[get_occ(corpus, feature) for (feature, _) in key_list] for corpus in corpus_list]
 }
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
