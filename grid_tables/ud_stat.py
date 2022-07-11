@@ -3,6 +3,7 @@ import json
 import re
 import glob
 import os.path
+import sys
 
 
 # The list of features used in UD 2.10 is needed or generated the right Grew pattern for the MISC case
@@ -36,6 +37,10 @@ filter = "UD_*"
 out_file = "out.json"
 verbose = True
 col = "MISC"  # Should be "FEATS", "MISC" or "DEPS"
+
+# Ugly parsing of command line argument…
+if len(sys.argv) == 2:
+    col = sys.argv[1]
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 # ==== Step 1 ====
