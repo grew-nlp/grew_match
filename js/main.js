@@ -90,8 +90,8 @@ var app = new Vue({
           scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
             2)
         }, "fast");
+        update_parallel();
       }, 0);
-      update_parallel();
 
       if (app.current_item.audio) {
         $("#source-audio").attr("src", app.current_item.audio);
