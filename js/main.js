@@ -81,31 +81,33 @@ var app = new Vue({
         }
       }
     },
-    select_item(index) {
-      console.log("=== select_item ===");
-      app.current_view = index;
-      setTimeout(function() {
-        app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
-        $("#display-svg").animate({
-          scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
-            2)
-        }, "fast");
-        update_parallel();
-      }, 0);
 
-      if (app.current_item.audio) {
-        $("#source-audio").attr("src", app.current_item.audio);
-        hack_audio = $("#passage-audio");
-        // Next two lines: force reload (stackoverflow.com/questions/9421505)
-        hack_audio[0].pause();
-        hack_audio[0].load();
+    select_item(index) {
+      if (app.current_view != index) {
+        app.current_view = index;
         setTimeout(function() {
-          if (app.current_corpus["audio"]) {
-            start_audio();
-          } else {
-            stop_audio();
-          }
-        }, 0)
+          app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
+          $("#display-svg").animate({
+            scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
+              2)
+          }, "fast");
+          update_parallel();
+        }, 0);
+
+        if (app.current_item.audio) {
+          $("#source-audio").attr("src", app.current_item.audio);
+          hack_audio = $("#passage-audio");
+          // Next two lines: force reload (stackoverflow.com/questions/9421505)
+          hack_audio[0].pause();
+          hack_audio[0].load();
+          setTimeout(function() {
+            if (app.current_corpus["audio"]) {
+              start_audio();
+            } else {
+              stop_audio();
+            }
+          }, 0)
+        }
       }
     },
 
