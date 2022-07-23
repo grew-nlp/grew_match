@@ -157,7 +157,8 @@ var app = new Vue({
     },
     current_item: function() {
       console.log("=== computed: current_item ===");
-      return (this.current_cluster[this.current_view]);
+      let item = this.current_cluster[this.current_view];
+      return (item == undefined ? {} : item) 
     },
     top_project: function() {
       if (this.config != undefined) {
