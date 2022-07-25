@@ -423,10 +423,12 @@
 
 										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
 
-											<button v-show="Object.keys(current_item.meta).length > 0" class="btn btn-primary btn-sm" type="button" v-on:click="metadata_open=!metadata_open">
-												Metadata
-												<span id="md-icon" class="glyphicon" v-bind:class="metadata_open ? ['glyphicon-chevron-down'] : ['glyphicon-chevron-right']"></span>
-											</button>
+											<div v-if="meta in current_item">
+												<button v-show="Object.keys(current_item.meta).length > 0" class="btn btn-primary btn-sm" type="button" v-on:click="metadata_open=!metadata_open">
+													Metadata
+													<span id="md-icon" class="glyphicon" v-bind:class="metadata_open ? ['glyphicon-chevron-down'] : ['glyphicon-chevron-right']"></span>
+												</button>
+											</div>
 
 											<button v-show="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="show_conll()">
 												CoNLL
@@ -443,12 +445,14 @@
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
 
-											<a target="_blank" v-bind:href="backend_server + 'data/' + current_item.filename">
-												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
-													SVG
-													<span href="" class="glyphicon glyphicon-export"></span>
-												</button>
-											</a>
+											<div v-if="current_item != {}">
+												<a target="_blank" v-bind:href="backend_server + 'data/' + 'current_item.filename'">
+													<button type="button" class="btn btn-sm btn-primary tooltip-desc">
+														SVG
+														<span href="" class="glyphicon glyphicon-export"></span>
+													</button>
+												</a>
+											</div>
 										</div>
 
 										<div v-show="metadata_open">
@@ -457,11 +461,13 @@
 											</p>
 										</div>
 
-										<h4 v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
+										<div v-if="current_view >= 0">
+											<h4 v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
+										</div>
 									</div>
 								</div>
 
-								<div v-if="result_nb > 0" id="display-svg">
+								<div v-if="result_nb > 0 && current_view >= 0" id="display-svg">
 									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
 								</div>
 
