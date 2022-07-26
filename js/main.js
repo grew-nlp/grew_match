@@ -107,6 +107,8 @@ var app = new Vue({
               stop_audio();
             }
           }, 0)
+        } else {
+          stop_audio();
         }
       }
     },
