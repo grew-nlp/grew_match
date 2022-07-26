@@ -70,7 +70,7 @@ var app = new Vue({
   },
   methods: {
     select_cluster_1d(index) {
-      console.log("=== select_cluster_1d ===");
+      log("=== select_cluster_1d ===");
       if (app.current_cluster_path == undefined || app.current_cluster_path[0] != index) {
         app.current_cluster_path = [index];
         current_line_num = 0;
@@ -123,7 +123,7 @@ var app = new Vue({
     },
 
     update_current_cluster() { // also update app.current_cluster_size
-      console.log("=== update_current_cluster ===");
+      log("=== update_current_cluster ===");
       if (this.current_cluster_path != undefined) {
         app.current_cluster = search_path(this.current_cluster_path, this.clusters);
         if (app.cluster_dim == 0) {
@@ -138,12 +138,12 @@ var app = new Vue({
   },
   watch: {
     current_corpus_id: function() {
-      console.log("current_corpus_id has changed");
+      log("current_corpus_id has changed");
       app.result_message = "";
       update_corpus();
     },
     clust1: function() { // close clust1 ==> close clust2
-      console.log("clust1 has changed to " + app.clust1);
+      log("clust1 has changed to " + app.clust1);
       if (app.clust1 == "no") {
         app.clust2 = "no";
       }
@@ -152,11 +152,11 @@ var app = new Vue({
   },
   computed: {
     result_nb: function() {
-      console.log("=== computed: result_nb ===");
+      log("=== computed: result_nb ===");
       return (this.current_cluster.length);
     },
     current_item: function() {
-      console.log("=== computed: current_item ===");
+      log("=== computed: current_item ===");
       let item = this.current_cluster[this.current_view];
       return (item == undefined ? {} : item) 
     },
@@ -236,6 +236,12 @@ var app = new Vue({
   }
 });
 
+function log(msg) {
+  if (false) {  // false --> turn off logging // true --> true turn on logging
+    console.log(msg)
+  }
+}
+
 // ==================================================================================
 function search_path(path, data) {
   if (path.length == 0) {
@@ -250,7 +256,7 @@ function search_path(path, data) {
 // ==================================================================================
 // update the global variables app.current_corpus_id and app.current_group_id
 function search_corpus(requested_corpus) {
-  console.log("=== search_corpus === " + requested_corpus);
+  log("=== search_corpus === " + requested_corpus);
 
   $('#warning').hide();
   app.current_corpus_id = undefined;
@@ -608,8 +614,8 @@ function request(service, form, data_fct, error_fct) {
           html: JSON.stringify(response.exception),
         });
       } else {
-        console.log("Success request to service: " + service + "-->");
-        console.log(response.data);
+        log("Success request to service: " + service + "-->");
+        log(response.data);
         data_fct(response.data);
       }
     })
@@ -1039,8 +1045,8 @@ function update_corpus() {
 
 // ==================================================================================
 function select_cluster_2d(c, r) {
-  console.log("=== select_cluster_2d ===");
-  console.log(c, r);
+  log("=== select_cluster_2d ===");
+  log(c, r);
   if (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c) {
     app.current_cluster_path = [r, c];
     current_line_num = 0;
