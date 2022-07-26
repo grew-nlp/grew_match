@@ -423,12 +423,11 @@
 
 										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
 
-											<div v-if="meta in current_item">
-												<button v-show="Object.keys(current_item.meta).length > 0" class="btn btn-primary btn-sm" type="button" v-on:click="metadata_open=!metadata_open">
-													Metadata
-													<span id="md-icon" class="glyphicon" v-bind:class="metadata_open ? ['glyphicon-chevron-down'] : ['glyphicon-chevron-right']"></span>
-												</button>
-											</div>
+											<button v-if='current_view >= 0 && "meta" in current_item && Object.keys(current_item.meta).length > 0' 
+												class="btn btn-primary btn-sm" type="button" v-on:click="metadata_open=!metadata_open">
+												Metadata
+												<span id="md-icon" class="glyphicon" v-bind:class="metadata_open ? ['glyphicon-chevron-down'] : ['glyphicon-chevron-right']"></span>
+											</button>
 
 											<button v-show="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="show_conll()">
 												CoNLL
@@ -445,20 +444,20 @@
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
 
-											<div v-if="current_item != {}">
-												<a target="_blank" v-bind:href="backend_server + 'data/' + 'current_item.filename'">
-													<button type="button" class="btn btn-sm btn-primary tooltip-desc">
-														SVG
-														<span href="" class="glyphicon glyphicon-export"></span>
-													</button>
-												</a>
-											</div>
+											<a v-if="current_item != {}" target="_blank" v-bind:href="backend_server + 'data/' + 'current_item.filename'">
+												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
+													SVG
+													<span href="" class="glyphicon glyphicon-export"></span>
+												</button>
+											</a>
 										</div>
 
-										<div v-show="metadata_open">
-											<p v-for='(item, itemKey) in current_item.meta'>
-												<span><b>{{itemKey}}</b>: {{item}}</span>
-											</p>
+										<div v-if="current_view >= 0">
+											<div v-show="metadata_open">
+												<p v-for='(item, itemKey) in current_item.meta'>
+													<span><b>{{itemKey}}</b>: {{item}}</span>
+												</p>
+											</div>
 										</div>
 
 										<div v-if="current_view >= 0">
