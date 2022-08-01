@@ -180,8 +180,8 @@
 
 								<!-- Upper-left part: corpus selector, textarea, buttons -->
 								<div class="col-md-8" id="console">
-									<h4 id="warning" style="display: none;">
-										<span id="warning-text" style="color: red"></span>
+									<h4 v-show="warning_level > 0">
+										<span style="color: red" v-html="warning_message"></span>
 										<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="warning-tooltip"></span>
 									</h4>
 									<h2 id="corpus">

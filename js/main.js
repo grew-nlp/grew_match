@@ -67,6 +67,10 @@ var app = new Vue({
     current_cluster_size: 0,
     current_time_request: 0,
     skip_history: false, // flag used to avoid history to be rewritten when loading a custom pattern
+
+    warning_level: 0,
+    warning_message: "",
+
   },
   methods: {
     select_cluster_1d(index) {
@@ -141,6 +145,7 @@ var app = new Vue({
   watch: {
     current_corpus_id: function() {
       log("current_corpus_id has changed");
+      app.warning_level -= 1; 
       app.result_message = "";
       update_corpus();
     },
@@ -260,7 +265,6 @@ function search_path(path, data) {
 function search_corpus(requested_corpus) {
   log("=== search_corpus === " + requested_corpus);
 
-  $('#warning').hide();
   app.current_corpus_id = undefined;
   app.current_group_id = undefined;
   best_cpl = 0;
@@ -290,10 +294,10 @@ function search_corpus(requested_corpus) {
     }
   }
   // no exact matching
+  app.warning_level = 2;  // init at 2 because the watcher `current_corpus_id` decrement later
+  app.warning_message = "⚠️ " + requested_corpus + " &rarr; " + best_corpus_id;
   app.current_corpus_id = best_corpus_id;
   app.current_group_id = best_group_id;
-  $('#warning-text').html("⚠️ " + requested_corpus + " &rarr; " + app.current_corpus_id);
-  $('#warning').show();
 }
 
 
@@ -724,7 +728,7 @@ function search_pattern() {
         app.result_message = 'More than 1000 results found in ' + (100 * response.data.ratio).toFixed(2) + '% of the corpus'
         break;
       case "timeout":
-        app.result_message = 'Timeout; ' + response.data.solutions + ' occurrences found in ' + (100 * response.data.ratio).toFixed(2) + '% of the corpus'
+        app.result_message = 'Timeout. ' + response.data.solutions + ' occurrences found in ' + (100 * response.data.ratio).toFixed(2) + '% of the corpus'
         break;
       default:
         direct_error("unknown status: " + response.data.status)
