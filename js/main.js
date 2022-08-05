@@ -666,6 +666,47 @@ function next_results(flag) { // if [flag] then select the first item after the 
 }
 
 // ==================================================================================
+function count() {
+
+  $('#results-block').hide();
+  $('#cluster-block').hide();
+  app.current_cluster_path = undefined;
+
+  var param = {
+    pattern: cmEditor.getValue(),
+    corpus: app.current_corpus_id,
+    eud2ud: (app.current_corpus["enhanced"]) && !($('#eud-box').prop('checked')),
+    clust1: app.clust1,
+    clust2: app.clust2,
+  };
+
+  if (app.clust1 == "key") {
+    param.clust1_data = app.clust1_key;
+  }
+  if (app.clust1 == "whether") {
+    param.clust1_data = clust1_cm.getValue();
+  }
+
+  if (app.clust2 == "key") {
+    param.clust2_data = app.clust2_key;
+  }
+  if (app.clust2 == "whether") {
+    param.clust2_data = clust2_cm.getValue();
+  }
+
+  var form = new FormData();
+  form.append("param", JSON.stringify(param));
+
+  app.wait = true;
+  request("count", form, function(data) {
+    app.current_time_request = response.data.time;
+    app.nb_solutions = response.data.nb_occ;
+    app.result_message = response.data.nb_occ + ' occurrence' + ((response.data.nb_occ > 1) ? 's' : '')
+  });
+  app.wait = false;
+}
+
+  // ==================================================================================
 function search_pattern() {
 
   $('#results-block').hide();
