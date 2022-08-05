@@ -674,6 +674,7 @@ function count() {
   $('#results-block').hide();
   $('#cluster-block').hide();
   app.current_cluster_path = undefined;
+  app.cluster_dim = 0;
 
   let param = {
     pattern: cmEditor.getValue(),
@@ -702,7 +703,7 @@ function count() {
 
   app.wait = true;
   request("count", form, function (data) {
-    console.log(data);
+    log(data);
     app.current_time_request = data.time;
     app.nb_solutions = data.nb_solutions;
 
