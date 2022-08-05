@@ -1,11 +1,11 @@
 "use strict";
-var hack_audio;
-var cmEditor;
-var clust1_cm;
-var clust2_cm;
+let hack_audio;
+let cmEditor;
+let clust1_cm;
+let clust2_cm;
 
 // ==================================================================================
-var app = new Vue({
+let app = new Vue({
   el: '#app',
   data: {
 
@@ -714,8 +714,7 @@ function count() {
         }
         break;
       case "timeout":
-        // app.result_message = 'Timeout. ' + data.nb_occ + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
-        app.result_message = 'Timeout. ' + data.nb_occ + ' occurrences found in ' + data.ratio + '% of the corpus'
+        app.result_message = 'Timeout. ' + data.nb_occ + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
         break;
       default:
         direct_error("unknown status: " + data.status)
