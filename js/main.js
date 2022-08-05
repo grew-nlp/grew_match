@@ -82,7 +82,7 @@ let app = new Vue({
       if (app.current_cluster_path == undefined || app.current_cluster_path[0] != index) {
         app.current_cluster_path = [index];
         if (app.clusters[index].length == 0) {
-          next_results(true);
+          more_results(true);
         } else {
           app.update_current_cluster();
         }
@@ -435,13 +435,13 @@ function deal_with_get_parameters() {
         } else {
           $('#eud-box').bootstrapToggle('off')
         }
-        setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
+        setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
       })
       .error(function () {
         // backup on old custom saving
         $.get(app.backend_server + "/shorten/" + get_custom, function (pattern) {
           cmEditor.setValue(pattern);
-          setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
+          setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
         })
           .error(function () {
             direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
@@ -466,13 +466,13 @@ function deal_with_get_parameters() {
       target = ""
     }
     cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + getParameterByName("relation") + "]-> DEP\n}");
-    search_pattern();
+    search();
   }
 
   if (getParameterByName("pattern").length > 0) {
     cmEditor.setValue(getParameterByName("pattern"));
     setTimeout(function () {
-      search_pattern();
+      search();
     }, 0)
   }
 
@@ -637,7 +637,7 @@ function request(service, form, data_fct, error_fct) {
 }
 
 // ==================================================================================
-function next_results(flag) { // if [flag] then select the first item after the call
+function more_results(flag) { // if [flag] then select the first item after the call
   let param = {
     uuid: app.current_request_id,
     cluster_path: app.current_cluster_path
@@ -646,7 +646,7 @@ function next_results(flag) { // if [flag] then select the first item after the 
   let form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  request("next", form, function (data) {
+  request("more_results", form, function (data) {
     if (app.cluster_dim == 0) {
       app.clusters = app.clusters.concat(data.items);
       app.update_current_cluster();
@@ -703,18 +703,18 @@ function count() {
   request("count", form, function (data) {
     console.log(data);
     app.current_time_request = data.time;
-    app.nb_solutions = data.nb_occ;
+    app.nb_solutions = data.nb_solutions;
 
     switch (data.status) {
       case "complete":
-        if (data.solutions == 0) {
+        if (data.nb_solutions == 0) {
           app.result_message = "No results"
         } else {
-          app.result_message = data.nb_occ + ' occurrence' + ((data.nb_occ > 1) ? 's' : '')
+          app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
         }
         break;
       case "timeout":
-        app.result_message = 'Timeout. ' + data.nb_occ + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
+        app.result_message = 'Timeout. ' + data.nb_solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
         break;
       default:
         direct_error("unknown status: " + data.status)
@@ -724,7 +724,7 @@ function count() {
 }
 
 // ==================================================================================
-function search_pattern() {
+function search() {
 
   $('#results-block').hide();
   $('#cluster-block').hide();
@@ -767,25 +767,25 @@ function search_pattern() {
   form.append("param", JSON.stringify(param));
 
   app.wait = true;
-  request("new", form, function (data) {
+  request("search", form, function (data) {
     app.current_request_id = data.uuid;
     app.current_pivots = data.pivots;
     app.current_time_request = data.time;
-    app.nb_solutions = data.solutions;
+    app.nb_solutions = data.nb_solutions;
 
     switch (data.status) {
       case "complete":
-        if (data.solutions == 0) {
+        if (data.nb_solutions == 0) {
           app.result_message = "No results"
         } else {
-          app.result_message = data.solutions + ' occurrence' + ((data.solutions > 1) ? 's' : '')
+          app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
         }
         break;
       case "max_results":
         app.result_message = 'More than 1000 results found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
         break;
       case "timeout":
-        app.result_message = 'Timeout. ' + data.solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
+        app.result_message = 'Timeout. ' + data.nb_solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
         break;
       default:
         direct_error("unknown status: " + data.status)
@@ -793,9 +793,9 @@ function search_pattern() {
 
     if ("cluster_single" in data) {
       app.clusters = [];
-      if (data.solutions > 0) {
+      if (data.nb_solutions > 0) {
         app.current_cluster_path = [];
-        next_results(true);
+        more_results(true);
       }
       app.cluster_dim = 0;
     } else if ("cluster_array" in data) {
@@ -1113,7 +1113,7 @@ function select_cluster_2d(c, r) {
   if (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c) {
     app.current_cluster_path = [r, c];
     if (app.clusters[r][c].length == 0) {
-      next_results(true);
+      more_results(true);
     } else {
       app.update_current_cluster();
     }
