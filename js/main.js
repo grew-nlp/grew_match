@@ -89,7 +89,7 @@ var app = new Vue({
     select_item(index) {
       if (app.current_view != index) {
         app.current_view = index;
-        setTimeout(function() {
+        setTimeout(function () {
           app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
           $("#display-svg").animate({
             scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
@@ -104,7 +104,7 @@ var app = new Vue({
           // Next two lines: force reload (stackoverflow.com/questions/9421505)
           hack_audio[0].pause();
           hack_audio[0].load();
-          setTimeout(function() {
+          setTimeout(function () {
             if (app.current_corpus["audio"]) {
               start_audio();
             } else {
@@ -143,13 +143,13 @@ var app = new Vue({
     }
   },
   watch: {
-    current_corpus_id: function() {
+    current_corpus_id: function () {
       log("current_corpus_id has changed");
-      app.warning_level -= 1; 
+      app.warning_level -= 1;
       app.result_message = "";
       update_corpus();
     },
-    clust1: function() { // close clust1 ==> close clust2
+    clust1: function () { // close clust1 ==> close clust2
       log("clust1 has changed to " + app.clust1);
       if (app.clust1 == "no") {
         app.clust2 = "no";
@@ -158,39 +158,39 @@ var app = new Vue({
 
   },
   computed: {
-    result_nb: function() {
+    result_nb: function () {
       log("=== computed: result_nb ===");
       return (this.current_cluster.length);
     },
-    current_item: function() {
+    current_item: function () {
       log("=== computed: current_item ===");
       let item = this.current_cluster[this.current_view];
-      return (item == undefined ? {} : item) 
+      return (item == undefined ? {} : item)
     },
-    top_project: function() {
+    top_project: function () {
       if (this.config != undefined) {
         return this.config["top_project"]
       }
     },
-    groups: function() {
+    groups: function () {
       if (this.config != undefined) {
         return this.config["groups"]
       }
     },
-    number_of_corpora: function() {
+    number_of_corpora: function () {
       if (this.current_group) {
         return this.current_group["corpora"].length;
       }
     },
-    filtered_corpora_list: function() {
+    filtered_corpora_list: function () {
       var self = this;
       if (this.current_group) {
-        return this.current_group["corpora"].filter(function(corpus) {
+        return this.current_group["corpora"].filter(function (corpus) {
           return corpus.id.toLowerCase().indexOf(self.corpora_filter.toLowerCase()) >= 0;
         });
       }
     },
-    current_group: function() {
+    current_group: function () {
       if (this.config) {
         groups = this.config["groups"];
         for (var g = 0; g < groups.length; g++) {
@@ -200,7 +200,7 @@ var app = new Vue({
         }
       }
     },
-    current_corpus: function() {
+    current_corpus: function () {
       if (this.current_group) {
         corpora = this.current_group["corpora"];
         for (var g = 0; g < corpora.length; g++) {
@@ -213,27 +213,27 @@ var app = new Vue({
         return {};
       }
     },
-    mode: function() {
+    mode: function () {
       if (this.current_group) {
         return this.current_group["mode"]
       } else {
         return "";
       }
     },
-    left_pane: function() {
+    left_pane: function () {
       if (this.current_group) {
         this.view_left_pane = true; // always make left pane visible when the left_pane is recomputed
         return (this.current_group["style"] == "left_pane");
       }
     },
-    col_label: function() {
+    col_label: function () {
       if (app.clust2 == "key") {
         return app.clust2_key
       } else {
         return "Whether_2"
       }
     },
-    row_label: function() {
+    row_label: function () {
       if (app.clust1 == "key") {
         return app.clust1_key
       } else {
@@ -303,9 +303,9 @@ function search_corpus(requested_corpus) {
 
 // ==================================================================================
 // this function is run after page loading
-$(document).ready(function() {
+$(document).ready(function () {
   $.getJSON("corpora/config.json")
-    .done(function(data) {
+    .done(function (data) {
       app.config = data;
       init(); // ensure init is ran after config loading
     });
@@ -360,11 +360,11 @@ function init() {
 
   deal_with_get_parameters();
 
-  $('#clust1-key').bind('input', function() {
+  $('#clust1-key').bind('input', function () {
     disable_save();
   });
 
-  $('input:radio[name="clust1"]').change(function() {
+  $('input:radio[name="clust1"]').change(function () {
     disable_save();
   });
 }
@@ -386,9 +386,9 @@ function deal_with_get_parameters() {
     }
   } else
 
-  if (getParameterByName("corpus").length > 0) {
-    search_corpus(getParameterByName("corpus"));
-  };
+    if (getParameterByName("corpus").length > 0) {
+      search_corpus(getParameterByName("corpus"));
+    };
 
   // custom get parameter
   if (getParameterByName("custom").length > 0) {
@@ -397,7 +397,7 @@ function deal_with_get_parameters() {
     app.skip_history = true;
 
     $.getJSON(app.backend_server + "/shorten/" + get_custom + ".json")
-      .done(function(data) {
+      .done(function (data) {
         cmEditor.setValue(data.pattern);
 
         // if corpus is given are GET parameter, it has priority
@@ -414,7 +414,7 @@ function deal_with_get_parameters() {
         }
         if ("clust1_whether" in data) {
           app.clust1 = "whether";
-          setTimeout(function() {
+          setTimeout(function () {
             clust1_cm.setValue(data.clust1_whether);
           }, 0)
         }
@@ -424,7 +424,7 @@ function deal_with_get_parameters() {
         }
         if ("clust2_whether" in data) {
           app.clust2 = "whether";
-          setTimeout(function() {
+          setTimeout(function () {
             clust2_cm.setValue(data.clust2_whether);
           }, 0)
         }
@@ -435,13 +435,13 @@ function deal_with_get_parameters() {
         }
         setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
       })
-      .error(function() {
+      .error(function () {
         // backup on old custom saving
-        $.get(app.backend_server + "/shorten/" + get_custom, function(pattern) {
-            cmEditor.setValue(pattern);
-            setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
-          })
-          .error(function() {
+        $.get(app.backend_server + "/shorten/" + get_custom, function (pattern) {
+          cmEditor.setValue(pattern);
+          setTimeout(search_pattern, 150); // hack: else clust1_cm value is not taken into account.
+        })
+          .error(function () {
             direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
           });
       })
@@ -470,7 +470,7 @@ function deal_with_get_parameters() {
   if (getParameterByName("pattern").length > 0) {
     cmEditor.setValue(getParameterByName("pattern"));
     setTimeout(function () {
-      search_pattern(); 
+      search_pattern();
     }, 0)
   }
 
@@ -489,7 +489,7 @@ function deal_with_get_parameters() {
     app.clust1_key = clustering;
   } else if (whether.length > 0) {
     app.clust1 = "whether";
-    setTimeout(function() {
+    setTimeout(function () {
       clust1_cm.setValue(whether); // hack for correct init of clust1_cm
     }, 50)
   } else {
@@ -502,9 +502,9 @@ function deal_with_get_parameters() {
 // Binding for interactive part in snippets part
 function right_pane(base) {
   dir = "corpora/" + base
-  $.get(dir + "/right_pane.html", function(data) {
+  $.get(dir + "/right_pane.html", function (data) {
     $('#right-pane').html(data);
-    $(".inter").click(function() {
+    $(".inter").click(function () {
       app.clust1 = "no"; // default value
       const clustering = $(this).attr('clustering');
       if (clustering) {
@@ -515,7 +515,7 @@ function right_pane(base) {
       if (whether) {
         app.clust1 = "whether";
         // setValue is behind timeout to ensure proper cm update
-        setTimeout(function() { // hack for correct update of clust1_cm
+        setTimeout(function () { // hack for correct update of clust1_cm
           clust1_cm.setValue(whether);
         }, 0)
       }
@@ -528,17 +528,17 @@ function right_pane(base) {
       if (whether2) {
         app.clust2 = "whether";
         // setValue is behind timeout to ensure proper cm update
-        setTimeout(function() { // hack for correct update of clust1_cm
+        setTimeout(function () { // hack for correct update of clust1_cm
           clust2_cm.setValue(whether2);
         }, 0)
       }
 
       // Update of the textarea
       const file = dir + "/" + $(this).attr('snippet-file');
-      $.get(file, function(pattern) {
-          cmEditor.setValue(pattern);
-        })
-        .error(function() {
+      $.get(file, function (pattern) {
+        cmEditor.setValue(pattern);
+      })
+        .error(function () {
           direct_error("Cannot find file `" + file + "`")
         });
     });
@@ -579,10 +579,10 @@ function ping(url, set_fct) {
   };
 
   $.ajax(settings)
-    .done(function(response) {
+    .done(function (response) {
       set_fct(true);
     })
-    .fail(function() {
+    .fail(function () {
       set_fct(false);
     });
 }
@@ -601,7 +601,7 @@ function request(service, form, data_fct, error_fct) {
   };
 
   $.ajax(settings)
-    .done(function(response_string) {
+    .done(function (response_string) {
       response = JSON.parse(response_string);
       if (response.status === "ERROR") {
         if (error_fct === undefined) {
@@ -625,7 +625,7 @@ function request(service, form, data_fct, error_fct) {
         data_fct(response.data);
       }
     })
-    .fail(function() {
+    .fail(function () {
       Swal.fire({
         icon: 'error',
         title: 'Connection fail',
@@ -644,7 +644,7 @@ function next_results(flag) { // if [flag] then select the first item after the 
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  request("next", form, function(data) {
+  request("next", form, function (data) {
     if (app.cluster_dim == 0) {
       app.clusters = app.clusters.concat(data.items);
       app.update_current_cluster();
@@ -698,7 +698,7 @@ function count() {
   form.append("param", JSON.stringify(param));
 
   app.wait = true;
-  request("count", form, function(data) {
+  request("count", form, function (data) {
     app.current_time_request = response.data.time;
     app.nb_solutions = response.data.nb_occ;
     app.result_message = response.data.nb_occ + ' occurrence' + ((response.data.nb_occ > 1) ? 's' : '')
@@ -706,7 +706,7 @@ function count() {
   app.wait = false;
 }
 
-  // ==================================================================================
+// ==================================================================================
 function search_pattern() {
 
   $('#results-block').hide();
@@ -751,7 +751,7 @@ function search_pattern() {
   form.append("param", JSON.stringify(param));
 
   app.wait = true;
-  request("new", form, function(data) {
+  request("new", form, function (data) {
     app.current_request_id = response.data.uuid;
     app.current_pivots = response.data.pivots;
     app.current_time_request = response.data.time;
@@ -800,7 +800,7 @@ function search_pattern() {
 // ==================================================================================
 function show_export_modal() {
   var data_folder = app.backend_server + "/data/" + app.current_request_id;
-  $.get(data_folder + "/export.tsv", function(data) {
+  $.get(data_folder + "/export.tsv", function (data) {
     lines = data.split("\n");
 
     var data
@@ -849,7 +849,7 @@ function export_tsv(pivot) {
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  request("export", form, function(data) {
+  request("export", form, function (data) {
     show_export_modal();
   })
 }
@@ -869,10 +869,10 @@ function update_parallel() {
     request(
       "parallel",
       form,
-      function(data) {
+      function (data) {
         app.parallel_svg = app.backend_server + "/data/" + app.current_request_id + "/" + data;
       },
-      function(message) {
+      function (message) {
         app.parallel_svg = undefined;
         app.parallel_message = ("No sentence with sent_id: " + message.sent_id);
       }
@@ -897,7 +897,7 @@ function show_conll() {
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  request("conll", form, function(data) {
+  request("conll", form, function (data) {
     $("#code_viewer").html(response.data);
     $('#code_modal').modal('show');
   })
@@ -944,12 +944,12 @@ function save_pattern() {
   var form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  request("save", form, function(data) {
+  request("save", form, function (data) {
     let get = "?custom=" + app.current_request_id;
 
     history.pushState({
-        id: app.current_request_id
-      },
+      id: app.current_request_id
+    },
       "",
       get
     );
@@ -1010,7 +1010,7 @@ function update_corpus() {
   // Show the errors button only if there is a not empty log_file
   app.meta_log = "";
   let log_url = "meta/" + app.current_corpus_id + ".log"
-  $.get(log_url, function(data) {
+  $.get(log_url, function (data) {
     if (data.length > 0) {
       app.meta_log = log_url;
     }
@@ -1020,7 +1020,7 @@ function update_corpus() {
   let url = "meta/" + app.current_corpus_id + "_table.html";
   ping(
     url,
-    function(bool) {
+    function (bool) {
       if (bool) {
         app.meta_table = url;
       } else {
@@ -1033,7 +1033,7 @@ function update_corpus() {
   $('.timeago').remove();
   $.ajax({
     url: "meta/" + app.current_corpus_id + "_desc.json",
-    success: function(data) {
+    success: function (data) {
       app.meta_info = true;
       var html = "";
       for (let key in data) {
@@ -1048,7 +1048,7 @@ function update_corpus() {
       $('#info-button').tooltipster('content', html);
 
     },
-    error: function() {
+    error: function () {
       app.meta_info = false;
     },
     cache: false
@@ -1058,7 +1058,7 @@ function update_corpus() {
   let json_url = "meta/" + "valid_SUD/" + app.current_corpus_id + ".json";
   ping(
     json_url,
-    function(bool) {
+    function (bool) {
       if (bool) {
         app.meta_sud_valid = "validator.html?corpus=" + json_url + '&top=' + window.location.origin + window.location.pathname;
       } else {
@@ -1071,7 +1071,7 @@ function update_corpus() {
   let valid_url = "meta/" + "valid_ud/" + app.current_corpus_id + ".valid";
   ping(
     valid_url,
-    function(bool) {
+    function (bool) {
       if (bool) {
         app.meta_ud_valid = valid_url;
       } else {
