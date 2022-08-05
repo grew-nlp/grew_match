@@ -508,6 +508,7 @@ function right_pane(base) {
     $('#right-pane').html(data);
     $(".inter").click(function () {
       app.clust1 = "no"; // default value
+      app.clust2 = "no"; // default value
       const clustering = $(this).attr('clustering');
       if (clustering) {
         app.clust1 = "key";
