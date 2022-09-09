@@ -329,9 +329,6 @@
 										</label>
 									</p>
 									<p>
-										<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
-										<button class="btn btn-primary" onclick="javascript:count()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Count" }}</button>
-										<button class="btn btn-primary" id="submit-pattern" onclick="javascript:search_pattern()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
 										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
 										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait || clust1 != "no"' style="margin-right:10px">{{ wait ? "Searching..." : "Count" }}</button>
 										<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
@@ -449,7 +446,7 @@
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
 
-											<a v-if="current_item != {}" target="_blank" v-bind:href="backend_server + 'data/' + current_item.filename">
+											<a v-if="current_item != {}" target="_blank" v-bind:href="backend_server + 'data/' + current_cluster[current_view].filename">
 												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
 													SVG
 													<span href="" class="glyphicon glyphicon-export"></span>
