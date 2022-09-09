@@ -248,17 +248,11 @@ h3 {
   color: #bf616a;
 }
 
-#exportResult {
+#export-body{
+  height: 80vh;
   overflow-y: auto;
-  max-height: 80%;
-  height: 80%;
-}
-
-#export-modal {
-  max-height: 80%;
-  height: 80%;
-}
-
+  }
+  
 #exportResult tr:nth-child(even) {
   background-color: #dddddd;
 }
@@ -334,3 +328,5 @@ h3 {
 #pattern-input+.CodeMirror {
   height: 160px;
 }
+
+
