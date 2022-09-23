@@ -21,7 +21,7 @@ var app = new Vue({
     current_group_id: undefined,
     current_corpus_id: undefined,
     current_request_id: "",
-    current_view: -1,  // ensure that select_item(0) works well
+    current_view: 0,
 
     meta_info: false,
     meta_table: "", // URL to relation table or ""
@@ -673,7 +673,7 @@ function search_pattern() {
 
   current_line_num = 0;
   app.clusters = [];
-  app.current_view = -1;  // ensure that select_item(0) works well
+  app.current_view = 0;
   app.current_cluster_path = undefined;
   app.result_message = "";
 

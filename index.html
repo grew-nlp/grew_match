@@ -444,7 +444,7 @@
 												<span href="" class="glyphicon glyphicon-export"></span>
 											</button>
 
-											<a v-if="current_item != {}" target="_blank" v-bind:href="backend_server + 'data/' + current_cluster[current_view].filename">
+											<a v-if="current_view >=0" target="_blank" v-bind:href="backend_server + 'data/' + current_cluster[current_view].filename">
 												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
 													SVG
 													<span href="" class="glyphicon glyphicon-export"></span>
