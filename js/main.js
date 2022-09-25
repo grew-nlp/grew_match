@@ -928,7 +928,8 @@ function show_conll() {
   let param = {
     uuid: app.current_request_id,
     current_view: app.current_view,
-    cluster_path: app.current_cluster_path
+    cluster_path: app.current_cluster_path,
+    named_cluster_path: named_cluster_path()
   };
 
   let form = new FormData();
