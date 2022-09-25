@@ -638,11 +638,25 @@ function request(service, form, data_fct, error_fct) {
     });
 }
 
+function named_cluster_path() {
+  if (app.cluster_dim == 1) {
+    return ([app.cluster_list[app.current_cluster_path[0]].value])
+  }
+  if (app.cluster_dim == 2) {
+    return ([
+      app.gridRows[app.current_cluster_path[0]].value,
+      app.gridColumns[app.current_cluster_path[1]].value
+    ])
+  }
+  return ([]);
+}
+
 // ==================================================================================
 function more_results(flag) { // if [flag] then select the first item after the call
   let param = {
     uuid: app.current_request_id,
-    cluster_path: app.current_cluster_path
+    cluster_path: app.current_cluster_path,
+    named_cluster_path: named_cluster_path()
   };
 
   let form = new FormData();
