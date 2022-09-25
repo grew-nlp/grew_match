@@ -90,8 +90,8 @@ let app = new Vue({
       }
     },
 
-    select_item(index) {
-      if (app.current_view != index) {
+    select_item(index, force_display=false) {
+      if (force_display || app.current_view != index) {
         app.current_view = index;
         setTimeout(function () {
           app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
@@ -664,7 +664,7 @@ function more_results(flag) { // if [flag] then select the first item after the 
       app.update_current_cluster();
     }
     if (flag) {
-      app.select_item(0);
+      app.select_item(0, true);  // true --> force display
     }
   })
 }
