@@ -84,6 +84,7 @@ let app = new Vue({
         if (app.clusters[index].length == 0) {
           more_results(true);
         } else {
+          app.current_view = 0;
           app.update_current_cluster();
         }
       }
@@ -1117,6 +1118,7 @@ function select_cluster_2d(c, r) {
     if (app.clusters[r][c].length == 0) {
       more_results(true);
     } else {
+      app.current_view = 0;
       app.update_current_cluster();
     }
   }
