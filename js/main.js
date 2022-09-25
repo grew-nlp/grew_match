@@ -82,42 +82,19 @@ let app = new Vue({
       if (app.current_cluster_path == undefined || app.current_cluster_path[0] != index) {
         app.current_cluster_path = [index];
         if (app.clusters[index].length == 0) {
-          more_results(true);
+          more_results();
         } else {
-          app.current_view = 0;
           app.update_current_cluster();
         }
+        app.current_view = 0;
+        update_graph_view ();
       }
     },
 
-    select_item(index, force_display=false) {
-      if (force_display || app.current_view != index) {
+    select_item(index) {
+      if (app.current_view != index) {
         app.current_view = index;
-        setTimeout(function () {
-          app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
-          $("#display-svg").animate({
-            scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
-              2)
-          }, "fast");
-          update_parallel();
-        }, 0);
-
-        if (app.current_item.audio) {
-          $("#source-audio").attr("src", app.current_item.audio);
-          hack_audio = $("#passage-audio");
-          // Next two lines: force reload (stackoverflow.com/questions/9421505)
-          hack_audio[0].pause();
-          hack_audio[0].load();
-          setTimeout(function () {
-            if (app.current_corpus["audio"]) {
-              start_audio();
-            } else {
-              stop_audio();
-            }
-          }, 0)
-        } else {
-          stop_audio();
-        }
+        update_graph_view ();
       }
     },
 
@@ -253,6 +230,35 @@ function log(msg) {
 }
 
 // ==================================================================================
+function update_graph_view() {
+  setTimeout(function () { // Delay running is needed for proper audio starting
+    app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
+    $("#display-svg").animate({
+      scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
+      2)
+    }, "fast");
+    update_parallel();
+    
+    if (app.current_item.audio) {
+      $("#source-audio").attr("src", app.current_item.audio);
+      hack_audio = $("#passage-audio");
+      // Next two lines: force reload (stackoverflow.com/questions/9421505)
+      hack_audio[0].pause();
+      hack_audio[0].load();
+      setTimeout(function () {
+        if (app.current_corpus["audio"]) {
+          start_audio();
+        } else {
+          stop_audio();
+        }
+      }, 0)
+    } else {
+      stop_audio();
+    }
+  }, 100)
+}
+
+  // ==================================================================================
 function search_path(path, data) {
   if (path.length == 0) {
     return data
@@ -652,7 +658,7 @@ function named_cluster_path() {
 }
 
 // ==================================================================================
-function more_results(flag) { // if [flag] then select the first item after the call
+function more_results() {
   let param = {
     uuid: app.current_request_id,
     cluster_path: app.current_cluster_path,
@@ -676,9 +682,6 @@ function more_results(flag) { // if [flag] then select the first item after the 
       const new_items = old_items.concat(data.items);
       app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]] = new_items;
       app.update_current_cluster();
-    }
-    if (flag) {
-      app.select_item(0, true);  // true --> force display
     }
   })
 }
@@ -810,11 +813,12 @@ function search() {
 
     if ("cluster_single" in data) {
       app.clusters = [];
+      app.cluster_dim = 0;
       if (data.nb_solutions > 0) {
         app.current_cluster_path = [];
-        more_results(true);
+        more_results();
+        update_graph_view();
       }
-      app.cluster_dim = 0;
     } else if ("cluster_array" in data) {
       app.cluster_list = data.cluster_array;
       app.clusters = Array(app.cluster_list.length).fill([]);
@@ -1130,12 +1134,13 @@ function select_cluster_2d(c, r) {
   if (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c) {
     app.current_cluster_path = [r, c];
     if (app.clusters[r][c].length == 0) {
-      more_results(true);
+      more_results();
     } else {
-      app.current_view = 0;
       app.update_current_cluster();
     }
-  }
+  app.current_view = 0;
+  update_graph_view ();
+}
 
 }
 
