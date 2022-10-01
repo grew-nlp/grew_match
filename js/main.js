@@ -12,6 +12,7 @@ let app = new Vue({
     gridColumns: [],
     gridRows: [],
     gridCells: [],
+    grid_message: "",
 
     metadata_open: false,
 
@@ -824,11 +825,21 @@ function search() {
       app.clusters = Array(app.cluster_list.length).fill([]);
       app.cluster_dim = 1;
     } else if ("cluster_grid" in data) {
-      app.gridColumns = data.cluster_grid[1];
-      app.gridRows = data.cluster_grid[0];
-      app.gridCells = data.cluster_grid[2];
+      app.gridRows = data.cluster_grid.rows;
+      app.gridColumns = data.cluster_grid.columns;
+      app.gridCells = data.cluster_grid.cells;
       app.clusters = [...Array(app.gridRows.length)].map(x => Array(app.gridColumns.length).fill([]));
       app.cluster_dim = 2;
+      if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
+        app.grid_message = "<b>" + data.cluster_grid.total_rows_nb + "</b> lines (lines above rank "+ data.cluster_grid.rows.length +" are merged with key <code>__*__</code>); ";
+      } else {
+        app.grid_message = data.cluster_grid.total_rows_nb + " line" + (data.cluster_grid.total_rows_nb > 1 ? "s; " : "; ")
+      }
+      if (data.cluster_grid.total_columns_nb > data.cluster_grid.columns.length) {
+        app.grid_message += data.cluster_grid.total_columns_nb + " columns (columns above rank "+ data.cluster_grid.columns.length +" are merged with key <code>__*__</code>)";
+      } else {
+        app.grid_message += data.cluster_grid.total_columns_nb + " column" + (data.cluster_grid.total_columns_nb > 1 ? "s" : "")
+      }
     }
   });
   app.wait = false;

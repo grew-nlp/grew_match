@@ -359,7 +359,7 @@
 								<span style="font-size: 60%">[{{current_time_request.toFixed(3)}}s]</span>
 							</h3>
 							<div v-if="cluster_dim == 1" class="row" style="margin-left: 0;">
-								<span style="font-size: 150%">7 • </span>
+								<span style="font-size: 150%">{{cluster_list.length}} cluster{{ cluster_list.length > 1 ? "s" : "" }}:</span>
 								<button v-for="(cluster, cluster_index) in cluster_list" type="button" class="btn" v-on:click="select_cluster_1d(cluster_index)" v-bind:class="current_cluster_path != undefined && cluster_index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
 									style="margin:10px">
 									<span class="badge badge-pill badge-info">{{cluster.size}}</span>
@@ -367,7 +367,8 @@
 								</button>
 							</div>
 
-							<div v-if="cluster_dim == 2 && nb_solutions > 0" class="row">
+							<div v-if="cluster_dim == 2 && nb_solutions > 0" class="row" style="margin-left: 0;">
+								<span style="font-size: 150%" v-html="grid_message"></span>
 								<cluster-grid :columns="gridColumns" :rows="gridRows" :cells="gridCells" :col_label="col_label" :row_label="row_label">
 								</cluster-grid>
 							</div>
