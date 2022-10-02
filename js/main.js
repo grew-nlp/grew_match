@@ -16,6 +16,8 @@ let app = new Vue({
 
     metadata_open: false,
 
+    search_mode: true,
+
     corpora_filter: "",
 
     config: undefined,
@@ -80,7 +82,7 @@ let app = new Vue({
   methods: {
     select_cluster_1d(index) {
       log("=== select_cluster_1d ===");
-      if (app.current_cluster_path == undefined || app.current_cluster_path[0] != index) {
+      if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != index)) {
         app.current_cluster_path = [index];
         if (app.clusters[index].length == 0) {
           more_results();
@@ -721,25 +723,28 @@ function count() {
   form.append("param", JSON.stringify(param));
 
   app.wait = true;
+  app.search_mode = false;
   request("count", form, function (data) {
-    log(data);
     app.current_time_request = data.time;
     app.nb_solutions = data.nb_solutions;
 
-    switch (data.status) {
-      case "complete":
-        if (data.nb_solutions == 0) {
-          app.result_message = "No results"
-        } else {
-          app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
-        }
-        break;
-      case "timeout":
-        app.result_message = 'Timeout. ' + data.nb_solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
-        break;
-      default:
-        direct_error("unknown status: " + data.status)
+    if (data.nb_solutions == 0) {
+      app.result_message = "No results"
+    } else {
+      app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
     }
+    if ("cluster_array" in data) {
+      app.cluster_list = data.cluster_array;
+      app.cluster_dim = 1;
+    } else if ("cluster_grid" in data) {
+      app.gridRows = data.cluster_grid.rows;
+      app.gridColumns = data.cluster_grid.columns;
+      app.gridCells = data.cluster_grid.cells;
+      app.cluster_dim = 2;
+      app.grid_message = data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : "; ")
+      app.grid_message += data.cluster_grid.columns.length + " column" + (data.cluster_grid.columns.length > 1 ? "s" : "")
+    }
+
     app.wait = false;
   })
 }
@@ -789,6 +794,7 @@ function search() {
 
   app.wait = true;
   request("search", form, function (data) {
+    app.search_mode = true;
     app.current_request_id = data.uuid;
     app.current_pivots = data.pivots;
     app.current_time_request = data.time;
@@ -1143,7 +1149,7 @@ function update_corpus() {
 function select_cluster_2d(c, r) {
   log("=== select_cluster_2d ===");
   log(c, r);
-  if (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c) {
+  if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c)) {
     app.current_cluster_path = [r, c];
     if (app.clusters[r][c].length == 0) {
       more_results();
