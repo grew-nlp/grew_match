@@ -737,11 +737,17 @@ function count() {
       app.cluster_list = data.cluster_array;
       app.cluster_dim = 1;
     } else if ("cluster_grid" in data) {
+      app.cluster_dim = 2;
       app.gridRows = data.cluster_grid.rows;
       app.gridColumns = data.cluster_grid.columns;
-      app.gridCells = data.cluster_grid.cells;
-      app.cluster_dim = 2;
-      app.grid_message = data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : "; ")
+      if (data.cluster_grid.rows.length * data.cluster_grid.columns.length > 1000) {
+        app.grid_message = "Table is not shown (more than 1000 cells): "
+        app.gridCells = [];
+      } else {
+        app.grid_message = "";
+        app.gridCells = data.cluster_grid.cells;
+      }
+      app.grid_message += data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : "; ")
       app.grid_message += data.cluster_grid.columns.length + " column" + (data.cluster_grid.columns.length > 1 ? "s" : "")
     }
 

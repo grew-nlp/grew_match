@@ -332,7 +332,7 @@
 										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
 										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait' style="margin-right:10px">{{ wait ? "Searching..." : "Count" }}</button>
 										<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
-										<button id="export-button" class="btn btn-primary tooltip-desc" :disabled='result_message=="" || result_message=="No results"' v-show="mode=='syntax'" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
+										<button id="export-button" class="btn btn-primary tooltip-desc" :disabled='!search_mode || result_message=="" || result_message=="No results"' v-show="mode=='syntax'" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
 									</p>
 									<p>
 										<span id='custom-display'>Your pattern URL:
