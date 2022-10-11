@@ -84,13 +84,13 @@ let app = new Vue({
       log("=== select_cluster_1d ===");
       if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != index)) {
         app.current_cluster_path = [index];
+        app.current_view = 0;
         if (app.clusters[index].length == 0) {
-          more_results();
+          more_results(true);
         } else {
           app.update_current_cluster();
+          update_graph_view ();
         }
-        app.current_view = 0;
-        update_graph_view ();
       }
     },
 
@@ -661,7 +661,7 @@ function named_cluster_path() {
 }
 
 // ==================================================================================
-function more_results() {
+function more_results(post_update_graph_view=false) {
   let param = {
     uuid: app.current_request_id,
     cluster_path: app.current_cluster_path,
@@ -685,6 +685,9 @@ function more_results() {
       const new_items = old_items.concat(data.items);
       app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]] = new_items;
       app.update_current_cluster();
+    }
+    if (post_update_graph_view) {
+      update_graph_view();
     }
   })
 }
@@ -829,8 +832,7 @@ function search() {
       app.cluster_dim = 0;
       if (data.nb_solutions > 0) {
         app.current_cluster_path = [];
-        more_results();
-        update_graph_view();
+        more_results(true);
       }
     } else if ("cluster_array" in data) {
       app.cluster_list = data.cluster_array;
@@ -1157,13 +1159,13 @@ function select_cluster_2d(c, r) {
   log(c, r);
   if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c)) {
     app.current_cluster_path = [r, c];
+    app.current_view = 0;
     if (app.clusters[r][c].length == 0) {
-      more_results();
+      more_results(true);
     } else {
       app.update_current_cluster();
+      update_graph_view ();
     }
-  app.current_view = 0;
-  update_graph_view ();
 }
 
 }
