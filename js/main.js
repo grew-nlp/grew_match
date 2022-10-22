@@ -369,7 +369,7 @@ function init() {
     lineNumbers: true,
   });
 
-  deal_with_get_parameters();
+  deal_with_get_parameters(); // force to interpret get parameters after the update of groups menus
 
   $('#clust1-key').bind('input', function () {
     disable_save();
@@ -386,7 +386,6 @@ function disable_save() {
 }
 
 // ==================================================================================
-// force to interpret get parameters after the update of groups menus
 function deal_with_get_parameters() {
   // corpus get parameter
   if (getParameterByName("tutorial") == "yes") {
@@ -456,24 +455,78 @@ function deal_with_get_parameters() {
       .error(function () {
         direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
       });
-    })
+    });
+    return
+  }
+
+  // if no corpus is specified, take the default
+  if (app.current_corpus_id == undefined) {
+    search_corpus(app.config["default"]);
+  }
+
+  // NB: this is run only if no custom, relation or pattern (select UD by default)
+  if (getParameterByName("eud").length > 0) {
+    $('#eud-box').bootstrapToggle('on');
   } else {
-    if (app.current_corpus_id == undefined) {
-      search_corpus(app.config["default"]);
-    }
+    $('#eud-box').bootstrapToggle('off')
+  }
+
+
+  let clust1_key = getParameterByName("clust1_key");
+  if (clust1_key == "") {
+    clust1_key = getParameterByName("clustering"); // backward compatibility with old naming "clustering"
+  }
+  let clust1_whether = getParameterByName("clust1_whether");
+  if (clust1_whether == "") {
+    clust1_whether = getParameterByName("whether"); // backward compatibility with old naming "whether"
+  }
+  if (clust1_key.length > 0) {
+    app.clust1 = "key";
+    app.clust1_key = clust1_key;
+    get_param_stage2 ();
+  } else if (clust1_whether.length > 0) {
+    app.clust1 = "whether";
+    setTimeout(function () {
+      clust1_cm.setValue(clust1_whether); // hack for correct init of clust1_cm
+      get_param_stage2 ();
+    }, 0)
+  } else {
+    app.clust1 = "no";
+    get_param_stage2 ();
   }
   
+  if (app.clust1 != "no") {
+    let clust2_key = getParameterByName("clust2_key");
+    let clust2_whether = getParameterByName("clust2_whether");
+    if (clust2_key.length > 0) {
+      app.clust2 = "key";
+      app.clust2_key = clust2_key;
+      get_param_stage2 ();
+    } else if (clust2_whether.length > 0) {
+      app.clust2 = "whether";
+      setTimeout(function () {
+        clust2_cm.setValue(clust2_whether); // hack for correct init of clust2_cm
+        get_param_stage2 ();
+      }, 0)
+    } else {
+      app.clust2 = "no";
+      get_param_stage2 ();
+    }
+  }
+} // deal_with_get_parameters
+
+
+// ==================================================================================
+function get_param_stage2 () {
   // If there is a get arg in the URL named "relation" -> make the request directly
   if (getParameterByName("relation").length > 0) {
+    let source = ""
     if (getParameterByName("source").length > 0) {
       source = "GOV [upos=\"" + (getParameterByName("source")) + "\"]; "
-    } else {
-      source = ""
     }
+    let target = ""
     if (getParameterByName("target").length > 0) {
       target = "DEP [upos=\"" + (getParameterByName("target")) + "\"]; "
-    } else {
-      target = ""
     }
     cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + getParameterByName("relation") + "]-> DEP\n}");
     search();
@@ -483,32 +536,10 @@ function deal_with_get_parameters() {
     cmEditor.setValue(getParameterByName("pattern"));
     setTimeout(function () {
       search();
-    }, 0)
-  }
-  
-  // NB: this is run only if no custom, relation or pattern (select UD by default)
-  if (getParameterByName("eud").length > 0) {
-    $('#eud-box').bootstrapToggle('on');
-  } else {
-    $('#eud-box').bootstrapToggle('off')
-  }
-  
-  
-  const clustering = getParameterByName("clustering");
-  const whether = getParameterByName("whether");
-  if (clustering.length > 0) {
-    app.clust1 = "key";
-    app.clust1_key = clustering;
-  } else if (whether.length > 0) {
-    app.clust1 = "whether";
-    setTimeout(function () {
-      clust1_cm.setValue(whether); // hack for correct init of clust1_cm
     }, 50)
-  } else {
-    app.clust1 = "no";
   }
-  
 }
+
 
 // ==================================================================================
 // Binding for interactive part in snippets part
