@@ -396,72 +396,72 @@ function deal_with_get_parameters() {
       direct_info("No tutorial in this instance");
     }
   } else
-
-    if (getParameterByName("corpus").length > 0) {
-      search_corpus(getParameterByName("corpus"));
-    };
-
+  
+  if (getParameterByName("corpus").length > 0) {
+    search_corpus(getParameterByName("corpus"));
+  };
+  
   // custom get parameter
   if (getParameterByName("custom").length > 0) {
     const get_custom = getParameterByName("custom");
-
+    
     app.skip_history = true;
-
+    
     $.getJSON(app.backend_server + "/shorten/" + get_custom + ".json")
-      .done(function (data) {
-        cmEditor.setValue(data.pattern);
-
-        // if corpus is given are GET parameter, it has priority
-        if (app.current_corpus_id == undefined) {
-          if ("corpus" in data) {
-            search_corpus(data.corpus);
-          } else {
-            search_corpus(app.config["default"]);
-          }
-        }
-        if ("clust1_key" in data) {
-          app.clust1 = "key";
-          app.clust1_key = data.clust1_key
-        }
-        if ("clust1_whether" in data) {
-          app.clust1 = "whether";
-          setTimeout(function () {
-            clust1_cm.setValue(data.clust1_whether);
-          }, 0)
-        }
-        if ("clust2_key" in data) {
-          app.clust2 = "key";
-          app.clust2_key = data.clust2_key
-        }
-        if ("clust2_whether" in data) {
-          app.clust2 = "whether";
-          setTimeout(function () {
-            clust2_cm.setValue(data.clust2_whether);
-          }, 0)
-        }
-        if ("eud" in data) {
-          $('#eud-box').bootstrapToggle('on');
+    .done(function (data) {
+      cmEditor.setValue(data.pattern);
+      
+      // if corpus is given are GET parameter, it has priority
+      if (app.current_corpus_id == undefined) {
+        if ("corpus" in data) {
+          search_corpus(data.corpus);
         } else {
-          $('#eud-box').bootstrapToggle('off')
+          search_corpus(app.config["default"]);
         }
+      }
+      if ("clust1_key" in data) {
+        app.clust1 = "key";
+        app.clust1_key = data.clust1_key
+      }
+      if ("clust1_whether" in data) {
+        app.clust1 = "whether";
+        setTimeout(function () {
+          clust1_cm.setValue(data.clust1_whether);
+        }, 0)
+      }
+      if ("clust2_key" in data) {
+        app.clust2 = "key";
+        app.clust2_key = data.clust2_key
+      }
+      if ("clust2_whether" in data) {
+        app.clust2 = "whether";
+        setTimeout(function () {
+          clust2_cm.setValue(data.clust2_whether);
+        }, 0)
+      }
+      if ("eud" in data) {
+        $('#eud-box').bootstrapToggle('on');
+      } else {
+        $('#eud-box').bootstrapToggle('off')
+      }
+      setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
+    })
+    .error(function () {
+      // backup on old custom saving
+      $.get(app.backend_server + "/shorten/" + get_custom, function (pattern) {
+        cmEditor.setValue(pattern);
         setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
       })
       .error(function () {
-        // backup on old custom saving
-        $.get(app.backend_server + "/shorten/" + get_custom, function (pattern) {
-          cmEditor.setValue(pattern);
-          setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
-        })
-          .error(function () {
-            direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
-          });
-      })
+        direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
+      });
+    })
   } else {
     if (app.current_corpus_id == undefined) {
       search_corpus(app.config["default"]);
     }
   }
-
+  
   // If there is a get arg in the URL named "relation" -> make the request directly
   if (getParameterByName("relation").length > 0) {
     if (getParameterByName("source").length > 0) {
@@ -477,22 +477,22 @@ function deal_with_get_parameters() {
     cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + getParameterByName("relation") + "]-> DEP\n}");
     search();
   }
-
+  
   if (getParameterByName("pattern").length > 0) {
     cmEditor.setValue(getParameterByName("pattern"));
     setTimeout(function () {
       search();
     }, 0)
   }
-
+  
   // NB: this is run only if no custom, relation or pattern (select UD by default)
   if (getParameterByName("eud").length > 0) {
     $('#eud-box').bootstrapToggle('on');
   } else {
     $('#eud-box').bootstrapToggle('off')
   }
-
-
+  
+  
   const clustering = getParameterByName("clustering");
   const whether = getParameterByName("whether");
   if (clustering.length > 0) {
@@ -506,7 +506,7 @@ function deal_with_get_parameters() {
   } else {
     app.clust1 = "no";
   }
-
+  
 }
 
 // ==================================================================================
