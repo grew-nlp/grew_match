@@ -392,10 +392,11 @@ function deal_with_get_parameters() {
   if (getParameterByName("tutorial") == "yes") {
     if (app.config["tutorial"]) {
       search_corpus(app.config["tutorial"]);
+      return; // do not consider other GET parameters
     } else {
       direct_info("No tutorial in this instance");
     }
-  } else
+  }
   
   if (getParameterByName("corpus").length > 0) {
     search_corpus(getParameterByName("corpus"));
