@@ -36,13 +36,12 @@ let app = new Vue({
     meta_ud_valid: "", // URL to UD validation page or ""
     meta_log: "", // URL to non-empty log page or ""
 
+    // contents of whether boxes in not handle by Vue because of codemirror
+    // clust1_cm.setValue and clust1_cm.getValue are used instead
     clust1: "no", // 3 possible values: no, key or whether
     clust1_key: "",
-    clust1_whether: "",
-
     clust2: "no", // 3 possible values: no, key or whether
     clust2_key: "",
-    clust2_whether: "",
 
     sent_id: "",
 
