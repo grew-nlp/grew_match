@@ -154,8 +154,7 @@
 							<table class="table">
 								<tbody>
 									<tr>
-										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-on:click="current_corpus_id=corpus.id" href="#">
-											<span class="glyphicon glyphicon-align-justify"></span>
+										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-on:click="current_corpus_id=corpus.id" href="#" style="padding-left: 5px;">
 											{{ corpus.id }}
 											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
@@ -182,31 +181,29 @@
 								<div class="col-md-8" id="console">
 									<h4 v-show="warning_level > 0">
 										<span style="color: red" v-html="warning_message"></span>
-										<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="warning-tooltip"></span>
+										<i id="warning-tooltip" class="fa fa-question-circle fa-lg tooltip-desc"></i>
 									</h4>
 									<h2 id="corpus">
 										<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
 											<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>
 										</button>
-										<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus_id }}</span>
-
-										<span id="update_ago" style="font-size: initial;"></span>
 
 										<span v-show="current_corpus['enhanced']">
 											<input type="checkbox" id="eud-box" data-size="mini" checked data-toggle="toggle" data-on="EUD" data-off="UD" data-onstyle="primary" data-offstyle="primary">
 										</span>
 
+										<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus_id }}</span>
+										<!-- Info button -->
+										<a v-show='meta_info'>
+											<i id="info-button" class="fa fa-info-circle tooltip-desc"></i>
+										</a>
+
+										<span id="update_ago" style="font-size: initial;"></span>
+
 										<!-- Error button -->
 										<a v-if='meta_log != ""' v-bind:href="meta_log" target="_blank">
 											<button type="button" class="btn btn-danger">
 												<i class="fa fa-exclamation-triangle fa-lg"></i>
-											</button>
-										</a>
-
-										<!-- Info button -->
-										<a v-show='meta_info'>
-											<button id="info-button" type="button" class="tooltip-desc btn btn-primary">
-												<i class="fa fa-info-circle fa-lg"></i>
 											</button>
 										</a>
 
@@ -311,7 +308,7 @@
 										<label v-show="mode=='syntax'">
 											&nbsp;&nbsp;
 											<input type="checkbox" v-model="tf_wf"> textform/wordform
-											<span href="" class="glyphicon glyphicon-question-sign tooltip-desc" id="tf-wf-tooltip"></span>
+											<i id="tf-wf-tooltip" class="fa fa-question-circle tooltip-desc"></i>
 										</label>
 										<label>
 											&nbsp;&nbsp;
@@ -356,9 +353,15 @@
 								{{ result_message }}
 								<span style="font-size: 60%">[{{current_time_request.toFixed(3)}}s]</span>
 							</h3>
-							<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_pattern()" style="margin-right:10px">Save <span href="" class="glyphicon glyphicon-link"></button>
-								<button id="export-button" class="btn btn-primary tooltip-desc" :disabled='!search_mode || result_message=="" || result_message=="No results"' v-show="mode=='syntax'" onclick="javascript:run_export()" style="margin-right:10px">TSV <span href="" class="glyphicon glyphicon-download"></span></button>
-								<button class="btn btn-primary" :disabled='!search_mode || result_message=="" || result_message=="No results"' v-show="mode=='syntax'" onclick="javascript:conll_export()" style="margin-right:10px">CoNLL <span href="" class="glyphicon glyphicon-download"></span></button>
+							<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_pattern()" style="margin-right:10px">
+								Save <i class="fa fa-link" aria-hidden="true"></i>
+							</button>
+							<button id="export-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:run_export()" style="margin-right:10px">
+								TSV <i class="fa fa-download" aria-hidden="true"></i></span>
+							</button>
+							<button class="btn btn-primary" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
+								CoNLL <i class="fa fa-download" aria-hidden="true"></i></span>
+							</button>
 
 								<div v-if="cluster_dim == 1" class="row" style="margin-left: 0;">
 									<span style="font-size: 150%">{{cluster_list.length}} cluster{{ cluster_list.length > 1 ? "s" : "" }}:</span>
@@ -386,13 +389,23 @@
 						<div class="row">
 							<div class="col-md-2">
 								<div class="results-navig" v-if="result_nb > 0">
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: result_nb == current_cluster_size }" onclick="javascript:more_results()">More results <span class="glyphicon glyphicon-plus-sign"></span></button>
+									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: result_nb == current_cluster_size }" onclick="javascript:more_results()">
+										More results <i class="fa fa-plus-circle" aria-hidden="true"></i>
+									</button>
 									<br/>
-									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(0)"><span class="glyphicon glyphicon-step-backward"></span></button>
-									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(current_view-1)"><span class="glyphicon glyphicon-chevron-left"></span></button>
+									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(0)">
+										<i class="fa fa-fast-backward fa-fw" aria-hidden="true"></i>
+									</button>
+									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(current_view-1)">
+										<i class="fa fa-step-backward fa-fw" aria-hidden="true"></i>
+									</button>
 									<span class="btn-results" style="font-size: 150%">{{ current_view + 1 }} / {{ result_nb }}</span>
-									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(current_view+1)"><span class="glyphicon glyphicon-chevron-right"></span></button>
-									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(result_nb-1)"><span class="glyphicon glyphicon-step-forward"></button>
+									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(current_view+1)">
+										<i class="fa fa-step-forward fa-fw" aria-hidden="true"></i>
+									</button>
+									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(result_nb-1)">
+										<i class="fa fa-fast-forward fa-fw" aria-hidden="true"></i>
+									</button>
 
 									<ul id="results-list">
 										<li v-for="(item, itemKey) in current_cluster" v-bind:class='{ displayed: itemKey==current_view }'>
@@ -432,13 +445,13 @@
 
 											<button v-if='current_view >= 0 && "meta" in current_item && Object.keys(current_item.meta).length > 0' 
 												class="btn btn-primary btn-sm" type="button" v-on:click="metadata_open=!metadata_open">
-												Metadata
-												<span id="md-icon" class="glyphicon" v-bind:class="metadata_open ? ['glyphicon-chevron-down'] : ['glyphicon-chevron-right']"></span>
+												Metadata&nbsp;
+												<i class="fa fa-fw" v-bind:class="metadata_open ? ['fa-chevron-down'] : ['fa-chevron-right']"></i>
 											</button>
 
 											<button v-show="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="show_conll()">
-												CoNLL
-												<span href="" class="glyphicon glyphicon-export"></span>
+												CoNLL&nbsp;
+												<i class="fa fa-rocket" aria-hidden="true"></i>
 											</button>
 
 											<!-- Link button -->
@@ -447,14 +460,14 @@
 											</a>
 
 											<button v-if="mode=='semantics'" type="button" id="code-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_code()">
-												Code
-												<span href="" class="glyphicon glyphicon-export"></span>
+												Code&nbsp;
+												<i class="fa fa-rocket" aria-hidden="true"></i>
 											</button>
 
 											<a v-if="current_view >=0" target="_blank" v-bind:href="backend_server + 'data/' + current_cluster[current_view].filename">
 												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
-													SVG
-													<span href="" class="glyphicon glyphicon-export"></span>
+													SVG&nbsp;
+													<i class="fa fa-external-link" aria-hidden="true"></i>
 												</button>
 											</a>
 										</div>
