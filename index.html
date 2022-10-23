@@ -331,8 +331,6 @@
 									<p>
 										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
 										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait' style="margin-right:10px">{{ wait ? "Searching..." : "Count" }}</button>
-										<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_pattern()" style="margin-right:10px">Save</button>
-										<button id="export-button" class="btn btn-primary tooltip-desc" :disabled='!search_mode || result_message=="" || result_message=="No results"' v-show="mode=='syntax'" onclick="javascript:run_export()" style="margin-right:10px">Export</button>
 									</p>
 									<p>
 										<span id='custom-display'>Your pattern URL:
@@ -351,16 +349,20 @@
 				</div>
 
 				<!-- Middle part: clusters buttons -->
-				<div v-if='result_message != ""' class="row">
+				<div v-show='result_message != ""' class="row">
 					<div class="jumbotron" id="jumbo-clust">
 						<div class="container-fluid">
 							<h3 id="result_message">
 								{{ result_message }}
 								<span style="font-size: 60%">[{{current_time_request.toFixed(3)}}s]</span>
 							</h3>
-							<div v-if="cluster_dim == 1" class="row" style="margin-left: 0;">
-								<span style="font-size: 150%">{{cluster_list.length}} cluster{{ cluster_list.length > 1 ? "s" : "" }}:</span>
-								<button v-for="(cluster, cluster_index) in cluster_list" type="button" class="btn" v-on:click="select_cluster_1d(cluster_index)" v-bind:class="current_cluster_path != undefined && cluster_index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
+							<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_pattern()" style="margin-right:10px">Save <span href="" class="glyphicon glyphicon-link"></button>
+								<button id="export-button" class="btn btn-primary tooltip-desc" :disabled='!search_mode || result_message=="" || result_message=="No results"' v-show="mode=='syntax'" onclick="javascript:run_export()" style="margin-right:10px">TSV <span href="" class="glyphicon glyphicon-download"></span></button>
+								<button class="btn btn-primary" :disabled='!search_mode || result_message=="" || result_message=="No results"' v-show="mode=='syntax'" onclick="javascript:conll_export()" style="margin-right:10px">CoNLL <span href="" class="glyphicon glyphicon-download"></span></button>
+
+								<div v-if="cluster_dim == 1" class="row" style="margin-left: 0;">
+									<span style="font-size: 150%">{{cluster_list.length}} cluster{{ cluster_list.length > 1 ? "s" : "" }}:</span>
+									<button v-for="(cluster, cluster_index) in cluster_list" type="button" class="btn" v-on:click="select_cluster_1d(cluster_index)" v-bind:class="current_cluster_path != undefined && cluster_index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
 									style="margin:10px">
 									<span class="badge badge-pill badge-info">{{cluster.size}}</span>
 									{{ cluster.value }}
@@ -380,16 +382,18 @@
 				<!-- Lower part: Display the results -->
 				<div class="row">
 					<div v-show="result_message != '' && current_cluster_path != undefined && result_nb > 0" class="container-fluid">
+
 						<div class="row">
-							<div class="col-md-3">
+							<div class="col-md-2">
 								<div class="results-navig" v-if="result_nb > 0">
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: result_nb == current_cluster_size }" onclick="javascript:more_results()">More results</button>
-									<br />
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(0)">⇤</button>
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(current_view-1)">←</button>
+									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: result_nb == current_cluster_size }" onclick="javascript:more_results()">More results <span class="glyphicon glyphicon-plus-sign"></span></button>
+									<br/>
+									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(0)"><span class="glyphicon glyphicon-step-backward"></span></button>
+									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(current_view-1)"><span class="glyphicon glyphicon-chevron-left"></span></button>
 									<span class="btn-results" style="font-size: 150%">{{ current_view + 1 }} / {{ result_nb }}</span>
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(current_view+1)">→</button>
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(result_nb-1)">⇥</button>
+									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(current_view+1)"><span class="glyphicon glyphicon-chevron-right"></span></button>
+									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(result_nb-1)"><span class="glyphicon glyphicon-step-forward"></button>
+
 									<ul id="results-list">
 										<li v-for="(item, itemKey) in current_cluster" v-bind:class='{ displayed: itemKey==current_view }'>
 											<a v-on:click='select_item(itemKey)'>{{ item.sent_id }}</a>
@@ -397,7 +401,7 @@
 									</ul>
 								</div>
 							</div>
-							<div class="col-md-9">
+							<div class="col-md-10">
 
 								<div v-if="current_corpus['audio']">
 									<p class="loading">

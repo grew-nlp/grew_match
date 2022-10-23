@@ -58,7 +58,7 @@ a:hover, a:focus {
 #snippets ul, .results-navig ul {
   list-style-type: none;
   margin: 0;
-  margin-left: 20px;
+  /* margin-left: 20px; */
   padding: 0;
 }
 
@@ -122,7 +122,7 @@ h3 {
 }
 
 #results-list {
-  max-height: 400px;
+  max-height: 50vh;
   overflow: auto;
 }
 
@@ -140,7 +140,6 @@ h3 {
 
 #result_message {
   margin-bottom: 0;
-  padding-top: 10px;
   padding-bottom: 10px;
 }
 
@@ -202,10 +201,7 @@ h3 {
 #jumbo-clust {
   background-color: #ECF0F1;
   margin-top: 15px;
-  padding-left: 0;
-  padding-right: 0;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
 }
 
 #title-grew {

@@ -781,7 +781,7 @@ function count() {
         app.grid_message = "";
         app.gridCells = data.cluster_grid.cells;
       }
-      app.grid_message += data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : "; ")
+      app.grid_message += data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : ", ")
       app.grid_message += data.cluster_grid.columns.length + " column" + (data.cluster_grid.columns.length > 1 ? "s" : "")
     }
 
@@ -944,6 +944,21 @@ function export_tsv(pivot) {
 
   request("export", form, function (data) {
     show_export_modal();
+  })
+}
+
+// ==================================================================================
+function conll_export() {
+  let param = {
+    uuid: app.current_request_id,
+  };
+  
+  let form = new FormData();
+  form.append("param", JSON.stringify(param));
+  
+  request("conll_export", form, function () {
+    let data_folder = app.backend_server + "/data/" + app.current_request_id;
+    window.location = data_folder + '/export.conllu';
   })
 }
 
