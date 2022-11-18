@@ -326,8 +326,8 @@
 										</label>
 									</p>
 									<p>
-										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }}</button>
-										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait' style="margin-right:10px">{{ wait ? "Searching..." : "Count" }}</button>
+										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }} <i class="fa fa-search" aria-hidden="true"></i></button>
+										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait' style="margin-right:10px">{{ wait ? "Counting..." : "Count" }} <i class="fa fa-list-ol" aria-hidden="true"></i></button>
 									</p>
 									<p>
 										<span id='custom-display'>Your pattern URL:
@@ -351,7 +351,7 @@
 						<div class="container-fluid">
 							<h3 id="result_message">
 								{{ result_message }}
-								<span style="font-size: 60%">[{{current_time_request.toFixed(3)}}s]</span>
+								<span style="font-size: 60%">[{{current_time.toFixed(3)}}s]</span>
 							</h3>
 							<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_pattern()" style="margin-right:10px">
 								Save <i class="fa fa-link" aria-hidden="true"></i>

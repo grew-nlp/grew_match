@@ -27,7 +27,7 @@ let app = new Vue({
 
     current_group_id: undefined,
     current_corpus_id: undefined,
-    current_request_id: "",
+    current_uuid: "",
     current_view: 0,
 
     meta_info: false,
@@ -71,7 +71,7 @@ let app = new Vue({
     current_cluster_path: undefined,
     current_cluster: [],
     current_cluster_size: 0,
-    current_time_request: 0,
+    current_time: 0,
     skip_history: false, // flag used to avoid history to be rewritten when loading a custom pattern
 
     warning_level: 0,
@@ -333,7 +333,7 @@ $(document).ready(function () {
   $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
 
   $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
-  $('#save-button').tooltipster('content', "Build a permanent URL with the current request");
+  $('#save-button').tooltipster('content', "Build a permanent URL with the current session");
   $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
 
   $('#github-button').tooltipster('content', "GitHub repository");
@@ -456,6 +456,7 @@ function deal_with_get_parameters() {
         direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
       });
     });
+    console.log("RRRRRR")
     return
   }
 
@@ -480,6 +481,8 @@ function deal_with_get_parameters() {
   if (clust1_whether == "") {
     clust1_whether = getParameterByName("whether"); // backward compatibility with old naming "whether"
   }
+  console.log("***********");
+  console.log(clust1_whether);
   if (clust1_key.length > 0) {
     app.clust1 = "key";
     app.clust1_key = clust1_key;
@@ -518,7 +521,7 @@ function deal_with_get_parameters() {
 
 // ==================================================================================
 function get_param_stage2 () {
-  // If there is a get arg in the URL named "relation" -> make the request directly
+  // If there is a get arg in the URL named "relation" -> make the search directly
   if (getParameterByName("relation").length > 0) {
     let source = ""
     if (getParameterByName("source").length > 0) {
@@ -633,7 +636,7 @@ function ping(url, set_fct) {
 
 
 // ==================================================================================
-function request(service, form, data_fct, error_fct) {
+function backend(service, form, data_fct, error_fct) {
   let settings = {
     "url": app.backend_server + service,
     "method": "POST",
@@ -664,7 +667,7 @@ function request(service, form, data_fct, error_fct) {
           html: JSON.stringify(response.exception),
         });
       } else {
-        log("Success request to service: " + service + "-->");
+        log("Success call to service: " + service + "-->");
         log(response.data);
         data_fct(response.data);
       }
@@ -694,7 +697,7 @@ function named_cluster_path() {
 // ==================================================================================
 function more_results(post_update_graph_view=false) {
   let param = {
-    uuid: app.current_request_id,
+    uuid: app.current_uuid,
     cluster_path: app.current_cluster_path,
     named_cluster_path: named_cluster_path()
   };
@@ -702,7 +705,7 @@ function more_results(post_update_graph_view=false) {
   let form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  request("more_results", form, function (data) {
+  backend("more_results", form, function (data) {
     if (app.cluster_dim == 0) {
       app.clusters = app.clusters.concat(data.items);
       app.update_current_cluster();
@@ -758,8 +761,8 @@ function count() {
 
   app.wait = true;
   app.search_mode = false;
-  request("count", form, function (data) {
-    app.current_time_request = data.time;
+  backend("count", form, function (data) {
+    app.current_time = data.time;
     app.nb_solutions = data.nb_solutions;
 
     if (data.nb_solutions == 0) {
@@ -833,11 +836,11 @@ function search() {
   form.append("param", JSON.stringify(param));
 
   app.wait = true;
-  request("search", form, function (data) {
+  backend("search", form, function (data) {
     app.search_mode = true;
-    app.current_request_id = data.uuid;
+    app.current_uuid = data.uuid;
     app.current_pivots = data.pivots;
-    app.current_time_request = data.time;
+    app.current_time = data.time;
     app.nb_solutions = data.nb_solutions;
 
     switch (data.status) {
@@ -892,7 +895,7 @@ function search() {
 
 // ==================================================================================
 function show_export_modal() {
-  let data_folder = app.backend_server + "/data/" + app.current_request_id;
+  let data_folder = app.backend_server + "/data/" + app.current_uuid;
   $.get(data_folder + "/export.tsv", function (data) {
     let lines = data.split("\n");
 
@@ -935,14 +938,14 @@ function run_export() {
 function export_tsv(pivot) {
   $('#pivot-modal').modal('hide');
   let param = {
-    uuid: app.current_request_id,
+    uuid: app.current_uuid,
     pivot: pivot,
   };
 
   let form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  request("export", form, function (data) {
+  backend("export", form, function (data) {
     show_export_modal();
   })
 }
@@ -950,14 +953,14 @@ function export_tsv(pivot) {
 // ==================================================================================
 function conll_export() {
   let param = {
-    uuid: app.current_request_id,
+    uuid: app.current_uuid,
   };
   
   let form = new FormData();
   form.append("param", JSON.stringify(param));
   
-  request("conll_export", form, function () {
-    let data_folder = app.backend_server + "/data/" + app.current_request_id;
+  backend("conll_export", form, function () {
+    let data_folder = app.backend_server + "/data/" + app.current_uuid;
     window.location = data_folder + '/export.conllu';
   })
 }
@@ -966,7 +969,7 @@ function conll_export() {
 function update_parallel() {
   if (app.parallel != "no") {
     let param = {
-      uuid: app.current_request_id,
+      uuid: app.current_uuid,
       corpus: app.parallel,
       sent_id: app.sent_id,
     };
@@ -974,11 +977,11 @@ function update_parallel() {
     let form = new FormData();
     form.append("param", JSON.stringify(param));
 
-    request(
+    backend(
       "parallel",
       form,
       function (data) {
-        app.parallel_svg = app.backend_server + "/data/" + app.current_request_id + "/" + data;
+        app.parallel_svg = app.backend_server + "/data/" + app.current_uuid + "/" + data;
       },
       function (message) {
         app.parallel_svg = undefined;
@@ -990,14 +993,14 @@ function update_parallel() {
 
 // ==================================================================================
 function download() {
-  let data_folder = app.backend_server + "/data/" + app.current_request_id;
+  let data_folder = app.backend_server + "/data/" + app.current_uuid;
   window.location = data_folder + '/export.tsv';
 }
 
 // ==================================================================================
 function show_conll() {
   let param = {
-    uuid: app.current_request_id,
+    uuid: app.current_uuid,
     current_view: app.current_view,
     cluster_path: app.current_cluster_path,
     named_cluster_path: named_cluster_path()
@@ -1006,7 +1009,7 @@ function show_conll() {
   let form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  request("conll", form, function (data) {
+  backend("conll", form, function (data) {
     $("#code_viewer").html(data);
     $('#code_modal').modal('show');
   })
@@ -1027,7 +1030,7 @@ function code_copy() {
 // ==================================================================================
 function save_pattern() {
   let param = {
-    uuid: app.current_request_id,
+    uuid: app.current_uuid,
     pattern: cmEditor.getValue(),
     corpus: app.current_corpus_id,
   };
@@ -1053,11 +1056,11 @@ function save_pattern() {
   let form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  request("save", form, function (data) {
-    let get = "?custom=" + app.current_request_id;
+  backend("save", form, function (data) {
+    let get = "?custom=" + app.current_uuid;
 
     history.pushState({
-      id: app.current_request_id
+      id: app.current_uuid
     },
       "",
       get
@@ -1212,7 +1215,7 @@ function select_cluster_2d(c, r) {
       app.update_current_cluster();
       update_graph_view ();
     }
-}
+  }
 
 }
 
