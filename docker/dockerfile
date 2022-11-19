@@ -78,5 +78,6 @@ ENV PATH=${PATH}:/root/.opam/4.13.1/bin
 EXPOSE 8000
 
 COPY startscript.sh .
+RUN chmod +x startscript.sh
 
 CMD ["/opt/startscript.sh"]
