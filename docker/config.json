@@ -1,0 +1,15 @@
+{
+  "backend_server": "http://localhost:8899/",
+  "default": "UD_Welsh-CCG@master",
+  "groups": [{
+    "id": "gold",
+    "name": "UD_Welsh",
+    "mode": "syntax",
+    "style": "dropdown",
+    "default": "UD_Welsh-CCG@master",
+    "corpora": [{
+        "id": "UD_Welsh-CCG@master"
+      }
+    ]
+  }]
+}

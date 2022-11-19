@@ -1,0 +1,9 @@
+{
+  "corpora": [
+    {
+      "id": "UD_Welsh-CCG@master",
+      "config": "ud",
+      "directory": "/opt/UD_Welsh-CCG"
+    }
+  ]
+}
