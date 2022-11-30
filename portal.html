@@ -43,12 +43,12 @@
     function getParameterByName(name) {
       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
       var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
+      results = regex.exec(location.search);
       return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
     if (getParameterByName("tutorial") == "yes") {
-        location.replace("http://universal.grew.fr?tutorial=yes");
+      location.replace("http://universal.grew.fr?tutorial=yes");
     }
 
     let corpus = getParameterByName("corpus");
@@ -64,7 +64,7 @@
         location.replace("http://universal.grew.fr" + location.search);
       }
       const orfeo_list = ["cefc-gold", "fleuron", "ofrom", "valibel", "frenchoralnarrative", "crfp", "cfbp", "cfpp", "coralrom", "clapi", "tufs", "reunions-de-travail", "tcof", "annodis", "comere", "frantext", "scientext", "est-republicain",
-        "chambers-rostand"
+      "chambers-rostand"
       ];
       if (orfeo_list.includes(corpus)) {
         location.replace("http://orfeo.grew.fr" + location.search);
@@ -108,13 +108,10 @@
   </div>
 
 
-    <div id="corpus-unknown" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none; max-width: 800px; margin-left: auto; margin-right: auto;">
-      Don't know how to find the corpus "<span id="corpus_name"></span>". Use the links below.
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
+  <div id="corpus-unknown" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none; max-width: 800px; margin-left: auto; margin-right: auto;">
+    Don't know how to find the corpus "<span id="corpus_name"></span>". Use the links below.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
-
 
   <div class="row" style="width: 80%; margin: auto">
     <div class="col-sm-4">
@@ -135,21 +132,22 @@
           <div class="card-header">Parseme<code>parseme.grew.fr</code></div>
           <div class="card-body">
             <img src="https://parsemefr.lis-lab.fr/parseme-st-guidelines/img/parseme-logo.png" style="width:100%" alt="Parseme"> </div>
-          <div class="card-footer">Corpora annotated with MWE from the Parseme project</div>
-        </div>
-      </a>
-    </div>
-    <div class="col-sm-4">
-      <a href="http://semantics.grew.fr">
-        <div class="card">
-          <div class="card-header">Semantics<code>semantics.grew.fr</code></div>
-          <div class="card-body align-items-center">
-            <img src="https://amr.isi.edu/amr-quant4.jpg" style="width:25%; margin-right:30px;" alt="AMR">
-            <img src="https://pmb.let.rug.nl/img/logo.png" style="width:25%; margin-left:30px;" alt="PMB">
+            <div class="card-footer">Corpora annotated with MWE from the Parseme project</div>
           </div>
-          <div class="card-footer">Some semantically annotated corpora (AMR, DMRS, PMB)</div>
-        </div>
-      </a>
+        </a>
+      </div>
+      <div class="col-sm-4">
+        <a href="http://semantics.grew.fr">
+          <div class="card">
+            <div class="card-header">Semantics<code>semantics.grew.fr</code></div>
+            <div class="card-body align-items-center">
+              <img src="https://amr.isi.edu/amr-quant4.jpg" style="width:25%; margin-right:30px;" alt="AMR">
+              <img src="https://pmb.let.rug.nl/img/logo.png" style="width:25%; margin-left:30px;" alt="PMB">
+            </div>
+            <div class="card-footer">Some semantically annotated corpora (AMR, DMRS, PMB)</div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 
