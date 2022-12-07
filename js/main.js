@@ -535,8 +535,12 @@ function get_param_stage2 () {
     search();
   }
   
-  if (getParameterByName("pattern").length > 0) {
-    cmEditor.setValue(getParameterByName("pattern"));
+  let request = getParameterByName("request");
+  if (request.length == O) {
+    request = getParameterByName("pattern") // backward compabilty
+  }
+  if (request.length > 0) {
+    cmEditor.setValue(request);
     setTimeout(function () {
       search();
     }, 50)
