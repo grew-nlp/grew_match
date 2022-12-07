@@ -536,7 +536,7 @@ function get_param_stage2 () {
   }
   
   let request = getParameterByName("request");
-  if (request.length == O) {
+  if (request.length == 0) {
     request = getParameterByName("pattern") // backward compabilty
   }
   if (request.length > 0) {
