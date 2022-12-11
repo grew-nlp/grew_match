@@ -271,7 +271,7 @@
 										<label><input type="radio" name="clust1" value="key" v-model="clust1"> Key</label>
 										<label><input type="radio" name="clust1" value="whether" v-model="clust1"> Whether</label>
 									</div>
-									<input v-show="clust1=='key'" v-model="clust1_key" type="entry" id="clust1-key" />
+									<input v-show="clust1=='key'" v-model="clust1_key" type="entry" style="width: 25em" id="clust1-key" />
 									<div v-show="clust1=='whether'">
 										<textarea id="whether-input1"></textarea>
 									</div>
@@ -283,7 +283,7 @@
 											<label><input type="radio" name="clust2" value="key" v-model="clust2"> Key</label>
 											<label><input type="radio" name="clust2" value="whether" v-model="clust2"> Whether</label>
 										</div>
-										<input v-show="clust2=='key'" v-model="clust2_key" type="entry" id="clust2-key" />
+										<input v-show="clust2=='key'" v-model="clust2_key" type="entry" style="width: 25em" id="clust2-key" />
 										<div v-show="clust2=='whether'">
 											<textarea id="whether-input2"></textarea>
 										</div>
