@@ -235,6 +235,11 @@
 											</button>
 										</a>
 
+										<!-- Download button -->
+										<a v-show='current_corpus["download"]' v-bind:href='current_corpus["download"]' target="_blank">
+											<button id="download-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-download fa-lg"></i></button>
+										</a>
+
 										<!-- Link button -->
 										<a v-show='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
 											<button id="link-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-link fa-lg"></i></button>
