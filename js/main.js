@@ -315,7 +315,7 @@ function search_corpus(requested_corpus) {
 // ==================================================================================
 // this function is run after page loading
 $(document).ready(function () {
-  $.getJSON("corpora/config.json")
+  $.getJSON("config.json")
     .done(function (data) {
       app.config = data;
       init(); // ensure init is ran after config loading
@@ -551,8 +551,8 @@ function get_param_stage2 () {
 // ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
-  let dir = "corpora/" + base
-  $.get(dir + "/right_pane.html", function (data) {
+  let file = "snippets/" + base + ".html";
+  $.get(file, function (data) {
     $('#right-pane').html(data);
     $(".inter").click(function () {
       app.clust1 = "no"; // default value
@@ -585,7 +585,7 @@ function right_pane(base) {
       }
 
       // Update of the textarea
-      const file = dir + "/" + $(this).attr('snippet-file');
+      const file = "snippets/" + $(this).attr('snippet-file');
       $.get(file, function (pattern) {
         cmEditor.setValue(pattern);
       })
@@ -1120,7 +1120,7 @@ function update_corpus() {
   } else if (app.current_group["snippets"]) {
     right_pane(app.current_group["snippets"]);
   } else {
-    right_pane(app.current_group_id);
+    right_pane("_default");
   }
 
   // Show the errors button only if there is a not empty log_file
