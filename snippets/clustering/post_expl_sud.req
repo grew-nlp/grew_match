@@ -1,0 +1,4 @@
+% NB: to be tested on English corpora
+% How the post verbal subject are strongly correlated with the presence of an expletive?
+
+pattern { GOV -[subj]-> DEP }

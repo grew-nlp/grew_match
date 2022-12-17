@@ -1,0 +1,3 @@
+% Search for a two embedded negations
+
+pattern { B1 -[NEGATION]-> B2; B2 -[NEGATION]-> B3 }

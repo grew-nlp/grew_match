@@ -1,0 +1,8 @@
+pattern {
+S -[ "vocable-of" ]-> N ;
+S -[ "vocable-of" ]-> P ;
+e: N -[ fam=Syn ]-> M ;
+f: P -[ fam=Contr ]-> Q ;
+N.vocable = P.vocable ;
+M.vocable = Q.vocable
+}

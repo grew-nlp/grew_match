@@ -1,0 +1,79 @@
+<div class="navbar" id="right-navbar">
+  <div class="navbar-inner">
+    <ul class="nav nav-pills">
+
+      <li class="active"><a class="grew-label" href="#step1" data-toggle="tab">1</a></li>
+      <li>               <a class="grew-label" href="#step2" data-toggle="tab">2</a></li>
+      <li>               <a class="grew-label" href="#step3" data-toggle="tab">3</a></li>
+      <li>               <a class="grew-label" href="#step4" data-toggle="tab">4</a></li>
+      <li>               <a class="grew-label" href="#step5" data-toggle="tab">5</a></li>
+    </ul>
+  </div>
+</div>
+<div class="tab-content" id="snippets">
+  <div class="tab-pane active" id="step1">
+    <h4>Lesson 1: how to search for a node</h4>
+    <ul>
+      <li><a href="#" snippet-file="tuto/lesson1/node.req" class="inter">Match any node and give it the name N</a></li>
+      <li><a href="#" snippet-file="tuto/lesson1/fs.req" class="inter">Impose some restriction on the feature structure</a></li>
+      <li><a href="#" snippet-file="tuto/lesson1/quotes.req" class="inter">Use quotes around values if they contain special characters</a></li>
+      <li><a href="#" snippet-file="tuto/lesson1/fs_multi.req" class="inter">Impose several restrictions on the feature structure</a></li>
+      <li><a href="#" snippet-file="tuto/lesson1/disjunction.req" class="inter">Use disjunction on feature values</a></li>
+      <li><a href="#" snippet-file="tuto/lesson1/negation.req" class="inter">Use negation on feature values</a></li>
+      <li><a href="#" snippet-file="tuto/lesson1/regexp.req" class="inter">Regular expression in feature value</a></li>
+      <li><a href="#" snippet-file="tuto/lesson1/present.req" class="inter">Require a feature to be there (without restriction on the value)</a></li>
+      <li><a href="#" snippet-file="tuto/lesson1/absent.req" class="inter">Require a feature not to be there</a></li>
+      <li><a href="#" snippet-file="tuto/lesson1/injective.req" class="inter">Matching is injective</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="step2">
+    <h4>Lesson 2: how to search for a relation</h4>
+    <ul>
+      <li><a href="#" snippet-file="tuto/lesson2/any.req" class="inter">Search a relation without restriction</a></li>
+      <li><a href="#" snippet-file="tuto/lesson2/implicit.req" class="inter">Implicit node declaration</a></li>
+      <li><a href="#" snippet-file="tuto/lesson2/rel.req" class="inter">Search for a given relation</a></li>
+      <li><a href="#" snippet-file="tuto/lesson2/disj.req" class="inter">Search for a disjunction of relations</a></li>
+      <li><a href="#" snippet-file="tuto/lesson2/diff.req" class="inter">Search for a relation different from a given disjunction</a></li>
+      <li><a href="#" snippet-file="tuto/lesson2/regexp.req" class="inter">Use regular expression to match a set of label</a></li>
+      <li><a href="#" snippet-file="tuto/lesson2/combine.req" class="inter">Combine restriction on nodes and restriction on relations</a></li>
+      <li><a href="#" snippet-file="tuto/lesson2/large.req" class="inter">Search for a larger pattern</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="step3">
+    <h4>Lesson 3: add constraints on patterns</h4>
+    <ul>
+      <li><a href="#" snippet-file="tuto/lesson3/feat_equality.req" class="inter">Constraint for the equality of two features</a></li>
+      <li><a href="#" snippet-file="tuto/lesson3/feat_inequality.req" class="inter">Constraint for the feat_inequality of two features</a></li>
+      <li><a href="#" snippet-file="tuto/lesson3/precedence.req" class="inter">Constraint on positions in the sentence</a></li>
+      <li><a href="#" snippet-file="tuto/lesson3/i_precedence.req" class="inter">Immediate precedence</a></li>
+      <li><a href="#" snippet-file="tuto/lesson3/incoming.req" class="inter">Constraint on incoming edges</a></li>
+      <li><a href="#" snippet-file="tuto/lesson3/outgoing.req" class="inter">Constraint on outgoing edges</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="step4">
+    <h4>Lesson 4: use negative application patterns</h4>
+    <ul>
+      <li><a href="#" snippet-file="tuto/lesson4/nap.req" class="inter">Filter out results of the pattern part</a></li>
+      <li><a href="#" snippet-file="tuto/lesson4/no_det.req" class="inter">Remove occurrences with a given relation</a></li>
+      <li><a href="#" snippet-file="tuto/lesson4/one.req" class="inter">one or two negative application patterns [1/2]</a></li>
+      <li><a href="#" snippet-file="tuto/lesson4/two.req" class="inter">one or two negative application patterns [2/2]</a></li>
+      <li><a href="#" snippet-file="tuto/lesson4/multiple.req" class="inter">multiple negative pattern for error mining</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="step5">
+    <h4>Lesson 5: clustering of the results</h4>
+    <ul>
+      <li><a href="#" clustering="N.upos" snippet-file="tuto/lesson5/some.req" class="inter">Cluster by "upos" for a given form</a></li>
+      <li><a href="#" clustering="GOV.upos" snippet-file="tuto/lesson5/upos.req" class="inter">Cluster results by one node "upos"</a></li>
+      <li><a href="#" clustering="N.lemma" snippet-file="tuto/lesson5/lemma.req" class="inter">Cluster results by one node "lemma"</a></li>
+      <li><a href="#" clustering="N.VerbForm" snippet-file="tuto/lesson5/verbform.req" class="inter">Other clustering on nodes</a></li>
+      <li><a href="#" clustering="e.label" snippet-file="tuto/lesson5/edge.req" class="inter">Cluster results by edge label</a></li>
+    </ul>
+  </div>
+
+</div>
+

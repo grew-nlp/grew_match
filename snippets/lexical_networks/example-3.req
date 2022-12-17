@@ -1,0 +1,6 @@
+pattern {
+e: N -[ fam=Syn ]-> M ;
+f: P -[ fam=Contr ]-> Q ;
+N.vocable = P.vocable ;
+M.vocable = Q.vocable
+}

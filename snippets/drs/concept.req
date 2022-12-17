@@ -1,0 +1,3 @@
+% Search for a given word concept
+
+pattern { N [concept="car.n.01"] }

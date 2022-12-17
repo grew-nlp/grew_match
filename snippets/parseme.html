@@ -1,0 +1,67 @@
+<div class="navbar" id="right-navbar">
+  <div class="navbar-inner">
+    <ul class="nav nav-pills">
+
+      <li>                <a class="grew-label" href="#step1" data-toggle="tab">Basic</a></li>
+      <li class="active"> <a class="grew-label" href="#step2" data-toggle="tab">MWE</a></li>
+      <li>                <a class="grew-label" href="#step3" data-toggle="tab">n-grams</a></li>
+      <li>                <a class="grew-label" href="#step4" data-toggle="tab">Errors?</a></li>
+
+    </ul>
+  </div>
+</div>
+<div class="tab-content" id="snippets">
+
+  <div class="tab-pane" id="step1">
+    <ul>
+      <li><a href="#" snippet-file="ud/basic/search_form.req" class="inter">Search for a form</a></li>
+      <li><a href="#" snippet-file="ud/basic/search_lemma.req" class="inter">Search for a lemma</a></li>
+      <li><a href="#" snippet-file="ud/basic/search_upos.req" class="inter">Search for a POS</a></li>
+      <li><a href="#" snippet-file="ud/basic/search_morph.req" class="inter">Search for a morphological feature</a></li>
+      <li><a href="#" snippet-file="ud/basic/search_rel.req" class="inter">Search for a dependency relation</a></li>
+      <li><a href="#" snippet-file="ud/basic/mixed.req" class="inter">Search for both relations and tags</a></li>
+      <li><a href="#" snippet-file="ud/basic/negation.req" class="inter">Filter with NAP (Negative Application Patterns)</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane active" id="step2">
+    <ul>
+      <li><a href="#" snippet-file="parseme/lvc_full.req" class="inter">Search for MWE with label "LVC.full"</a></li>
+      <li><a href="#" snippet-file="parseme/mwe_verb.req" class="inter">Search for MWE with a given verb</a></li>
+      <li><a href="#" snippet-file="parseme/mwe_2_forms.req" class="inter">MWE with 2 given phonological forms</a></li>
+      <li><a href="#" snippet-file="parseme/mwe_2_lemmas.req" class="inter">MWE with 2 given lemmas</a></li>
+      <li><a href="#" snippet-file="parseme/mwe_morph.req" class="inter">MWE with some morphological constraint</a></li>
+      <li><a href="#" snippet-file="parseme/mwe2.req" class="inter">MWE with exactly 2 words</a></li>
+      <li><a href="#" snippet-file="parseme/mwe3.req" class="inter">MWE with exactly 3 words</a></li>
+      <li><a href="#" snippet-file="parseme/mwe4.req" class="inter">MWE with exactly 4 words</a></li>
+      <li><a href="#" snippet-file="parseme/node_in_2_mwe.req" class="inter">Search a node which is in two different MWE</a></li>
+      <li><a href="#" clustering="MWE.label" snippet-file="parseme/all_clustered.req" class="inter">Search for MWE, cluster by label</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="step3">
+    <ul>
+      <li><a href="#" snippet-file="n-grams/2-gram-form.req" class="inter">Search for a bigram of words</a></li>
+      <li><a href="#" snippet-file="n-grams/2-gram-lemma.req" class="inter">Search for a bigram of lemmas</a></li>
+      <li><a href="#" snippet-file="n-grams/2-gram-upos.req" class="inter">Search for a bigram of POS</a></li>
+      <li><a href="#" snippet-file="n-grams/3-gram-form.req" class="inter">Search for a trigram of words</a></li>
+      <li><a href="#" snippet-file="n-grams/3-gram-lemma.req" class="inter">Search for a trigram of lemmas</a></li>
+      <li><a href="#" snippet-file="n-grams/3-gram-upos.req" class="inter">Search for a trigram of POS</a></li>
+      <li><a href="#" snippet-file="n-grams/4-gram-form.req" class="inter">Search for a 4-gram of words</a></li>
+      <li><a href="#" snippet-file="n-grams/4-gram-lemma.req" class="inter">Search for a 4-gram of lemmas</a></li>
+      <li><a href="#" snippet-file="n-grams/4-gram-upos.req" class="inter">Search for a 4-gram of POS</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="step4">
+    <ul>
+      <li><a href="#" snippet-file="parseme_errors/no_verb.req" class="inter">VMWE without verb</a></li>
+      <li><a href="#" snippet-file="parseme_errors/one_word.req" class="inter">MWE with only one element</a></li>
+      <li><a href="#" snippet-file="parseme_errors/obj_no_det.req" class="inter">Verb+Obj without det, not MWE (for French)</a></li>
+    </ul>
+  </div>
+
+
+
+
+</div>

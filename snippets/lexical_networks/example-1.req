@@ -1,0 +1,8 @@
+pattern {
+S -[ "vocable-of" ]-> N;
+S -[ "vocable-of" ]-> P;
+e:N -[ super="Métaphore" ]-> M ;
+f:P -[ super="Métaphore" ]-> Q ;
+P.vocable = N.vocable ;
+P.POS = "N" ;
+}

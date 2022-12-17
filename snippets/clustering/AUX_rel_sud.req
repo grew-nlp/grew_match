@@ -1,0 +1,6 @@
+% How the lemma of an auxiliary is correlated with its complement
+% The table shows
+% * in lines the aux lemma 
+% * in columns its complements "comp:*" (i.e. the label of dep with the given complement)
+
+pattern { N [upos="AUX"]; e: N -[1=comp]-> V }

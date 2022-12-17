@@ -1,0 +1,7 @@
+% All graphs have a metadata `sent_id`
+
+global { sent_id = "GUM_fiction_error-14" }
+
+% It is also possible to use regexp to get all sent_id containing some substring, for instance:
+
+% global { sent_id = re".*fiction.*" }

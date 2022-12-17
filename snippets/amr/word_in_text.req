@@ -1,0 +1,3 @@
+% The regexp search for the form "is" (\b stands for "word boundary")
+
+global { text = re".*\bis\b.*" }

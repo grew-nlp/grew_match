@@ -1,0 +1,5 @@
+% Regular expression can be used for feature filtering
+
+pattern {
+  N [ form = re".*ing" ]
+}

@@ -1,0 +1,6 @@
+% How the lemma of an auxiliary is correlated with its function.
+% The table shows
+% * in lines the aux lemma 
+% * in columns its relation (i.e. the label of the dependency relation with its governor)
+
+pattern {  N[upos = AUX]; e: M -> N }
