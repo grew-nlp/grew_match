@@ -334,11 +334,6 @@
 										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }} <i class="fa fa-search" aria-hidden="true"></i></button>
 										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait' style="margin-right:10px">{{ wait ? "Counting..." : "Count" }} <i class="fa fa-list-ol" aria-hidden="true"></i></button>
 									</p>
-									<p>
-										<span id='custom-display'>Your pattern URL:
-											<span id="custom-url"></span>
-										</span>
-									</p>
 								</div>
 
 								<!-- Upper-right part: navbar Snippets/Examples -->
@@ -367,6 +362,12 @@
 							<button class="btn btn-primary" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
 								CoNLL <i class="fa fa-download" aria-hidden="true"></i></span>
 							</button>
+
+							<h5 v-show="current_custom != ''" style="margin-top:10px; margin-bottom:0px;">
+								<span>Your pattern URL:
+									<span id="custom-url">{{ current_custom }}</span>
+								</span>
+							</h5>
 
 								<div v-if="cluster_dim == 1" class="row" style="margin-left: 0;">
 									<span style="font-size: 150%">{{cluster_list.length}} cluster{{ cluster_list.length > 1 ? "s" : "" }}:</span>

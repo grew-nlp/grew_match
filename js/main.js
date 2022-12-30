@@ -73,6 +73,7 @@ let app = new Vue({
     current_cluster_size: 0,
     current_time: 0,
     skip_history: false, // flag used to avoid history to be rewritten when loading a custom pattern
+    current_custom: "",
 
     warning_level: 0,
     warning_message: "",
@@ -371,19 +372,8 @@ function init() {
 
   deal_with_get_parameters(); // force to interpret get parameters after the update of groups menus
 
-  $('#clust1-key').bind('input', function () {
-    disable_save();
-  });
-
-  $('input:radio[name="clust1"]').change(function () {
-    disable_save();
-  });
 }
 
-// ==================================================================================
-function disable_save() {
-  $('#custom-display').hide();
-}
 
 // ==================================================================================
 function deal_with_get_parameters() {
@@ -456,7 +446,6 @@ function deal_with_get_parameters() {
         direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
       });
     });
-    console.log("RRRRRR")
     return
   }
 
@@ -481,8 +470,6 @@ function deal_with_get_parameters() {
   if (clust1_whether == "") {
     clust1_whether = getParameterByName("whether"); // backward compatibility with old naming "whether"
   }
-  console.log("***********");
-  console.log(clust1_whether);
   if (clust1_key.length > 0) {
     app.clust1 = "key";
     app.clust1_key = clust1_key;
@@ -732,9 +719,7 @@ function more_results(post_update_graph_view=false) {
 
 // ==================================================================================
 function count() {
-
-  $('#results-block').hide();
-  $('#cluster-block').hide();
+  app.current_custom = "";
   app.current_cluster_path = undefined;
   app.cluster_dim = 0;
 
@@ -798,10 +783,7 @@ function count() {
 
 // ==================================================================================
 function search() {
-
-  $('#results-block').hide();
-  $('#cluster-block').hide();
-
+  app.current_custom = "";
   app.clusters = [];
   app.current_view = 0;
   app.current_cluster_path = undefined;
@@ -1060,17 +1042,9 @@ function save_pattern() {
   let form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  backend("save", form, function (data) {
-    let get = "?custom=" + app.current_uuid;
-
-    history.pushState({
-      id: app.current_uuid
-    },
-      "",
-      get
-    );
-    $('#custom-url').text(window.location.href);
-    $('#custom-display').show();
+  backend("save", form, function (_) {
+    history.pushState({ id: app.current_uuid }, "", "?custom=" + app.current_uuid);
+    app.current_custom = window.location.href;
     SelectText("custom-url");
   })
 }
@@ -1103,6 +1077,7 @@ function getParameterByName(name) {
 
 // ==================================================================================
 function update_corpus() {
+  app.current_custom = "";
   if (app.current_corpus["desc"]) {
     $('#corpus-desc-label').tooltipster('enable');
     $('#corpus-desc-label').tooltipster('content', app.current_corpus["desc"]);
@@ -1112,8 +1087,6 @@ function update_corpus() {
 
   app.parallel = "no";
   app.parallels = app.current_corpus["parallels"] ? app.current_corpus["parallels"] : [];
-
-  disable_save();
 
   if (app.current_corpus["snippets"]) {
     right_pane(app.current_corpus["snippets"]);
