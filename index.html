@@ -476,6 +476,12 @@
 													<i class="fa fa-external-link" aria-hidden="true"></i>
 												</button>
 											</a>
+
+										<!-- grew-web button -->
+										<button v-if='"grs" in current_corpus && current_corpus["grs"] != ""' onclick="javascript:grew_web()" type="button" class="tooltip-desc btn btn-sm btn-primary">
+											Grew-web&nbsp;<i class="fa fa-gear fa-lg"></i>
+										</button>
+
 										</div>
 
 										<div v-if="current_view >= 0">

@@ -22,6 +22,8 @@ let app = new Vue({
 
     config: undefined,
     backend_server: undefined,
+    grew_web_backend: undefined,
+    grew_web_frontend: undefined,
 
     view_left_pane: false, // true iff the left_pane is open
 
@@ -232,6 +234,35 @@ function log(msg) {
   }
 }
 
+
+// ==================================================================================
+function grew_web() {
+  let param = {
+    corpus_id: app.current_corpus['src'],
+    sent_id: app.sent_id,
+  };
+
+  let form = new FormData();
+  form.append("param", JSON.stringify(param));
+
+  backend("conll", form, function (conll) {
+    var form = new FormData();
+    form.append("conll", conll);
+    console.log(form);
+
+    backend("from_conll", form, function(data) {
+      var url=app.grew_web_frontend;
+      // var url="http://localhost:8888/grew_web";
+      url += "?session_id="+data.session_id;
+      url += "&grs="+ app.current_corpus['grs']
+      window.open(url);
+    },
+    undefined,
+    app.grew_web_backend)
+    // "http://localhost:8080/")
+  })
+}
+
 // ==================================================================================
 function update_graph_view() {
   setTimeout(function () { // Delay running is needed for proper audio starting
@@ -354,6 +385,9 @@ function init() {
   } else {
     app.backend_server = app.config["backend_server"]
   }
+
+  app.grew_web_backend = app.config["grew_web_backend"];
+  app.grew_web_frontend = app.config["grew_web_frontend"];
 
   // Initialise CodeMirror
   cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
@@ -627,9 +661,9 @@ function ping(url, set_fct) {
 
 
 // ==================================================================================
-function backend(service, form, data_fct, error_fct) {
+function backend(service, form, data_fct, error_fct, backend_url=app.backend_server) {
   let settings = {
-    "url": app.backend_server + service,
+    "url": backend_url + service,
     "method": "POST",
     "timeout": 0,
     "processData": false,
