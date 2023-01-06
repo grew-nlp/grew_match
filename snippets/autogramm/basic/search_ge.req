@@ -1,0 +1,3 @@
+% Search for a token which contains the RX tag "FRA"
+
+pattern { N [GE = re".*\[F\].*" ]  }

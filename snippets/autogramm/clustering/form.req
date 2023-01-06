@@ -1,0 +1,3 @@
+% Rem we exclude the form "__0__" which corresponds to a pseudo-node
+
+pattern { N [form <> "__0__"] }

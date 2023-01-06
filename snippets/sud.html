@@ -13,7 +13,7 @@
 <div class="tab-content" id="snippets">
 
   <div class="tab-pane active" id="step1">
-    <b>Request on graphs:</b>
+    <b style="font-size: 125%;">Request on graphs:</b>
     <ul>
       <li><a href="#" snippet-file="basic/search_form.req" class="inter">Search for a <code>form</code></a></li>
       <li><a href="#" snippet-file="basic/search_lemma.req" class="inter">Search for a <code>lemma</code></a></li>
@@ -22,7 +22,7 @@
       <li><a href="#" snippet-file="basic/mixed.req" class="inter">Search for both relations and tags</a></li>
       <li><a href="#" snippet-file="basic/negation_sud.req" class="inter">Filter with NAP (Negative Application Patterns)</a></li>
     </ul>
-    <b>Request on metadata:</b>
+    <b style="font-size: 125%;">Request on metadata:</b>
     <ul>
       <li><a href="#" snippet-file="global/sent_id.req" class="inter">Search for a <code>sent_id</code></a></li>
       <li><a href="#" snippet-file="global/re_text.req" class="inter">Search in full text (with regexp)</a></li>
@@ -45,20 +45,20 @@
   </div>
 
   <div class="tab-pane" id="step3">
-    <b>with a key:</b>
+    <b style="font-size: 125%;">with a key:</b>
     <ul>
       <li><a href="#" clustering="GOV.upos" snippet-file="clustering/upos.req" class="inter">Cluster results by one node "upos"</a></li>
       <li><a href="#" clustering="N.lemma" snippet-file="clustering/lemma.req" class="inter">Cluster results by one node "lemma"</a></li>
       <li><a href="#" clustering="N.VerbForm" snippet-file="clustering/verbform.req" class="inter">Other clustering on nodes</a></li>
       <li><a href="#" clustering="e.label" snippet-file="clustering/edge.req" class="inter">Cluster results by edge label</a></li>
     </ul>
-    <b>with a "whether":</b>
+    <b style="font-size: 125%;">with a "whether":</b>
     <ul>
       <li><a href="#" whether="GOV << DEP" snippet-file="clustering/adjectival_mod_sud.req" class="inter"> Is the <code>mod</code>  relation with an <code>ADJ</code> dependent left-headed?</a></li>
       <li><a href="#" whether="N -[det]-> D" snippet-file="clustering/noun.req" class="inter"> Does <code>NOUN</code>s have a <code>det</code> dependent?</a></li>
       <li><a href="#" whether="H -[parataxis]-> GOV" snippet-file="clustering/post_subj.req" class="inter">Left-headed <code>subj</code>: is the governor in a <code>parataxis</code> construction?</a></li>
     </ul>
-    <b>double clustering:</b>
+    <b style="font-size: 125%;">double clustering:</b>
     <ul>
       <li><a href="#" clustering="N.lemma" clustering2="e.label" snippet-file="clustering/AUX_rel_sud.req" class="inter">The auxiliaries and their comp</a></li>
       <li><a href="#" clustering="N.Number" whether2="N -[det]-> S" snippet-file="clustering/DET_Number.req" class="inter">NOUN without det and Number</a></li>
@@ -67,7 +67,7 @@
   </div>
 
   <div class="tab-pane" id="step4">
-    <b>Constraints can be expressed on the global structure:</b>
+    <b style="font-size: 125%;">Constraints can be expressed on the global structure:</b>
     <ul>
       <li><a href="#" snippet-file="global/not_projective.req" class="inter">Search for non projective structures</a></li>
       <li><a href="#" snippet-file="global/projective.req" class="inter">Search for projective structures</a></li>
@@ -75,14 +75,14 @@
       <li><a href="#" snippet-file="global/combined.req" class="inter">Global constraints can be combined with other clauses</a></li>
     </ul>
 
-    <b>A few other examples of more complex requests:</b>
+    <b style="font-size: 125%;">A few other examples of more complex requests:</b>
     <ul>
       <li><a href="#" snippet-file="sud/verb_wo_subj.req" class="inter">Search for verbs without subject</a></li>
       <li><a href="#" snippet-file="sud/unlike_coord.req" class="inter">Coordination of unlikes</a></li>
       <li><a href="#" snippet-file="sud/two_obj.req" class="inter">Two objects on the same node</a></li>
     </ul>
 
-    <b>Complex edges (see <a target="_blank" href="https://grew.fr/doc/pattern/#edge-clauses">Grew-doc</a>)</b>
+    <b style="font-size: 125%;">Complex edges (see <a target="_blank" href="https://grew.fr/doc/pattern/#edge-clauses">Grew-doc</a>)</b>
     <ul>
       <li><a href="#" snippet-file="complex/complex_1.req" class="inter">Search on one edge feature</a></li>
       <li><a href="#" snippet-file="complex/complex_2.req" class="inter">Use disjunction on edge features</a></li>

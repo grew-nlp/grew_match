@@ -1,0 +1,45 @@
+<div class="navbar" id="right-navbar">
+  <div class="navbar-inner">
+    <ul class="nav nav-pills">
+
+      <li class="active"><a class="grew-label" href="#step1" data-toggle="tab">Basic</a></li>
+      <li>               <a class="grew-label" href="#step2" data-toggle="tab">Clustering</a></li>
+      <li>               <a class="grew-label" href="#step3" data-toggle="tab">n-grams</a></li>
+    </ul>
+  </div>
+</div>
+<div class="tab-content" id="snippets">
+
+  <div class="tab-pane active" id="step1">
+    <ul>
+      <li><a href="#" snippet-file="autogramm/basic/search_form.req" class="inter">Search for a form</a></li>
+      <li><a href="#" snippet-file="autogramm/basic/search_rx.req" class="inter">Search for a RX tag</a></li>
+      <li><a href="#" snippet-file="autogramm/basic/search_ge.req" class="inter">Search for a GE tag</a></li>
+      <li><a href="#" snippet-file="autogramm/basic/search_aff.req" class="inter">Search for an affix</a></li>
+      <li><a href="#" snippet-file="autogramm/basic/search_clit.req" class="inter">Search for an clitic</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="step2">
+    <b style="font-size: 125%;">with a key:</b>
+    <ul>
+      <li><a href="#" clustering="N.form" snippet-file="autogramm/clustering/form.req" class="inter">List different forms</a></li>
+      <li><a href="#" clustering="N.Gloss" snippet-file="autogramm/clustering/gloss.req" class="inter">List different glosses</a></li>
+      <li><a href="#" clustering="N.RX" snippet-file="autogramm/clustering/rx.req" class="inter">List RX values</a></li>
+      <li><a href="#" clustering="N.GE" snippet-file="autogramm/clustering/ge.req" class="inter">List GE values</a></li>
+    </ul>
+    <b style="font-size: 125%;">with a "whether":</b>
+    <ul>
+      <li><a href="#" whether='N [form = re"\(.*-\)"]' snippet-file="autogramm/basic/search_aff.req" class="inter"> Are affixes prefixes?</a></li>
+      <li><a href="#" whether='N [form = re"\(.*=\)"]' snippet-file="autogramm/basic/search_clit.req" class="inter"> Are clitic before?</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="step3">
+    <ul>
+      <li><a href="#" snippet-file="n-grams/2-gram-form.req" class="inter">Search for a bigram of forms</a></li>
+      <li><a href="#" snippet-file="n-grams/3-gram-form.req" class="inter">Search for a trigram of forms</a></li>
+      <li><a href="#" snippet-file="n-grams/4-gram-form.req" class="inter">Search for a 4-gram of forms</a></li>
+    </ul>
+  </div>
+</div>
