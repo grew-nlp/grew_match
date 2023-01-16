@@ -785,6 +785,18 @@ function count() {
   app.wait = true;
   app.search_mode = false;
   backend("count", form, function (data) {
+    console.log (data);
+    var message = [
+      "Hi, it seems that you sent many times (20?) the same request",
+      "This usage makes the server crashes regularly",
+      "Can you try to use the [Grew-count](https://grew.fr/usage/grew_count/) service instead?",
+      "Feel free to contact [Bruno.Guillaume@inria.fr](mailto:Bruno.Guillaume@inria.fr) if you want to discuss on the best way to run your experiment",
+      "Thanks!",
+      "Bruno",
+    ].join ("\n\n");
+    if (data.redundant != undefined) {
+      direct_info (message);
+    }
     app.current_time = data.time;
     app.nb_solutions = data.nb_solutions;
 
