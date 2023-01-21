@@ -53,6 +53,7 @@ let app = new Vue({
     parallel_message: "",
 
     wait: false,
+    sort: true,
 
     // printing parameters
     lemma: true,
@@ -144,6 +145,17 @@ let app = new Vue({
 
   },
   computed: {
+    cluster_list_sorted: function () {
+      if (this.sort) {
+        var data = this.cluster_list.slice(0);
+        data.sort (function (c1, c2) {
+          return c2.size - c1.size
+        });
+        return data
+      } else {
+        return this.cluster_list
+      }
+    },
     result_nb: function () {
       log("=== computed: result_nb ===");
       return (this.current_cluster.length);
@@ -403,6 +415,12 @@ function init() {
   clust2_cm = CodeMirror.fromTextArea(document.getElementById("whether-input2"), {
     lineNumbers: true,
   });
+
+  $(function() {
+    $('#sort-box').change(function() {
+       app.sort = $(this).prop('checked')
+    })
+  })
 
   deal_with_get_parameters(); // force to interpret get parameters after the update of groups menus
 
@@ -806,7 +824,11 @@ function count() {
       app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
     }
     if ("cluster_array" in data) {
-      app.cluster_list = data.cluster_array;
+      app.cluster_list = data.cluster_array.map
+        (function (elt, index) {
+          elt["index"] = index;
+          return elt}
+        );
       app.cluster_dim = 1;
     } else if ("cluster_grid" in data) {
       app.cluster_dim = 2;
@@ -901,7 +923,11 @@ function search() {
         more_results(true);
       }
     } else if ("cluster_array" in data) {
-      app.cluster_list = data.cluster_array;
+      app.cluster_list = data.cluster_array.map
+        (function (elt, index) {
+          elt["index"] = index;
+          return elt}
+        );
       app.clusters = Array(app.cluster_list.length).fill([]);
       app.cluster_dim = 1;
     } else if ("cluster_grid" in data) {
