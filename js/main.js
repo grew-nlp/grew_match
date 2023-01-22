@@ -262,7 +262,7 @@ function grew_web() {
     form.append("conll", conll);
     console.log(form);
 
-    backend("from_conll", form, function(data) {
+    backend("from_data", form, function(data) {
       var url=app.grew_web_frontend;
       // var url="http://localhost:8888/grew_web";
       url += "?session_id="+data.session_id;
