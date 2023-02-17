@@ -16,6 +16,7 @@
 	    'global': 'builtin',
 	    'pattern': 'builtin',
 	    'without': 'builtin',
+	    'with': 'builtin',
 	};
 
 	function tokenBase(stream, state) {
