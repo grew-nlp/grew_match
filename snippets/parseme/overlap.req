@@ -1,0 +1,7 @@
+pattern {
+  MWE1 [label <> "NotMWE"]
+}
+with {
+  MWE2 [label <> "NotMWE"];
+  MWE1 -> X; MWE2 -> X
+}

@@ -1,0 +1,9 @@
+% Request for MWE tagged IRV without a reflexive pronoum
+
+pattern {
+  MWE [label = "IRV"];
+}
+without {
+  MWE -> P;
+  P[upos=PRON, Reflex=Yes]
+}

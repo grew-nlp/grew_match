@@ -1,8 +1,8 @@
-% MWE with 3 words
+% MWE with 3 tokens
 
 pattern {
-  MWE [label];
-  MWE -[parseme=MWE]-> N1; MWE -[parseme=MWE]-> N2; MWE -[parseme=MWE]-> N3;
+  MWE [label <> NotMWE];
+  MWE -> N1; MWE -> N2; MWE -> N3;
   N1 << N2; N2 << N3;
 }
-without { MWE -[parseme=MWE]-> X }
+without { MWE -> X }

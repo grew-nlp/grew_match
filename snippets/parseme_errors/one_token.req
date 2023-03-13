@@ -1,0 +1,7 @@
+% MWE with only 1 token
+
+pattern {
+  MWE [label <> NotMWE];
+  MWE -> N;
+}
+without { MWE -> X }
