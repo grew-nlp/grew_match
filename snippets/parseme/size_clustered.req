@@ -1,0 +1,6 @@
+% Search for a MWE with any label
+% Cluster the results by the number of tokens
+
+pattern {
+  MWE [label <> NotMWE];
+}
