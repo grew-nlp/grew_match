@@ -1,0 +1,9 @@
+% an IRV must contain a VERB and a reflexive PRON
+
+pattern {
+  MWE [label = "IRV"];
+}
+without {
+  MWE -> V; V[upos=AUX|VERB];
+  MWE -> P; P[upos=PRON, Reflex=Yes]
+}

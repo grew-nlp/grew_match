@@ -1,0 +1,6 @@
+% an MVC must contain only VERBs
+
+pattern {
+  MWE [label = "MVC"];
+  MWE -> X; X[upos <> AUX|VERB];
+}

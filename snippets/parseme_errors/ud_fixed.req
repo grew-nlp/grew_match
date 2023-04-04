@@ -1,4 +1,0 @@
-% The node GOV is the head of a UD "fixed" and not in any Parseme MWE
-
-pattern { GOV -[fixed]-> DEP; GOV < DEP }
-without { MWE[label]; MWE -> GOV }

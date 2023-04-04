@@ -1,0 +1,10 @@
+% an IAV must contain at most 2 tokens
+
+pattern {
+  MWE [label = "IAV"];
+}
+with {
+  MWE -> X1;
+  MWE -> X2;
+  MWE -> X3;
+}

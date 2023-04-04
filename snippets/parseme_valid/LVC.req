@@ -1,0 +1,9 @@
+% an LVC must contain a VERB and a NOUN
+
+pattern {
+  MWE [label = "LVC.full" | "LVC.cause"];
+}
+without {
+  MWE -> V; V[upos=AUX|VERB];
+  MWE -> N; N[upos=NOUN]
+}

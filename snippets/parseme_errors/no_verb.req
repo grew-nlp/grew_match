@@ -1,9 +1,0 @@
-% Request for MWE without any verbal element inside (according to syntactic annotation)
-
-pattern {
-  MWE [label <> NotMWE];
-}
-without {
-  MWE -> V;
-  V[upos=VERB|AUX]
-}

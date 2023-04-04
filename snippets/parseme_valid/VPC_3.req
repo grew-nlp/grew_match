@@ -1,0 +1,10 @@
+% a VPC must contain at most 2 tokens
+
+pattern {
+  MWE [label = "VPC"];
+}
+with {
+  MWE -> X1;
+  MWE -> X2;
+  MWE -> X3;
+}

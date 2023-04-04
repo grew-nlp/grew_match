@@ -1,0 +1,10 @@
+% an IRV must contain at most 2 tokens
+
+pattern {
+  MWE [label = "IRV"];
+}
+with {
+  MWE -> X1;
+  MWE -> X2;
+  MWE -> X3;
+}

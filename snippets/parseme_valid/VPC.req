@@ -1,0 +1,9 @@
+% a VPC  must contain a VERB and a PART, ADV or ADP
+
+pattern {
+  MWE [label = "VPC.full" | "VPC.semi"];
+}
+without {
+  MWE -> V; V[upos=AUX|VERB];
+  MWE -> P; P[upos=PART|ADV|ADP]
+}

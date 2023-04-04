@@ -1,0 +1,9 @@
+% an MVC must contain two or more VERBs
+
+pattern {
+  MWE [label = "MVC"];
+}
+without {
+  MWE -> V1; V1[upos=AUX|VERB];
+  MWE -> V2; V2[upos=AUX|VERB];
+}

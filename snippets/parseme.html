@@ -5,7 +5,7 @@
       <li>                <a class="grew-label" href="#step1" data-toggle="tab">Basic</a></li>
       <li class="active"> <a class="grew-label" href="#step2" data-toggle="tab">MWE</a></li>
       <li>                <a class="grew-label" href="#step3" data-toggle="tab">n-grams</a></li>
-      <li>                <a class="grew-label" href="#step4" data-toggle="tab">≠ with UD</a></li>
+      <li>                <a class="grew-label" href="#step4" data-toggle="tab">valid</a></li>
 
     </ul>
   </div>
@@ -57,11 +57,18 @@
 
   <div class="tab-pane" id="step4">
     <ul>
-      <li><a href="#" snippet-file="parseme_errors/one_token.req" class="inter">MWE with only one token</a></li>
-      <li><a href="#" snippet-file="parseme_errors/no_verb.req" class="inter">VMWE without verb</a></li>
-      <li><a href="#" snippet-file="parseme_errors/irv_no_reflex.req" class="inter">IRV without a reflexive pronoun</a></li>
-      <li><a href="#" snippet-file="parseme_errors/ud_fixed.req" class="inter">UD fixed not in MWE</a></li>
-      <li><a href="#" snippet-file="parseme_errors/obj_no_det.req" class="inter">Verb+Obj without det, not MWE (for French)</a></li>
+      <li><a href="#" snippet-file="parseme_valid/one_token.req" class="inter">a <b>VMWE</b> must contain at least 2 tokens</a></li>
+      <li><a href="#" snippet-file="parseme_valid/no_verb.req" class="inter">a <b>VMWE</b> must contain a verb</a></li>
+      <li><a href="#" snippet-file="parseme_valid/LVC.req" class="inter">an <b>LVC</b> must contain a VERB and a NOUN</a></li>
+      <li><a href="#" snippet-file="parseme_valid/IRV.req" class="inter">an <b>IRV</b> must contain a VERB and a PRON</a></li>
+      <li><a href="#" snippet-file="parseme_valid/IRV_reflex.req" class="inter">an <b>IRV</b> must contain a VERB and a reflexive PRON</a></li>
+      <li><a href="#" snippet-file="parseme_valid/IRV_3.req" class="inter">an <b>IRV</b> must contain at most 2 tokens</a></li>
+      <li><a href="#" snippet-file="parseme_valid/VPC.req" class="inter">a <b>VPC</b> must contain a VERB and a PART, ADV or ADP</a></li>
+      <li><a href="#" snippet-file="parseme_valid/VPC_3.req" class="inter">a <b>VPC</b> must contain at most 2 tokens</a></li>
+      <li><a href="#" snippet-file="parseme_valid/MVC.req" class="inter">an <b>MVC</b> must contain two or more VERBs</a></li>
+      <li><a href="#" snippet-file="parseme_valid/MVC_not_verb.req" class="inter">an <b>MVC</b> must contain only VERBs</a></li>
+      <li><a href="#" snippet-file="parseme_valid/IAV.req" class="inter">an <b>IAV</b> must contain a VERB and an ADP</a></li>
+      <li><a href="#" snippet-file="parseme_valid/IAV_3.req" class="inter">an <b>IAV</b> must contain at most 2 tokens</a></li>
     </ul>
   </div>
 
