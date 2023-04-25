@@ -22,7 +22,7 @@
         current_corpus = urlParams.get('corpus');
         top_url = urlParams.get('top');
         if (top_url == undefined) {
-          top_url = "http://match.grew.fr/"
+          top_url = "https://match.grew.fr/"
         }
         console.log(current_corpus);
         $.getJSON(current_corpus).done(function(data) {

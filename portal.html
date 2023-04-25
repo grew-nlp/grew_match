@@ -48,30 +48,30 @@
     }
 
     if (getParameterByName("tutorial") == "yes") {
-      location.replace("http://universal.grew.fr?tutorial=yes");
+      location.replace("https://universal.grew.fr?tutorial=yes");
     }
 
     let corpus = getParameterByName("corpus");
     console.log(corpus);
     if (corpus.length > 0) {
       if (corpus.includes("Naija")) {
-        location.replace("http://naija.grew.fr" + location.search);
+        location.replace("https://naija.grew.fr" + location.search);
       }
       if (corpus.includes("PARSEME")) {
-        location.replace("http://parseme.grew.fr" + location.search);
+        location.replace("https://parseme.grew.fr" + location.search);
       }
       if (corpus.includes("UD")) {
-        location.replace("http://universal.grew.fr" + location.search);
+        location.replace("https://universal.grew.fr" + location.search);
       }
       const orfeo_list = ["cefc-gold", "fleuron", "ofrom", "valibel", "frenchoralnarrative", "crfp", "cfbp", "cfpp", "coralrom", "clapi", "tufs", "reunions-de-travail", "tcof", "annodis", "comere", "frantext", "scientext", "est-republicain",
       "chambers-rostand"
       ];
       if (orfeo_list.includes(corpus)) {
-        location.replace("http://orfeo.grew.fr" + location.search);
+        location.replace("https://orfeo.grew.fr" + location.search);
       }
       const semantics_list = ["Little_Prince", "Bio_AMR_Corpus", "Spec_1.2.5", "pmb-3.0.0-sample_en_gold", "dmrs_appos"];
       if (semantics_list.includes(corpus)) {
-        location.replace("http://semantics.grew.fr" + location.search);
+        location.replace("https://semantics.grew.fr" + location.search);
       }
     }
 
@@ -99,7 +99,7 @@
     <div class="alert alert-primary alert-dismissible" style="max-width: 800px; margin-left: auto; margin-right: auto;">
       If you are new to <strong>Grew-match</strong>, you may use:
       <ul>
-        <li>the <a href="http://universal.grew.fr/?tutorial=yes"><button>online tutorial</button></a> (follow the 5 lessons on the right part of the screen)</li>
+        <li>the <a href="https://universal.grew.fr/?tutorial=yes"><button>online tutorial</button></a> (follow the 5 lessons on the right part of the screen)</li>
         <li>the <a href="https://grew.fr/grew_match/help/"><button>documentation page</button></a></li>
       </ul>
       If you need more help, find a bug or have a suggestions, please <a href="https://github.com/grew-nlp/grew/issues/new"><button>fill an issue</button></a>!
@@ -115,7 +115,7 @@
 
   <div class="row" style="width: 80%; margin: auto">
     <div class="col-sm-4">
-      <a href="http://universal.grew.fr">
+      <a href="https://universal.grew.fr">
         <div class="card">
           <div class="card-header">UD / SUD <code>universal.grew.fr</code></div>
           <div class="card-body">
@@ -127,7 +127,7 @@
       </a>
     </div>
     <div class="col-sm-4">
-      <a href="http://parseme.grew.fr">
+      <a href="https://parseme.grew.fr">
         <div class="card">
           <div class="card-header">Parseme<code>parseme.grew.fr</code></div>
           <div class="card-body">
@@ -137,7 +137,7 @@
         </a>
       </div>
       <div class="col-sm-4">
-        <a href="http://semantics.grew.fr">
+        <a href="https://semantics.grew.fr">
           <div class="card">
             <div class="card-header">Semantics<code>semantics.grew.fr</code></div>
             <div class="card-body align-items-center">
@@ -154,7 +154,7 @@
 
   <div class="row" style="width: 80%; margin: auto;">
     <div class="col-sm-4">
-      <a href="http://orfeo.grew.fr">
+      <a href="https://orfeo.grew.fr">
         <div class="card">
           <div class="card-header">Orfeo<code>orfeo.grew.fr</code></div>
           <div class="card-body">
@@ -165,7 +165,7 @@
       </a>
     </div>
     <div class="col-sm-4">
-      <a href="http://sequoia.grew.fr">
+      <a href="https://sequoia.grew.fr">
         <div class="card">
           <div class="card-header">Sequoia<code>sequoia.grew.fr</code></div>
           <div class="card-body">
@@ -176,7 +176,7 @@
       </a>
     </div>
     <div class="col-sm-4">
-      <a href="http://naija.grew.fr">
+      <a href="https://naija.grew.fr">
         <div class="card">
           <div class="card-header">Naija<code>naija.grew.fr</code></div>
           <div class="card-body">
