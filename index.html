@@ -92,7 +92,24 @@
 
 					<ul class="nav navbar-nav groups" style="margin-left:30px">
 
-						<li v-for="group in groups" v-bind:class='{dropdown: group["style"] == "dropdown", active: current_group_id == group["id"] }'>
+						<li v-for="group in groups" v-bind:class='{dropdown: group["style"] == "dropdown" || group["style"] == "links", active: current_group_id == group["id"] }'>
+
+							<!-- links case -->
+							<a v-if='group["style"] == "links"' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<i v-if='group["icon"] != undefined' class="fa fa-lg" v-bind:class='group["icon"]'></i>
+								{{ group["name"] }}
+								<span class="caret"></span>
+							</a>
+
+							<ul v-if='group["style"] == "links"' class="dropdown-menu">
+								<li v-for='corpus in group["links"]' v-bind:class='{ divider: corpus=="divider" }'>
+									<a v-bind:href='corpus["url"]' v-if='corpus!="divider"'>
+										<i class="fa fa-external-link" aria-hidden="true"></i>
+										&nbsp;
+										{{corpus["id"]}}
+									</a>
+								</li>
+							</ul>
 
 							<!-- dropdown case -->
 							<a v-if='group["style"] == "dropdown"' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ group["name"] }}

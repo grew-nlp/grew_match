@@ -328,22 +328,23 @@ function search_corpus(requested_corpus) {
   let best_group_id = undefined;
   let group_list = app.config["groups"];
   for (let g = 0; g < group_list.length; g++) {
-    let group = group_list[g];
     let corpora = group_list[g]["corpora"];
-    for (let c = 0; c < corpora.length; c++) {
-      if (corpora[c]["id"] != undefined) {
-        if (requested_corpus == corpora[c]["id"]) {
-          app.current_corpus_id = corpora[c]["id"];
-          app.current_group_id = group_list[g]["id"];
-          return;
-        }
-        let cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
-        let ld = levenshtein(requested_corpus, corpora[c]["id"]);
-        if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
-          best_cpl = cpl;
-          best_ld = ld;
-          best_corpus_id = corpora[c]["id"];
-          best_group_id = group_list[g]["id"];
+    if (corpora != undefined) { // it is undefined for "links" menus
+      for (let c = 0; c < corpora.length; c++) {
+        if (corpora[c]["id"] != undefined) {
+          if (requested_corpus == corpora[c]["id"]) {
+            app.current_corpus_id = corpora[c]["id"];
+            app.current_group_id = group_list[g]["id"];
+            return;
+          }
+          let cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
+          let ld = levenshtein(requested_corpus, corpora[c]["id"]);
+          if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
+            best_cpl = cpl;
+            best_ld = ld;
+            best_corpus_id = corpora[c]["id"];
+            best_group_id = group_list[g]["id"];
+          }
         }
       }
     }
