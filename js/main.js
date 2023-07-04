@@ -591,6 +591,14 @@ function get_param_stage2 () {
       search();
     }, 50)
   }
+
+  let count_param = getParameterByName("count");
+  if (count_param.length > 0) {
+    cmEditor.setValue(count_param);
+    setTimeout(function () {
+      count ();
+    }, 50)
+  }
 }
 
 
