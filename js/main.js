@@ -3,6 +3,7 @@ let hack_audio;
 let cmEditor;
 let clust1_cm;
 let clust2_cm;
+let url_params;
 
 // ==================================================================================
 let app = new Vue({
@@ -366,6 +367,8 @@ function search_corpus(requested_corpus) {
 // ==================================================================================
 // this function is run after page loading
 $(document).ready(function () {
+  url_params = new URL(window.location.toLocaleString()).searchParams;
+
   $.getJSON("config.json")
     .done(function (data) {
       app.config = data;
@@ -437,7 +440,7 @@ function init() {
 // ==================================================================================
 function deal_with_get_parameters() {
   // corpus get parameter
-  if (getParameterByName("tutorial") == "yes") {
+  if (url_params.get("tutorial") == "yes") {
     if (app.config["tutorial"]) {
       search_corpus(app.config["tutorial"]);
       return; // do not consider other GET parameters
@@ -446,20 +449,20 @@ function deal_with_get_parameters() {
     }
   }
   
-  if (getParameterByName("corpus").length > 0) {
-    search_corpus(getParameterByName("corpus"));
+  if (url_params.has("corpus")) {
+    search_corpus(url_params.get("corpus"));
   };
   
   // custom get parameter
-  if (getParameterByName("custom").length > 0) {
-    const get_custom = getParameterByName("custom");
-    
+  if (url_params.has("custom")) {
+    const custom_param = url_params.get("custom");
+
     app.skip_history = true;
-    
-    $.getJSON(app.backend_server + "/shorten/" + get_custom + ".json")
+
+    $.getJSON(app.backend_server + "/shorten/" + custom_param + ".json")
     .done(function (data) {
       cmEditor.setValue(data.pattern);
-      
+
       // if corpus is given are GET parameter, it has priority
       if (app.current_corpus_id == undefined) {
         if ("corpus" in data) {
@@ -497,12 +500,12 @@ function deal_with_get_parameters() {
     })
     .error(function () {
       // backup on old custom saving
-      $.get(app.backend_server + "/shorten/" + get_custom, function (pattern) {
+      $.get(app.backend_server + "/shorten/" + custom_param, function (pattern) {
         cmEditor.setValue(pattern);
         setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
       })
       .error(function () {
-        direct_error("Cannot find custom pattern `" + get_custom + "`\n\nCheck the URL.")
+        direct_error("Cannot find custom pattern `" + custom_param + "`\n\nCheck the URL.")
       });
     });
     return
@@ -513,87 +516,73 @@ function deal_with_get_parameters() {
     search_corpus(app.config["default"]);
   }
 
-  // NB: this is run only if no custom, relation or pattern (select UD by default)
-  if (getParameterByName("eud").length > 0) {
-    $('#eud-box').bootstrapToggle('on');
-  } else {
-    $('#eud-box').bootstrapToggle('off')
-  }
+  // ud by default eud if requested in the params
+  $('#eud-box').bootstrapToggle(url_params.get("eud") ? 'on' : 'off')
 
+  // backward compatibility with the old "clustering" name
+  let clust1_key = url_params.has('clust1_key') ? url_params.get('clust1_key') : url_params.get('clustering');
 
-  let clust1_key = getParameterByName("clust1_key");
-  if (clust1_key == "") {
-    clust1_key = getParameterByName("clustering"); // backward compatibility with old naming "clustering"
-  }
-  let clust1_whether = getParameterByName("clust1_whether");
-  if (clust1_whether == "") {
-    clust1_whether = getParameterByName("whether"); // backward compatibility with old naming "whether"
-  }
-  if (clust1_key.length > 0) {
-    app.clust1 = "key";
-    app.clust1_key = clust1_key;
-    get_param_stage2 ();
-  } else if (clust1_whether.length > 0) {
-    app.clust1 = "whether";
+  // backward compatibility with the old "whether" name
+  let clust1_whether = url_params.has('clust1_whether') ? url_params.get('clust1_whether') : url_params.get('whether');
+
+  let clust2_key = url_params.get("clust2_key");
+  let clust2_whether = url_params.get("clust2_whether");
+
+  // update app.clust1 and app.clust2
+  app.clust1 = "no";   // default
+  if (clust1_whether) { app.clust1 = "whether" }
+  if (clust1_key) { app.clust1 = "key" }
+  app.clust2 = "no";   // default
+  if (clust2_whether) { app.clust2 = "whether" }
+  if (clust2_key) { app.clust2 = "key" }
+
+  app.clust1_key = clust1_key;
+  app.clust2_key = clust2_key;
+
+  if (clust1_whether != "" || clust2_whether != "") {
+    // if there at least one whether, timeout for proper CodeMirror behaviour
     setTimeout(function () {
-      clust1_cm.setValue(clust1_whether); // hack for correct init of clust1_cm
+      if (clust1_whether != "") { clust1_cm.setValue(clust1_whether) }
+      if (clust2_whether != "") { clust2_cm.setValue(clust2_whether) }
       get_param_stage2 ();
     }, 0)
   } else {
-    app.clust1 = "no";
     get_param_stage2 ();
-  }
-  
-  if (app.clust1 != "no") {
-    let clust2_key = getParameterByName("clust2_key");
-    let clust2_whether = getParameterByName("clust2_whether");
-    if (clust2_key.length > 0) {
-      app.clust2 = "key";
-      app.clust2_key = clust2_key;
-      get_param_stage2 ();
-    } else if (clust2_whether.length > 0) {
-      app.clust2 = "whether";
-      setTimeout(function () {
-        clust2_cm.setValue(clust2_whether); // hack for correct init of clust2_cm
-        get_param_stage2 ();
-      }, 0)
-    } else {
-      app.clust2 = "no";
-      get_param_stage2 ();
-    }
   }
 } // deal_with_get_parameters
 
 
 // ==================================================================================
-function get_param_stage2 () {
+function get_param_stage2 () { // in a second stage to be put behind a timeout.
+
   // If there is a get arg in the URL named "relation" -> make the search directly
-  if (getParameterByName("relation").length > 0) {
+  if (url_params.has("relation")) {
     let source = ""
-    if (getParameterByName("source").length > 0) {
-      source = "GOV [upos=\"" + (getParameterByName("source")) + "\"]; "
+    if (url_params.has("source")) {
+      source = "GOV [upos=\"" + (url_params.get("source")) + "\"]; "
     }
     let target = ""
-    if (getParameterByName("target").length > 0) {
-      target = "DEP [upos=\"" + (getParameterByName("target")) + "\"]; "
+    if (url_params.has("target").length > 0) {
+      target = "DEP [upos=\"" + (url_params.get("target")) + "\"]; "
     }
-    cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + getParameterByName("relation") + "]-> DEP\n}");
+    cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + url_params.get("relation") + "]-> DEP\n}");
     search();
   }
-  
-  let request = getParameterByName("request");
-  if (request.length == 0) {
-    request = getParameterByName("pattern") // backward compabilty
-  }
-  if (request.length > 0) {
-    cmEditor.setValue(request);
+
+  // read "request" param (and backward compatibility with the old "pattern" name)
+  let request_param = url_params.has('request') ? url_params.get('request') : url_params.get('pattern');
+
+  if (request_param) {
+    app.view_left_pane = false;
+    cmEditor.setValue(request_param);
     setTimeout(function () {
       search();
     }, 50)
   }
 
-  let count_param = getParameterByName("count");
-  if (count_param.length > 0) {
+  let count_param = url_params.get('count');
+  if (count_param) {
+    app.view_left_pane = false;
     cmEditor.setValue(count_param);
     setTimeout(function () {
       count ();
@@ -1152,14 +1141,6 @@ function SelectText(element) {
     selection.removeAllRanges();
     selection.addRange(range);
   }
-}
-
-// ==================================================================================
-function getParameterByName(name) {
-  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-  let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-    results = regex.exec(location.search);
-  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 // ==================================================================================
