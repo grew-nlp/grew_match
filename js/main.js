@@ -113,6 +113,7 @@ let app = new Vue({
     },
     select_group(group_id) {
       app.current_group_id = group_id;
+      this.view_left_pane = true; // always make left pane visible when a new group is selected
       app.current_corpus_id = app.current_group["default"];
     },
 
@@ -220,7 +221,6 @@ let app = new Vue({
     },
     left_pane: function () {
       if (this.current_group) {
-        this.view_left_pane = true; // always make left pane visible when the left_pane is recomputed
         return (this.current_group["style"] == "left_pane");
       }
     },
