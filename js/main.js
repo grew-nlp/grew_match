@@ -451,6 +451,7 @@ function deal_with_get_parameters() {
   
   if (url_params.has("corpus")) {
     search_corpus(url_params.get("corpus"));
+    app.view_left_pane = true;
   };
   
   // custom get parameter
@@ -514,6 +515,7 @@ function deal_with_get_parameters() {
   // if no corpus is specified, take the default
   if (app.current_corpus_id == undefined) {
     search_corpus(app.config["default"]);
+    app.view_left_pane = true;
   }
 
   // ud by default eud if requested in the params
