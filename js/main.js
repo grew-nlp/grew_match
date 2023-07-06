@@ -541,11 +541,11 @@ function deal_with_get_parameters() {
   app.clust1_key = clust1_key;
   app.clust2_key = clust2_key;
 
-  if (clust1_whether != "" || clust2_whether != "") {
+  if (clust1_whether || clust2_whether) {
     // if there at least one whether, timeout for proper CodeMirror behaviour
     setTimeout(function () {
-      if (clust1_whether != "") { clust1_cm.setValue(clust1_whether) }
-      if (clust2_whether != "") { clust2_cm.setValue(clust2_whether) }
+      if (clust1_whether) { clust1_cm.setValue(clust1_whether) }
+      if (clust2_whether) { clust2_cm.setValue(clust2_whether) }
       get_param_stage2 ();
     }, 0)
   } else {
