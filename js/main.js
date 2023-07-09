@@ -114,7 +114,12 @@ let app = new Vue({
     select_group(group_id) {
       app.current_group_id = group_id;
       this.view_left_pane = true; // always make left pane visible when a new group is selected
-      app.current_corpus_id = app.current_group["default"];
+      if ("default" in app.current_group) {
+        app.current_corpus_id = app.current_group["default"];
+      } else {
+        app.current_corpus_id = app.current_group["corpora"][0]["id"];
+      }
+       
     },
 
     update_current_cluster() { // also update app.current_cluster_size
@@ -322,6 +327,7 @@ function search_corpus(requested_corpus) {
   log("=== search_corpus === " + requested_corpus);
   
   if (requested_corpus == undefined) {
+    // if "default" is not defined, chose the first corpus of the first group
     let group = app.config["groups"][0]
     app.current_group_id = group["id"];
     app.current_corpus_id = group["corpora"][0]["id"]
