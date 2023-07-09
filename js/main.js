@@ -1162,6 +1162,8 @@ function update_corpus() {
     right_pane(app.current_corpus["snippets"]);
   } else if (app.current_group["snippets"]) {
     right_pane(app.current_group["snippets"]);
+  } else if (app.current_corpus["config"]) {
+    right_pane(app.current_corpus["config"]);
   } else {
     right_pane("_default");
   }
