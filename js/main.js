@@ -918,7 +918,7 @@ function search() {
         }
         break;
       case "max_results":
-        app.result_message = 'More than 1000 results found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
+        app.result_message = 'More than ' + data.nb_solutions + ' results found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
         break;
       case "timeout":
         app.result_message = 'Timeout. ' + data.nb_solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
