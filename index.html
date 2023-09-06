@@ -97,7 +97,7 @@
 							<!-- links case -->
 							<a v-if='group["style"] == "links"' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 								<i v-if='group["icon"] != undefined' class="fa fa-lg" v-bind:class='group["icon"]'></i>
-								{{ group["name"] }}
+								{{ group["id"] }}
 								<span class="caret"></span>
 							</a>
 
@@ -112,7 +112,7 @@
 							</ul>
 
 							<!-- dropdown case -->
-							<a v-if='group["style"] == "dropdown"' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ group["name"] }}
+							<a v-if='group["style"] == "dropdown"' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ group["id"] }}
 								<span class="caret"></span>
 							</a>
 
@@ -126,12 +126,12 @@
 
 							<!-- leftpane case -->
 							<a v-if='group["style"] == "left_pane"' class="navbar-brand" v-on:click='select_group(group["id"])' href="#">
-								{{group["name"]}}
+								{{group["id"]}}
 							</a>
 
 							<!-- single case -->
 							<a v-if='group["style"] == "single"' class="navbar-brand" v-on:click='select_group(group["id"])' href="#">
-								{{ group["name"] }}
+								{{ group["id"] }}
 							</a>
 
 						</li>
