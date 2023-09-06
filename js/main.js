@@ -326,11 +326,16 @@ function search_path(path, data) {
 function search_corpus(requested_corpus) {
   log("=== search_corpus === " + requested_corpus);
   
-  if (requested_corpus == undefined) {
-    // if "default" is not defined, chose the first corpus of the first group
-    let group = app.config["groups"][0]
+  if (requested_corpus == undefined) { 
+    let group = app.config["groups"][0] // chose the first group 
+    if (group.id == "Tutorial") {
+      group = app.config["groups"][1]  // or the second if first is a Tuto
+    }
     app.current_group_id = group["id"];
-    app.current_corpus_id = group["corpora"][0]["id"]
+    app.current_corpus_id = group["default"];
+    if (app.current_corpus_id == undefined) {
+      app.current_corpus_id = group["corpora"][0]["id"] // if no default in the group -> first corpus
+    }
   } else {
     app.current_corpus_id = undefined;
     app.current_group_id = undefined;
@@ -447,8 +452,8 @@ function init() {
 function deal_with_get_parameters() {
   // corpus get parameter
   if (url_params.get("tutorial") == "yes") {
-    if (app.config["tutorial"]) {
-      search_corpus(app.config["tutorial"]);
+    if (app.config["groups"][0].id == "Tutorial") {
+      app.select_group("Tutorial");
       return; // do not consider other GET parameters
     } else {
       direct_info("No tutorial in this instance");
@@ -470,12 +475,10 @@ function deal_with_get_parameters() {
     .done(function (data) {
       cmEditor.setValue(data.pattern);
 
-      // if corpus is given are GET parameter, it has priority
+      // if corpus is given as GET parameter, it has priority
       if (app.current_corpus_id == undefined) {
         if ("corpus" in data) {
           search_corpus(data.corpus);
-        } else {
-          search_corpus(app.config["default"]);
         }
       }
       if ("clust1_key" in data) {
@@ -507,6 +510,9 @@ function deal_with_get_parameters() {
     })
     .error(function () {
       // backup on old custom saving
+      if (app.current_corpus_id == undefined) {
+        search_corpus(); // if no corpus is specified, take the default
+      }
       $.get(app.backend_server + "/shorten/" + custom_param, function (pattern) {
         cmEditor.setValue(pattern);
         setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
@@ -518,9 +524,8 @@ function deal_with_get_parameters() {
     return
   }
 
-  // if no corpus is specified, take the default
   if (app.current_corpus_id == undefined) {
-    search_corpus(app.config["default"]);
+    search_corpus(); // if no corpus is specified, take the default
     app.view_left_pane = true;
   }
 
@@ -639,7 +644,7 @@ function right_pane(base) {
       const file = "snippets/" + $(this).attr('snippet-file');
       $.get(file, function (pattern) {
         cmEditor.setValue(pattern);
-      })
+      }, null, "text")
         .error(function () {
           direct_error("Cannot find file `" + file + "`")
         });
