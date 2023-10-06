@@ -1,0 +1,7 @@
+% Duration is a numeric feature
+% Ex: search for all syllables with a Duration greater than 900
+
+pattern { 
+  S[Duration];        % declare a node "S" with a Duration feature
+  S.Duration >= 900;  % add some constraint on the value
+}

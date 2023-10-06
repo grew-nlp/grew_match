@@ -1,0 +1,7 @@
+% Search for bigrams of lemmas
+
+pattern { 
+  S1 [MeanF0]; S2 [MeanF0]; 
+  S1 < S2; 
+  S1.MeanF0 < S2.MeanF0;
+}
