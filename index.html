@@ -177,6 +177,7 @@
 											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.audio" src="icon/audio.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.no_word" src="icon/no_word.svg" width="20" height="20" style="float: right;"></img>
+											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="float: right;"></i>
 										</td>
 									</tr>
 								</tbody>
@@ -217,12 +218,20 @@
 
 										<span id="update_ago" style="font-size: initial;"></span>
 
-										<!-- Error button -->
+										<!-- Error log button -->
 										<a v-if='meta_log != ""' v-bind:href="meta_log" target="_blank">
 											<button type="button" class="btn btn-danger">
 												<i class="fa fa-exclamation-triangle fa-lg"></i>
 											</button>
 										</a>
+
+										<!-- Error corpus button -->
+										<span v-if='current_corpus.error'>
+											<button type="button" class="btn btn-danger">
+												<i class="fa fa-exclamation-triangle fa-lg"></i>
+											</button>
+											{{ current_corpus.error }}
+										</span>
 
 										<!-- Github button -->
 										<a v-show='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">
@@ -230,6 +239,11 @@
 												<i class="fa fa-github fa-lg"></i>
 											</button>
 										</a>
+										
+										<!-- Table button -->
+										<button id="table-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_relation_tables()">
+											<i class="fa fa-table fa-lg"></i>
+										</button>
 
 										<!-- Gitlab button -->
 										<a v-show='current_corpus["gitlab"]' v-bind:href='current_corpus["gitlab"]' target="_blank">
@@ -348,8 +362,14 @@
 										</label>
 									</p>
 									<p>
-										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait" style="margin-right:10px">{{ wait ? "Searching..." : "Search" }} <i class="fa fa-search" aria-hidden="true"></i></button>
-										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait' style="margin-right:10px">{{ wait ? "Counting..." : "Count" }} <i class="fa fa-list-ol" aria-hidden="true"></i></button>
+										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait || current_corpus.error" style="margin-right:10px">
+											{{ wait ? "Searching..." : "Search" }}
+											<i class="fa fa-search" aria-hidden="true"></i>
+										</button>
+										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait || current_corpus.error' style="margin-right:10px">
+											{{ wait ? "Counting..." : "Count" }}
+											<i class="fa fa-list-ol" aria-hidden="true"></i>
+										</button>
 									</p>
 								</div>
 

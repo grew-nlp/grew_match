@@ -1,0 +1,16 @@
+{
+  "universal.grew.fr":
+  {
+    "backend": "https://gmb-9090.grew.fr/",
+    "config": "universal.json"
+  },
+  "parseme.grew.fr":
+  {
+    "backend": "https://gmb-9091.grew.fr/",
+    "config": "parseme.json",
+    "top_project": {
+      "website": "https://gitlab.com/parseme/corpora/-/wikis/home",
+      "logo": "https://parsemefr.lis-lab.fr/parseme-st-guidelines/img/parseme-logo.png"
+    }
+  }
+}

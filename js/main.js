@@ -28,10 +28,14 @@ let app = new Vue({
 
     view_left_pane: false, // true iff the left_pane is open
 
+    top_project: undefined,
+
     current_group_id: undefined,
     current_corpus_id: undefined,
     current_uuid: "",
     current_view: 0,
+
+    groups: [],
 
     meta_info: false,
     meta_table: "", // URL to relation table or ""
@@ -172,12 +176,12 @@ let app = new Vue({
       let item = this.current_cluster[this.current_view];
       return (item == undefined ? {} : item)
     },
-    top_project: function () {
+    old_top_project: function () {
       if (this.config != undefined) {
         return this.config["top_project"]
       }
     },
-    groups: function () {
+    old_groups: function () {
       if (this.config != undefined) {
         return this.config["groups"]
       }
@@ -327,9 +331,9 @@ function search_corpus(requested_corpus) {
   log("=== search_corpus === " + requested_corpus);
   
   if (requested_corpus == undefined) { 
-    let group = app.config["groups"][0] // chose the first group 
+    let group = app.groups[0] // chose the first group 
     if (group.id == "Tutorial") {
-      group = app.config["groups"][1]  // or the second if first is a Tuto
+      group = app.groups[1]  // or the second if first is a Tuto
     }
     app.current_group_id = group["id"];
     app.current_corpus_id = group["default"];
@@ -343,7 +347,7 @@ function search_corpus(requested_corpus) {
     let best_ld = Number.MAX_SAFE_INTEGER;
     let best_corpus_id = undefined;
     let best_group_id = undefined;
-    let group_list = app.config["groups"];
+    let group_list = app.groups;
     for (let g = 0; g < group_list.length; g++) {
       let corpora = group_list[g]["corpora"];
       if (corpora != undefined) { // it is undefined for "links" menus
@@ -382,9 +386,36 @@ $(document).ready(function () {
 
   $.getJSON("config.json")
     .done(function (data) {
-      app.config = data;
-      init(); // ensure init is ran after config loading
+      let host = window.location.host;
+      if (host in data) {
+        app.backend_server = data[host]["backend"]
+        app.top_project = data[host]["top_project"]
+      } else {
+        direct_error("No backend associated to `"+host+"`, check `config.json`")
+      }
+      app.config = data;  
+
+      let param = {
+        config: data[host]["config"],
+      };
+    
+      let form = new FormData();
+      form.append("param", JSON.stringify(param));
+
+      backend("get_gmc", form, function (data) {
+        console.log ('------------+++-------------')
+        console.log (JSON.stringify(data))
+      
+        app.groups = data;
+        init ();
+      }, undefined, "http://localhost:8899/"
+
+      )
+
+
+      // init(); // ensure init is ran after config loading
     });
+
 
   $('.tooltip-desc').tooltipster({
     contentAsHTML: true,
@@ -413,14 +444,6 @@ $(document).ready(function () {
 
 // ==================================================================================
 function init() {
-  if (app.config["backend_server"] == undefined) {
-    direct_error("Undefined `backend_server` in config file")
-  } else {
-    app.backend_server = app.config["backend_server"]
-  }
-
-  app.grew_web_backend = app.config["grew_web_backend"];
-  app.grew_web_frontend = app.config["grew_web_frontend"];
 
   // Initialise CodeMirror
   cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
@@ -452,7 +475,7 @@ function init() {
 function deal_with_get_parameters() {
   // corpus get parameter
   if (url_params.get("tutorial") == "yes") {
-    if (app.config["groups"][0].id == "Tutorial") {
+    if (app.groups[0].id == "Tutorial") {
       app.select_group("Tutorial");
       return; // do not consider other GET parameters
     } else {
@@ -706,6 +729,9 @@ function backend(service, form, data_fct, error_fct, backend_url=app.backend_ser
     "contentType": false,
     "data": form
   };
+
+  console.log ('-------------------------')
+  console.log (settings)
 
   $.ajax(settings)
     .done(function (response_string) {
@@ -1100,6 +1126,21 @@ function show_code() {
 function code_copy() {
   $("#code_viewer").select()
   document.execCommand('copy');
+}
+
+// ==================================================================================
+function open_relation_tables() {
+  let param = {
+    corpus_id: app.current_corpus_id,
+  };
+
+  let form = new FormData();
+  form.append("param", JSON.stringify(param));
+
+  backend("relation_tables", form, function (data) {
+    var table_window = window.open("");
+    table_window.document.write(data);
+  })
 }
 
 // ==================================================================================

@@ -1,0 +1,22 @@
+{
+  "localhost:8888": 
+  {
+    "backend": "http://localhost:8899/",
+    "config": "uniersal.json"
+  },
+  "localhost:11001": 
+  {
+    "backend": "http://localhost:8899/",
+    "config": "universal.json"
+  },
+  "localhost:11002":
+  {
+    "backend": "http://localhost:8899/",
+    "config": "parseme.json",
+    "top_project": {
+      "website": "https://gitlab.com/parseme/corpora/-/wikis/home",
+      "logo": "https://parsemefr.lis-lab.fr/parseme-st-guidelines/img/parseme-logo.png"
+    }
+  }
+}
+
