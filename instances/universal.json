@@ -1,0 +1,31 @@
+[
+  {
+    "id": "UD 2.12",
+    "mode": "syntax",
+    "snippets": "ud",
+    "default": "UD_Zaar-Autogramm@2.12",
+    "style": "left_pane",
+    "corpora": 
+    [
+      "UD_Abaza-ATB@2.12",
+      "UD_Afrikaans-AfriBooms@2.12",
+      "UD_Bulgarian-BTB@2.12",
+      "bUD_Bulgarian-BTB@2.12",
+      "UD_Zaar-Autogramm@2.12"
+    ]
+  },
+  {
+    "id": "SUD 2.12",
+    "mode": "syntax",
+    "snippets": "sud",
+    "default": "SUD_Zaar-Autogramm@2.12",
+    "style": "left_pane",
+    "corpora": 
+    [
+      "SUD_Abaza-ATB@2.12",
+      "SUD_Afrikaans-AfriBooms@2.12",
+      "SUD_French-GSD@latest",
+      "SUD_Zaar-Autogramm@2.12"
+    ]
+  }
+]

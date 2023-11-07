@@ -1,0 +1,51 @@
+[
+  {
+    "id": "master",
+    "mode": "syntax",
+    "snippets": "parseme",
+    "default": "PARSEME-FR@master",
+    "style": "left_pane",
+    "corpora": 
+    [
+      "PARSEME-AR@master",
+      "PARSEME-BG@master"
+    ]
+  },
+  {
+    "id": "Version 1.3",
+    "mode": "syntax",
+    "snippets": "parseme",
+    "default": "PARSEME-EN@1.3",
+    "style": "left_pane",
+    "corpora": 
+    [
+      "PARSEME-AR@1.3",
+      "PARSEME-BG@1.3",
+      "PARSEME-CS@1.3",
+      "PARSEME-DE@1.3",
+      "PARSEME-EL@1.3",
+      "PARSEME-EN@1.3",
+      "PARSEME-ES@1.3",
+      "PARSEME-EU@1.3",
+      "PARSEME-FA@1.3",
+      "PARSEME-FR@1.3",
+      "PARSEME-GA@1.3",
+      "PARSEME-HE@1.3",
+      "PARSEME-HI@1.3",
+      "PARSEME-HR@1.3",
+      "PARSEME-HU@1.3",
+      "PARSEME-IT@1.3",
+      "PARSEME-LT@1.3",
+      "PARSEME-MT@1.3",
+      "PARSEME-PL@1.3",
+      "PARSEME-PT@1.3",
+      "PARSEME-RO@1.3",
+      "PARSEME-SL@1.3",
+      "PARSEME-SR@1.3",
+      "PARSEME-SV@1.3",
+      "PARSEME-TR@1.3",
+      "PARSEME-ZH@1.3",
+      "PARSEME-AR@1.3"
+    ]
+  }
+]

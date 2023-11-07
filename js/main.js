@@ -200,7 +200,7 @@ let app = new Vue({
       }
     },
     current_group: function () {
-      if (this.config) {
+      if (true) { // TODO remove
         for (let g = 0; g < this.groups.length; g++) {
           if (this.groups[g]["id"] == this.current_group_id) {
             return this.groups[g];
@@ -383,38 +383,42 @@ function search_corpus(requested_corpus) {
 // this function is run after page loading
 $(document).ready(function () {
   url_params = new URL(window.location.toLocaleString()).searchParams;
+  
+  $.getJSON("instances.json")
+  .done(function (data) {
+    let host = window.location.host;
+    if (host in data) {
+      app.backend_server = data[host]["backend"]
+      app.top_project = data[host]["top_project"]
+    } else {
+      direct_error("No backend associated to `"+host+"`, check `instances.json`")
+    }
+    //app.config = data;  
 
-  $.getJSON("config.json")
-    .done(function (data) {
-      let host = window.location.host;
-      if (host in data) {
-        app.backend_server = data[host]["backend"]
-        app.top_project = data[host]["top_project"]
-      } else {
-        direct_error("No backend associated to `"+host+"`, check `config.json`")
-      }
-      app.config = data;  
-
+    let instance = data[host]["instance"]
+    $.getJSON("instances/"+instance)
+    .done(function (instance_desc) {
+      
+      
       let param = {
-        config: data[host]["config"],
+        instance_desc: instance_desc
       };
-    
+      
       let form = new FormData();
       form.append("param", JSON.stringify(param));
-
-      backend("get_gmc", form, function (data) {
+      
+      backend("get_corpora_desc", form, function (data) {
         console.log ('------------+++-------------')
         console.log (JSON.stringify(data))
-      
+        
         app.groups = data;
         init ();
-      }, undefined, "http://localhost:8899/"
-
+      }, undefined, app.backend_server
       )
-
-
-      // init(); // ensure init is ran after config loading
-    });
+    }
+    )
+    // init(); // ensure init is ran after config loading
+  });
 
 
   $('.tooltip-desc').tooltipster({
