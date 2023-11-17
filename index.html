@@ -219,8 +219,8 @@
 										<span id="update_ago" style="font-size: initial;"></span>
 
 										<!-- Error log button -->
-										<a v-if='meta_log != ""' v-bind:href="meta_log" target="_blank">
-											<button type="button" class="btn btn-danger">
+										<a v-show='current_corpus["_build_grew"] && current_corpus["_build_grew"].includes("log")'>
+											<button type="button" class="btn btn-danger" onclick="open_build_file('log')">
 												<i class="fa fa-exclamation-triangle fa-lg"></i>
 											</button>
 										</a>
@@ -241,9 +241,11 @@
 										</a>
 										
 										<!-- Table button -->
-										<button id="table-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_relation_tables()">
-											<i class="fa fa-table fa-lg"></i>
-										</button>
+										<a v-show='current_corpus["_build_grew"] && current_corpus["_build_grew"].includes("table.html")'>
+											<button id="table-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('table.html')">
+												<i class="fa fa-table fa-lg"></i>
+											</button>
+										</a>
 
 										<!-- Gitlab button -->
 										<a v-show='current_corpus["gitlab"]' v-bind:href='current_corpus["gitlab"]' target="_blank">
@@ -274,11 +276,6 @@
 										<!-- Link button -->
 										<a v-show='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
 											<button id="link-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-link fa-lg"></i></button>
-										</a>
-
-										<!-- Table button -->
-										<a v-show='meta_table != ""' v-bind:href="meta_table" target="_blank">
-											<button id="table-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-table fa-lg"></i></button>
 										</a>
 
 										<!-- SUD validation button -->

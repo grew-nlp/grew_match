@@ -38,10 +38,8 @@ let app = new Vue({
     groups: [],
 
     meta_info: false,
-    meta_table: "", // URL to relation table or ""
     meta_sud_valid: "", // URL to SUD validation page or ""
     meta_ud_valid: "", // URL to UD validation page or ""
-    meta_log: "", // URL to non-empty log page or ""
 
     // contents of whether boxes in not handle by Vue because of codemirror
     // clust1_cm.setValue and clust1_cm.getValue are used instead
@@ -1133,17 +1131,18 @@ function code_copy() {
 }
 
 // ==================================================================================
-function open_relation_tables() {
+function open_build_file(file) {
   let param = {
     corpus_id: app.current_corpus_id,
+    file: file
   };
 
   let form = new FormData();
   form.append("param", JSON.stringify(param));
 
-  backend("relation_tables", form, function (data) {
-    var table_window = window.open("");
-    table_window.document.write(data);
+  backend("get_build_file", form, function (data) {
+    var new_window = window.open("");
+    new_window.document.write(data);
   })
 }
 
@@ -1223,53 +1222,34 @@ function update_corpus() {
   } else {
     right_pane("_default");
   }
-
-  // Show the errors button only if there is a not empty log_file
-  app.meta_log = "";
-  let log_url = "meta/" + app.current_corpus_id + ".log"
-  $.get(log_url, function (data) {
-    if (data.length > 0) {
-      app.meta_log = log_url;
-    }
-  });
-
-  // Show the table button only if the file is available
-  let url = "meta/" + app.current_corpus_id + "_table.html";
-  ping(
-    url,
-    function (bool) {
-      if (bool) {
-        app.meta_table = url;
-      } else {
-        app.meta_table = "";
-      }
-    }
-  )
-
+  
   // update info button + update timestamp if needed
-  $('.timeago').remove();
-  $.ajax({
-    url: "meta/" + app.current_corpus_id + "_desc.json",
-    success: function (data) {
+  if (app.current_corpus["_build_grew"].includes("desc.json")) {
+    $('.timeago').remove();
+    let param = {
+      corpus_id: app.current_corpus_id,
+      file: "desc.json"
+    };
+    
+    let form = new FormData();
+    form.append("param", JSON.stringify(param));
+    
+    backend("get_build_file", form, function (data) {
+      let json = JSON.parse(data)
       app.meta_info = true;
-      let html = "";
-      for (let key in data) {
+      let html = ""
+      for (let key in json) {
         if (key == "update") {
-          const event = new Date(data[key]);
+          const event = new Date(json[key]);
           $('#update_ago').html("<time class=\"timeago\" datetime=\"" + event.toISOString() + "\">update time</time>");
           $('#update_ago > time').timeago(); // make it dynamic
         } else {
-          html += "<p>" + key + ": " + data[key] + "</p>";
+          html += "<p>" + key + ": " + json[key] + "</p>";
         }
       }
       $('#info-button').tooltipster('content', html);
-
-    },
-    error: function () {
-      app.meta_info = false;
-    },
-    cache: false
-  });
+    })
+  }
 
   // is the SUD validation button visible?
   let json_url = "meta/" + "valid_SUD/" + app.current_corpus_id + ".json";
