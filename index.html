@@ -218,20 +218,19 @@
 
 										<span id="update_ago" style="font-size: initial;"></span>
 
+										<a v-show='current_corpus["_build_grew"] && current_corpus["_build_grew"].includes("validation.json")'>
+											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_validation_page()">
+												<i class="fa fa-check fa-lg"></i>
+											</button>
+										</a>
+
+
 										<!-- Error log button -->
 										<a v-show='current_corpus["_build_grew"] && current_corpus["_build_grew"].includes("log")'>
 											<button type="button" class="btn btn-danger" onclick="open_build_file('log')">
 												<i class="fa fa-exclamation-triangle fa-lg"></i>
 											</button>
 										</a>
-
-										<!-- Error corpus button -->
-										<span v-if='current_corpus.error'>
-											<button type="button" class="btn btn-danger">
-												<i class="fa fa-exclamation-triangle fa-lg"></i>
-											</button>
-											{{ current_corpus.error }}
-										</span>
 
 										<!-- Github button -->
 										<a v-show='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">

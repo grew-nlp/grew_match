@@ -17,6 +17,13 @@
     var current_corpus;
     $(document).ready(function() {
 
+      if (localStorage.getItem('valid_data')) {
+        let valid_data = JSON.parse(localStorage.getItem('valid_data'));
+        let top_url = localStorage.getItem('top_url');
+        update(valid_data, top_url)
+        $("#test").html(valid_data);
+      }
+
       // corpus get parameter
       if (urlParams.has('corpus')) {
         current_corpus = urlParams.get('corpus');
@@ -26,38 +33,42 @@
         }
         console.log(current_corpus);
         $.getJSON(current_corpus).done(function(data) {
-          $("#corpus").html(data.corpus);
-          $("#date").html(data.date);
-
-          data.modules.forEach((module) => {
-            $("#main").append("<h3>" + module.title + "</h3>");
-            var table = $('<table class="table"/>');
-            $("#main").append(table);
-            table.append('<colgroup><col style="width: 10%;"><col style="width: 90%;"></colgroup>');
-
-            module.items.forEach((item) => {
-              let request_uri = encodeURIComponent(item.request.join('\n'));
-              let link = top_url + '?corpus=' + data.corpus + '&request=' + request_uri;
-              let row = "";
-              if (item.count > 0) {
-                if (item.level == "error") {
-                  row += '<tr class="table-danger">';
-                } else {
-                  row += '<tr class="table-warning">';
-                }
-              } else {
-                row += '<tr class="table-success">';
-              }
-              row += '<td><a href="' + link + '" target="_blank"><button type="button" class="btn btn-sm btn-secondary">' + item.count + '</button></a></td>'
-              row += '<td>' + md.render(item.description) + '</td>'
-              row += "</tr>";
-              table.append(row);
-            });
-          });
+          update(data, top_url)
         });
       }
     })
+
+    function update(data, top_url) {
+      $("#corpus").html(data.corpus);
+      $("#date").html(data.date);
+      data.modules.forEach((module) => {
+        $("#main").append("<h3>" + module.title + "</h3>");
+        var table = $('<table class="table"/>');
+        $("#main").append(table);
+        table.append('<colgroup><col style="width: 10%;"><col style="width: 90%;"></colgroup>');
+
+         module.items.forEach((item) => {
+          let request_uri = encodeURIComponent(item.request.join('\n'));
+          let link = top_url + '?corpus=' + data.corpus + '&request=' + request_uri;
+          let row = "";
+          if (item.count > 0) {
+            if (item.level == "error") {
+              row += '<tr class="table-danger">';
+            } else {
+              row += '<tr class="table-warning">';
+            }
+          } else {
+            row += '<tr class="table-success">';
+          }
+          row += '<td><a href="' + link + '" target="_blank"><button type="button" class="btn btn-sm btn-secondary">' + item.count + '</button></a></td>'
+          row += '<td>' + md.render(item.description) + '</td>'
+          row += "</tr>";
+          table.append(row);
+        });
+      });
+    }
   </script>
+
   <style>
     table,
     td {
@@ -83,6 +94,7 @@
       <h2>corpus: <span id="corpus"></span></h2>
       <h2>date: <span id="date"></span></h2>
     </div>
+
 
     <div id="main">
     </div>

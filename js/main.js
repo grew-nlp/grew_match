@@ -214,11 +214,10 @@ let app = new Vue({
             return corpora[g];
           }
         }
-        return {};
-      } else {
-        return {};
       }
+      return {};
     },
+
     mode: function () {
       if (this.current_group) {
         return this.current_group["mode"]
@@ -589,6 +588,21 @@ function deal_with_get_parameters() {
   }
 } // deal_with_get_parameters
 
+function open_validation_page() {
+  let param = {
+    corpus_id: app.current_corpus_id,
+    file: "validation.json"
+  };
+  
+  let form = new FormData();
+  form.append("param", JSON.stringify(param));
+  
+  backend("get_build_file", form, function (data) {
+    localStorage.setItem('valid_data', data);
+    localStorage.setItem('top_url', window.location.origin );
+    window.open("validator.html");
+  })
+}
 
 // ==================================================================================
 function get_param_stage2 () { // in a second stage to be put behind a timeout.
