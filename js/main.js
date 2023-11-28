@@ -1238,7 +1238,7 @@ function update_corpus() {
   }
   
   // update info button + update timestamp if needed
-  if (app.current_corpus["_build_grew"].includes("desc.json")) {
+  if (app.current_corpus["built_files"] && app.current_corpus["built_files"].includes("desc.json")) {
     $('.timeago').remove();
     let param = {
       corpus_id: app.current_corpus_id,

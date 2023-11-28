@@ -218,7 +218,7 @@
 
 										<span id="update_ago" style="font-size: initial;"></span>
 
-										<a v-show='current_corpus["_build_grew"] && current_corpus["_build_grew"].includes("validation.json")'>
+										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("validation.json")'>
 											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_validation_page()">
 												<i class="fa fa-check fa-lg"></i>
 											</button>
@@ -226,7 +226,7 @@
 
 
 										<!-- Error log button -->
-										<a v-show='current_corpus["_build_grew"] && current_corpus["_build_grew"].includes("log")'>
+										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("log")'>
 											<button type="button" class="btn btn-danger" onclick="open_build_file('log')">
 												<i class="fa fa-exclamation-triangle fa-lg"></i>
 											</button>
@@ -240,7 +240,7 @@
 										</a>
 										
 										<!-- Table button -->
-										<a v-show='current_corpus["_build_grew"] && current_corpus["_build_grew"].includes("table.html")'>
+										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("table.html")'>
 											<button id="table-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('table.html')">
 												<i class="fa fa-table fa-lg"></i>
 											</button>
