@@ -38,8 +38,6 @@ let app = new Vue({
     groups: [],
 
     meta_info: false,
-    meta_sud_valid: "", // URL to SUD validation page or ""
-    meta_ud_valid: "", // URL to UD validation page or ""
 
     // contents of whether boxes in not handle by Vue because of codemirror
     // clust1_cm.setValue and clust1_cm.getValue are used instead
@@ -218,6 +216,15 @@ let app = new Vue({
       return {};
     },
 
+    corpus_error: function () {
+      if (this.current_corpus.error) {
+        return this.current_corpus.error
+      }
+      if (this.current_corpus.built_files && !(this.current_corpus.built_files.includes("marshal"))) {
+        return "Corpus not compiled"
+      }
+    },
+
     mode: function () {
       if (this.current_group) {
         return this.current_group["mode"]
@@ -390,7 +397,7 @@ $(document).ready(function () {
     } else {
       direct_error("No backend associated to `"+host+"`, check `instances.json`")
     }
-    //app.config = data;  
+    //app.config = data;
 
     let instance = data[host]["instance"]
     $.getJSON("instances/"+instance)
@@ -1217,6 +1224,9 @@ function SelectText(element) {
 // ==================================================================================
 function update_corpus() {
   app.current_custom = "";
+  $('.timeago').remove();
+  app.meta_info = false;
+
   if (app.current_corpus["desc"]) {
     $('#corpus-desc-label').tooltipster('enable');
     $('#corpus-desc-label').tooltipster('content', app.current_corpus["desc"]);
@@ -1239,15 +1249,14 @@ function update_corpus() {
   
   // update info button + update timestamp if needed
   if (app.current_corpus["built_files"] && app.current_corpus["built_files"].includes("desc.json")) {
-    $('.timeago').remove();
     let param = {
       corpus_id: app.current_corpus_id,
       file: "desc.json"
     };
-    
     let form = new FormData();
     form.append("param", JSON.stringify(param));
-    
+
+
     backend("get_build_file", form, function (data) {
       let json = JSON.parse(data)
       app.meta_info = true;
@@ -1264,32 +1273,6 @@ function update_corpus() {
       $('#info-button').tooltipster('content', html);
     })
   }
-
-  // is the SUD validation button visible?
-  let json_url = "meta/" + "valid_SUD/" + app.current_corpus_id + ".json";
-  ping(
-    json_url,
-    function (bool) {
-      if (bool) {
-        app.meta_sud_valid = "validator.html?corpus=" + json_url + '&top=' + window.location.origin + window.location.pathname;
-      } else {
-        app.meta_sud_valid = "";
-      }
-    }
-  );
-
-  // is the UD validation button visible?
-  let valid_url = "meta/" + "valid_ud/" + app.current_corpus_id + ".valid";
-  ping(
-    valid_url,
-    function (bool) {
-      if (bool) {
-        app.meta_ud_valid = valid_url;
-      } else {
-        app.meta_ud_valid = "";
-      }
-    }
-  );
 
   if (app.skip_history) {
     app.skip_history = false;

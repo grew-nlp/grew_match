@@ -173,11 +173,12 @@
 									<tr>
 										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-on:click="current_corpus_id=corpus.id" href="#" style="padding-left: 5px;">
 											{{ corpus.id }}
+											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
+											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
 											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.audio" src="icon/audio.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.no_word" src="icon/no_word.svg" width="20" height="20" style="float: right;"></img>
-											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="float: right;"></i>
 										</td>
 									</tr>
 								</tbody>
@@ -211,6 +212,11 @@
 										</span>
 
 										<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus_id }}</span>
+
+										<span v-if="corpus_error">
+											⚠️ <span style="color: red" v-html="corpus_error"></span>
+										</span>
+
 										<!-- Info button -->
 										<a v-show='meta_info'>
 											<i id="info-button" class="fa fa-info-circle tooltip-desc"></i>
@@ -275,16 +281,6 @@
 										<!-- Link button -->
 										<a v-show='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
 											<button id="link-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-link fa-lg"></i></button>
-										</a>
-
-										<!-- SUD validation button -->
-										<a v-show='meta_sud_valid != ""' v-bind:href="meta_sud_valid" target="_blank">
-											<button id="sud-valid-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
-										</a>
-
-										<!-- UD validation button -->
-										<a v-show='meta_ud_valid != ""' v-bind:href="meta_ud_valid" target="_blank">
-											<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
 										</a>
 
 										<!-- PARSEME validation button -->
@@ -358,11 +354,11 @@
 										</label>
 									</p>
 									<p>
-										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait || current_corpus.error" style="margin-right:10px">
+										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait || corpus_error" style="margin-right:10px">
 											{{ wait ? "Searching..." : "Search" }}
 											<i class="fa fa-search" aria-hidden="true"></i>
 										</button>
-										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait || current_corpus.error' style="margin-right:10px">
+										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait || corpus_error' style="margin-right:10px">
 											{{ wait ? "Counting..." : "Count" }}
 											<i class="fa fa-list-ol" aria-hidden="true"></i>
 										</button>
@@ -537,14 +533,14 @@
 									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
 								</div>
 
-								<div v-if="parallels.length > 0" class="form-group">
-									<select v-model="parallel" v-on:change="update_parallel_()" class="form-control" id="sel1">
-										<option value="no">{{parallels.length}} parallel corp{{ parallels.length > 1 ? "ora" : "us" }} (none selected)</option>
-										<option v-for="parallel in parallels"> {{ parallel }} </option>
+								<div v-if="current_corpus.parallel && current_corpus.parallel.length > 0" class="form-group">
+									<select v-model="parallel" v-on:change="update_parallel_()" class="form-control"	>
+										<option value="no">{{current_corpus.parallel.length}} parallel corp{{ current_corpus.parallel.length > 1 ? "ora" : "us" }} (none selected)</option>
+										<option v-for="parallel in current_corpus.parallel"> {{ parallel }} </option>
 									</select>
 								</div>
 
-								<div v-if="parallels.length > 0 && parallel != 'no'" id="display-parallel">
+								<div v-if="current_corpus.parallel && current_corpus.parallel.length > 0 && parallel != 'no'" id="display-parallel">
 									<div v-if="parallel_svg">
 										<img v-bind:src="parallel_svg"></img>
 									</div>
