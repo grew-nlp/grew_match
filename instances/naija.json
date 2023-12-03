@@ -1,0 +1,33 @@
+[
+	{
+		"id": "Naija Gold",
+		"mode": "syntax",
+		"style": "dropdown",
+		"default": "SUD_Naija-NSC@latest",
+		"corpora": [
+			"SUD_Naija-NSC@2.12",
+			"SUD_Naija-NSC@latest",
+			"UD_Naija-NSC@2.12",
+			"UD_Naija-NSC@conv"
+		]
+	},
+	{
+		"id": "Naija Non-Gold",
+		"mode": "syntax",
+		"snippets": "sud",
+		"default": "SUD_Naija-NSC_Auto@latest",
+		"style": "single",
+		"corpora": [
+			"SUD_Naija-NSC_Auto@latest"
+		]
+	},
+	{
+		"id": "Naija syllabes",
+		"mode": "syntax",
+		"snippets": "syllables",
+		"default": "SUD_Naija-NSC-Syl",
+		"style": "single",
+		"corpora": [ "SUD_Naija-NSC-Syl" ]
+	} 
+]
+

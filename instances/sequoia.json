@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Native Sequoia",
+    "mode": "syntax",
+    "style": "dropdown",
+    "default": "Sequoia_S@current",
+    "snippets": "sequoia",
+    "corpora": [
+      "Sequoia_S@current",
+      "Sequoia_SD@current",
+      "Sequoia_SPF@current",
+      "Sequoia_SDPF@current"
+    ]
+  },
+  
+  {
+    "id": "UD converted",
+    "mode": "syntax",
+    "style": "dropdown",
+    "default": "Sequoia_UD-S@current",
+    "snippets": "ud",
+    "corpora": [
+      "Sequoia_UD-S@current", 
+      "Sequoia_UD-SPF@current"
+    ]
+  }
+
+]

@@ -1,0 +1,42 @@
+ [
+  {
+    "id": "Breton",
+    "snippets": "autogramm",
+    "mode": "syntax",
+    "style": "single",
+    "default": "Breton",
+    "corpora": [ "Breton" ]
+  },
+  {
+    "id": "Darija",
+    "snippets": "autogramm",
+    "mode": "syntax",
+    "style": "single",
+    "default": "Darija",
+    "corpora": [ "Darija" ]
+  },
+  {
+    "id": "Sungwadia",
+    "snippets": "autogramm",
+    "mode": "syntax",
+    "style": "single",
+    "default": "Sungwadia",
+    "corpora": [ "Sungwadia" ]
+  },
+  {
+    "id": "Yali",
+    "snippets": "autogramm",
+    "mode": "syntax",
+    "style": "single",
+    "default": "Yali",
+    "corpora": [ "Yali" ]
+  },
+  {
+    "id": "Zaar",
+    "snippets": "autogramm",
+    "mode": "syntax",
+    "style": "single",
+    "default": "Zaar",
+    "corpora": [ "Zaar" ]
+  }
+]

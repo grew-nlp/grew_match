@@ -1,0 +1,48 @@
+[
+	{
+		"id": "Orfeo Gold",
+		"mode": "syntax",
+		"style": "dropdown",
+		"snippets": "orfeo",
+		"default": "cefc-gold",
+		"corpora": ["cefc-gold"]
+	},
+	
+	{
+		"id": "Spoken",
+		"mode": "syntax",
+		"style": "dropdown",
+		"snippets": "orfeo",
+		"corpora": 
+		[
+			"fleuron",
+			"ofrom",
+			"valibel",
+			"frenchoralnarrative",
+			"crfp",
+			"cfpb",
+			"cfpp",
+			"coralrom",
+			"clapi",
+			"tufs",
+			"reunions-de-travail",
+			"tcof"
+		]
+	},
+	{
+		"id": "written",
+		"name": "Written",
+		"mode": "syntax",
+		"style": "dropdown",
+		"snippets": "orfeo",
+		"corpora": 
+		[
+			"annodis",
+			"comere",
+			"frantext",
+			"scientext",
+			"est-republicain",
+			"chambers-rostand"
+		]
+	}
+]

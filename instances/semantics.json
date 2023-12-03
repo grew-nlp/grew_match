@@ -1,0 +1,38 @@
+[
+  {
+    "id": "amr",
+    "name": "AMR",
+    "mode": "semantics",
+    "style": "dropdown",
+    "snippets": "amr",
+    "default": "Little_Prince",
+    "corpora": [
+      "Little_Prince",
+      "Bio_AMR_Corpus",
+      "Spec_1.2.6",
+      "AMR_dict"
+    ]
+  },
+  {
+    "id": "drs",
+    "name": "DRS",
+    "mode": "semantics",
+    "style": "dropdown",
+    "snippets": "drs",
+    "default": "en_gold@4.0.0",
+    "corpora": [
+      "en_gold@4.0.0",
+      "de_gold@4.0.0",
+      "it_gold@4.0.0",
+      "nl_gold@4.0.0"
+    ]
+  },
+  {
+    "id": "QuantML",
+    "name": "QuantML",
+    "mode": "semantics",
+    "style": "dropdown",
+    "default": "TiCC",
+    "corpora": ["TiCC", "ISA_17"]
+  }
+]
