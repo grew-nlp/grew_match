@@ -493,7 +493,15 @@ function deal_with_get_parameters() {
     search_corpus(url_params.get("corpus"));
     app.view_left_pane = true;
   };
-  
+
+  if (url_params.get ("table") == "yes") {
+    if (app.current_corpus["built_files"].includes("table.html")) {
+      open_build_file('table.html', '&table=yes')
+    } else {
+      direct_warning ("No relation tables available for corpus: `"+app.current_corpus_id+"`")
+    }
+  };
+
   // custom get parameter
   if (url_params.has("custom")) {
     const custom_param = url_params.get("custom");
@@ -703,6 +711,16 @@ function direct_error(msg) {
   Swal.fire({
     icon: 'error',
     title: 'An error occurred',
+    html: html
+  })
+}
+
+// ==================================================================================
+function direct_warning(msg) {
+  let html = md.render(msg)
+  Swal.fire({
+    icon: 'warning',
+    title: 'Warning',
     html: html
   })
 }
@@ -1126,7 +1144,7 @@ function code_copy() {
 }
 
 // ==================================================================================
-function open_build_file(file) {
+function open_build_file(file,url_ext) {
   let param = {
     corpus_id: app.current_corpus_id,
     file: file
@@ -1138,6 +1156,9 @@ function open_build_file(file) {
   backend("get_build_file", form, function (data) {
     var new_window = window.open("");
     new_window.document.write(data);
+    if (url_ext != undefined) {
+      new_window.history.replaceState({}, "", window.location + url_ext);
+    } 
   })
 }
 
