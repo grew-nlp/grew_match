@@ -1,5 +1,5 @@
 % What are the upos of NOUN governors?
-% The pattern below searches for a GOV node which has a dependent DEP with upos NOUN
+% The request below searches for a GOV node which has a dependent DEP with upos NOUN
 % The clustering key GOV.upos returns a clustering of the results for each possible upos of the GOV node
 
 pattern { GOV -> DEP; DEP [upos=NOUN] }
