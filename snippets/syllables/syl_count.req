@@ -1,0 +1,11 @@
+% a Trick to count distribution of number of syllabes for a given word
+
+pattern { 
+  W [form=do]; 
+  e: W -[Syl=*]-> S;
+}
+
+% The request (with clustering key "e.Syl") gives for each position, the syllabe position.
+% But each syllabe of the same word is reported once for each syllable
+% For instance, for the form "do", the request returns: 1 --> 770 occurrences, 2 --> 3 occurrences
+% This means that there are 3 cases with 2 syllabes and 767 cass with exacly 1 syllable (767 = 770 - 3).

@@ -1,0 +1,3 @@
+% each syllable has a feature SylForm
+
+pattern { S [SylForm = "wO~"] }

@@ -1,0 +1,5 @@
+% ExternalOnset are represented by a specific link, labelled "ExternalOnset=Yes"
+
+pattern { 
+  S2 -[ExternalOnset=Yes]-> S1;
+}

@@ -1,5 +1,5 @@
 % Search for the verb "make" without either subject OR object
-% Compare with previous example wiht only one 'without' clauses
+% Compare with previous example with only one 'without' clause
 
 pattern { V [upos=VERB, lemma=make] }
 without { V -[nsubj|nsubj:pass]-> S }

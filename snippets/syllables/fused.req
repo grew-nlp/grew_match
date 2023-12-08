@@ -1,0 +1,6 @@
+% when a syllable is fused, it appears before its word in the representation
+
+pattern { 
+  W -[Syl=*]-> S;
+  S << W;   
+}
