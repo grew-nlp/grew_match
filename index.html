@@ -175,6 +175,7 @@
 											{{ corpus.id }}
 											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
 											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
+											<i v-if="corpus.grs" class="fa fa-gear fa-lg" style="float: right;"></i>
 											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.audio" src="icon/audio.svg" width="20" height="20" style="float: right;"></img>
