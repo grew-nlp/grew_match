@@ -157,6 +157,9 @@ let app = new Vue({
   }, // end watch
 
   computed: {
+    local: function () {
+      return location.hostname.includes("localhost")
+    },
     cluster_list_sorted: function () {
       if (this.sort) {
         var data = this.cluster_list.slice(0);

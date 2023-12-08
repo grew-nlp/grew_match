@@ -320,4 +320,7 @@ h3 {
   height: 160px;
 }
 
-
+/* Specific navbar color for localhost */
+#navbar-grew.local {
+  background-color: #424242;
+}
