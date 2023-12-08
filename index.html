@@ -389,7 +389,7 @@
 							<button id="export-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:run_export()" style="margin-right:10px">
 								TSV <i class="fa fa-download" aria-hidden="true"></i></span>
 							</button>
-							<button class="btn btn-primary" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
+							<button id="download-conll-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
 								CoNLL <i class="fa fa-download" aria-hidden="true"></i></span>
 							</button>
 
