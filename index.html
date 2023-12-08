@@ -533,14 +533,14 @@
 									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
 								</div>
 
-								<div v-if="current_corpus.parallel && current_corpus.parallel.length > 0" class="form-group">
+								<div v-if="current_corpus.parallels && current_corpus.parallels.length > 0" class="form-group">
 									<select v-model="parallel" v-on:change="update_parallel_()" class="form-control"	>
-										<option value="no">{{current_corpus.parallel.length}} parallel corp{{ current_corpus.parallel.length > 1 ? "ora" : "us" }} (none selected)</option>
-										<option v-for="parallel in current_corpus.parallel"> {{ parallel }} </option>
+										<option value="no">{{current_corpus.parallels.length}} parallel corp{{ current_corpus.parallels.length > 1 ? "ora" : "us" }} (none selected)</option>
+										<option v-for="parallel in current_corpus.parallels"> {{ parallel }} </option>
 									</select>
 								</div>
 
-								<div v-if="current_corpus.parallel && current_corpus.parallel.length > 0 && parallel != 'no'" id="display-parallel">
+								<div v-if="current_corpus.parallels && current_corpus.parallels.length > 0 && parallel != 'no'" id="display-parallel">
 									<div v-if="parallel_svg">
 										<img v-bind:src="parallel_svg"></img>
 									</div>
