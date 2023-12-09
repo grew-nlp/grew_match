@@ -543,11 +543,6 @@ function deal_with_get_parameters() {
           clust2_cm.setValue(data.clust2_whether);
         }, 0)
       }
-      if ("eud" in data) {
-        $('#eud-box').bootstrapToggle('on');
-      } else {
-        $('#eud-box').bootstrapToggle('off')
-      }
       setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
     })
     .error(function () {
@@ -570,9 +565,6 @@ function deal_with_get_parameters() {
     search_corpus(); // if no corpus is specified, take the default
     app.view_left_pane = true;
   }
-
-  // ud by default eud if requested in the params
-  $('#eud-box').bootstrapToggle(url_params.get("eud") ? 'on' : 'off')
 
   // backward compatibility with the old "clustering" name
   let clust1_key = url_params.has('clust1_key') ? url_params.get('clust1_key') : url_params.get('clustering');
@@ -841,7 +833,6 @@ function count() {
   let param = {
     pattern: cmEditor.getValue(),
     corpus: app.current_corpus_id,
-    eud2ud: (app.current_corpus["enhanced"]) && !($('#eud-box').prop('checked')),
     clust1: app.clust1,
     clust2: app.clust2,
   };
@@ -930,7 +921,6 @@ function search() {
     tf_wf: app.tf_wf,
     order: $('#sentences-order').val(),
     context: app.context,
-    eud2ud: (app.current_corpus["enhanced"]) && !($('#eud-box').prop('checked')),
     clust1: app.clust1,
     clust2: app.clust2,
   };
@@ -1174,10 +1164,6 @@ function save_pattern() {
     pattern: cmEditor.getValue(),
     corpus: app.current_corpus_id,
   };
-
-  if (app.current_corpus["enhanced"] && $('#eud-box').prop('checked')) {
-    param.eud = "yes"
-  }
 
   if (app.clust1 == "key") {
     param.clust1_key = app.clust1_key;
