@@ -831,8 +831,8 @@ function count() {
   app.cluster_dim = 0;
 
   let param = {
-    pattern: cmEditor.getValue(),
-    corpus: app.current_corpus_id,
+    request: cmEditor.getValue(),
+    corpus_id: app.current_corpus_id,
     clust1: app.clust1,
     clust2: app.clust2,
   };
@@ -912,8 +912,8 @@ function search() {
   app.result_message = "";
 
   let param = {
-    pattern: cmEditor.getValue(),
-    corpus: app.current_corpus_id,
+    request: cmEditor.getValue(),
+    corpus_id: app.current_corpus_id,
     lemma: app.lemma,
     upos: app.upos,
     xpos: app.xpos,
@@ -1081,7 +1081,7 @@ function update_parallel() {
   if (app.parallel != "no") {
     let param = {
       uuid: app.current_uuid,
-      corpus: app.parallel,
+      corpus_id: app.parallel,
       sent_id: app.sent_id,
     };
 
