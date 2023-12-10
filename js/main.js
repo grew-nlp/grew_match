@@ -607,7 +607,7 @@ function open_validation_page() {
   
   let form = new FormData();
   form.append("param", JSON.stringify(param));
-  
+
   backend("get_build_file", form, function (data) {
     localStorage.setItem('valid_data', data);
     localStorage.setItem('top_url', window.location.origin );
@@ -1134,8 +1134,7 @@ function show_code() {
 
 // ==================================================================================
 function code_copy() {
-  $("#code_viewer").select()
-  document.execCommand('copy');
+  navigator.clipboard.writeText($("#code_viewer").html())
 }
 
 // ==================================================================================
