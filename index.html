@@ -219,19 +219,20 @@
 											<i id="info-button" class="fa fa-info-circle tooltip-desc"></i>
 										</a>
 
+										<!-- "ago" info -->
 										<span id="update_ago" style="font-size: initial;"></span>
-
-										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("validation.json")'>
-											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_validation_page()">
-												<i class="fa fa-check fa-lg"></i>
-											</button>
-										</a>
-
 
 										<!-- Error log button -->
 										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("log")'>
 											<button type="button" class="btn btn-danger" onclick="open_build_file('log')">
 												<i class="fa fa-exclamation-triangle fa-lg"></i>
+											</button>
+										</a>
+
+										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("valid_ud.txt")'>
+											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', '&valid_ud=yes')">
+												<img src="icon/ud.svg" width="20"></img>
+												<i class="fa fa-check fa-lg"></i>
 											</button>
 										</a>
 
