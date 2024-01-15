@@ -1,16 +1,56 @@
 {
+  "test.grew.fr":
+  {
+    "backend": "https://gmb-universal.grew.fr/",
+    "instance": "universal.json"
+  },
+
+
   "universal.grew.fr":
   {
-    "backend": "https://gmb-9090.grew.fr/",
-    "config": "universal.json"
+    "backend": "https://gmb-universal.grew.fr/",
+    "instance": "universal.json"
   },
+
   "parseme.grew.fr":
   {
-    "backend": "https://gmb-9091.grew.fr/",
-    "config": "parseme.json",
+    "backend": "https://gmb-parseme.grew.fr/",
+    "instance": "parseme.json",
     "top_project": {
       "website": "https://gitlab.com/parseme/corpora/-/wikis/home",
       "logo": "https://parsemefr.lis-lab.fr/parseme-st-guidelines/img/parseme-logo.png"
+    }
+  },
+
+  "semantics.grew.fr":
+  {
+    "backend": "https://gmb-semantics.grew.fr/",
+    "instance": "semantics.json"
+  },
+
+  "orfeo.grew.fr":
+  {
+    "backend": "https://gmb-orfeo.grew.fr/",
+    "instance": "orfeo.json",
+    "top_project": {
+      "website": "https://www.ortolang.fr/market/corpora/cefc-orfeo/",
+      "logo": "https://repository.ortolang.fr/api/thumbs/cefc-orfeo/11/cropped-logo-orfeo-small.png"
+    }
+  },
+
+  "sequoia.grew.fr":
+  {
+    "backend": "https://gmb-sequoia.grew.fr/",
+    "instance": "sequoia.json"
+  },
+
+  "naija.grew.fr":
+  {
+    "backend": "https://gmb-naija.grew.fr/",
+    "instance": "naija.json",
+    "top_project": {
+      "website": "https://naijasyncor.huma-num.fr/",
+      "logo": "https://naijasyncor.huma-num.fr/images/logo.jpg"
     }
   }
 }

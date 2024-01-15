@@ -14,7 +14,7 @@
     "snippets": "ud",
     "default": "UD_Zaar-Autogramm@2.13",
     "style": "left_pane",
-    "corpora": 
+    "corpora":
     [
       "UD_Abaza-ATB@2.13",
       "UD_Afrikaans-AfriBooms@2.13",
@@ -594,16 +594,16 @@
     "default": "UD_English-EWT@dev",
     "corpora": [
       "UD_Bambara-CRB@dev",
+      "UD_Breton-KEB@dev",
       "UD_English-EWT@dev",
       "UD_English-GUM@dev",
       "UD_French-FQB@dev",
       "UD_French-ParTUT@dev",
       "UD_French-PUD@dev",
+      "UD_German-GSD@dev",
       "UD_Irish-IDT@dev",
       "UD_Portuguese-Bosque@dev",
       "UD_Portuguese-GSD@dev",
-      "UD_Breton-KEB@dev",
-      "UD_German-GSD@dev",
       "UD_Wolof-WTB@dev"
     ]
   },
@@ -630,9 +630,8 @@
       "SUD_Zaar-Autogramm@latest",
       "SUD_Darija-Autogramm@latest",
       "SUD_Egyptian_Arabic-Autogramm@latest",
-      "SUD_PS_2023@latest",
       "SUD_Gbaya-Autogramm@latest",
-      "SUD_Naija-NSC_Auto@latest",
+      "SUD_PS_2023@latest",
       "SUD_Tunisian_Arabic-NAxLAT@latest"
     ]
   },
@@ -648,6 +647,7 @@
       "UD_Coptic-Scriptorium@ucxn",
       "UD_English-EWT@ucxn",
       "UD_English-GUM@ucxn",
+      "UD_French-GSD@ucxn",
       "UD_German-HDT@ucxn",
       "UD_Hebrew-HTB@ucxn",
       "UD_Hebrew-IAHLTwiki@ucxn",
