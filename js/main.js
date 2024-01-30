@@ -1276,10 +1276,12 @@ function update_corpus() {
   if (app.skip_history) {
     app.skip_history = false;
   } else {
-    history.pushState({},
-      "",
-      "?corpus=" + app.current_corpus_id
-    );
+    setTimeout(function () {
+      history.pushState({},
+        "",
+        "?corpus=" + app.current_corpus_id
+      );
+      }, 100  )
   }
 }
 
