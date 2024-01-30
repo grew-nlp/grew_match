@@ -1,13 +1,13 @@
 {
-  "localhost:19090": 
+  "localhost:11001": 
   {
-    "backend": "http://localhost:8899/",
+    "backend": "http://localhost:10001/",
     "instance": "universal.json"
   },
 
-  "localhost:19091":
+  "localhost:11002":
   {
-    "backend": "http://localhost:8899/",
+    "backend": "http://localhost:10002/",
     "instance": "parseme.json",
     "top_project": {
       "website": "https://gitlab.com/parseme/corpora/-/wikis/home",
@@ -15,16 +15,16 @@
     }
   },
 
-  "localhost:19092":
+  "localhost:11003":
   {
-    "backend": "http://localhost:8899/",
+    "backend": "http://localhost:10003/",
     "instance": "semantics.json"
 
   },
 
-  "localhost:19093":
+  "localhost:11004":
   {
-    "backend": "http://localhost:8899/",
+    "backend": "http://localhost:10004/",
     "instance": "orfeo.json",
     "top_project": {
       "website": "https://www.ortolang.fr/market/corpora/cefc-orfeo/",
@@ -32,15 +32,15 @@
     }
   },
 
-  "localhost:19094":
+  "localhost:11005":
   {
-    "backend": "http://localhost:8899/",
+    "backend": "http://localhost:10005/",
     "instance": "sequoia.json"
   },
 
-  "localhost:19095":
+  "localhost:11006":
   {
-    "backend": "http://localhost:8899/",
+    "backend": "http://localhost:10006/",
     "instance": "naija.json",
     "top_project": {
       "website": "http://naijasyncor.huma-num.fr/",
@@ -48,9 +48,9 @@
     }
   },
 
-  "localhost:19096":
+  "localhost:11007":
   {
-    "backend": "http://localhost:8899/",
+    "backend": "http://localhost:10007/",
     "instance": "autogramm.json",
     "top_project": {
       "website": "https://autogramm.github.io/",
@@ -58,9 +58,9 @@
     }
   },
 
-  "localhost:19097":
+  "localhost:11008":
   {
-    "backend": "http://localhost:8899/",
+    "backend": "http://localhost:10008/",
     "instance": "sawg.json"
   }
 
