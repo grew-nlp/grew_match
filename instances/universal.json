@@ -681,11 +681,10 @@
       "SUD_Breton-KEB@conv",
       "SUD_German-GSD@conv",
       "SUD_Wolof-WTB@conv",
-      "SUD_French-GSD@@fix_typo",
-      "SUD_French-GSD@@rm_mwt",
-      "SUD_French-ParisStories@@rm_mwt",
-      "SUD_French-Rhapsodie@@rm_mwt",
-      "SUD_Zaar-Autogramm@@say_dev"
+      "SUD_French-GSD@fix_typo",
+      "SUD_French-GSD@rm_mwt",
+      "SUD_French-ParisStories@rm_mwt",
+      "SUD_French-Rhapsodie@rm_mwt"
     ]
   } 
 ]
