@@ -52,5 +52,18 @@
       "website": "https://naijasyncor.huma-num.fr/",
       "logo": "https://naijasyncor.huma-num.fr/images/logo.jpg"
     }
+  },
+
+  "autogramm.grew.fr":
+  {
+    "backend": "https://gmb-autogramm.grew.fr/",
+    "instance": "autogramm.json"
+  },
+
+  "sawg.grew.fr":
+  {
+    "backend": "https://gmb-sawg.grew.fr/",
+    "instance": "sawg.json"
   }
+
 }
