@@ -5,9 +5,9 @@
 		"style": "dropdown",
 		"default": "SUD_Naija-NSC@latest",
 		"corpora": [
-			"SUD_Naija-NSC@2.12",
+			"SUD_Naija-NSC@2.13",
 			"SUD_Naija-NSC@latest",
-			"UD_Naija-NSC@2.12",
+			"UD_Naija-NSC@2.13",
 			"UD_Naija-NSC@conv"
 		]
 	},
@@ -22,12 +22,12 @@
 		]
 	},
 	{
-		"id": "Naija syllabes",
-		"mode": "syntax",
-		"snippets": "syllables",
-		"default": "SUD_Naija-NSC-Syl",
+		"id": "Naija prosody",
+		"mode": "prosody",
+		"snippets": "prosody",
+		"default": "SUD_Naija-NSC-prosody",
 		"style": "single",
-		"corpora": [ "SUD_Naija-NSC-Syl" ]
+		"corpora": [ "SUD_Naija-NSC-prosody" ]
 	} 
 ]
 
