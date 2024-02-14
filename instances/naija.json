@@ -23,7 +23,7 @@
 	},
 	{
 		"id": "Naija prosody",
-		"mode": "prosody",
+		"mode": "syntax",
 		"snippets": "prosody",
 		"default": "SUD_Naija-NSC-prosody",
 		"style": "single",
