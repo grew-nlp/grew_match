@@ -440,7 +440,7 @@ $(document).ready(function () {
 
   $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
   $('#save-button').tooltipster('content', "Build a permanent URL with the current session");
-  $('#download-conll-button').tooltipster('content', "Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurences on the request in it.");
+  $('#download-conll-button').tooltipster('content', "Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.");
 
   $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
 
