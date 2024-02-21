@@ -1,4 +1,4 @@
 % Search for 4-grams of upos
 % For instance: D, A, A, N
 
-pattern { N1 [upos=D]; N2 [upos=A]; N3 [upos=A]; N4 [upos=N]; N1 < N2; N2 < N3; N3 < N4 }
+pattern { X1 [upos=D]; X2 [upos=A]; X3 [upos=A]; X4 [upos=N]; X1 < X2; X2 < X3; X3 < X4 }

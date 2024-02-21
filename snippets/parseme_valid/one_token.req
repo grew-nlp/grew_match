@@ -2,6 +2,6 @@
 
 pattern {
   MWE [label <> NotMWE];
-  MWE -> N;
+  MWE -> X;
 }
-without { MWE -> X }
+without { MWE -> Y }

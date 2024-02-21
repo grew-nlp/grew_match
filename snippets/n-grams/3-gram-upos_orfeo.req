@@ -1,4 +1,4 @@
 % Search for trigrams of upos
 % For instance: DET, ADJ, NOM
 
-pattern { N1 [upos=DET]; N2 [upos=ADJ]; N3 [upos=NOM]; N1 < N2; N2 < N3 }
+pattern { X1 [upos=DET]; X2 [upos=ADJ]; X3 [upos=NOM]; X1 < X2; X2 < X3 }

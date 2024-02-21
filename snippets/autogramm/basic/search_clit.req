@@ -1,3 +1,3 @@
 % Search for a clitic (a form starting or ending with a "=") 
 
-pattern { N [form = re"\(=.*\)\|\(.*=\)" ]  }
+pattern { X [form = re"\(=.*\)\|\(.*=\)" ]  }

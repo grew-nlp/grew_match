@@ -2,6 +2,6 @@
 % such that the governor's tag is different from NOUN, PROPN and ADJ
 
 pattern {
-  GOV [upos <> NOUN|ADJ|PROPN];
-  GOV -[det]-> DEP;
+  X [upos <> NOUN|ADJ|PROPN];
+  X -[det]-> Y;
 }

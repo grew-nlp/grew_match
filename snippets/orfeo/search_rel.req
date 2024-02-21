@@ -2,4 +2,4 @@
 % In orfeo, available relations are:
 %   aux, dep, det, disflink, dm, mark, para, parenth, periph, punc, root, spe, subj
 
-pattern { GOV -[mark]-> DEP }
+pattern { X -[mark]-> Y }

@@ -1,4 +1,4 @@
 % Search for bigrams of upos
 % For instance: determiner noun
 
-pattern { N1 [upos=D]; N2 [upos=N]; N1 < N2 }
+pattern { X1 [upos=D]; X2 [upos=N]; X1 < X2 }

@@ -2,7 +2,7 @@
 % See next snippets for more general solution
 
 pattern {
-	N -[ARG0]-> N0;
-	N -[ARG1]-> N0;
-	N -[ARG2]-> N1;
+	X -[ARG0]-> X0;
+	X -[ARG1]-> X0;
+	X -[ARG2]-> X1;
 }

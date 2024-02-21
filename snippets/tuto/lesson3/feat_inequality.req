@@ -2,5 +2,5 @@
 % Search for a relation nsubj with the constraint: both nodes have a Number feature with different values
 
 pattern {
-  N -[nsubj]-> M; N.Number <> M.Number;
+  X -[nsubj]-> Y; X.Number <> Y.Number;
 }

@@ -2,4 +2,4 @@
 % For instance, it is possible to seach for a concept following a regular.
 % This pattern searches for all concepts starting with the prefix "take-"
 
-pattern { N []; N.concept = re"take-.*"; }
+pattern { X []; X.concept = re"take-.*"; }

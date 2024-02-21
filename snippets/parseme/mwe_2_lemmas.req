@@ -2,8 +2,8 @@
 
 pattern {
   MWE [label];                                   % Search for a MWE node…
-  MWE -[parseme=MWE]-> N1; N1 [lemma="Lemma_1"]; % …which contains a token with "Lemma_1"…
-  MWE -[parseme=MWE]-> N2; N2 [lemma="Lemma_2"]; % …and a token with "Lemma_2"
+  MWE -[parseme=MWE]-> X1; X1 [lemma="Lemma_1"]; % …which contains a token with "Lemma_1"…
+  MWE -[parseme=MWE]-> X2; X2 [lemma="Lemma_2"]; % …and a token with "Lemma_2"
 }
 
 % Note that this will also return MWE with other tokens than the two givens.

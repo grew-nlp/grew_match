@@ -2,6 +2,6 @@
 % such that the governor's upos tag is different from NOM and ADJ
 
 pattern {
-  GOV [upos <> NOM|ADJ];
-  GOV -[spe]-> DEP;
+  X [upos <> NOM|ADJ];
+  X -[spe]-> Y;
 }

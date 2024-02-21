@@ -1,1 +1,1 @@
-pattern { GOV -[mod]-> DEP; DEP [upos=ADJ] }
+pattern { X -[mod]-> Y; Y [upos=ADJ] }

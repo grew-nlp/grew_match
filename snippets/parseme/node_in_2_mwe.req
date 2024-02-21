@@ -1,8 +1,8 @@
 % Search a node N which is in two different MWEs
 
 pattern {
-  N[];
-  MWE1 [label <> "NotMWE"]; MWE1 -> N;
-  MWE2 [label <> "NotMWE"]; MWE2 -> N;
+  X[];
+  MWE1 [label <> "NotMWE"]; MWE1 -> X;
+  MWE2 [label <> "NotMWE"]; MWE2 -> X;
   MWE1.__id__ < MWE2.__id__; % <-- Avoid to duplicate solutions
 }

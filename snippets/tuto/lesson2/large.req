@@ -7,3 +7,5 @@ pattern {
   V -[obl]-> N;
   N -[case]-> BY;
 }
+
+% As the pattern contains four nodes, more meaningfull indentifiers are used: `V` for verb, `BY` for the prepositoin "by"…

@@ -2,5 +2,5 @@
 % Here, search for a relation whose name begins with "aux"
 
 pattern {
-  N -[re"aux.*"]-> M;
+  X -[re"aux.*"]-> Y;
 }

@@ -1,11 +1,11 @@
 % See previous snippet for an explanation of the pattern.
 
 pattern {
-	N [concept = "go-on-15"];
+	X [concept = "go-on-15"];
 }
 without {
-	N -[ARG1]-> A;
+	X -[ARG1]-> A;
 }
 without {
-	A -[ARG1-of]-> N;
+	A -[ARG1-of]-> X;
 }

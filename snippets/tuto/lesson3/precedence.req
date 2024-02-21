@@ -1,5 +1,5 @@
 % Constraint on positions in the sentence
-% Below, we search for a verb with a postponed subject
+% Below, we search for a verb (`V`) with a postponed subject (`S`))
 
 pattern {
   V [ upos=VERB ];

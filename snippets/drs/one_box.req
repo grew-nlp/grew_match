@@ -1,7 +1,7 @@
-% Search two relatred nodes `N1` and `N2`, in the same box `B`; clustered by relation label
+% Search two relatred nodes `X1` and `X2`, in the same box `B`; clustered by relation label
 
 pattern {
- B -[in]-> N1;
- B -[in]-> N2;
- e: N1 -> N2;
+ B -[in]-> X1;
+ B -[in]-> X2;
+ e: X1 -> X2;
 }

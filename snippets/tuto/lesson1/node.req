@@ -1,3 +1,5 @@
-% Match any node and give it the name N
+% Match any node and give it the name `X`
 
-pattern { N [] }
+pattern { X [] }
+
+% Note that `X` is a variable name. You can use any other identifier instead of `X`.

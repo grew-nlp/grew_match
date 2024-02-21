@@ -1,3 +1,3 @@
 % Search for trigrams of words
 
-pattern { N1 [form="word1"]; N2 [form="word2"]; N3 [form="word3"]; N1 < N2; N2 < N3 }
+pattern { X1 [form="word1"]; X2 [form="word2"]; X3 [form="word3"]; X1 < X2; X2 < X3 }

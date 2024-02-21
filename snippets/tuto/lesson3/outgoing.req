@@ -1,7 +1,7 @@
 % It is possible to request the presence of an outgoing edge with the "*" symbol.
 % In the example below, only occurrences of the verb "make" with an outgoing subject edge are given
 
-pattern { N [ upos=VERB, lemma="make"]; N -[nsubj]-> *; }
+pattern { X [ upos=VERB, lemma="make"]; X -[nsubj]-> *; }
 
-% Warning: the clause "N -[nsubj]-> *" is not equivalent to the clause "N -[nsubj]-> X":
-% The first is just an additional constraint, the second matches a new node "X".
+% Warning: the clause "X -[nsubj]-> *" is not equivalent to the clause "X -[nsubj]-> Y":
+% The first is just an additional constraint, the second matches a new node `Y`.

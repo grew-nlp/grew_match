@@ -1,1 +1,1 @@
-pattern { N[upos="NOUN"] }
+pattern { X [upos="NOUN"] }

@@ -2,7 +2,7 @@
 
 pattern {
   MWE [label <> NotMWE];
-  MWE -> N1; MWE -> N2;  % <--- two nodes N1 and N2 linked to the MWE node
-  N1 << N2;              % <--- do not display permutation of another result
+  MWE -> X1; MWE -> X2;  % <--- two nodes X1 and X2 linked to the MWE node
+  X1 << X2;              % <--- do not display permutation of another result
 }
 without { MWE -> X }     % <--- avoid a third node linked to the MWE node

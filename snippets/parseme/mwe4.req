@@ -2,7 +2,7 @@
 
 pattern {
   MWE [label <> NotMWE];
-  MWE -> N1; MWE -> N2; MWE -> N3; MWE -> N4;
-  N1 << N2; N2 << N3; N3 << N4;
+  MWE -> X1; MWE -> X2; MWE -> X3; MWE -> X4;
+  X1 << X2; X2 << X3; X3 << X4;
 }
 without { MWE -> X }

@@ -1,5 +1,5 @@
 % What are the upos for a given word
 % The request below searches for the form "some"
-% The clustering key N.upos returns a clustering of the results for each possible upos of the N node
+% The clustering key X.upos returns a clustering of the results for each possible upos of the node `X`
 
-pattern { N [form="some"] }
+pattern { X [form="some"] }

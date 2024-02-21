@@ -1,6 +1,6 @@
 % Coordination of unlikes
 
 pattern {
-  N1 -[conj]-> N2;
-  N1.upos <> N2.upos;
+  X1 -[conj]-> X2;
+  X1.upos <> X2.upos;
 }

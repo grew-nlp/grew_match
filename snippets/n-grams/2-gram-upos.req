@@ -1,4 +1,4 @@
 % Search for bigrams of upos
 % For instance: DET, NOUN
 
-pattern { N1 [upos=DET]; N2 [upos=NOUN]; N1 < N2 }
+pattern { X1 [upos=DET]; X2 [upos=NOUN]; X1 < X2 }

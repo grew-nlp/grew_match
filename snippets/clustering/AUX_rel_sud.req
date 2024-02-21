@@ -3,4 +3,4 @@
 % * in lines the aux lemma 
 % * in columns its complements "comp:*" (i.e. the label of dep with the given complement)
 
-pattern { N [upos="AUX"]; e: N -[1=comp]-> V }
+pattern {  A[upos="AUX"]; e: A -[1=comp]-> V }

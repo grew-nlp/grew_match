@@ -1,1 +1,1 @@
-pattern { GOV -[1=subj]-> DEP; GOV << DEP }
+pattern { X -[1=subj]-> Y; X << Y }

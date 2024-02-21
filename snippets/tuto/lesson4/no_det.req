@@ -1,4 +1,4 @@
 % Search for bigrams DET + NOUN without the relation 'det' beetween the two nodes
 
-pattern { N1 [upos=DET]; N2 [upos=NOUN]; N1 < N2 }
-without { N2 -[det]-> N1}
+pattern { X1 [upos=DET]; X2 [upos=NOUN]; X1 < X2 }
+without { X2 -[det]-> X1}

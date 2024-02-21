@@ -46,22 +46,22 @@
   <div class="tab-pane" id="step3">
     <b style="font-size: 125%;">with a key:</b>
     <ul>
-      <li><a href="#" clustering="GOV.upos" snippet-file="clustering/upos.req" class="inter">Cluster results by one node "upos"</a></li>
-      <li><a href="#" clustering="N.lemma" snippet-file="clustering/lemma.req" class="inter">Cluster results by one node "lemma"</a></li>
-      <li><a href="#" clustering="N.VerbForm" snippet-file="clustering/verbform.req" class="inter">Other clustering on nodes</a></li>
+      <li><a href="#" clustering="X.upos" snippet-file="clustering/upos.req" class="inter">Cluster results by one node "upos"</a></li>
+      <li><a href="#" clustering="X.lemma" snippet-file="clustering/lemma.req" class="inter">Cluster results by one node "lemma"</a></li>
+      <li><a href="#" clustering="X.VerbForm" snippet-file="clustering/verbform.req" class="inter">Other clustering on nodes</a></li>
       <li><a href="#" clustering="e.label" snippet-file="clustering/edge.req" class="inter">Cluster results by edge label</a></li>
     </ul>
     <b style="font-size: 125%;">with a "whether":</b>
     <ul>
-      <li><a href="#" whether="GOV -[expl]-> E" snippet-file="clustering/post_nsubj.req" class="inter">Left-headed <code>nsubj</code>: test expletive context</a></li>
-      <li><a href="#" whether="GOV << DEP" snippet-file="clustering/amod_ud.req" class="inter"> Is the <code>amod</code> relation left-headed?</a></li>
-      <li><a href="#" whether="N -[det]-> D" snippet-file="clustering/noun.req" class="inter"> Does <code>NOUN</code>s have a <code>det</code> dependent?</a></li>
+      <li><a href="#" whether="X -[expl]-> E" snippet-file="clustering/post_nsubj.req" class="inter">Left-headed <code>nsubj</code>: test expletive context</a></li>
+      <li><a href="#" whether="X << Y" snippet-file="clustering/amod_ud.req" class="inter"> Is the <code>amod</code> relation left-headed?</a></li>
+      <li><a href="#" whether="X -[det]-> D" snippet-file="clustering/noun.req" class="inter"> Does <code>NOUN</code>s have a <code>det</code> dependent?</a></li>
     </ul>
     <b style="font-size: 125%;">double clustering:</b>
     <ul>
-      <li><a href="#" clustering="N.lemma" clustering2="e.label" snippet-file="clustering/AUX_rel_ud.req" class="inter">The auxiliaries and their dep label</a></li>
-      <li><a href="#" clustering="N.Number" whether2="N -[det]-> S" snippet-file="clustering/DET_Number.req" class="inter">NOUN without det and Number</a></li>
-      <li><a href="#" whether="GOV << DEP" whether2="GOV -[expl]-> *" snippet-file="clustering/post_expl_ud.req" class="inter">[en] post verbal nsubj and expletive</a></li>
+      <li><a href="#" clustering="X.lemma" clustering2="e.label" snippet-file="clustering/AUX_rel_ud.req" class="inter">The auxiliaries and their dep label</a></li>
+      <li><a href="#" clustering="X.Number" whether2="X -[det]-> S" snippet-file="clustering/DET_Number.req" class="inter">NOUN without det and Number</a></li>
+      <li><a href="#" whether="X << Y" whether2="X -[expl]-> *" snippet-file="clustering/post_expl_ud.req" class="inter">[en] post verbal nsubj and expletive</a></li>
     </ul>
   </div>
 

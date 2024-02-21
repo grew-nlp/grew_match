@@ -5,4 +5,4 @@
 %                         compound, list, parataxis, orphan, goeswith, reparandum, punct
 %  * Some relations may be completed by deep features: comp:aux@tense, comp:aux@pass (see https://surfacesyntacticud.github.io/)
 
-pattern { GOV -[comp:obj]-> DEP }
+pattern { X -[comp:obj]-> Y }
