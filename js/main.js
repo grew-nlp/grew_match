@@ -1054,6 +1054,29 @@ function run_export() {
 }
 
 // ==================================================================================
+// https://www.geeksforgeeks.org/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript/#using-a-custom-javascript-function
+function download_text(file, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8, ' + encodeURIComponent(text));
+  element.setAttribute('download', file);
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+}
+
+// ==================================================================================
+function clusters_export() {
+  let tsv = ""
+  if (app.clust1 == "key") {
+    tsv += app.clust1_key + "\tOccurrences\n"
+  } else {
+    tsv += "whether\tOccurrences\n"
+  }
+  tsv += app.cluster_list_sorted.map(cl => cl.value + "\t" + cl.size).join("\n")
+  download_text("clusters.tsv", tsv)
+}
+
+// ==================================================================================
 function export_tsv(pivot) {
   $('#pivot-modal').modal('hide');
   let param = {
