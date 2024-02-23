@@ -229,8 +229,9 @@
 											</button>
 										</a>
 
+										<!-- UD validation -->
 										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("valid_ud.txt")'>
-											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', '&valid_ud=yes')">
+											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">
 												<img src="icon/ud.svg" width="20"></img>
 												<i class="fa fa-check fa-lg"></i>
 											</button>
@@ -245,7 +246,7 @@
 										
 										<!-- Table button -->
 										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("table.html")'>
-											<button id="table-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('table.html', '&table=yes')">
+											<button id="table-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('table.html', 'table', 'yes')">
 												<i class="fa fa-table fa-lg"></i>
 											</button>
 										</a>

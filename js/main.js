@@ -501,7 +501,7 @@ function deal_with_get_parameters() {
 
   if (url_params.get ("table") == "yes") {
     if (app.current_corpus["built_files"].includes("table.html")) {
-      open_build_file('table.html', '&table=yes')
+      open_build_file('table.html')
     } else {
       direct_warning ("No relation tables available for corpus: `"+app.current_corpus_id+"`")
     }
@@ -509,7 +509,7 @@ function deal_with_get_parameters() {
 
   if (url_params.get ("valid_ud") == "yes") {
     if (app.current_corpus["built_files"].includes("valid_ud.txt")) {
-      open_build_file('valid_ud.txt', '&valid_ud=yes')
+      open_build_file('valid_ud.txt')
     } else {
       direct_warning ("No valid_ud available for corpus: `"+app.current_corpus_id+"`")
     }
@@ -610,7 +610,7 @@ function deal_with_get_parameters() {
 function open_validation_page() {
   let param = {
     corpus_id: app.current_corpus_id,
-    file: "validation.json"
+    file: "valid_sud.json"
   };
   
   let form = new FormData();
@@ -1129,7 +1129,7 @@ function code_copy() {
 }
 
 // ==================================================================================
-function open_build_file(file,url_ext) {
+function open_build_file(file,get_param,get_value) {
   let param = {
     corpus_id: app.current_corpus_id,
     file: file
@@ -1147,8 +1147,13 @@ function open_build_file(file,url_ext) {
       html = data
     }
     new_window.document.write(html);
-    if (url_ext != undefined) {
-      new_window.history.replaceState({}, "", window.location + url_ext);
+
+    if (get_param != undefined && get_value != undefined) {
+      let params = new URLSearchParams(window.location.search)
+      params.delete(get_param)
+      params.append (get_param, get_value)
+      let new_url = window.location.origin + "?" + params.toString()
+      new_window.history.replaceState({}, "", new_url);
     } 
   })
 }
