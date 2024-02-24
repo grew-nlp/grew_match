@@ -36,6 +36,9 @@
           update(data, top_url)
         });
       }
+      if (localStorage.getItem('corpus')) {
+        window.history.replaceState({}, "", "/?corpus="+localStorage.getItem('corpus')+"&valid_sud=yes");
+      }
     })
 
     function update(data, top_url) {

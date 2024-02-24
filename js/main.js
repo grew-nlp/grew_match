@@ -515,6 +515,14 @@ function deal_with_get_parameters() {
     }
   };
 
+  if (url_params.get ("valid_sud") == "yes") {
+    if (app.current_corpus["built_files"].includes("valid_sud.json")) {
+      open_validation_page()
+    } else {
+      direct_warning ("No valid_sud available for corpus: `"+app.current_corpus_id+"`")
+    }
+  };
+
   // custom get parameter
   if (url_params.has("custom")) {
     const custom_param = url_params.get("custom");
@@ -618,7 +626,8 @@ function open_validation_page() {
 
   backend("get_build_file", form, function (data) {
     localStorage.setItem('valid_data', data);
-    localStorage.setItem('top_url', window.location.origin );
+    localStorage.setItem('top_url', window.location.origin);
+    localStorage.setItem('corpus', app.current_corpus_id);
     window.open("validator.html");
   })
 }

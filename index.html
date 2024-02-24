@@ -237,6 +237,14 @@
 											</button>
 										</a>
 
+										<!-- SUD validation -->
+										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("valid_sud.json")'>
+											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_validation_page()">
+												<img src="icon/sud.svg" height="20"></img>
+												<i class="fa fa-check fa-lg"></i>
+											</button>
+										</a>
+
 										<!-- Github button -->
 										<a v-show='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">
 											<button id="github-button" type="button" class="tooltip-desc btn btn-primary">
