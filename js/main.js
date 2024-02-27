@@ -84,6 +84,10 @@ let app = new Vue({
   }, // end data
 
   methods: {
+    // ==================================================================================
+    check_built (file) {
+      return this.current_corpus["built_files"] && app.current_corpus["built_files"].includes(file)
+    },
 
     select_cluster_1d(index) {
       log("=== select_cluster_1d ===");
@@ -500,7 +504,7 @@ function deal_with_get_parameters() {
   };
 
   if (url_params.get ("table") == "yes") {
-    if (app.current_corpus["built_files"].includes("table.html")) {
+    if (app.check_built("table.html")) {
       open_build_file('table.html')
     } else {
       direct_warning ("No relation tables available for corpus: `"+app.current_corpus_id+"`")
@@ -508,7 +512,7 @@ function deal_with_get_parameters() {
   };
 
   if (url_params.get ("valid_ud") == "yes") {
-    if (app.current_corpus["built_files"].includes("valid_ud.txt")) {
+    if (app.check_built("valid_ud.txt")) {
       open_build_file('valid_ud.txt')
     } else {
       direct_warning ("No valid_ud available for corpus: `"+app.current_corpus_id+"`")
@@ -516,7 +520,7 @@ function deal_with_get_parameters() {
   };
 
   if (url_params.get ("valid_sud") == "yes") {
-    if (app.current_corpus["built_files"].includes("valid_sud.json")) {
+    if (app.check_built("valid_sud.json")) {
       open_validation_page()
     } else {
       direct_warning ("No valid_sud available for corpus: `"+app.current_corpus_id+"`")
@@ -1227,7 +1231,7 @@ function update_corpus() {
   }
   
   // update info button + update timestamp if needed
-  if (app.current_corpus["built_files"] && app.current_corpus["built_files"].includes("desc.json")) {
+  if (app.check_built("desc.json")) {
     let param = {
       corpus_id: app.current_corpus_id,
       file: "desc.json"

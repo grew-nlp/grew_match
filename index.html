@@ -223,14 +223,14 @@
 										<span id="update_ago" style="font-size: initial;"></span>
 
 										<!-- Error log button -->
-										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("log")'>
+										<a v-show='check_built("log")'>
 											<button type="button" class="btn btn-danger" onclick="open_build_file('log')">
 												<i class="fa fa-exclamation-triangle fa-lg"></i>
 											</button>
 										</a>
 
 										<!-- UD validation -->
-										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("valid_ud.txt")'>
+										<a v-show='check_built("valid_ud.txt")'>
 											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">
 												<img src="icon/ud.svg" width="20"></img>
 												<i class="fa fa-check fa-lg"></i>
@@ -238,7 +238,7 @@
 										</a>
 
 										<!-- SUD validation -->
-										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("valid_sud.json")'>
+										<a v-show='check_built("valid_sud.json")'>
 											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_validation_page()">
 												<img src="icon/sud.svg" height="20"></img>
 												<i class="fa fa-check fa-lg"></i>
@@ -253,7 +253,7 @@
 										</a>
 										
 										<!-- Table button -->
-										<a v-show='current_corpus["built_files"] && current_corpus["built_files"].includes("table.html")'>
+										<a v-show='check_built("table.html")'>
 											<button id="table-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('table.html', 'table', 'yes')">
 												<i class="fa fa-table fa-lg"></i>
 											</button>
