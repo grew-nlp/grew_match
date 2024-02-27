@@ -253,11 +253,20 @@
 										</a>
 										
 										<!-- Table button -->
-										<a v-show='check_built("table.html")'>
-											<button id="table-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('table.html', 'table', 'yes')">
-												<i class="fa fa-table fa-lg"></i>
-											</button>
-										</a>
+										<span v-show='check_built("table.html") || check_built("feat_upos.json") || check_built("dep_upos.json") || check_built("amb_lemmas.json")' class="dropdown">
+											<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
+												<button type="button" class="btn btn-primary" style="margin-top: -3px;">
+													<i class="fa fa-table fa-lg"></i>
+													<span class="caret"></span>
+												</button>
+											</a>
+											<ul class="dropdown-menu" style="margin-top: 10px;">
+												<li v-show='check_built("table.html")' ><a onclick="open_build_file('table.html', 'table', 'yes')" target="_blank">Relations tables</a></li>
+												<li v-show='check_built("feat_upos.json")' ><a onclick="aggrid('feat_upos')" target="_blank">Features by upos</a></li>
+												<li v-show='check_built("dep_upos.json")' ><a onclick="aggrid('dep_upos')" target="_blank">Relation by upos</a></li>
+												<li v-show='check_built("amb_lemmas.json")' ><a onclick="aggrid('amb_lemmas')" target="_blank">Lemmas with more than one upos</a></li>
+											</ul>
+										</span>
 
 										<!-- Gitlab button -->
 										<a v-show='current_corpus["gitlab"]' v-bind:href='current_corpus["gitlab"]' target="_blank">

@@ -637,6 +637,14 @@ function open_validation_page() {
 }
 
 // ==================================================================================
+function aggrid(base_name) {
+  let params = new URLSearchParams()
+  params.append("corpus", app.current_corpus_id)
+  params.append("datafile", base_name+".json")
+  window.open("aggrid.html?"+params.toString())
+}
+
+// ==================================================================================
 function get_param_stage2 () { // in a second stage to be put behind a timeout.
 
   // If there is a get arg in the URL named "relation" -> make the search directly
