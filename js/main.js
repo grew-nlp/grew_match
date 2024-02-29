@@ -395,8 +395,7 @@ function search_corpus(requested_corpus) {
 // ==================================================================================
 // this function is run after page loading
 $(document).ready(function () {
-  url_params = new URL(window.location.toLocaleString()).searchParams;
-
+  url_params = new URLSearchParams(window.location.search)
   $.getJSON("instances.json")
   .done(function (data) {
     let host = window.location.host;

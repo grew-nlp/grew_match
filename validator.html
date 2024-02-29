@@ -10,8 +10,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js"></script>
   <script>
-    // find on: https://davidwalsh.name/query-string-javascript
-    var urlParams = new URLSearchParams(window.location.search);
     var md = new Remarkable();
 
     var current_corpus;
@@ -25,9 +23,10 @@
       }
 
       // corpus get parameter
-      if (urlParams.has('corpus')) {
-        current_corpus = urlParams.get('corpus');
-        top_url = urlParams.get('top');
+      var url_params = new URLSearchParams(window.location.search);
+      if (url_params.has('corpus')) {
+        current_corpus = url_params.get('corpus');
+        top_url = url_params.get('top');
         if (top_url == undefined) {
           top_url = "https://match.grew.fr/"
         }

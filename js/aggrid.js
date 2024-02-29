@@ -1,4 +1,3 @@
-var urlParams = new URLSearchParams(window.location.search);
 var md = new Remarkable();
 
 var app = new Vue({
@@ -221,20 +220,20 @@ function build_with(key,value) {
 
 // setup the grid after the page has finished loading
 document.addEventListener('DOMContentLoaded', () => {
+  var url_params = new URLSearchParams(window.location.search);
   $('[data-toggle="tooltip"]').tooltip()
-  let backend_url
   $.getJSON("instances.json")
   .done(function (data) {
     let host = window.location.host;
-    if (host in data) {
-      backend_url = data[host]["backend"]
-    } else {
-      direct_error("No backend associated to `"+host+"`, check `instances.json`")
+    if (!(host in data)) {
+      direct_error("No backend associated to `"+host+"`, check `instances.json`");
+      return
     }
+    let backend_url = data[host]["backend"]
 
-    let corpus = urlParams.get('corpus');
-    let datafile = urlParams.get('datafile');
-    if (backend_url != null && corpus != null && datafile != null) {
+    let corpus = url_params.get('corpus');
+    let datafile = url_params.get('datafile');
+    if (corpus != null && datafile != null) {
       
       let param = {
         corpus_id: corpus,
@@ -250,12 +249,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("----------------------------------")
         let data = JSON.parse(data_string)
         build_grid(data)
-        // let col_filter = urlParams.get('cols');
+        // let col_filter = url_params.get('cols');
         // if (col_filter != null) {
         //   app.filter_kind = "cols";
         //   app.filter_value = col_filter;
         // }
-        // let row_filter = urlParams.get('rows');
+        // let row_filter = url_params.get('rows');
         // if (row_filter != null) {
         //   app.filter_kind = "rows";
         //   app.filter_value = row_filter;
@@ -270,21 +269,10 @@ document.addEventListener('DOMContentLoaded', () => {
       //   } 
       // })
     } else {
-      error ('parameters')
+      direct_error ('Wrong parameters (`corpus` and `datafile` expected)')
     }
   })
 });
-
-function error(title, md_msg) {
-  swal({  // See https://github.com/t4t5/sweetalert/issues/801
-    title: title,
-    content: {
-      element: "div",
-      attributes: { innerHTML: md.render(md_msg) },
-    },
-    icon: "error",
-  })
-}
 
 // ==================================================================================
 function backend(service, form, data_fct, error_fct, backend_url) {
