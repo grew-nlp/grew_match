@@ -635,6 +635,7 @@
       "SUD_Hausa-NorthernAutogramm@latest",
       "SUD_PS_2023@latest",
       "SUD_Tunisian_Arabic-NAxLAT@latest",
+      "mSUD_Tuwari-Autogramm@latest",
       "SUD_Tuwari-Autogramm@latest"
     ]
   },
@@ -668,6 +669,7 @@
       "UD_Naija-NSC@conv",
       "UD_Zaar-Autogramm@conv",
       "UD_Tunisian_Arabic-NAxLAT@conv",
+      "UD_Tuwari-Autogramm@conv",
       "elexis-wsd-et",
       "elexis-wsd-nl"
     ]
