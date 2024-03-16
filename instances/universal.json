@@ -604,7 +604,8 @@
       "UD_Irish-IDT@dev",
       "UD_Portuguese-Bosque@dev",
       "UD_Portuguese-GSD@dev",
-      "UD_Wolof-WTB@dev"
+      "UD_Wolof-WTB@dev",
+      "diachronie_CRISCO@main"
     ]
   },
   
@@ -657,6 +658,7 @@
       "UD_Hebrew-IAHLTwiki@ucxn",
       "UD_Portuguese-Bosque@ucxn",
       "UD_Swedish-Talbanken@ucxn",
+
       "UD_Beja-NSC@conv",
       "mUD_Beja-NSC@conv",
       "UD_Chinese-Beginner@conv",
@@ -668,8 +670,14 @@
       "UD_Haitian_Creole-Autogramm@conv",
       "UD_Naija-NSC@conv",
       "UD_Zaar-Autogramm@conv",
+
+      "UD_Egyptian_Arabic-Autogramm@conv",
+      "UD_Gbaya-Autogramm@conv",
+      "UD_Hausa-SouthernAutogramm@conv",
+      "UD_Hausa-NorthernAutogramm@conv",
       "UD_Tunisian_Arabic-NAxLAT@conv",
       "UD_Tuwari-Autogramm@conv",
+
       "elexis-wsd-et",
       "elexis-wsd-nl"
     ]
