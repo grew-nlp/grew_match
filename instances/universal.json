@@ -631,7 +631,7 @@
       "SUD_Zaar-Autogramm@latest",
       "SUD_Darija-Autogramm@latest",
       "SUD_Egyptian_Arabic-Autogramm@latest",
-      "SUD_Gbaya-Autogramm@latest",
+      "mSUD_Northwest_Gbaya-Autogramm",
       "SUD_Hausa-SouthernAutogramm@latest",
       "SUD_Hausa-NorthernAutogramm@latest",
       "SUD_Hausa-All@latest",
@@ -673,7 +673,7 @@
       "UD_Zaar-Autogramm@conv",
 
       "UD_Egyptian_Arabic-Autogramm@conv",
-      "UD_Gbaya-Autogramm@conv",
+      "UD_Northwest_Gbaya-Autogramm@conv",
       "UD_Hausa-SouthernAutogramm@conv",
       "UD_Hausa-NorthernAutogramm@conv",
       "UD_Tunisian_Arabic-NAxLAT@conv",
