@@ -664,6 +664,7 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
   let request_param = url_params.has('request') ? url_params.get('request') : url_params.get('pattern');
 
   if (request_param) {
+    app.skip_history = true;
     app.view_left_pane = false;
     cmEditor.setValue(request_param);
     setTimeout(function () {
