@@ -616,7 +616,9 @@
     "style": "left_pane",
     "default": "SUD_French-GSD@latest",
     "corpora": [
+      "mSUD_Beja-FULL@latest",
       "mSUD_Beja-NSC@latest",
+      "SUD_Beja-FULL@latest",
       "SUD_Beja-NSC@latest",
       "mSUD_Chinese-Beginner@latest",
       "SUD_Chinese-Beginner@latest",
@@ -661,6 +663,8 @@
       "UD_Portuguese-Bosque@ucxn",
       "UD_Swedish-Talbanken@ucxn",
 
+      "UD_Beja-FULL@conv",
+      "mUD_Beja-FULL@conv",
       "UD_Beja-NSC@conv",
       "mUD_Beja-NSC@conv",
       "UD_Chinese-Beginner@conv",
