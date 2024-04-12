@@ -1,27 +1,4 @@
-[
-  {
-    "id": "PUD",
-    "mode": "syntax",
-    "style": "dropdown",
-    "snippets": "sud",
-    "default": "fr_PUD_SUD",
-    "corpora": 
-    [
-      "de_PUD_SUD",
-      "de_PUD_DSUD",
-      "de_PUD_SemUD",
-      "en_PUD_SUD",
-      "en_PUD_DSUD",
-      "en_PUD_SemUD",
-      "fr_PUD_SUD",
-      "fr_PUD_DSUD",
-      "fr_PUD_SemUD",
-      "pl_PUD_SUD",
-      "pl_PUD_DSUD",
-      "pl_PUD_SemUD"
-    ]
-  },
-  
+[  
   {
     "id": "AMR",
     "mode": "amr",
