@@ -1,4 +1,11 @@
 // ==================================================================================
+function log(msg) {
+  if (true) {  // false --> turn off logging // true --> true turn on logging
+    console.log(msg)
+  }
+}
+
+// ==================================================================================
 // https://www.geeksforgeeks.org/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript/#using-a-custom-javascript-function
 function download_text(file, text) {
   var element = document.createElement('a');

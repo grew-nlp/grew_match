@@ -269,11 +269,67 @@ let app = new Vue({
 });
 
 // ==================================================================================
-function log(msg) {
-  if (false) {  // false --> turn off logging // true --> true turn on logging
-    console.log(msg)
-  }
-}
+// this function is run after page loading
+$(document).ready(function () {
+
+  audio_init()
+
+  url_params = new URLSearchParams(window.location.search)
+  $.getJSON("instances.json")
+  .done(function (data) {
+    let host = window.location.host;
+    if (host in data) {
+      app.backend_server = data[host]["backend"]
+      app.top_project = data[host]["top_project"]
+    } else {
+      direct_error("No backend associated to `"+host+"`, check `instances.json`")
+    }
+
+    let instance = data[host]["instance"]
+    $.getJSON("instances/"+instance)
+    .done(function (instance_desc) {
+
+      let param = {
+        instance_desc: instance_desc
+      };
+
+      let form = new FormData();
+      form.append("param", JSON.stringify(param));
+      
+      backend("get_corpora_desc", form, function (data) {
+        app.groups = data;
+        init ();
+      }, undefined, app.backend_server
+      )
+    })
+  });
+
+  $('.tooltip-desc').tooltipster({
+    contentAsHTML: true,
+    theme: 'tooltipster-noir',
+    interactive: true,
+    position: 'bottom'
+  });
+
+  // Long HTML tooltip are defined in run.html
+  $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
+  $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
+
+  $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
+  $('#save-button').tooltipster('content', "Build a permanent URL with the current session");
+  $('#download-conll-button').tooltipster('content', "Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.");
+
+  $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
+
+  $('#github-button').tooltipster('content', "GitHub repository");
+  $('#guidelines-button').tooltipster('content', "Guidelines");
+  $('#issue-button').tooltipster('content', "Report error");
+  $('#link-button').tooltipster('content', "External link");
+  $('#sud-valid-button').tooltipster('content', "SUD validation (new page)");
+  $('#ud-valid-button').tooltipster('content', "UD validation (new page)");
+  $('#table-button').tooltipster('content', "Relation tables (new page)");
+
+});
 
 // ==================================================================================
 function grew_web() {
@@ -288,7 +344,6 @@ function grew_web() {
   backend("conll", form, function (conll) {
     var form = new FormData();
     form.append("conll", conll);
-    console.log(form);
 
     backend("from_data", form, function(data) {
       var url=app.grew_web_frontend;
@@ -302,7 +357,6 @@ function grew_web() {
     // "http://localhost:8080/")
   })
 }
-
 
 // ==================================================================================
 function update_graph_view() {
@@ -343,7 +397,6 @@ function update_graph_view() {
   }, 100)
 }
 
-
 // ==================================================================================
 function search_path(path, data) {
   if (path.length == 0) {
@@ -356,8 +409,8 @@ function search_path(path, data) {
 }
 
 // ==================================================================================
-// update the global variables app.current_corpus_id and app.current_group_id
 function search_corpus(requested_corpus) {
+  // update the global variables app.current_corpus_id and app.current_group_id
   log("=== search_corpus === " + requested_corpus);
 
   if (requested_corpus == undefined) { 
@@ -407,74 +460,6 @@ function search_corpus(requested_corpus) {
     app.current_group_id = best_group_id;
   }
 }
-
-// ==================================================================================
-// this function is run after page loading
-$(document).ready(function () {
-
-  audio_init()
-
-  url_params = new URLSearchParams(window.location.search)
-  $.getJSON("instances.json")
-  .done(function (data) {
-    let host = window.location.host;
-    if (host in data) {
-      app.backend_server = data[host]["backend"]
-      app.top_project = data[host]["top_project"]
-    } else {
-      direct_error("No backend associated to `"+host+"`, check `instances.json`")
-    }
-
-    let instance = data[host]["instance"]
-    $.getJSON("instances/"+instance)
-    .done(function (instance_desc) {
-      
-      
-      let param = {
-        instance_desc: instance_desc
-      };
-      
-      let form = new FormData();
-      form.append("param", JSON.stringify(param));
-      
-      backend("get_corpora_desc", form, function (data) {
-        console.log ('------------+++-------------')
-        console.log (JSON.stringify(data))
-        
-        app.groups = data;
-        init ();
-      }, undefined, app.backend_server
-      )
-    })
-  });
-
-
-  $('.tooltip-desc').tooltipster({
-    contentAsHTML: true,
-    theme: 'tooltipster-noir',
-    interactive: true,
-    position: 'bottom'
-  });
-
-  // Long HTML tooltip are defined in run.html
-  $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
-  $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
-
-  $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
-  $('#save-button').tooltipster('content', "Build a permanent URL with the current session");
-  $('#download-conll-button').tooltipster('content', "Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.");
-
-  $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
-
-  $('#github-button').tooltipster('content', "GitHub repository");
-  $('#guidelines-button').tooltipster('content', "Guidelines");
-  $('#issue-button').tooltipster('content', "Report error");
-  $('#link-button').tooltipster('content', "External link");
-  $('#sud-valid-button').tooltipster('content', "SUD validation (new page)");
-  $('#ud-valid-button').tooltipster('content', "UD validation (new page)");
-  $('#table-button').tooltipster('content', "Relation tables (new page)");
-
-});
 
 // ==================================================================================
 function audio_init() {
@@ -753,7 +738,6 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
   }
 }
 
-
 // ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
@@ -801,7 +785,6 @@ function right_pane(base) {
     });
   });
 }
-
 
 // ==================================================================================
 function backend(service, form, data_fct, error_fct, backend_url=app.backend_server) {
@@ -901,36 +884,14 @@ function count() {
   app.current_cluster_path = undefined;
   app.cluster_dim = 0;
 
-  let param = {
-    request: cmEditor.getValue(),
-    corpus_id: app.current_corpus_id,
-    clust1: app.clust1,
-    clust2: app.clust2,
-  };
-
-  if (app.clust1 == "key") {
-    param.clust1_data = app.clust1_key;
-  }
-  if (app.clust1 == "whether") {
-    param.clust1_data = clust1_cm.getValue();
-  }
-
-  if (app.clust2 == "key") {
-    param.clust2_data = app.clust2_key;
-  }
-  if (app.clust2 == "whether") {
-    param.clust2_data = clust2_cm.getValue();
-  }
-
   let form = new FormData();
-  form.append("param", JSON.stringify(param));
+  form.append("param", JSON.stringify(search_param()));
 
   app.wait = true;
   app.search_mode = false;
   backend("count", form, function (data) {
-    console.log (data);
     var message = [
-      "Hi, it seems that you sent many times (20?) the same request",
+      "Hi, it seems that you sent many times (20?) the same request on different treebanks",
       "This usage makes the server crashes regularly",
       "Can you try to use the [Grew-count](https://grew.fr/usage/grew_count/) service instead?",
       "Feel free to contact [Bruno.Guillaume@inria.fr](mailto:Bruno.Guillaume@inria.fr) if you want to discuss on the best way to run your experiment",
@@ -975,13 +936,7 @@ function count() {
 }
 
 // ==================================================================================
-function search() {
-  app.current_custom = "";
-  app.clusters = [];
-  app.current_view = 0;
-  app.current_cluster_path = undefined;
-  app.result_message = "";
-
+function search_param() {
   let param = {
     request: cmEditor.getValue(),
     corpus_id: app.current_corpus_id,
@@ -1009,9 +964,17 @@ function search() {
   if (app.clust2 == "whether") {
     param.clust2_data = clust2_cm.getValue();
   }
+  return param
+}
+
+// ==================================================================================
+function search() {
+  app.current_custom = "";
+  app.current_cluster_path = undefined;
+  app.current_view = 0;
 
   let form = new FormData();
-  form.append("param", JSON.stringify(param));
+  form.append("param", JSON.stringify(search_param()));
 
   app.wait = true;
   backend("search", form, function (data) {
