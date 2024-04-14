@@ -350,20 +350,6 @@ function update_graph_view() {
   }, 100)
 }
 
-function stop_audio() {
-  if (app.interval_id) {
-    clearInterval(app.interval_id);
-    app.interval_id = undefined
-  }
-}
-
-function clear_audio() {
-  stop_audio();
-  let aud = document.getElementById("audioPlayer");
-  aud.removeAttribute("src");
-  app.audio_start=undefined;
-  app.audio_stop=undefined;
-}
 
 // ==================================================================================
 function search_path(path, data) {
@@ -457,7 +443,10 @@ $(document).ready(function () {
   });
 
   aud.addEventListener("pause", function() {
-    stop_audio();
+    if (app.interval_id) {
+      clearInterval(app.interval_id);
+      app.interval_id = undefined
+    }
     if (aud.currentTime >= app.audio_stop) {
       aud.currentTime = app.audio_start;
       highlight_word(0)

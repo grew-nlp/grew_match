@@ -37,11 +37,6 @@
 	<link rel="stylesheet" href="js/vendor/codemirror.css">
 	<script src="js/vendor/grew.js"></script>
 
-	<!-- Audio related CSS and JS -->
-	<link rel="stylesheet" href="vendor/audio/stmt_screen_v2.css">
-	<script src="vendor/audio/read-along.js"></script>
-	<script src="vendor/audio/read-along-main.js"></script>
-
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -472,31 +467,9 @@
 							</div>
 							<div class="col-md-10">
 
-								<!-- <div v-if="current_corpus['audio']">
-									<p class="loading">
-										<em>Loading audio…</em>
-									</p>
-									<p class="passage-audio">
-										<audio id="passage-audio" class="passage" controls>
-											<source id="source-audio">
-											<em class="error"><strong>Error:</strong> Your browser does not appear to support HTML5 Audio.</em>
-										</audio>
-									</p>
-									<p class="passage-audio-unavailable" hidden>
-										<em class="error"><strong>Error:</strong> You will not be able to do the read-along audio because your browser is not able to play MP3, Ogg, or WAV audio formats.</em>
-									</p>
-									<p class="playback-rate" title="Note that increaseing the reading rate will decrease accuracy of word highlights">
-										<input id="playback-rate" type="range" min="0.5" max="2.0" value="1.0" step="0.1" disabled onchange='this.nextElementSibling.textContent = "Speech rate: " +  String(Math.round(this.valueAsNumber * 10) / 10) + "×";'>
-										<output>Speech rate: 1×</output>
-									</p>
-									<p class="playback-rate-unavailable" hidden>
-										<em>(It seems your browser does not support <code>HTMLMediaElement.playbackRate</code>, so you will not be able to change the speech rate.)</em>
-									</p>
-								</div> -->
-
 								<div v-show="audio_start != undefined" >
-									<audio id="audioPlayer" controls style="width: 100%;">
-										<source src="audio/mSUD_Beja-NSC/BEJ_MV_NARR_01_SHELTER.mp3">
+									<audio id="audioPlayer" controls style="width: 100%; height: 30px;">
+										<source>
 										Your browser does not support the audio tag.
 									</audio> 
 								</div>
