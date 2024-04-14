@@ -9,6 +9,13 @@ let url_params;
 let app = new Vue({
   el: '#app',
   data: {
+    audio_start: undefined,
+    audio_stop: undefined,
+    highlight: 0,
+    position: 0,
+    node_list: [],
+    interval_id: undefined,
+    counter: 0,
 
     gridColumns: [],
     gridRows: [],
@@ -299,33 +306,52 @@ function grew_web() {
   })
 }
 
+
 // ==================================================================================
 function update_graph_view() {
+  let aud = document.getElementById("audioPlayer");
+  aud.pause();
+
+  console.log ("update_graph_view")
+  console.log (app.current_item.audio)
+
   setTimeout(function () { // Delay running is needed for proper audio starting
     app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
     $("#display-svg").animate({
       scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
       2)
-    }, "fast");
+    }, "fast"); 
     update_parallel();
     
     if (app.current_item.audio) {
-      $("#source-audio").attr("src", app.current_item.audio);
-      hack_audio = $("#passage-audio");
-      // Next two lines: force reload (stackoverflow.com/questions/9421505)
-      hack_audio[0].pause();
-      hack_audio[0].load();
-      setTimeout(function () {
-        if (app.current_corpus["audio"]) {
-          start_audio();
-        } else {
-          stop_audio();
-        }
-      }, 0)
+      console.log (app.current_item.audio)
+      $("#audioPlayer").attr("src", app.current_item.audio);
+      let start_stop=app.current_item.audio.split("=").pop().split(",");
+      app.audio_start = start_stop[0];
+      app.audio_stop = start_stop[1];
+
+      let sentence = document.getElementById("sentence")
+      app.node_list = sentence.querySelectorAll('[data-begin]');
+      app.node_list[0].classList.add("speaking");
     } else {
-      stop_audio();
+      app.audio_start = undefined;
     }
   }, 100)
+}
+
+function stop_audio() {
+  if (app.interval_id) {
+    clearInterval(app.interval_id);
+    app.interval_id = undefined
+  }
+}
+
+function clear_audio() {
+  stop_audio();
+  let aud = document.getElementById("audioPlayer");
+  aud.removeAttribute("src");
+  app.audio_start=undefined;
+  app.audio_stop=undefined;
 }
 
 // ==================================================================================
@@ -343,7 +369,7 @@ function search_path(path, data) {
 // update the global variables app.current_corpus_id and app.current_group_id
 function search_corpus(requested_corpus) {
   log("=== search_corpus === " + requested_corpus);
-  
+
   if (requested_corpus == undefined) { 
     let group = app.groups[0] // chose the first group 
     if (group.id == "Tutorial") {
@@ -395,6 +421,61 @@ function search_corpus(requested_corpus) {
 // ==================================================================================
 // this function is run after page loading
 $(document).ready(function () {
+
+  let aud = document.getElementById("audioPlayer");
+  function update () {
+    app.position = aud.currentTime;
+    if (aud.currentTime >= app.audio_stop) {
+      aud.pause()
+    } else {
+      let word_data = app.node_list[app.highlight]["dataset"];
+      let end_word = Number(word_data["begin"]) + Number(word_data["dur"]);
+      console.log ("word", word_data)
+      console.log ("aud.currentTime", aud.currentTime)
+      console.log ("end_word", end_word)
+      if (aud.currentTime > end_word) {
+        highlight_word (app.highlight + 1)
+      }
+    }
+    app.counter += 1;
+
+  }
+
+  aud.addEventListener("play", function() {
+    app.interval_id = setInterval(update, 50);
+  });
+
+  aud.addEventListener("pause", function() {
+    stop_audio();
+    if (aud.currentTime >= app.audio_stop) {
+      aud.currentTime = app.audio_start;
+      highlight_word(0)
+    }
+  });
+
+  aud.addEventListener("seeking", function() {
+    console.log("seeking")
+    let pos = 0
+    app.node_list.forEach (function (n,index) {
+      n.classList.remove("speaking");
+      let start = Number(n["dataset"]["begin"])
+      let end = start + Number(n["dataset"]["dur"])
+      if (aud.currentTime >= start && aud.currentTime <= end) {
+        pos = index
+      }
+    })
+    highlight_word(pos)
+  });
+
+  function highlight_word(position) {
+    let prev_word = app.node_list[app.highlight];
+    prev_word.classList.remove("speaking");
+    let new_word = app.node_list[position];
+    app.highlight = position;
+    new_word.classList.add("speaking");
+  }
+
+
   url_params = new URLSearchParams(window.location.search)
   $.getJSON("instances.json")
   .done(function (data) {
@@ -1217,6 +1298,9 @@ function update_corpus() {
   app.current_custom = "";
   $('.timeago').remove();
   app.meta_info = false;
+
+  let aud = document.getElementById("audioPlayer");
+  aud.pause();
 
   if (app.current_corpus["desc"]) {
     $('#corpus-desc-label').tooltipster('enable');

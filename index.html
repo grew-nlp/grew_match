@@ -472,13 +472,13 @@
 							</div>
 							<div class="col-md-10">
 
-								<div v-if="current_corpus['audio']">
+								<!-- <div v-if="current_corpus['audio']">
 									<p class="loading">
 										<em>Loading audio…</em>
 									</p>
 									<p class="passage-audio">
 										<audio id="passage-audio" class="passage" controls>
-											<source id="source-audio" type="audio/wav">
+											<source id="source-audio">
 											<em class="error"><strong>Error:</strong> Your browser does not appear to support HTML5 Audio.</em>
 										</audio>
 									</p>
@@ -492,6 +492,13 @@
 									<p class="playback-rate-unavailable" hidden>
 										<em>(It seems your browser does not support <code>HTMLMediaElement.playbackRate</code>, so you will not be able to change the speech rate.)</em>
 									</p>
+								</div> -->
+
+								<div v-show="audio_start != undefined" >
+									<audio id="audioPlayer" controls style="width: 100%;">
+										<source src="audio/mSUD_Beja-NSC/BEJ_MV_NARR_01_SHELTER.mp3">
+										Your browser does not support the audio tag.
+									</audio> 
 								</div>
 
 								<div v-if="result_nb > 0">
@@ -527,6 +534,9 @@
 												</button>
 											</a>
 
+											<span>{{ position }}</span>
+											<span>{{ counter }}</span>
+
 										<!-- grew-web button -->
 										<button v-if='"grs" in current_corpus && current_corpus["grs"] != ""' onclick="javascript:grew_web()" type="button" class="tooltip-desc btn btn-sm btn-primary">
 											Grew-web&nbsp;<i class="fa fa-gear fa-lg"></i>
@@ -543,7 +553,7 @@
 										</div>
 
 										<div v-if="current_view >= 0">
-											<h4 v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
+											<h4 id="sentence" v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
 										</div>
 									</div>
 								</div>
