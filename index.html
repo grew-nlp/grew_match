@@ -467,7 +467,7 @@
 							</div>
 							<div class="col-md-10">
 
-								<div v-show="audio_start != undefined" >
+								<div v-show="audio_begin != undefined" >
 									<audio id="audioPlayer" controls style="width: 100%; height: 30px;">
 										<source>
 										Your browser does not support the audio tag.
@@ -506,9 +506,6 @@
 													<i class="fa fa-external-link" aria-hidden="true"></i>
 												</button>
 											</a>
-
-											<span>{{ position }}</span>
-											<span>{{ counter }}</span>
 
 										<!-- grew-web button -->
 										<button v-if='"grs" in current_corpus && current_corpus["grs"] != ""' onclick="javascript:grew_web()" type="button" class="tooltip-desc btn btn-sm btn-primary">

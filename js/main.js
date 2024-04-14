@@ -1,5 +1,4 @@
 "use strict";
-let hack_audio;
 let cmEditor;
 let clust1_cm;
 let clust2_cm;
@@ -9,13 +8,11 @@ let url_params;
 let app = new Vue({
   el: '#app',
   data: {
-    audio_start: undefined,
-    audio_stop: undefined,
-    highlight: 0,
-    position: 0,
-    node_list: [],
-    interval_id: undefined,
-    counter: 0,
+    audio_begin: undefined,
+    audio_end: undefined,
+    audio_speaking_index: 0,
+    audio_tokens: [],
+    audio_interval_id: undefined,
 
     gridColumns: [],
     gridRows: [],
@@ -309,11 +306,8 @@ function grew_web() {
 
 // ==================================================================================
 function update_graph_view() {
-  let aud = document.getElementById("audioPlayer");
-  aud.pause();
-
-  console.log ("update_graph_view")
-  console.log (app.current_item.audio)
+  let audio_player = document.getElementById("audioPlayer");
+  audio_player.pause();
 
   setTimeout(function () { // Delay running is needed for proper audio starting
     app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
@@ -324,28 +318,27 @@ function update_graph_view() {
     update_parallel();
     
     if (app.current_item.audio) {
-      console.log (app.current_item.audio)
       $("#audioPlayer").attr("src", app.current_item.audio);
       let start_stop=app.current_item.audio.split("=").pop().split(",");
-      app.audio_start = start_stop[0];
-      app.audio_stop = start_stop[1];
+      app.audio_begin = start_stop[0];
+      app.audio_end = start_stop[1];
 
       let sentence = document.getElementById("sentence")
-      app.node_list = sentence.querySelectorAll('[data-begin]');
-      app.node_list.forEach(function (node) {
-        node.addEventListener('click', function (_) {
-          let init_pos = Number(node["dataset"]["begin"])
-          aud.currentTime = init_pos
+      app.audio_tokens = sentence.querySelectorAll('[data-begin]');
+      app.audio_tokens.forEach(function (token) {
+        token.addEventListener('click', function (_) {
+          let init_pos = Number(token["dataset"]["begin"])
+          audio_player.currentTime = init_pos
         })
       });
-      app.node_list.forEach(function (node) {
-        node.addEventListener('dblclick', function (_) {
-          aud.play()
+      app.audio_tokens.forEach(function (token) {
+        token.addEventListener('dblclick', function (_) {
+          audio_player.play()
         })
       });
-      app.node_list[0].classList.add("speaking");
+      app.audio_tokens[0].classList.add("speaking");
     } else {
-      app.audio_start = undefined;
+      app.audio_begin = undefined;
     }
   }, 100)
 }
@@ -419,62 +412,7 @@ function search_corpus(requested_corpus) {
 // this function is run after page loading
 $(document).ready(function () {
 
-  let aud = document.getElementById("audioPlayer");
-  function update () {
-    app.position = aud.currentTime;
-    if (aud.currentTime >= app.audio_stop) {
-      aud.pause()
-    } else {
-      let word_data = app.node_list[app.highlight]["dataset"];
-      let end_word = Number(word_data["begin"]) + Number(word_data["dur"]);
-      console.log ("word", word_data)
-      console.log ("aud.currentTime", aud.currentTime)
-      console.log ("end_word", end_word)
-      if (aud.currentTime > end_word) {
-        highlight_word (app.highlight + 1)
-      }
-    }
-    app.counter += 1;
-
-  }
-
-  aud.addEventListener("play", function() {
-    app.interval_id = setInterval(update, 50);
-  });
-
-  aud.addEventListener("pause", function() {
-    if (app.interval_id) {
-      clearInterval(app.interval_id);
-      app.interval_id = undefined
-    }
-    if (aud.currentTime >= app.audio_stop) {
-      aud.currentTime = app.audio_start;
-      highlight_word(0)
-    }
-  });
-
-  aud.addEventListener("seeking", function() {
-    console.log("seeking")
-    let pos = 0
-    app.node_list.forEach (function (n,index) {
-      n.classList.remove("speaking");
-      let start = Number(n["dataset"]["begin"])
-      let end = start + Number(n["dataset"]["dur"])
-      if (aud.currentTime >= start && aud.currentTime <= end) {
-        pos = index
-      }
-    })
-    highlight_word(pos)
-  });
-
-  function highlight_word(position) {
-    let prev_word = app.node_list[app.highlight];
-    prev_word.classList.remove("speaking");
-    let new_word = app.node_list[position];
-    app.highlight = position;
-    new_word.classList.add("speaking");
-  }
-
+  audio_init()
 
   url_params = new URLSearchParams(window.location.search)
   $.getJSON("instances.json")
@@ -539,6 +477,58 @@ $(document).ready(function () {
 });
 
 // ==================================================================================
+function audio_init() {
+  let audio_player = document.getElementById("audioPlayer");
+  function update () {
+    if (audio_player.currentTime >= app.audio_end) {
+      audio_player.pause()
+    } else {
+      let token_data = app.audio_tokens[app.audio_speaking_index]["dataset"];
+      let token_end = Number(token_data["begin"]) + Number(token_data["dur"]);
+      if (audio_player.currentTime > token_end) {
+        audio_speaking_token (app.audio_speaking_index + 1)
+      }
+    }
+  }
+
+  audio_player.addEventListener("play", function() {
+    app.audio_interval_id = setInterval(update, 50);
+  });
+
+  audio_player.addEventListener("pause", function() {
+    if (app.audio_interval_id) {
+      clearInterval(app.audio_interval_id);
+      app.audio_interval_id = undefined
+    }
+    if (audio_player.currentTime >= app.audio_end) {
+      audio_player.currentTime = app.audio_begin;
+    }
+  });
+
+  audio_player.addEventListener("seeking", function() {
+    let pos = 0
+    app.audio_tokens.forEach (function (node,index) {
+      node.classList.remove("speaking");
+      let begin = Number(node["dataset"]["begin"])
+      let end = begin + Number(node["dataset"]["dur"])
+      if (audio_player.currentTime >= begin && audio_player.currentTime <= end) {
+        pos = index
+      }
+    })
+    audio_speaking_token(pos)
+  });
+
+  function audio_speaking_token(position) {
+    let prev_word = app.audio_tokens[app.audio_speaking_index];
+    prev_word.classList.remove("speaking");
+    let new_word = app.audio_tokens[position];
+    app.audio_speaking_index = position;
+    new_word.classList.add("speaking");
+  }
+
+}
+
+// ==================================================================================
 function init() {
 
   // Initialise CodeMirror
@@ -577,7 +567,7 @@ function deal_with_get_parameters() {
       direct_info("No tutorial in this instance");
     }
   }
-  
+
   if (url_params.has("corpus")) {
     search_corpus(url_params.get("corpus"));
     app.view_left_pane = true;
@@ -1299,8 +1289,8 @@ function update_corpus() {
   $('.timeago').remove();
   app.meta_info = false;
 
-  let aud = document.getElementById("audioPlayer");
-  aud.pause();
+  let audio_player = document.getElementById("audioPlayer");
+  audio_player.pause();
 
   if (app.current_corpus["desc"]) {
     $('#corpus-desc-label').tooltipster('enable');
