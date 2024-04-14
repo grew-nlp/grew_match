@@ -332,6 +332,17 @@ function update_graph_view() {
 
       let sentence = document.getElementById("sentence")
       app.node_list = sentence.querySelectorAll('[data-begin]');
+      app.node_list.forEach(function (node) {
+        node.addEventListener('click', function (_) {
+          let init_pos = Number(node["dataset"]["begin"])
+          aud.currentTime = init_pos
+        })
+      });
+      app.node_list.forEach(function (node) {
+        node.addEventListener('dblclick', function (_) {
+          aud.play()
+        })
+      });
       app.node_list[0].classList.add("speaking");
     } else {
       app.audio_start = undefined;
