@@ -682,7 +682,17 @@
       "UD_Tuwari-Autogramm@conv",
 
       "elexis-wsd-et",
-      "elexis-wsd-nl"
+      "elexis-wsd-nl",
+      "UD_Chinese-HK@ucxn2",
+      "UD_Coptic-Scriptorium@ucxn2",
+      "UD_English-EWT@ucxn2",
+      "UD_English-GUM@ucxn2",
+      "UD_French-GSD@ucxn2",
+      "UD_German-HDT@ucxn2",
+      "UD_Hebrew-HTB@ucxn2",
+      "UD_Hebrew-IAHLTwiki@ucxn2",
+      "UD_Portuguese-Bosque@ucxn2",
+      "UD_Swedish-Talbanken@ucxn2"
     ]
   },
   
