@@ -4,7 +4,6 @@
     "mode": "syntax",
     "style": "single",
     "snippets": "tuto",
-    "default": "UD_English-ParTUT@2.13",
     "corpora": [ "UD_English-ParTUT@2.13" ]
   },
   
@@ -12,7 +11,6 @@
     "id": "UD 2.13",
     "mode": "syntax",
     "snippets": "ud",
-    "default": "UD_Zaar-Autogramm@2.13",
     "style": "left_pane",
     "corpora":
     [
@@ -318,7 +316,6 @@
     "id": "SUD 2.13",
     "mode": "syntax",
     "snippets": "sud",
-    "default": "SUD_Zaar-Autogramm@2.13",
     "style": "left_pane",
     "corpora": 
     [
