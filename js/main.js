@@ -420,7 +420,9 @@ function search_corpus(requested_corpus) {
     app.current_group_id = group["id"];
     app.current_corpus_id = group["default"];
     if (app.current_corpus_id == undefined) {
-      app.current_corpus_id = group["corpora"][0]["id"] // if no default in the group -> first corpus
+      let pos = Math.floor(Math.random() * group["corpora"].length); 
+      app.skip_history = true;
+      app.current_corpus_id = group["corpora"][pos]["id"] // if no default in the group -> random corpus
     }
   } else {
     app.current_corpus_id = undefined;
