@@ -429,15 +429,15 @@ function search_corpus(requested_corpus) {
     let best_ld = Number.MAX_SAFE_INTEGER;
     let best_corpus_id = undefined;
     let best_group_id = undefined;
-    let group_list = app.groups;
-    for (let g = 0; g < group_list.length; g++) {
-      let corpora = group_list[g]["corpora"];
-      if (corpora != undefined) { // it is undefined for "links" menus
+    for (let g = 0; g < app.groups.length; g++) {
+      let group = app.groups[g];
+      let corpora = group["corpora"];
+      if (corpora != undefined && group.id != "Tutorial") { // it is undefined for "links" menus
         for (let c = 0; c < corpora.length; c++) {
           if (corpora[c]["id"] != undefined) {
             if (requested_corpus == corpora[c]["id"]) {
               app.current_corpus_id = corpora[c]["id"];
-              app.current_group_id = group_list[g]["id"];
+              app.current_group_id = group["id"];
               return;
             }
             let cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
@@ -446,7 +446,7 @@ function search_corpus(requested_corpus) {
               best_cpl = cpl;
               best_ld = ld;
               best_corpus_id = corpora[c]["id"];
-              best_group_id = group_list[g]["id"];
+              best_group_id = group["id"];
             }
           }
         }
@@ -545,6 +545,7 @@ function deal_with_get_parameters() {
   // corpus get parameter
   if (url_params.get("tutorial") == "yes") {
     if (app.groups[0].id == "Tutorial") {
+      app.skip_history = true;
       app.select_group("Tutorial");
       return; // do not consider other GET parameters
     } else {
