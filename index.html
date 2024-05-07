@@ -532,11 +532,16 @@
 									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
 								</div>
 
-								<div v-if="current_corpus.parallels && current_corpus.parallels.length > 0" class="form-group">
-									<select v-model="parallel" v-on:change="update_parallel_()" class="form-control"	>
-										<option value="no">{{current_corpus.parallels.length}} parallel corp{{ current_corpus.parallels.length > 1 ? "ora" : "us" }} (none selected)</option>
-										<option v-for="parallel in current_corpus.parallels"> {{ parallel }} </option>
-									</select>
+								<div v-show="current_corpus.parallels && current_corpus.parallels.length > 0">
+									Parallel corpora: 
+									<i id="para-tooltip" class="fa fa-question-circle tooltip-desc"></i>
+									<i id="para-close-tooltip" v-show="parallel != 'no'" class="fa fa-times-circle fa-lg tooltip-desc" v-on:click="parallel='no'; update_parallel_()" style="float: right; margin-top: 8px;"></i>
+									<span v-for="par in current_corpus.parallels">
+										<button style="margin-left:20px" type="button" class="btn" v-on:click="parallel=par; update_parallel_()" v-bind:class="par == parallel ? 'btn-success' : 'btn-default'" > 
+										{{ par }}
+									</button>
+									<i aria-hidden="true" class="fa fa-lg fa-link" v-on:click="search_corpus_(par)"></i>
+								</span>
 								</div>
 
 								<div v-if="current_corpus.parallels && current_corpus.parallels.length > 0 && parallel != 'no'" id="display-parallel">
