@@ -1,3 +1,4 @@
 LOCAL
 .vscode
 instances.json
+.DS_Store

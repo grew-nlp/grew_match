@@ -130,8 +130,7 @@ let app = new Vue({
       } else {
         app.current_corpus_id = app.current_group["corpora"][0]["id"];
       }
-
-    }, // end methods
+    },
 
     update_current_cluster() { // also update app.current_cluster_size
       log("=== update_current_cluster ===");
@@ -146,7 +145,7 @@ let app = new Vue({
         }
       }
     }
-  },
+  },  // end methods
 
   watch: {
     current_corpus_id: function () {
