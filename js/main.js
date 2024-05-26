@@ -66,6 +66,7 @@ let app = new Vue({
     features: true,
     tf_wf: false,
     context: false,
+    pid: true,
 
     svg_link: "",
 
@@ -312,6 +313,7 @@ $(document).ready(function () {
 
   // Long HTML tooltip are defined in run.html
   $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
+  $('#pid-tooltip').tooltipster('content', "Show names of matched nodes in the graph");
   $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
 
   $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
@@ -949,6 +951,7 @@ function search_param() {
     tf_wf: app.tf_wf,
     order: $('#sentences-order').val(),
     context: app.context,
+    pid: app.pid,
     clust1: app.clust1,
     clust2: app.clust2,
   };

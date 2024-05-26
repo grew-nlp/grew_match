@@ -363,6 +363,11 @@
 											&nbsp;&nbsp;
 											<input type="checkbox" v-model="context"> context
 										</label>
+										<label>
+											&nbsp;&nbsp;
+											<input type="checkbox" v-model="pid"> pid
+											<i id="pid-tooltip" class="fa fa-question-circle tooltip-desc"></i>
+										</label>
 									</p>
 									<p>
 										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait || corpus_error" style="margin-right:10px">
