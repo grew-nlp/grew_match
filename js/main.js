@@ -119,6 +119,10 @@ let app = new Vue({
       update_parallel();
     },
 
+    search_corpus_(id) {
+      search_corpus(id);
+    },
+
     export_tsv_(pivot) {
       export_tsv(pivot);
     },
@@ -329,7 +333,8 @@ $(document).ready(function () {
   $('#sud-valid-button').tooltipster('content', "SUD validation (new page)");
   $('#ud-valid-button').tooltipster('content', "UD validation (new page)");
   $('#table-button').tooltipster('content', "Relation tables (new page)");
-
+  $('#para-tooltip').tooltipster('content', "Select a treebank in the list to show the same sentence in this parallel corpus; use <i aria-hidden='true' class='fa fa fa-link'></i> to select the corpus for querying");
+  $('#para-close-tooltip').tooltipster('content', "Unselect the treebank current parallel treebank");
 });
 
 // ==================================================================================
