@@ -8,7 +8,7 @@
   },
   
   {
-    "id": "UD 2.13",
+    "id": "UD 2.14",
     "mode": "syntax",
     "snippets": "ud",
     "style": "left_pane",
@@ -339,7 +339,7 @@
   },
 
   {
-    "id": "SUD 2.13",
+    "id": "SUD 2.14",
     "mode": "syntax",
     "snippets": "sud",
     "style": "left_pane",
