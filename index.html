@@ -542,7 +542,7 @@
 									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
 								</div>
 
-								<div v-show="current_corpus.parallels && current_corpus.parallels.length > 0">
+								<div v-show="current_corpus.parallels && current_corpus.parallels.length > 0 && current_group_id != 'Tutorial'">
 									Parallel corpora: 
 									<i id="para-tooltip" class="fa fa-question-circle tooltip-desc"></i>
 									<i id="para-close-tooltip" v-show="parallel != 'no'" class="fa fa-times-circle fa-lg tooltip-desc" v-on:click="parallel='no'; update_parallel_()" style="float: right; margin-top: 8px;"></i>
