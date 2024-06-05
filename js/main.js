@@ -8,10 +8,10 @@ let url_params;
 let app = new Vue({
   el: '#app',
   data: {
-    audio_begin: undefined,
+    audio_begin: undefined,   // audio_begin != undefined <==> a sound file is available
     audio_end: undefined,
     audio_speaking_index: 0,
-    audio_tokens: [],
+    audio_tokens: undefined,  // audio_tokens != undefined <==> time alignement is available
     audio_interval_id: undefined,
 
     gridColumns: [],
@@ -334,7 +334,7 @@ $(document).ready(function () {
   $('#ud-valid-button').tooltipster('content', "UD validation (new page)");
   $('#table-button').tooltipster('content', "Relation tables (new page)");
   $('#para-tooltip').tooltipster('content', "Select a treebank in the list to show the same sentence in this parallel corpus; use <i aria-hidden='true' class='fa fa fa-link'></i> to select the corpus for querying");
-  $('#para-close-tooltip').tooltipster('content', "Unselect the treebank current parallel treebank");
+  $('#para-close-tooltip').tooltipster('content', "Unselect the current parallel treebank");
 });
 
 // ==================================================================================
@@ -379,25 +379,31 @@ function update_graph_view() {
     
     if (app.current_item.audio) {
       $("#audioPlayer").attr("src", app.current_item.audio);
-      let start_stop=app.current_item.audio.split("=").pop().split(",");
-      app.audio_begin = start_stop[0];
-      app.audio_end = start_stop[1];
-
-      let sentence = document.getElementById("sentence")
-      app.audio_tokens = sentence.querySelectorAll('[data-begin]');
-      app.audio_tokens.forEach(function (token) {
-        token.addEventListener('click', function (_) {
-          let init_pos = Number(token["dataset"]["begin"])
-          audio_player.currentTime = init_pos
-        })
-      });
-      app.audio_tokens.forEach(function (token) {
-        token.addEventListener('dblclick', function (_) {
-          audio_player.play()
-        })
-      });
-      app.audio_tokens[0].classList.add("speaking");
-    } else {
+      if (app.current_item.audio.includes("#t=")) {
+        let start_stop=app.current_item.audio.split("#t=").pop().split(",");
+        app.audio_begin = start_stop[0];
+        app.audio_end = start_stop[1];
+        
+        let sentence = document.getElementById("sentence")
+        app.audio_tokens = sentence.querySelectorAll('[data-begin]');
+        app.audio_tokens.forEach(function (token) {
+          token.addEventListener('click', function (_) {
+            let init_pos = Number(token["dataset"]["begin"])
+            audio_player.currentTime = init_pos
+          })
+        });
+        app.audio_tokens.forEach(function (token) {
+          token.addEventListener('dblclick', function (_) {
+            audio_player.play()
+          })
+        });
+        app.audio_tokens[0].classList.add("speaking");
+      }
+      else { // Audio available without alignment
+        app.audio_begin = 0
+        app.audio_tokens = undefined
+      }
+    } else { // Audio not available
       app.audio_begin = undefined;
     }
   }, 100)
@@ -485,30 +491,36 @@ function audio_init() {
   }
 
   audio_player.addEventListener("play", function() {
-    app.audio_interval_id = setInterval(update, 50);
+    if (app.audio_tokens != undefined) {
+      app.audio_interval_id = setInterval(update, 50);
+    }
   });
 
   audio_player.addEventListener("pause", function() {
-    if (app.audio_interval_id) {
-      clearInterval(app.audio_interval_id);
-      app.audio_interval_id = undefined
-    }
-    if (audio_player.currentTime >= app.audio_end) {
-      audio_player.currentTime = app.audio_begin;
+    if (app.audio_tokens != undefined) {
+      if (app.audio_interval_id) {
+        clearInterval(app.audio_interval_id);
+        app.audio_interval_id = undefined
+      }
+      if (audio_player.currentTime >= app.audio_end) {
+        audio_player.currentTime = app.audio_begin;
+      }
     }
   });
 
   audio_player.addEventListener("seeking", function() {
-    let pos = 0
-    app.audio_tokens.forEach (function (node,index) {
-      node.classList.remove("speaking");
-      let begin = Number(node["dataset"]["begin"])
-      let end = begin + Number(node["dataset"]["dur"])
-      if (audio_player.currentTime >= begin && audio_player.currentTime <= end) {
-        pos = index
-      }
-    })
-    audio_speaking_token(pos)
+    if (app.audio_tokens != undefined) {
+      let pos = 0
+      app.audio_tokens.forEach (function (node,index) {
+        node.classList.remove("speaking");
+        let begin = Number(node["dataset"]["begin"])
+        let end = begin + Number(node["dataset"]["dur"])
+        if (audio_player.currentTime >= begin && audio_player.currentTime <= end) {
+          pos = index
+        }
+      })
+      audio_speaking_token(pos)
+    }
   });
 
   function audio_speaking_token(position) {
