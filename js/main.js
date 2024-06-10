@@ -835,7 +835,7 @@ function backend(service, form, data_fct, error_fct, backend_url=app.backend_ser
       } else if (response.status === "BUG") {
         Swal.fire({
           icon: 'error',
-          title: 'An BUG occurred, please report',
+          title: 'A BUG occurred, please report',
           html: JSON.stringify(response.exception),
         });
       } else {
