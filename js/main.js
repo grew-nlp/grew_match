@@ -91,7 +91,8 @@ let app = new Vue({
   methods: {
     // ==================================================================================
     check_built (file) {
-      return this.current_corpus["built_files"] && app.current_corpus["built_files"].includes(file)
+      let expanded_file = file.replace("__id__", this.current_corpus_id)
+      return this.current_corpus["built_files"] && app.current_corpus["built_files"].includes(expanded_file)
     },
 
     select_cluster_1d(index) {
@@ -1206,10 +1207,27 @@ function code_copy() {
 }
 
 // ==================================================================================
-function open_build_file(file,get_param,get_value) {
+function dowload_tgz() {
   let param = {
     corpus_id: app.current_corpus_id,
-    file: file
+  };
+
+  let form = new FormData();
+  form.append("param", JSON.stringify(param));
+
+  backend("dowload_tgz", form, function (data) {
+    console.log (data)
+    window.open(app.backend_server + "/" + data)
+  })
+}
+
+
+// ==================================================================================
+function open_build_file(file,get_param,get_value) {
+  let expanded_file = file.replace("__id__", app.current_corpus_id)
+  let param = {
+    corpus_id: app.current_corpus_id,
+    file: expanded_file
   };
 
   let form = new FormData();

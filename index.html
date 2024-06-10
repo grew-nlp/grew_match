@@ -217,6 +217,13 @@
 										<!-- "ago" info -->
 										<span id="update_ago" style="font-size: initial;"></span>
 
+										<!-- Download button -->
+										<a v-show='check_built("__id__.tgz")'>
+											<button type="button" class="btn btn-primary" onclick="dowload_tgz()">
+												<i class="fa fa-download fa-lg"></i>
+											</button>
+										</a>
+
 										<!-- Error log button -->
 										<a v-show='check_built("log")'>
 											<button type="button" class="btn btn-danger" onclick="open_build_file('log')">
