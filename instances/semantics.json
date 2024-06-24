@@ -10,7 +10,10 @@
       "Little_Prince",
       "Bio_AMR_Corpus",
       "Spec_1.2.6",
-      "AMR_dict"
+      "AMR_dict",
+      "CAMR_V0.5_A",
+      "CAMR_V0.5_B",
+      "CAMR_V1.0"
     ]
   },
   {
