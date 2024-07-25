@@ -51,13 +51,15 @@
 			
 			if (ch === '-') {
 				var next_ch = stream.next();
-				if ((next_ch === '[') || (next_ch === ">")) {
+				if (next_ch === '[') {
 					return 'quote';
 				}
-				if (next_ch === '*') {
-					if (stream.eat('-') && stream.eat(">")) {
+				if (next_ch === ">") {
+					if (stream.eat(">")) {
 						return 'quote';
-					}	
+					} else {
+					  return 'quote';
+					}
 				}
 			}
 			
