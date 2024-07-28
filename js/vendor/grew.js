@@ -99,6 +99,7 @@
 			if (end && !escaped) {
 				state.tokenize = tokenBase;
 			}
+			after_cmp = false;
 			return 'string';
 		}
 
