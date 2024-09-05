@@ -686,8 +686,8 @@
       "SUD_Hausa-SouthernAutogramm@latest",
       "SUD_Hausa-NorthernAutogramm@latest",
       "SUD_Hausa-All@latest",
-      "mSUD_Pesh-Autogramm@latest",
-      "SUD_Pesh-Autogramm@latest",
+      "mSUD_Pesh-ChibErgIS@latest",
+      "SUD_Pesh-ChibErgIS@latest",
       "SUD_PS_2023@latest",
       "SUD_Tunisian_Arabic-NAxLAT@latest",
       "mSUD_Tuwari-Autogramm@latest",
@@ -699,7 +699,7 @@
   {
     "id": "UD auto",
     "mode": "syntax",
-    "snippets": "ud",
+    "snippets": "ucxn_French-GSD",
     "style": "left_pane",
     "default": "UD_French-GSD@conv",
     "corpora": [
@@ -732,7 +732,7 @@
       "UD_Northwest_Gbaya-Autogramm@conv",
       "UD_Hausa-SouthernAutogramm@conv",
       "UD_Hausa-NorthernAutogramm@conv",
-      "UD_Pesh-Autogramm@conv",
+      "UD_Pesh-ChibErgIS@conv",
       "UD_Tunisian_Arabic-NAxLAT@conv",
       "UD_Tuwari-Autogramm@conv",
 
