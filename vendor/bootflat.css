@@ -2478,7 +2478,6 @@ a.list-group-item-danger.active, a.list-group-item-danger:hover, a.list-group-it
 }
 .timeline dl dd .events .events-body {
   overflow: hidden;
-  zoom: 1;
 }
 .timeline dl dd .events .events-body .events-heading {
   margin: 0 0 10px;
