@@ -1,6 +1,6 @@
 // ==================================================================================
 function log(msg) {
-  if (true) {  // false --> turn off logging // true --> true turn on logging
+  if (false) {  // false --> turn off logging // true --> true turn on logging
     console.log(msg)
   }
 }

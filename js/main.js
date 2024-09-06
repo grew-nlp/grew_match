@@ -576,6 +576,7 @@ function deal_with_get_parameters() {
   }
 
   if (url_params.has("corpus")) {
+    app.skip_history = true;
     search_corpus(url_params.get("corpus"));
     app.view_left_pane = true;
   };
@@ -1350,7 +1351,7 @@ function update_corpus() {
         "",
         "?corpus=" + app.current_corpus_id
       );
-      }, 100  )
+      }, 100)
   }
 }
 
