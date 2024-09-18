@@ -24,6 +24,14 @@
     "corpora": [ "Sungwadia" ]
   },
   {
+    "id": "Tundra_nenets",
+    "snippets": "autogramm",
+    "mode": "syntax",
+    "style": "single",
+    "default": "Tundra_nenets",
+    "corpora": [ "Tundra_nenets" ]
+  },
+  {
     "id": "Yali",
     "snippets": "autogramm",
     "mode": "syntax",
