@@ -697,7 +697,14 @@
       "SUD_Tunisian_Arabic-NAxLAT@latest",
       "mSUD_Tuwari-Autogramm@latest",
       "SUD_Tuwari-Autogramm@latest",
-      "Ye-kwana"
+      "Ye-kwana",
+
+      "mSUD_Taigi-DiLSi@latest",
+      "mSUD_Teochew-DiLSi@latest",
+      "mSUD_Mandarin-DiLSi@latest",
+      "SUD_Taigi-DiLSi@latest",
+      "SUD_Teochew-DiLSi@latest",
+      "SUD_Mandarin-DiLSi@latest"
     ]
   },
   
@@ -740,6 +747,10 @@
       "UD_Pesh-ChibErgIS@conv",
       "UD_Tunisian_Arabic-NAxLAT@conv",
       "UD_Tuwari-Autogramm@conv",
+
+      "UD_Taigi-DiLSi@conv",
+      "UD_Teochew-DiLSi@conv",
+      "UD_Mandarin-DiLSi@conv",
 
       "elexis-wsd-et",
       "elexis-wsd-nl",
