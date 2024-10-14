@@ -273,6 +273,24 @@ let app = new Vue({
   } // end computed
 });
 
+// JavaScript code to send a POST request
+async function sendData() {
+  const data = { message: "Hello, OCaml!" };
+
+  const response = await fetch('http://localhost:10001/submit', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+  });
+
+  const result = await response.json();
+  console.log(333);
+  console.log(result);  // Output the response from the server
+  console.log(444);
+}
+
 // ==================================================================================
 // this function is run after page loading
 $(document).ready(function () {
@@ -294,18 +312,26 @@ $(document).ready(function () {
     $.getJSON("instances/"+instance)
     .done(function (instance_desc) {
 
-      let param = {
-        instance_desc: instance_desc
-      };
 
-      let form = new FormData();
-      form.append("param", JSON.stringify(param));
+
+
+// Call the function to send data
+console.log(111);
+sendData();
+console.log(222);
+
+      // let param = {
+      //   instance_desc: instance_desc
+      // };
+
+      // let form = new FormData();
+      // form.append("param", JSON.stringify(param));
       
-      backend("get_corpora_desc", form, function (data) {
-        app.groups = data;
-        init ();
-      }, undefined, app.backend_server
-      )
+      // backend("get_corpora_desc", form, function (data) {
+      //   app.groups = data;
+      //   init ();
+      // }, undefined, app.backend_server
+      // )
     })
   });
 
