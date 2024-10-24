@@ -273,7 +273,6 @@ let app = new Vue({
   } // end computed
 });
 
-// JavaScript code to send a POST request
 async function sendData() {
   const data = { message: "Hello, OCaml!" };
 
@@ -288,6 +287,21 @@ async function sendData() {
   const result = await response.json();
   console.log(333);
   console.log(result);  // Output the response from the server
+  console.log(444);
+}
+
+async function generic(service, data, fct) {
+  const response = await fetch('http://localhost:10001/'+service, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+  });
+
+  const result = await response.json();
+  console.log(333);
+  fct(result);  // Output the response from the server
   console.log(444);
 }
 
@@ -316,13 +330,21 @@ $(document).ready(function () {
 
 
 // Call the function to send data
-console.log(111);
-sendData();
-console.log(222);
 
-      // let param = {
-      //   instance_desc: instance_desc
-      // };
+      let param = {
+        instance_desc: instance_desc
+      };
+
+      // sendData();
+      // generic("submit", param, x => console.log('AAA', x, 'BBB'));
+      generic("get_corpora_desc", param, function (data) {
+        console.log(111);
+        console.log(JSON.stringify(data["data"]));
+        console.log(222);
+        app.groups = data["data"];
+        init ();
+        }
+      );
 
       // let form = new FormData();
       // form.append("param", JSON.stringify(param));
