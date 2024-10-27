@@ -273,36 +273,21 @@ let app = new Vue({
   } // end computed
 });
 
-async function sendData() {
-  const data = { message: "Hello, OCaml!" };
-
-  const response = await fetch('http://localhost:10001/submit', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+async function generic(service, data) {
+  const response = await fetch(app.backend_server+service, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
   });
 
   const result = await response.json();
-  console.log(333);
-  console.log(result);  // Output the response from the server
-  console.log(444);
-}
-
-async function generic(service, data, fct) {
-  const response = await fetch('http://localhost:10001/'+service, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-  });
-
-  const result = await response.json();
-  console.log(333);
-  fct(result);  // Output the response from the server
-  console.log(444);
+  if (result["status"] == "ERROR") {
+    throw new Error(JSON.stringify(result["message"]));
+  } else {
+    return (result["data"])
+  }
 }
 
 // ==================================================================================
@@ -329,61 +314,48 @@ $(document).ready(function () {
 
 
 
-// Call the function to send data
+      // Call the function to send data
 
       let param = {
         instance_desc: instance_desc
       };
 
-      // sendData();
-      // generic("submit", param, x => console.log('AAA', x, 'BBB'));
-      generic("get_corpora_desc", param, function (data) {
-        console.log(111);
-        console.log(JSON.stringify(data["data"]));
-        console.log(222);
-        app.groups = data["data"];
+      generic ("get_corpora_desc", param)
+      .then(function (data) {
+        app.groups = data;
         init ();
-        }
-      );
+      }
+    )
+  })
+});
 
-      // let form = new FormData();
-      // form.append("param", JSON.stringify(param));
-      
-      // backend("get_corpora_desc", form, function (data) {
-      //   app.groups = data;
-      //   init ();
-      // }, undefined, app.backend_server
-      // )
-    })
-  });
+$('.tooltip-desc').tooltipster({
+  contentAsHTML: true,
+  theme: 'tooltipster-noir',
+  interactive: true,
+  position: 'bottom'
+});
 
-  $('.tooltip-desc').tooltipster({
-    contentAsHTML: true,
-    theme: 'tooltipster-noir',
-    interactive: true,
-    position: 'bottom'
-  });
+// Long HTML tooltip are defined in run.html
+$('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
+$('#pid-tooltip').tooltipster('content', "Show names of matched nodes in the graph");
+$('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
 
-  // Long HTML tooltip are defined in run.html
-  $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
-  $('#pid-tooltip').tooltipster('content', "Show names of matched nodes in the graph");
-  $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
+$('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
+$('#save-button').tooltipster('content', "Build a permanent URL with the current session");
+$('#download-conll-button').tooltipster('content', "Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.");
 
-  $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
-  $('#save-button').tooltipster('content', "Build a permanent URL with the current session");
-  $('#download-conll-button').tooltipster('content', "Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.");
+$('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
 
-  $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
-
-  $('#github-button').tooltipster('content', "GitHub repository");
-  $('#guidelines-button').tooltipster('content', "Guidelines");
-  $('#issue-button').tooltipster('content', "Report error");
-  $('#link-button').tooltipster('content', "External link");
-  $('#sud-valid-button').tooltipster('content', "SUD validation (new page)");
-  $('#ud-valid-button').tooltipster('content', "UD validation (new page)");
-  $('#table-button').tooltipster('content', "Relation tables (new page)");
-  $('#para-tooltip').tooltipster('content', "Select a treebank in the list to show the same sentence in this parallel corpus; use <i aria-hidden='true' class='fa fa fa-link'></i> to select the corpus for querying");
-  $('#para-close-tooltip').tooltipster('content', "Unselect the current parallel treebank");
+$('#github-button').tooltipster('content', "GitHub repository");
+$('#guidelines-button').tooltipster('content', "Guidelines");
+$('#issue-button').tooltipster('content', "Report error");
+$('#link-button').tooltipster('content', "External link");
+$('#sud-valid-button').tooltipster('content', "SUD validation (new page)");
+$('#ud-valid-button').tooltipster('content', "UD validation (new page)");
+$('#table-button').tooltipster('content', "Relation tables (new page)");
+$('#para-tooltip').tooltipster('content', "Select a treebank in the list to show the same sentence in this parallel corpus; use <i aria-hidden='true' class='fa fa fa-link'></i> to select the corpus for querying");
+$('#para-close-tooltip').tooltipster('content', "Unselect the current parallel treebank");
 });
 
 // ==================================================================================
@@ -423,16 +395,16 @@ function update_graph_view() {
     $("#display-svg").animate({
       scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
       2)
-    }, "fast"); 
+    }, "fast");
     update_parallel();
-    
+
     if (app.current_item.audio) {
       $("#audioPlayer").attr("src", app.current_item.audio);
       if (app.current_item.audio.includes("#t=")) {
         let start_stop=app.current_item.audio.split("#t=").pop().split(",");
         app.audio_begin = start_stop[0];
         app.audio_end = start_stop[1];
-        
+
         let sentence = document.getElementById("sentence")
         app.audio_tokens = sentence.querySelectorAll('[data-begin]');
         app.audio_tokens.forEach(function (token) {
@@ -474,15 +446,15 @@ function search_corpus(requested_corpus) {
   // update the global variables app.current_corpus_id and app.current_group_id
   log("=== search_corpus === " + requested_corpus);
 
-  if (requested_corpus == undefined) { 
-    let group = app.groups[0] // chose the first group 
+  if (requested_corpus == undefined) {
+    let group = app.groups[0] // chose the first group
     if (group.id == "Tutorial") {
       group = app.groups[1]  // or the second if first is a Tuto
     }
     app.current_group_id = group["id"];
     app.current_corpus_id = group["default"];
     if (app.current_corpus_id == undefined) {
-      let pos = Math.floor(Math.random() * group["corpora"].length); 
+      let pos = Math.floor(Math.random() * group["corpora"].length);
       app.skip_history = true;
       app.current_corpus_id = group["corpora"][pos]["id"] // if no default in the group -> random corpus
     }
@@ -602,7 +574,7 @@ function init() {
 
   $(function() {
     $('#sort-box').change(function() {
-       app.sort = $(this).prop('checked')
+      app.sort = $(this).prop('checked')
     })
   })
 
@@ -659,7 +631,7 @@ function deal_with_get_parameters() {
 
     app.skip_history = true;
 
-    $.getJSON(app.backend_server + "/shorten/" + custom_param + ".json")
+    $.getJSON(app.backend_server + "shorten/" + custom_param + ".json")
     .done(function (data) {
       cmEditor.setValue(data.pattern);
 
@@ -696,7 +668,7 @@ function deal_with_get_parameters() {
       if (app.current_corpus_id == undefined) {
         search_corpus(); // if no corpus is specified, take the default
       }
-      $.get(app.backend_server + "/shorten/" + custom_param, function (pattern) {
+      $.get(app.backend_server + "shorten/" + custom_param, function (pattern) {
         cmEditor.setValue(pattern);
         setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
       })
@@ -750,11 +722,9 @@ function open_validation_page() {
     corpus_id: app.current_corpus_id,
     file: "valid_sud.json"
   };
-  
-  let form = new FormData();
-  form.append("param", JSON.stringify(param));
 
-  backend("get_build_file", form, function (data) {
+  generic("get_build_file", param)
+  .then(function (data) {
     localStorage.setItem('valid_data', data);
     localStorage.setItem('top_url', window.location.origin);
     localStorage.setItem('corpus', app.current_corpus_id);
@@ -850,9 +820,9 @@ function right_pane(base) {
       $.get(file, function (pattern) {
         cmEditor.setValue(pattern);
       }, null, "text")
-        .error(function () {
-          direct_error("Cannot find file `" + file + "`")
-        });
+      .error(function () {
+        direct_error("Cannot find file `" + file + "`")
+      });
     });
   });
 }
@@ -870,37 +840,37 @@ function backend(service, form, data_fct, error_fct, backend_url=app.backend_ser
   };
 
   $.ajax(settings)
-    .done(function (response_string) {
-      let response = JSON.parse(response_string);
-      if (response.status === "ERROR") {
-        if (error_fct === undefined) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            html: JSON.stringify(response.message),
-          });
-        } else {
-          error_fct(response.message);
-        }
-      } else if (response.status === "BUG") {
+  .done(function (response_string) {
+    let response = JSON.parse(response_string);
+    if (response.status === "ERROR") {
+      if (error_fct === undefined) {
         Swal.fire({
           icon: 'error',
-          title: 'A BUG occurred, please report',
-          html: JSON.stringify(response.exception),
+          title: 'Error',
+          html: JSON.stringify(response.message),
         });
       } else {
-        log("Success call to service: " + service + "-->");
-        log(response.data);
-        data_fct(response.data);
+        error_fct(response.message);
       }
-    })
-    .fail(function () {
+    } else if (response.status === "BUG") {
       Swal.fire({
         icon: 'error',
-        title: 'Connection fail',
-        html: md.render("The `" + service + "` service is not available."),
+        title: 'A BUG occurred, please report',
+        html: JSON.stringify(response.exception),
       });
+    } else {
+      log("Success call to service: " + service + "-->");
+      log(response.data);
+      data_fct(response.data);
+    }
+  })
+  .fail(function () {
+    Swal.fire({
+      icon: 'error',
+      title: 'Connection fail',
+      html: md.render("The `" + service + "` service is not available."),
     });
+  });
 }
 
 // ==================================================================================
@@ -925,28 +895,28 @@ function more_results(post_update_graph_view=false) {
     named_cluster_path: named_cluster_path()
   };
 
-  let form = new FormData();
-  form.append("param", JSON.stringify(param));
-
-  backend("more_results", form, function (data) {
-    if (app.cluster_dim == 0) {
-      app.clusters = app.clusters.concat(data.items);
-      app.update_current_cluster();
-    } else if (app.cluster_dim == 1) {
-      let old_items = app.clusters[app.current_cluster_path[0]];
-      const new_items = old_items.concat(data.items);
-      app.clusters[app.current_cluster_path[0]] = new_items;
-      app.update_current_cluster();
-    } else if (app.cluster_dim == 2) {
-      let old_items = app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]];
-      const new_items = old_items.concat(data.items);
-      app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]] = new_items;
-      app.update_current_cluster();
+  generic ("more_results", param)
+  .then (
+    function (data) {
+      if (app.cluster_dim == 0) {
+        app.clusters = app.clusters.concat(data.items);
+        app.update_current_cluster();
+      } else if (app.cluster_dim == 1) {
+        let old_items = app.clusters[app.current_cluster_path[0]];
+        const new_items = old_items.concat(data.items);
+        app.clusters[app.current_cluster_path[0]] = new_items;
+        app.update_current_cluster();
+      } else if (app.cluster_dim == 2) {
+        let old_items = app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]];
+        const new_items = old_items.concat(data.items);
+        app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]] = new_items;
+        app.update_current_cluster();
+      }
+      if (post_update_graph_view) {
+        update_graph_view();
+      }
     }
-    if (post_update_graph_view) {
-      update_graph_view();
-    }
-  })
+  )
 }
 
 // ==================================================================================
@@ -954,13 +924,11 @@ function count() {
   app.current_custom = "";
   app.current_cluster_path = undefined;
   app.cluster_dim = 0;
-
-  let form = new FormData();
-  form.append("param", JSON.stringify(search_param()));
-
   app.wait = true;
   app.search_mode = false;
-  backend("count", form, function (data) {
+
+  generic ("count", search_param())
+  .then(function (data) {
     var message = [
       "Hi, it seems that you sent many times (20?) the same request on different treebanks",
       "This usage makes the server crashes regularly",
@@ -982,10 +950,10 @@ function count() {
     }
     if ("cluster_array" in data) {
       app.cluster_list = data.cluster_array.map
-        (function (elt, index) {
-          elt["index"] = index;
-          return elt}
-        );
+      (function (elt, index) {
+        elt["index"] = index;
+        return elt}
+      );
       app.cluster_dim = 1;
     } else if ("cluster_grid" in data) {
       app.cluster_dim = 2;
@@ -1045,11 +1013,8 @@ function search() {
   app.current_cluster_path = undefined;
   app.current_view = 0;
 
-  let form = new FormData();
-  form.append("param", JSON.stringify(search_param()));
-
-  app.wait = true;
-  backend("search", form, function (data) {
+  generic ("search", search_param())
+  .then (function (data) {
     app.search_mode = true;
     app.current_uuid = data.uuid;
     app.current_pivots = data.pivots;
@@ -1058,20 +1023,20 @@ function search() {
 
     switch (data.status) {
       case "complete":
-        if (data.nb_solutions == 0) {
-          app.result_message = "No results"
-        } else {
-          app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
-        }
-        break;
+      if (data.nb_solutions == 0) {
+        app.result_message = "No results"
+      } else {
+        app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
+      }
+      break;
       case "max_results":
-        app.result_message = 'More than ' + data.nb_solutions + ' results found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
-        break;
+      app.result_message = 'More than ' + data.nb_solutions + ' results found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
+      break;
       case "timeout":
-        app.result_message = 'Timeout. ' + data.nb_solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
-        break;
+      app.result_message = 'Timeout. ' + data.nb_solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
+      break;
       default:
-        direct_error("unknown status: " + data.status)
+      direct_error("unknown status: " + data.status)
     }
 
     if ("cluster_single" in data) {
@@ -1083,10 +1048,10 @@ function search() {
       }
     } else if ("cluster_array" in data) {
       app.cluster_list = data.cluster_array.map
-        (function (elt, index) {
-          elt["index"] = index;
-          return elt
-        });
+      (function (elt, index) {
+        elt["index"] = index;
+        return elt
+      });
       app.clusters = Array(app.cluster_list.length).fill([]);
       app.cluster_dim = 1;
     } else if ("cluster_grid" in data) {
@@ -1106,13 +1071,13 @@ function search() {
         app.grid_message += data.cluster_grid.total_columns_nb + " column" + (data.cluster_grid.total_columns_nb > 1 ? "s" : "")
       }
     }
-  });
+  })
   app.wait = false;
 }
 
 // ==================================================================================
 function show_export_modal() {
-  let data_folder = app.backend_server + "/data/" + app.current_uuid;
+  let data_folder = app.backend_server + "data/" + app.current_uuid;
   $.get(data_folder + "/export.tsv", function (data) {
     let lines = data.split("\n");
 
@@ -1171,10 +1136,8 @@ function export_tsv(pivot) {
     pivot: pivot,
   };
 
-  let form = new FormData();
-  form.append("param", JSON.stringify(param));
-
-  backend("export", form, function (data) {
+  generic("export", param)
+  .then(function (_) {
     show_export_modal();
   })
 }
@@ -1184,12 +1147,10 @@ function conll_export() {
   let param = {
     uuid: app.current_uuid,
   };
-  
-  let form = new FormData();
-  form.append("param", JSON.stringify(param));
-  
-  backend("conll_export", form, function () {
-    let data_folder = app.backend_server + "/data/" + app.current_uuid;
+
+  generic("conll_export", param)
+  .then(function () {
+    let data_folder = app.backend_server + "data/" + app.current_uuid;
     window.location = data_folder + '/export.conllu';
   })
 }
@@ -1203,26 +1164,21 @@ function update_parallel() {
       sent_id: app.sent_id,
     };
 
-    let form = new FormData();
-    form.append("param", JSON.stringify(param));
-
-    backend(
-      "parallel",
-      form,
+    generic("parallel", param)
+    .then(
       function (data) {
-        app.parallel_svg = app.backend_server + "/data/" + app.current_uuid + "/" + data;
-      },
-      function (message) {
-        app.parallel_svg = undefined;
-        app.parallel_message = ("No sentence with sent_id: " + message.sent_id);
+        app.parallel_svg = app.backend_server + "data/" + app.current_uuid + "/" + data;
       }
+    )
+    .catch(function(err) {
+      direct_error (JSON.stringify(err.message)) }
     )
   }
 }
 
 // ==================================================================================
 function download() {
-  let data_folder = app.backend_server + "/data/" + app.current_uuid;
+  let data_folder = app.backend_server + "data/" + app.current_uuid;
   window.location = data_folder + '/export.tsv';
 }
 
@@ -1235,10 +1191,8 @@ function show_conll() {
     named_cluster_path: named_cluster_path()
   };
 
-  let form = new FormData();
-  form.append("param", JSON.stringify(param));
-
-  backend("conll", form, function (data) {
+  generic ("conll", param)
+  .then(function (data) {
     $("#code_viewer").html(data);
     $('#code_modal').modal('show');
   })
@@ -1261,12 +1215,9 @@ function dowload_tgz() {
     corpus_id: app.current_corpus_id,
   };
 
-  let form = new FormData();
-  form.append("param", JSON.stringify(param));
-
-  backend("dowload_tgz", form, function (data) {
-    console.log (data)
-    window.open(app.backend_server + "/" + data)
+  generic("dowload_tgz", param)
+  .then(function (data) {
+    window.open(app.backend_server + data)
   })
 }
 
@@ -1279,10 +1230,8 @@ function open_build_file(file,get_param,get_value) {
     file: expanded_file
   };
 
-  let form = new FormData();
-  form.append("param", JSON.stringify(param));
-
-  backend("get_build_file", form, function (data) {
+  generic("get_build_file", param)
+  .then(function (data) {
     var new_window = window.open("");
     var html = ""
     if (file.endsWith(".txt")) {
@@ -1298,7 +1247,7 @@ function open_build_file(file,get_param,get_value) {
       params.append (get_param, get_value)
       let new_url = window.location.origin + "?" + params.toString()
       new_window.history.replaceState({}, "", new_url);
-    } 
+    }
   })
 }
 
@@ -1324,10 +1273,8 @@ function save_pattern() {
     param.clust2_whether = clust2_cm.getValue();
   }
 
-  let form = new FormData();
-  form.append("param", JSON.stringify(param));
-
-  backend("save", form, function (_) {
+  generic("save", param)
+  .then(function (_) {
     history.pushState({ id: app.current_uuid }, "", "?custom=" + app.current_uuid);
     app.current_custom = window.location.href;
     SelectText("custom-url");
@@ -1363,18 +1310,16 @@ function update_corpus() {
   } else {
     right_pane("_default");
   }
-  
+
   // update info button + update timestamp if needed
   if (app.check_built("desc.json")) {
     let param = {
       corpus_id: app.current_corpus_id,
       file: "desc.json"
     };
-    let form = new FormData();
-    form.append("param", JSON.stringify(param));
 
-
-    backend("get_build_file", form, function (data) {
+    generic("get_build_file", param)
+    .then(function (data) {
       let json = JSON.parse(data)
       app.meta_info = true;
       let html = ""
@@ -1391,6 +1336,9 @@ function update_corpus() {
     })
   }
 
+
+
+
   if (app.skip_history) {
     app.skip_history = false;
   } else {
@@ -1399,7 +1347,7 @@ function update_corpus() {
         "",
         "?corpus=" + app.current_corpus_id
       );
-      }, 100)
+    }, 100)
   }
 }
 
