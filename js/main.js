@@ -26,8 +26,6 @@ let app = new Vue({
     corpora_filter: "",
 
     backend_server: undefined,
-    grew_web_backend: undefined,
-    grew_web_frontend: undefined,
 
     view_left_pane: false, // true iff the left_pane is open
 
@@ -349,33 +347,6 @@ async function start() {
   $('#table-button').tooltipster('content', "Relation tables (new page)");
   $('#para-tooltip').tooltipster('content', "Select a treebank in the list to show the same sentence in this parallel corpus; use <i aria-hidden='true' class='fa fa fa-link'></i> to select the corpus for querying");
   $('#para-close-tooltip').tooltipster('content', "Unselect the current parallel treebank");
-}
-
-// ==================================================================================
-function grew_web() {
-  let param = {
-    corpus_id: app.current_corpus['src'],
-    sent_id: app.sent_id,
-  };
-
-  let form = new FormData();
-  form.append("param", JSON.stringify(param));
-
-  backend("conll", form, function (conll) {
-    var form = new FormData();
-    form.append("conll", conll);
-
-    backend("from_data", form, function(data) {
-      var url=app.grew_web_frontend;
-      // var url="http://localhost:8888/grew_web";
-      url += "?session_id="+data.session_id;
-      url += "&grs="+ app.current_corpus['grs']
-      window.open(url);
-    },
-    undefined,
-    app.grew_web_backend)
-    // "http://localhost:8080/")
-  })
 }
 
 // ==================================================================================
