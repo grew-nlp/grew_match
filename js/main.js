@@ -792,52 +792,6 @@ function right_pane(base) {
 }
 
 // ==================================================================================
-function backend(service, form, data_fct, error_fct, backend_url=app.backend_server) {
-  let settings = {
-    "url": backend_url + service,
-    "method": "POST",
-    "timeout": 0,
-    "processData": false,
-    "mimeType": "multipart/form-data",
-    "contentType": false,
-    "data": form
-  };
-
-  $.ajax(settings)
-  .done(function (response_string) {
-    let response = JSON.parse(response_string);
-    if (response.status === "ERROR") {
-      if (error_fct === undefined) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          html: JSON.stringify(response.message),
-        });
-      } else {
-        error_fct(response.message);
-      }
-    } else if (response.status === "BUG") {
-      Swal.fire({
-        icon: 'error',
-        title: 'A BUG occurred, please report',
-        html: JSON.stringify(response.exception),
-      });
-    } else {
-      log("Success call to service: " + service + "-->");
-      log(response.data);
-      data_fct(response.data);
-    }
-  })
-  .fail(function () {
-    Swal.fire({
-      icon: 'error',
-      title: 'Connection fail',
-      html: md.render("The `" + service + "` service is not available."),
-    });
-  });
-}
-
-// ==================================================================================
 function named_cluster_path() {
   if (app.cluster_dim == 1) {
     return ([app.cluster_list[app.current_cluster_path[0]].value])
