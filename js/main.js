@@ -273,81 +273,216 @@ let app = new Vue({
 
 // ==================================================================================
 async function generic(service, data) {
-  const response = await fetch(app.backend_server+service, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  });
-  const result = await response.json();
-  if (result["status"] == "ERROR") {
-    throw new Error(JSON.stringify(result["message"]));
-  } else {
-    return (result["data"])
+  try {
+    const response = await fetch(app.backend_server+service, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    if (result["status"] == "ERROR") {
+      direct_error (JSON.stringify (result.message))
+      return
+    } else {
+      return (result["data"])
+    }
+  } catch (err) { 
+    const msg = `Service \`${service}\` unavailable.\n\n${err.message}`
+    direct_error (msg, "Network error")}
   }
-}
 
 // ==================================================================================
 // this function is run after page loading
 $(document).ready(function () {
   url_params = new URLSearchParams(window.location.search)
   audio_init()
+  init_tooltips()
   start()
 });
 
 // ==================================================================================
 async function start() {
-  const res = await fetch("instances.json")
-  const data = await res.json()
+  const instances = await fetch_json("instances.json")
   let host = window.location.host;
-  if (!(host in data)) {
+  if (!(host in instances)) {
     direct_error("No backend associated to `"+host+"`, check `instances.json`")
-  } else {
-    app.backend_server = data[host]["backend"]
-    app.top_project = data[host]["top_project"]
-    let instance = data[host]["instance"]
-    
-    const res2 = await fetch("instances/"+instance)
-    const instance_desc = await res2.json()
-    let param = {
-      instance_desc: instance_desc
-    };
-    generic ("get_corpora_desc", param)
-    .then(function (data) {
-      app.groups = data;
-      init ();
-    })
+    return
   }
-  
-  $('.tooltip-desc').tooltipster({
-    contentAsHTML: true,
-    theme: 'tooltipster-noir',
-    interactive: true,
-    position: 'bottom'
-  });
-  
-  // Long HTML tooltip are defined in run.html
-  $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
-  $('#pid-tooltip').tooltipster('content', "Show names of matched nodes in the graph");
-  $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
-  
-  $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
-  $('#save-button').tooltipster('content', "Build a permanent URL with the current session");
-  $('#download-conll-button').tooltipster('content', "Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.");
-  
-  $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
-  
-  $('#github-button').tooltipster('content', "GitHub repository");
-  $('#guidelines-button').tooltipster('content', "Guidelines");
-  $('#issue-button').tooltipster('content', "Report error");
-  $('#link-button').tooltipster('content', "External link");
-  $('#sud-valid-button').tooltipster('content', "SUD validation (new page)");
-  $('#ud-valid-button').tooltipster('content', "UD validation (new page)");
-  $('#table-button').tooltipster('content', "Relation tables (new page)");
-  $('#para-tooltip').tooltipster('content', "Select a treebank in the list to show the same sentence in this parallel corpus; use <i aria-hidden='true' class='fa fa fa-link'></i> to select the corpus for querying");
-  $('#para-close-tooltip').tooltipster('content', "Unselect the current parallel treebank");
+  app.backend_server = instances[host]["backend"]
+  app.top_project = instances[host]["top_project"]
+  let instance = instances[host]["instance"]
+
+  let param = {
+    instance_desc: await fetch_json("instances/"+instance) 
+  };
+
+  app.groups = await generic ("get_corpora_desc", param)
+  init ();
 }
+
+// ==================================================================================
+function init() {
+
+  // Initialise CodeMirror
+  cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
+    lineNumbers: true,
+  });
+
+  // Initialise CodeMirror
+  clust1_cm = CodeMirror.fromTextArea(document.getElementById("whether-input1"), {
+    lineNumbers: true,
+  });
+
+  // Initialise CodeMirror
+  clust2_cm = CodeMirror.fromTextArea(document.getElementById("whether-input2"), {
+    lineNumbers: true,
+  });
+
+  $(function() {
+    $('#sort-box').change(function() {
+      app.sort = $(this).prop('checked')
+    })
+  })
+
+  deal_with_get_parameters(); // force to interpret get parameters after the update of groups menus
+}
+
+// ==================================================================================
+async function deal_with_get_parameters() {
+  // corpus get parameter
+  if (url_params.get("tutorial") == "yes") {
+    if (app.groups[0].id == "Tutorial") {
+      app.skip_history = true;
+      app.select_group("Tutorial");
+      return; // do not consider other GET parameters
+    } else {
+      direct_info("No tutorial in this instance");
+    }
+  }
+
+  if (url_params.has("corpus")) {
+    app.skip_history = true;
+    search_corpus(url_params.get("corpus"));
+    app.view_left_pane = true;
+  };
+
+  if (url_params.get ("table") == "yes") {
+    if (app.check_built("table.html")) {
+      open_build_file('table.html')
+    } else {
+      direct_warning ("No relation tables available for corpus: `"+app.current_corpus_id+"`")
+    }
+  };
+
+  if (url_params.get ("valid_ud") == "yes") {
+    if (app.check_built("valid_ud.txt")) {
+      open_build_file('valid_ud.txt')
+    } else {
+      direct_warning ("No valid_ud available for corpus: `"+app.current_corpus_id+"`")
+    }
+  };
+
+  if (url_params.get ("valid_sud") == "yes") {
+    if (app.check_built("valid_sud.json")) {
+      open_validation_page()
+    } else {
+      direct_warning ("No valid_sud available for corpus: `"+app.current_corpus_id+"`")
+    }
+  };
+
+  // custom get parameter
+  if (url_params.has("custom")) {
+    const custom_param = url_params.get("custom");
+
+    app.skip_history = true;
+
+    fetch_json(app.backend_server + "shorten/" + custom_param + ".json")
+    .then(function (data) {
+      cmEditor.setValue(data.pattern);
+
+      // if corpus is given as GET parameter, it has priority
+      if (app.current_corpus_id == undefined) {
+        if ("corpus" in data) {
+          search_corpus(data.corpus);
+        }
+      }
+      if ("clust1_key" in data) {
+        app.clust1 = "key";
+        app.clust1_key = data.clust1_key
+      }
+      if ("clust1_whether" in data) {
+        app.clust1 = "whether";
+        setTimeout(function () {
+          clust1_cm.setValue(data.clust1_whether);
+        }, 0)
+      }
+      if ("clust2_key" in data) {
+        app.clust2 = "key";
+        app.clust2_key = data.clust2_key
+      }
+      if ("clust2_whether" in data) {
+        app.clust2 = "whether";
+        setTimeout(function () {
+          clust2_cm.setValue(data.clust2_whether);
+        }, 0)
+      }
+      setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
+     })
+    .catch (function (_) {
+      // backup on old custom saving
+      if (app.current_corpus_id == undefined) {
+        search_corpus(); // if no corpus is specified, take the default
+      };
+      fetch(app.backend_server + "shorten/" + custom_param)
+      .then (function (pattern) {
+        cmEditor.setValue(pattern);
+        setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
+      })
+      .catch(function (_) {
+        direct_error("Cannot find custom pattern `" + custom_param + "`\n\nCheck the URL.")
+      });
+    });
+    return
+  }
+
+  if (app.current_corpus_id == undefined) {
+    search_corpus(); // if no corpus is specified, take the default
+    app.view_left_pane = true;
+  }
+
+  // backward compatibility with the old "clustering" name
+  let clust1_key = url_params.has('clust1_key') ? url_params.get('clust1_key') : url_params.get('clustering');
+
+  // backward compatibility with the old "whether" name
+  let clust1_whether = url_params.has('clust1_whether') ? url_params.get('clust1_whether') : url_params.get('whether');
+
+  let clust2_key = url_params.get("clust2_key");
+  let clust2_whether = url_params.get("clust2_whether");
+
+  // update app.clust1 and app.clust2
+  app.clust1 = "no";   // default
+  if (clust1_whether) { app.clust1 = "whether" }
+  if (clust1_key) { app.clust1 = "key" }
+  app.clust2 = "no";   // default
+  if (clust2_whether) { app.clust2 = "whether" }
+  if (clust2_key) { app.clust2 = "key" }
+
+  app.clust1_key = clust1_key;
+  app.clust2_key = clust2_key;
+
+  if (clust1_whether || clust2_whether) {
+    // if there at least one whether, timeout for proper CodeMirror behaviour
+    setTimeout(function () {
+      if (clust1_whether) { clust1_cm.setValue(clust1_whether) }
+      if (clust2_whether) { clust2_cm.setValue(clust2_whether) }
+      get_param_stage2 ();
+    }, 0)
+  } else {
+    get_param_stage2 ();
+  }
+} // deal_with_get_parameters
 
 // ==================================================================================
 function update_graph_view() {
@@ -517,168 +652,6 @@ function audio_init() {
   }
 
 }
-
-// ==================================================================================
-function init() {
-
-  // Initialise CodeMirror
-  cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
-    lineNumbers: true,
-  });
-
-  // Initialise CodeMirror
-  clust1_cm = CodeMirror.fromTextArea(document.getElementById("whether-input1"), {
-    lineNumbers: true,
-  });
-
-  // Initialise CodeMirror
-  clust2_cm = CodeMirror.fromTextArea(document.getElementById("whether-input2"), {
-    lineNumbers: true,
-  });
-
-  $(function() {
-    $('#sort-box').change(function() {
-      app.sort = $(this).prop('checked')
-    })
-  })
-
-  deal_with_get_parameters(); // force to interpret get parameters after the update of groups menus
-
-}
-
-// ==================================================================================
-function deal_with_get_parameters() {
-  // corpus get parameter
-  if (url_params.get("tutorial") == "yes") {
-    if (app.groups[0].id == "Tutorial") {
-      app.skip_history = true;
-      app.select_group("Tutorial");
-      return; // do not consider other GET parameters
-    } else {
-      direct_info("No tutorial in this instance");
-    }
-  }
-
-  if (url_params.has("corpus")) {
-    app.skip_history = true;
-    search_corpus(url_params.get("corpus"));
-    app.view_left_pane = true;
-  };
-
-  if (url_params.get ("table") == "yes") {
-    if (app.check_built("table.html")) {
-      open_build_file('table.html')
-    } else {
-      direct_warning ("No relation tables available for corpus: `"+app.current_corpus_id+"`")
-    }
-  };
-
-  if (url_params.get ("valid_ud") == "yes") {
-    if (app.check_built("valid_ud.txt")) {
-      open_build_file('valid_ud.txt')
-    } else {
-      direct_warning ("No valid_ud available for corpus: `"+app.current_corpus_id+"`")
-    }
-  };
-
-  if (url_params.get ("valid_sud") == "yes") {
-    if (app.check_built("valid_sud.json")) {
-      open_validation_page()
-    } else {
-      direct_warning ("No valid_sud available for corpus: `"+app.current_corpus_id+"`")
-    }
-  };
-
-  // custom get parameter
-  if (url_params.has("custom")) {
-    const custom_param = url_params.get("custom");
-
-    app.skip_history = true;
-
-    $.getJSON(app.backend_server + "shorten/" + custom_param + ".json")
-    .done(function (data) {
-      cmEditor.setValue(data.pattern);
-
-      // if corpus is given as GET parameter, it has priority
-      if (app.current_corpus_id == undefined) {
-        if ("corpus" in data) {
-          search_corpus(data.corpus);
-        }
-      }
-      if ("clust1_key" in data) {
-        app.clust1 = "key";
-        app.clust1_key = data.clust1_key
-      }
-      if ("clust1_whether" in data) {
-        app.clust1 = "whether";
-        setTimeout(function () {
-          clust1_cm.setValue(data.clust1_whether);
-        }, 0)
-      }
-      if ("clust2_key" in data) {
-        app.clust2 = "key";
-        app.clust2_key = data.clust2_key
-      }
-      if ("clust2_whether" in data) {
-        app.clust2 = "whether";
-        setTimeout(function () {
-          clust2_cm.setValue(data.clust2_whether);
-        }, 0)
-      }
-      setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
-    })
-    .error(function () {
-      // backup on old custom saving
-      if (app.current_corpus_id == undefined) {
-        search_corpus(); // if no corpus is specified, take the default
-      }
-      $.get(app.backend_server + "shorten/" + custom_param, function (pattern) {
-        cmEditor.setValue(pattern);
-        setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
-      })
-      .error(function () {
-        direct_error("Cannot find custom pattern `" + custom_param + "`\n\nCheck the URL.")
-      });
-    });
-    return
-  }
-
-  if (app.current_corpus_id == undefined) {
-    search_corpus(); // if no corpus is specified, take the default
-    app.view_left_pane = true;
-  }
-
-  // backward compatibility with the old "clustering" name
-  let clust1_key = url_params.has('clust1_key') ? url_params.get('clust1_key') : url_params.get('clustering');
-
-  // backward compatibility with the old "whether" name
-  let clust1_whether = url_params.has('clust1_whether') ? url_params.get('clust1_whether') : url_params.get('whether');
-
-  let clust2_key = url_params.get("clust2_key");
-  let clust2_whether = url_params.get("clust2_whether");
-
-  // update app.clust1 and app.clust2
-  app.clust1 = "no";   // default
-  if (clust1_whether) { app.clust1 = "whether" }
-  if (clust1_key) { app.clust1 = "key" }
-  app.clust2 = "no";   // default
-  if (clust2_whether) { app.clust2 = "whether" }
-  if (clust2_key) { app.clust2 = "key" }
-
-  app.clust1_key = clust1_key;
-  app.clust2_key = clust2_key;
-
-  if (clust1_whether || clust2_whether) {
-    // if there at least one whether, timeout for proper CodeMirror behaviour
-    setTimeout(function () {
-      if (clust1_whether) { clust1_cm.setValue(clust1_whether) }
-      if (clust2_whether) { clust2_cm.setValue(clust2_whether) }
-      get_param_stage2 ();
-    }, 0)
-  } else {
-    get_param_stage2 ();
-  }
-} // deal_with_get_parameters
 
 // ==================================================================================
 function open_validation_page() {

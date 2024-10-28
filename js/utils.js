@@ -6,6 +6,16 @@ function log(msg) {
 }
 
 // ==================================================================================
+async function fetch_json(url) {
+  const response = await fetch(url)
+  if (response.status != 200) {
+    throw Error ("Cannot load: " + url)
+  }
+  const json_data = await response.json()
+  return json_data
+}
+
+// ==================================================================================
 // https://www.geeksforgeeks.org/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript/#using-a-custom-javascript-function
 function download_text(file, text) {
   var element = document.createElement('a');
@@ -68,11 +78,11 @@ function SelectText(element) {
 }
 
 // ==================================================================================
-function direct_error(msg) {
+function direct_error(msg, title="Error") {
   let html = md.render(msg)
   Swal.fire({
     icon: 'error',
-    title: 'Error',
+    title: title,
     html: html
   })
 }
@@ -95,4 +105,36 @@ function direct_info(msg) {
     title: 'Info',
     html: html
   })
+}
+
+// ==================================================================================
+function init_tooltips() {
+
+  $('.tooltip-desc').tooltipster({
+    contentAsHTML: true,
+    theme: 'tooltipster-noir',
+    interactive: true,
+    position: 'bottom'
+  });
+
+  // Long HTML tooltip are defined in run.html
+  $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html());
+  $('#pid-tooltip').tooltipster('content', "Show names of matched nodes in the graph");
+  $('#warning-tooltip').tooltipster('content', $("#warning-tip").html());
+
+  $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer");
+  $('#save-button').tooltipster('content', "Build a permanent URL with the current session");
+  $('#download-conll-button').tooltipster('content', "Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.");
+
+  $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree");
+
+  $('#github-button').tooltipster('content', "GitHub repository");
+  $('#guidelines-button').tooltipster('content', "Guidelines");
+  $('#issue-button').tooltipster('content', "Report error");
+  $('#link-button').tooltipster('content', "External link");
+  $('#sud-valid-button').tooltipster('content', "SUD validation (new page)");
+  $('#ud-valid-button').tooltipster('content', "UD validation (new page)");
+  $('#table-button').tooltipster('content', "Relation tables (new page)");
+  $('#para-tooltip').tooltipster('content', "Select a treebank in the list to show the same sentence in this parallel corpus; use <i aria-hidden='true' class='fa fa fa-link'></i> to select the corpus for querying");
+  $('#para-close-tooltip').tooltipster('content', "Unselect the current parallel treebank");
 }
