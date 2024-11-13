@@ -666,8 +666,8 @@
     "style": "left_pane",
     "default": "SUD_French-GSD@latest",
     "corpora": [
-      "mSUD_Beja-NSC@latest",
-      "SUD_Beja-NSC@latest",
+      "mSUD_Beja-Autogramm@latest",
+      "SUD_Beja-Autogramm@latest",
       "mSUD_Chinese-Beginner@latest",
       "SUD_Chinese-Beginner@latest",
       "mSUD_Chinese-PatentChar@latest",
@@ -735,8 +735,8 @@
       "UD_Portuguese-Bosque@ucxn",
       "UD_Swedish-Talbanken@ucxn",
 
-      "UD_Beja-NSC@conv",
-      "mUD_Beja-NSC@conv",
+      "UD_Beja-Autogramm@conv",
+      "mUD_Beja-Autogramm@conv",
       "UD_Chinese-Beginner@conv",
       "UD_Chinese-PatentChar@conv",
       "UD_French-GSD@conv",

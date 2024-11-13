@@ -1,4 +1,4 @@
-CORPORA+=" mSUD_Beja-NSC"
+CORPORA+=" mSUD_Beja-Autogramm"
 CORPORA+=" mSUD_Chinese-Beginner"
 CORPORA+=" mSUD_Chinese-PatentChar"
 CORPORA+=" SUD_French-GSD"
