@@ -18,6 +18,7 @@
       "PARSEME-FA@dev",
       "PARSEME-FR@dev",
       "PARSEME-GA@dev",
+      "PARSEME-GRC@dev",
       "PARSEME-HE@dev",
       "PARSEME-HI@dev",
       "PARSEME-HR@dev",
@@ -25,6 +26,7 @@
       "PARSEME-IT@dev",
       "PARSEME-LT@dev",
       "PARSEME-MT@dev",
+      "PARSEME-NL@dev",
       "PARSEME-PL@dev",
       "PARSEME-PT@dev",
       "PARSEME-RO@dev",
@@ -32,8 +34,7 @@
       "PARSEME-SR@dev",
       "PARSEME-SV@dev",
       "PARSEME-TR@dev",
-      "PARSEME-ZH@dev",
-      "Parseme-NL@main"
+      "PARSEME-ZH@dev"
     ]
   },
   {
