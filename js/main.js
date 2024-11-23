@@ -58,13 +58,16 @@ let app = new Vue({
     sort: true,
 
     // printing parameters
-    lemma: true,
-    upos: true,
-    xpos: false,
-    features: true,
-    tf_wf: false,
-    context: false,
-    pid: true,
+    display: {
+      lemma: true,
+      upos: true,
+      xpos: false,
+      features: true,
+      tf_wf: false,
+      order: "init",
+      context: false,
+      pid: true,
+    },
 
     svg_link: "",
 
@@ -878,18 +881,11 @@ function open_param(param) {
 
   cmEditor.setValue(param.request); 
   // app.current_corpus_id = param.corpus_id
-  app.lemma = param.lemma
-  app.upos = param.upos
-  app.xpos = param.xpos
-  app.features = param.features
-  app.tf_wf = param.tf_wf
 
-  $('#sentences-order').val(param.order)
-  app.context = param.context
-  app.pid = param.pid
-  
+
+  app.display = param.display
+
   app.clust1 = param.clust1
-
   app.clust2 = param.clust2
 
   if (app.clust1 == "key") { 
@@ -909,7 +905,6 @@ function open_param(param) {
       clust2_cm.setValue(param.clust2_data)
     }, 0)
   }
-
 }
 
   // ==================================================================================
@@ -917,14 +912,9 @@ function search_param() {
   let param = {
     request: cmEditor.getValue(),
     corpus_id: app.current_corpus_id,
-    lemma: app.lemma,
-    upos: app.upos,
-    xpos: app.xpos,
-    features: app.features,
-    tf_wf: app.tf_wf,
-    order: $('#sentences-order').val(),
-    context: app.context,
-    pid: app.pid,
+
+    display: app.display,
+
     clust1: app.clust1,
     clust2: app.clust2,
   };

@@ -342,30 +342,30 @@
 									</div>
 									<p>
 										<label v-if="mode=='syntax'">
-											<input type="checkbox" v-model="lemma"> lemma
+											<input type="checkbox" v-model="display.lemma"> lemma
 										</label>
 										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
-											<input type="checkbox" v-model="upos" checked> upos
+											<input type="checkbox" v-model="display.upos" checked> upos
 										</label>
 										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
-											<input type="checkbox" v-model="xpos"> xpos
+											<input type="checkbox" v-model="display.xpos"> xpos
 										</label>
 										<label v-if="mode=='syntax'">
 											&nbsp;&nbsp;
-											<input type="checkbox" v-model="features"> features
+											<input type="checkbox" v-model="display.features"> features
 										</label>
 										<label v-show="mode=='syntax'">
 											&nbsp;&nbsp;
-											<input type="checkbox" v-model="tf_wf"> textform/wordform
+											<input type="checkbox" v-model="display.tf_wf"> textform/wordform
 											<i id="tf-wf-tooltip" class="fa fa-question-circle tooltip-desc"></i>
 										</label>
 										<label>
 											&nbsp;&nbsp;
 											sentences order:
 										</label>
-										<select id="sentences-order">
+										<select v-model="display.order" id="sentences-order">
 											<option value="init">initial</option>
 											<option value="length">by length</option>
 											<option value="shuffle">shuffle</option>
@@ -373,11 +373,11 @@
 
 										<label>
 											&nbsp;&nbsp;
-											<input type="checkbox" v-model="context"> context
+											<input type="checkbox" v-model="display.context"> context
 										</label>
 										<label>
 											&nbsp;&nbsp;
-											<input type="checkbox" v-model="pid"> node names
+											<input type="checkbox" v-model="display.pid"> node names
 											<i id="pid-tooltip" class="fa fa-question-circle tooltip-desc"></i>
 										</label>
 									</p>
