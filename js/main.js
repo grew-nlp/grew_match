@@ -1,8 +1,8 @@
-"use strict";
-let cmEditor;
-let clust1_cm;
-let clust2_cm;
-let url_params;
+"use strict"
+let cmEditor
+let clust1_cm
+let clust2_cm
+let url_params
 
 // ==================================================================================
 let app = new Vue({
@@ -97,52 +97,52 @@ let app = new Vue({
     },
 
     select_cluster_1d(index) {
-      log("=== select_cluster_1d ===");
+      log("=== select_cluster_1d ===")
       if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != index)) {
-        app.current_cluster_path = [index];
-        app.current_view = 0;
+        app.current_cluster_path = [index]
+        app.current_view = 0
         if (app.clusters[index].length == 0) {
-          more_results(true);
+          more_results(true)
         } else {
-          app.update_current_cluster();
-          update_graph_view ();
+          app.update_current_cluster()
+          update_graph_view ()
         }
       }
     },
 
     select_item(index) {
       if (app.current_view != index) {
-        app.current_view = index;
-        update_graph_view ();
+        app.current_view = index
+        update_graph_view ()
       }
     },
 
     update_parallel_() {
-      update_parallel();
+      update_parallel()
     },
 
     search_corpus_(id) {
-      search_corpus(id);
+      search_corpus(id)
     },
 
     export_tsv_(pivot) {
-      export_tsv(pivot);
+      export_tsv(pivot)
     },
 
     select_group(group_id) {
-      app.current_group_id = group_id;
-      this.view_left_pane = true; // always make left pane visible when a new group is selected
+      app.current_group_id = group_id
+      this.view_left_pane = true // always make left pane visible when a new group is selected
       if ("default" in app.current_group) {
-        app.current_corpus_id = app.current_group["default"];
+        app.current_corpus_id = app.current_group["default"]
       } else {
-        app.current_corpus_id = app.current_group["corpora"][0]["id"];
+        app.current_corpus_id = app.current_group["corpora"][0]["id"]
       }
     },
 
     update_current_cluster() { // also update app.current_cluster_size
-      log("=== update_current_cluster ===");
+      log("=== update_current_cluster ===")
       if (this.current_cluster_path != undefined) {
-        app.current_cluster = search_path(this.current_cluster_path, this.clusters);
+        app.current_cluster = search_path(this.current_cluster_path, this.clusters)
         if (app.cluster_dim == 0) {
           app.current_cluster_size = app.nb_solutions
         } else if (app.cluster_dim == 1) {
@@ -156,16 +156,16 @@ let app = new Vue({
 
   watch: {
     current_corpus_id: function () {
-      log("current_corpus_id has changed");
-      app.warning_level -= 1;
-      app.result_message = "";
-      update_corpus();
+      log("current_corpus_id has changed")
+      app.warning_level -= 1
+      app.result_message = ""
+      update_corpus()
     },
 
     clust1: function () { // close clust1 ==> close clust2
-      log("clust1 has changed to " + app.clust1);
+      log("clust1 has changed to " + app.clust1)
       if (app.clust1 == "no") {
-        app.clust2 = "no";
+        app.clust2 = "no"
       }
     },
   }, // end watch
@@ -176,10 +176,10 @@ let app = new Vue({
     },
     cluster_list_sorted: function () {
       if (this.sort) {
-        var data = this.cluster_list.slice(0);
+        var data = this.cluster_list.slice(0)
         data.sort (function (c1, c2) {
           return c2.size - c1.size
-        });
+        })
         return data
       } else {
         return this.cluster_list
@@ -187,49 +187,49 @@ let app = new Vue({
     },
 
     result_nb: function () {
-      log("=== computed: result_nb ===");
-      return (this.current_cluster.length);
+      log("=== computed: result_nb ===")
+      return (this.current_cluster.length)
     },
 
     current_item: function () {
-      log("=== computed: current_item ===");
-      let item = this.current_cluster[this.current_view];
+      log("=== computed: current_item ===")
+      let item = this.current_cluster[this.current_view]
       return (item == undefined ? {} : item)
     },
 
     number_of_corpora: function () {
       if (this.current_group) {
-        return this.current_group["corpora"].length;
+        return this.current_group["corpora"].length
       }
     },
 
     filtered_corpora_list: function () {
-      let self = this;
+      let self = this
       if (this.current_group) {
         return this.current_group["corpora"].filter(function (corpus) {
-          return corpus.id.toLowerCase().indexOf(self.corpora_filter.toLowerCase()) >= 0;
-        });
+          return corpus.id.toLowerCase().indexOf(self.corpora_filter.toLowerCase()) >= 0
+        })
       }
     },
 
     current_group: function () {
       for (let g = 0; g < this.groups.length; g++) {
         if (this.groups[g]["id"] == this.current_group_id) {
-          return this.groups[g];
+          return this.groups[g]
         }
       }
     },
 
     current_corpus: function () {
       if (this.current_group) {
-        let corpora = this.current_group["corpora"];
+        let corpora = this.current_group["corpora"]
         for (let g = 0; g < corpora.length; g++) {
           if (corpora[g]["id"] == this.current_corpus_id) {
-            return corpora[g];
+            return corpora[g]
           }
         }
       }
-      return {};
+      return {}
     },
 
     corpus_error: function () {
@@ -245,13 +245,13 @@ let app = new Vue({
       if (this.current_group) {
         return this.current_group["mode"]
       } else {
-        return "";
+        return ""
       }
     },
 
     left_pane: function () {
       if (this.current_group) {
-        return (this.current_group["style"] == "left_pane");
+        return (this.current_group["style"] == "left_pane")
       }
     },
 
@@ -272,7 +272,7 @@ let app = new Vue({
     }
 
   } // end computed
-});
+})
 
 // ==================================================================================
 async function generic(service, data) {
@@ -283,18 +283,19 @@ async function generic(service, data) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-    });
-    const result = await response.json();
+    })
+    const result = await response.json()
     if (result["status"] == "ERROR") {
       direct_error (JSON.stringify (result.message))
       return
     } else {
       return (result["data"])
     }
-  } catch (err) { 
+  } catch (err) {
     const msg = `Service \`${service}\` unavailable.\n\n${err.message}`
-    direct_error (msg, "Network error")}
+    direct_error (msg, "Network error")
   }
+}
 
 // ==================================================================================
 // this function is run after page loading
@@ -303,12 +304,12 @@ $(document).ready(function () {
   audio_init()
   init_tooltips()
   start()
-});
+})
 
 // ==================================================================================
 async function start() {
   const instances = await fetch_json("instances.json")
-  let host = window.location.host;
+  let host = window.location.host
   if (!(host in instances)) {
     direct_error("No backend associated to `"+host+"`, check `instances.json`")
     return
@@ -318,11 +319,11 @@ async function start() {
   let instance = instances[host]["instance"]
 
   let param = {
-    instance_desc: await fetch_json("instances/"+instance) 
-  };
+    instance_desc: await fetch_json("instances/"+instance)
+  }
 
   app.groups = await generic ("get_corpora_desc", param)
-  init ();
+  init ()
 }
 
 // ==================================================================================
@@ -331,17 +332,17 @@ function init() {
   // Initialise CodeMirror
   cmEditor = CodeMirror.fromTextArea(document.getElementById("pattern-input"), {
     lineNumbers: true,
-  });
+  })
 
   // Initialise CodeMirror
   clust1_cm = CodeMirror.fromTextArea(document.getElementById("whether-input1"), {
     lineNumbers: true,
-  });
+  })
 
   // Initialise CodeMirror
   clust2_cm = CodeMirror.fromTextArea(document.getElementById("whether-input2"), {
     lineNumbers: true,
-  });
+  })
 
   $(function() {
     $('#sort-box').change(function() {
@@ -349,7 +350,7 @@ function init() {
     })
   })
 
-  deal_with_get_parameters(); // force to interpret get parameters after the update of groups menus
+  deal_with_get_parameters() // force to interpret get parameters after the update of groups menus
 }
 
 // ==================================================================================
@@ -357,26 +358,26 @@ async function deal_with_get_parameters() {
   // corpus get parameter
   if (url_params.get("tutorial") == "yes") {
     if (app.groups[0].id == "Tutorial") {
-      app.skip_history = true;
-      app.select_group("Tutorial");
-      return; // do not consider other GET parameters
+      app.skip_history = true
+      app.select_group("Tutorial")
+      return // do not consider other GET parameters
     } else {
-      direct_info("No tutorial in this instance");
+      direct_info("No tutorial in this instance")
     }
   }
 
   if (url_params.has("corpus")) {
-    app.skip_history = true;
-    search_corpus(url_params.get("corpus"));
-    app.view_left_pane = true;
-  };
+    app.skip_history = true
+    search_corpus(url_params.get("corpus"))
+    app.view_left_pane = true
+  }
 
   if (localStorage.param_for_duplicate) {
     let param = JSON.parse (localStorage.param_for_duplicate)
-    localStorage.removeItem("param_for_duplicate");
+    localStorage.removeItem("param_for_duplicate")
     open_param(param)
     return // in case of duplicata, no need to go on with other parameters
-  } 
+  }
 
   if (url_params.get ("table") == "yes") {
     if (app.check_built("table.html")) {
@@ -384,7 +385,7 @@ async function deal_with_get_parameters() {
     } else {
       direct_warning ("No relation tables available for corpus: `"+app.current_corpus_id+"`")
     }
-  };
+  }
 
   if (url_params.get ("valid_ud") == "yes") {
     if (app.check_built("valid_ud.txt")) {
@@ -392,7 +393,7 @@ async function deal_with_get_parameters() {
     } else {
       direct_warning ("No valid_ud available for corpus: `"+app.current_corpus_id+"`")
     }
-  };
+  }
 
   if (url_params.get ("valid_sud") == "yes") {
     if (app.check_built("valid_sud.json")) {
@@ -400,65 +401,65 @@ async function deal_with_get_parameters() {
     } else {
       direct_warning ("No valid_sud available for corpus: `"+app.current_corpus_id+"`")
     }
-  };
+  }
 
   // custom get parameter
   if (url_params.has("custom")) {
-    const custom_param = url_params.get("custom");
+    const custom_param = url_params.get("custom")
 
-    app.skip_history = true;
+    app.skip_history = true
 
     fetch_json(app.backend_server + "shorten/" + custom_param + ".json")
     .then(function (data) {
-     cmEditor.setValue(data.pattern);
+      cmEditor.setValue(data.pattern)
 
-     // if corpus is given as GET parameter, it has priority
-     if (app.current_corpus_id == undefined) {
-       if ("corpus" in data) {
-         search_corpus(data.corpus);
-       }
-     }
-     if ("clust" in data) {
-       set_clust_param(data.clust)
-     } else {
-       set_clust_param(data) // backward compatibility (clust* value at the top level)
-     }
-     if ("display" in data) {app.display = data.display}
-     setTimeout(search, 150); // hack: else clust*_cm value is not taken into account.
-     })
+      // if corpus is given as GET parameter, it has priority
+      if (app.current_corpus_id == undefined) {
+        if ("corpus" in data) {
+          search_corpus(data.corpus)
+        }
+      }
+      if ("clust" in data) {
+        set_clust_param(data.clust)
+      } else {
+        set_clust_param(data) // backward compatibility (clust* value at the top level)
+      }
+      if ("display" in data) {app.display = data.display}
+      setTimeout(search, 150) // hack: else clust*_cm value is not taken into account.
+    })
     .catch (function (_) {
       // backup on old custom saving
       if (app.current_corpus_id == undefined) {
-        search_corpus(); // if no corpus is specified, take the default
-      };
+        search_corpus() // if no corpus is specified, take the default
+      }
       fetch(app.backend_server + "shorten/" + custom_param)
       .then (function (pattern) {
-        cmEditor.setValue(pattern);
-        setTimeout(search, 150); // hack: else clust*_cm value is not taken into account.
+        cmEditor.setValue(pattern)
+        setTimeout(search, 150) // hack: else clust*_cm value is not taken into account.
       })
       .catch(function (_) {
         direct_error("Cannot find custom pattern `" + custom_param + "`\n\nCheck the URL.")
-      });
-    });
+      })
+    })
     return
   }
 
   if (app.current_corpus_id == undefined) {
-    search_corpus(); // if no corpus is specified, take the default
-    app.view_left_pane = true;
+    search_corpus() // if no corpus is specified, take the default
+    app.view_left_pane = true
   }
 
   // build a clust_param struct from url_params and use the generic code `set_clust_param`
   let clust_param = {}
   // backward compatibility with the old "clustering" name
   if (url_params.has('clustering')) { clust_param.clust1_key (url_params.get('clustering')) }
-  if (url_params.has('clust1_key')) { clust_param.clust1_key (url_params.get('clust1_key')) } 
+  if (url_params.has('clust1_key')) { clust_param.clust1_key (url_params.get('clust1_key')) }
   // backward compatibility with the old "whether" name
   if (url_params.has('whether')) { clust_param.clust1_whether (url_params.get('whether')) }
-  if (url_params.has('clust1_whether')) { clust_param.clust1_whether (url_params.get('clust1_whether')) } 
+  if (url_params.has('clust1_whether')) { clust_param.clust1_whether (url_params.get('clust1_whether')) }
 
-  if (url_params.has('clust2_key')) { clust_param.clust2_key (url_params.get('clust2_key')) } 
-  if (url_params.has('clust2_whether')) { clust_param.clust2_whether (url_params.get('clust2_whether')) } 
+  if (url_params.has('clust2_key')) { clust_param.clust2_key (url_params.get('clust2_key')) }
+  if (url_params.has('clust2_whether')) { clust_param.clust2_whether (url_params.get('clust2_whether')) }
 
   await set_clust_param (clust_param)
   .then(function (_) {
@@ -468,45 +469,44 @@ async function deal_with_get_parameters() {
 
 // ==================================================================================
 function update_graph_view() {
-  let audio_player = document.getElementById("audioPlayer");
-  audio_player.pause();
+  let audio_player = document.getElementById("audioPlayer")
+  audio_player.pause()
 
   setTimeout(function () { // Delay running is needed for proper audio starting
-    app.sent_id = app.current_item.sent_id.split(" ")[0]; // n01005023 [1/2] --> n01005023
+    app.sent_id = app.current_item.sent_id.split(" ")[0] // n01005023 [1/2] --> n01005023
     $("#display-svg").animate({
-      scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth /
-      2)
-    }, "fast");
-    update_parallel();
+      scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth / 2)
+    }, "fast")
+    update_parallel()
 
     if (app.current_item.audio) {
-      $("#audioPlayer").attr("src", app.current_item.audio);
+      $("#audioPlayer").attr("src", app.current_item.audio)
       if (app.current_item.audio.includes("#t=")) {
-        let start_stop=app.current_item.audio.split("#t=").pop().split(",");
-        app.audio_begin = start_stop[0];
-        app.audio_end = start_stop[1];
+        let start_stop=app.current_item.audio.split("#t=").pop().split(",")
+        app.audio_begin = start_stop[0]
+        app.audio_end = start_stop[1]
 
         let sentence = document.getElementById("sentence")
-        app.audio_tokens = sentence.querySelectorAll('[data-begin]');
+        app.audio_tokens = sentence.querySelectorAll('[data-begin]')
         app.audio_tokens.forEach(function (token) {
           token.addEventListener('click', function (_) {
             let init_pos = Number(token["dataset"]["begin"])
             audio_player.currentTime = init_pos
           })
-        });
+        })
         app.audio_tokens.forEach(function (token) {
           token.addEventListener('dblclick', function (_) {
             audio_player.play()
           })
-        });
-        app.audio_tokens[0].classList.add("speaking");
+        })
+        app.audio_tokens[0].classList.add("speaking")
       }
       else { // Audio available without alignment
         app.audio_begin = 0
         app.audio_tokens = undefined
       }
     } else { // Audio not available
-      app.audio_begin = undefined;
+      app.audio_begin = undefined
     }
   }, 100)
 }
@@ -516,76 +516,76 @@ function search_path(path, data) {
   if (path.length == 0) {
     return data
   } else {
-    let head = path[0];
-    let tail = path.slice(1);
-    return (search_path(tail, data[head]));
+    let head = path[0]
+    let tail = path.slice(1)
+    return (search_path(tail, data[head]))
   }
 }
 
 // ==================================================================================
 function search_corpus(requested_corpus) {
   // update the global variables app.current_corpus_id and app.current_group_id
-  log("=== search_corpus === " + requested_corpus);
+  log("=== search_corpus === " + requested_corpus)
 
   if (requested_corpus == undefined) {
     let group = app.groups[0] // chose the first group
     if (group.id == "Tutorial") {
       group = app.groups[1]  // or the second if first is a Tuto
     }
-    app.current_group_id = group["id"];
-    app.current_corpus_id = group["default"];
+    app.current_group_id = group["id"]
+    app.current_corpus_id = group["default"]
     if (app.current_corpus_id == undefined) {
-      let pos = Math.floor(Math.random() * group["corpora"].length);
-      app.skip_history = true;
+      let pos = Math.floor(Math.random() * group["corpora"].length)
+      app.skip_history = true
       app.current_corpus_id = group["corpora"][pos]["id"] // if no default in the group -> random corpus
     }
   } else {
-    app.current_corpus_id = undefined;
-    app.current_group_id = undefined;
-    let best_cpl = 0;
-    let best_ld = Number.MAX_SAFE_INTEGER;
-    let best_corpus_id = undefined;
-    let best_group_id = undefined;
+    app.current_corpus_id = undefined
+    app.current_group_id = undefined
+    let best_cpl = 0
+    let best_ld = Number.MAX_SAFE_INTEGER
+    let best_corpus_id = undefined
+    let best_group_id = undefined
     for (let g = 0; g < app.groups.length; g++) {
-      let group = app.groups[g];
-      let corpora = group["corpora"];
+      let group = app.groups[g]
+      let corpora = group["corpora"]
       if (corpora != undefined && group.id != "Tutorial") { // it is undefined for "links" menus
         for (let c = 0; c < corpora.length; c++) {
           if (corpora[c]["id"] != undefined) {
             if (requested_corpus == corpora[c]["id"]) {
-              app.current_corpus_id = corpora[c]["id"];
-              app.current_group_id = group["id"];
-              return;
+              app.current_corpus_id = corpora[c]["id"]
+              app.current_group_id = group["id"]
+              return
             }
-            let cpl = common_prefix_length(requested_corpus, corpora[c]["id"]);
-            let ld = levenshtein(requested_corpus, corpora[c]["id"]);
+            let cpl = common_prefix_length(requested_corpus, corpora[c]["id"])
+            let ld = levenshtein(requested_corpus, corpora[c]["id"])
             if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
-              best_cpl = cpl;
-              best_ld = ld;
-              best_corpus_id = corpora[c]["id"];
-              best_group_id = group["id"];
+              best_cpl = cpl
+              best_ld = ld
+              best_corpus_id = corpora[c]["id"]
+              best_group_id = group["id"]
             }
           }
         }
       }
     }
     // no exact matching
-    app.warning_level = 2;  // init at 2 because the watcher `current_corpus_id` decrement later
-    app.warning_message = "⚠️ " + requested_corpus + " &rarr; " + best_corpus_id;
-    app.current_corpus_id = best_corpus_id;
-    app.current_group_id = best_group_id;
+    app.warning_level = 2  // init at 2 because the watcher `current_corpus_id` decrement later
+    app.warning_message = "⚠️ " + requested_corpus + " &rarr; " + best_corpus_id
+    app.current_corpus_id = best_corpus_id
+    app.current_group_id = best_group_id
   }
 }
 
 // ==================================================================================
 function audio_init() {
-  let audio_player = document.getElementById("audioPlayer");
+  let audio_player = document.getElementById("audioPlayer")
   function update () {
     if (audio_player.currentTime >= app.audio_end) {
       audio_player.pause()
     } else {
-      let token_data = app.audio_tokens[app.audio_speaking_index]["dataset"];
-      let token_end = Number(token_data["begin"]) + Number(token_data["dur"]);
+      let token_data = app.audio_tokens[app.audio_speaking_index]["dataset"]
+      let token_end = Number(token_data["begin"]) + Number(token_data["dur"])
       if (audio_player.currentTime > token_end) {
         audio_speaking_token (app.audio_speaking_index + 1)
       }
@@ -594,27 +594,27 @@ function audio_init() {
 
   audio_player.addEventListener("play", function() {
     if (app.audio_tokens != undefined) {
-      app.audio_interval_id = setInterval(update, 50);
+      app.audio_interval_id = setInterval(update, 50)
     }
-  });
+  })
 
   audio_player.addEventListener("pause", function() {
     if (app.audio_tokens != undefined) {
       if (app.audio_interval_id) {
-        clearInterval(app.audio_interval_id);
+        clearInterval(app.audio_interval_id)
         app.audio_interval_id = undefined
       }
       if (audio_player.currentTime >= app.audio_end) {
-        audio_player.currentTime = app.audio_begin;
+        audio_player.currentTime = app.audio_begin
       }
     }
-  });
+  })
 
   audio_player.addEventListener("seeking", function() {
     if (app.audio_tokens != undefined) {
       let pos = 0
       app.audio_tokens.forEach (function (node,index) {
-        node.classList.remove("speaking");
+        node.classList.remove("speaking")
         let begin = Number(node["dataset"]["begin"])
         let end = begin + Number(node["dataset"]["dur"])
         if (audio_player.currentTime >= begin && audio_player.currentTime <= end) {
@@ -623,14 +623,14 @@ function audio_init() {
       })
       audio_speaking_token(pos)
     }
-  });
+  })
 
   function audio_speaking_token(position) {
-    let prev_word = app.audio_tokens[app.audio_speaking_index];
-    prev_word.classList.remove("speaking");
-    let new_word = app.audio_tokens[position];
-    app.audio_speaking_index = position;
-    new_word.classList.add("speaking");
+    let prev_word = app.audio_tokens[app.audio_speaking_index]
+    prev_word.classList.remove("speaking")
+    let new_word = app.audio_tokens[position]
+    app.audio_speaking_index = position
+    new_word.classList.add("speaking")
   }
 
 }
@@ -640,14 +640,14 @@ function open_validation_page() {
   let param = {
     corpus_id: app.current_corpus_id,
     file: "valid_sud.json"
-  };
+  }
 
   generic("get_build_file", param)
   .then(function (data) {
-    localStorage.setItem('valid_data', data);
-    localStorage.setItem('top_url', window.location.origin);
-    localStorage.setItem('corpus', app.current_corpus_id);
-    window.open("validator.html");
+    localStorage.setItem('valid_data', data)
+    localStorage.setItem('top_url', window.location.origin)
+    localStorage.setItem('corpus', app.current_corpus_id)
+    window.open("validator.html")
   })
 }
 
@@ -672,28 +672,28 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
     if (url_params.has("target").length > 0) {
       target = "DEP [upos=\"" + (url_params.get("target")) + "\"]; "
     }
-    cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + url_params.get("relation") + "]-> DEP\n}");
-    search();
+    cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + url_params.get("relation") + "]-> DEP\n}")
+    search()
   }
 
   // read "request" param (and backward compatibility with the old "pattern" name)
-  let request_param = url_params.has('request') ? url_params.get('request') : url_params.get('pattern');
+  let request_param = url_params.has('request') ? url_params.get('request') : url_params.get('pattern')
 
   if (request_param) {
-    app.skip_history = true;
-    app.view_left_pane = false;
-    cmEditor.setValue(request_param);
+    app.skip_history = true
+    app.view_left_pane = false
+    cmEditor.setValue(request_param)
     setTimeout(function () {
-      search();
+      search()
     }, 50)
   }
 
-  let count_param = url_params.get('count');
+  let count_param = url_params.get('count')
   if (count_param) {
-    app.view_left_pane = false;
-    cmEditor.setValue(count_param);
+    app.view_left_pane = false
+    cmEditor.setValue(count_param)
     setTimeout(function () {
-      count ();
+      count ()
     }, 50)
   }
 }
@@ -718,7 +718,7 @@ async function set_clust_param(param) {
   if ("clust1_whether" in param) {
     app.clust1 = "whether"
     setTimeout(function () {
-      clust1_cm.setValue(param.clust1_whether);
+      clust1_cm.setValue(param.clust1_whether)
     }, 0)
   }
 
@@ -730,7 +730,7 @@ async function set_clust_param(param) {
   if ("clust2_whether" in param) {
     app.clust2 = "whether"
     setTimeout(function () {
-      clust2_cm.setValue(param.clust2_whether);
+      clust2_cm.setValue(param.clust2_whether)
     }, 0)
   }
 }
@@ -738,49 +738,49 @@ async function set_clust_param(param) {
 // ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
-  let file = "snippets/" + base + ".html";
+  let file = "snippets/" + base + ".html"
   $.get(file, function (data) {
-    $('#right-pane').html(data);
+    $('#right-pane').html(data)
     $(".inter").click(function () {
-      app.clust1 = "no"; // default value
-      app.clust2 = "no"; // default value
-      const clustering = $(this).attr('clustering');
+      app.clust1 = "no" // default value
+      app.clust2 = "no" // default value
+      const clustering = $(this).attr('clustering')
       if (clustering) {
-        app.clust1 = "key";
-        app.clust1_key = clustering;
+        app.clust1 = "key"
+        app.clust1_key = clustering
       }
-      const whether = $(this).attr('whether');
+      const whether = $(this).attr('whether')
       if (whether) {
-        app.clust1 = "whether";
+        app.clust1 = "whether"
         // setValue is behind timeout to ensure proper cm update
         setTimeout(function () { // hack for correct update of clust1_cm
-          clust1_cm.setValue(whether);
+          clust1_cm.setValue(whether)
         }, 0)
       }
-      const clustering2 = $(this).attr('clustering2');
+      const clustering2 = $(this).attr('clustering2')
       if (clustering2) {
-        app.clust2 = "key";
-        app.clust2_key = clustering2;
+        app.clust2 = "key"
+        app.clust2_key = clustering2
       }
-      const whether2 = $(this).attr('whether2');
+      const whether2 = $(this).attr('whether2')
       if (whether2) {
-        app.clust2 = "whether";
+        app.clust2 = "whether"
         // setValue is behind timeout to ensure proper cm update
         setTimeout(function () { // hack for correct update of clust1_cm
-          clust2_cm.setValue(whether2);
+          clust2_cm.setValue(whether2)
         }, 0)
       }
 
       // Update of the textarea
-      const file = "snippets/" + $(this).attr('snippet-file');
+      const file = "snippets/" + $(this).attr('snippet-file')
       $.get(file, function (pattern) {
-        cmEditor.setValue(pattern);
+        cmEditor.setValue(pattern)
       }, null, "text")
       .error(function () {
         direct_error("Cannot find file `" + file + "`")
-      });
-    });
-  });
+      })
+    })
+  })
 }
 
 // ==================================================================================
@@ -794,7 +794,7 @@ function named_cluster_path() {
       app.gridColumns[app.current_cluster_path[1]].value
     ])
   }
-  return ([]);
+  return ([])
 }
 
 // ==================================================================================
@@ -803,27 +803,27 @@ function more_results(post_update_graph_view=false) {
     uuid: app.current_uuid,
     cluster_path: app.current_cluster_path,
     named_cluster_path: named_cluster_path()
-  };
+  }
 
   generic ("more_results", param)
   .then (
     function (data) {
       if (app.cluster_dim == 0) {
-        app.clusters = app.clusters.concat(data.items);
-        app.update_current_cluster();
+        app.clusters = app.clusters.concat(data.items)
+        app.update_current_cluster()
       } else if (app.cluster_dim == 1) {
-        let old_items = app.clusters[app.current_cluster_path[0]];
-        const new_items = old_items.concat(data.items);
-        app.clusters[app.current_cluster_path[0]] = new_items;
-        app.update_current_cluster();
+        let old_items = app.clusters[app.current_cluster_path[0]]
+        const new_items = old_items.concat(data.items)
+        app.clusters[app.current_cluster_path[0]] = new_items
+        app.update_current_cluster()
       } else if (app.cluster_dim == 2) {
-        let old_items = app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]];
-        const new_items = old_items.concat(data.items);
-        app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]] = new_items;
-        app.update_current_cluster();
+        let old_items = app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]]
+        const new_items = old_items.concat(data.items)
+        app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]] = new_items
+        app.update_current_cluster()
       }
       if (post_update_graph_view) {
-        update_graph_view();
+        update_graph_view()
       }
     }
   )
@@ -831,11 +831,11 @@ function more_results(post_update_graph_view=false) {
 
 // ==================================================================================
 function count() {
-  app.current_custom = "";
-  app.current_cluster_path = undefined;
-  app.cluster_dim = 0;
-  app.wait = true;
-  app.search_mode = false;
+  app.current_custom = ""
+  app.current_cluster_path = undefined
+  app.cluster_dim = 0
+  app.wait = true
+  app.search_mode = false
 
   generic ("count", search_param())
   .then(function (data) {
@@ -846,12 +846,12 @@ function count() {
       "Feel free to contact [Bruno.Guillaume@inria.fr](mailto:Bruno.Guillaume@inria.fr) if you want to discuss on the best way to run your experiment",
       "Thanks!",
       "Bruno",
-    ].join ("\n\n");
+    ].join ("\n\n")
     if (data.redundant != undefined) {
-      direct_info (message);
+      direct_info (message)
     }
-    app.current_time = data.time;
-    app.nb_solutions = data.nb_solutions;
+    app.current_time = data.time
+    app.nb_solutions = data.nb_solutions
 
     if (data.nb_solutions == 0) {
       app.result_message = "No results"
@@ -861,26 +861,26 @@ function count() {
     if ("cluster_array" in data) {
       app.cluster_list = data.cluster_array.map
       (function (elt, index) {
-        elt["index"] = index;
+        elt["index"] = index
         return elt}
-      );
-      app.cluster_dim = 1;
+      )
+      app.cluster_dim = 1
     } else if ("cluster_grid" in data) {
-      app.cluster_dim = 2;
-      app.gridRows = data.cluster_grid.rows;
-      app.gridColumns = data.cluster_grid.columns;
+      app.cluster_dim = 2
+      app.gridRows = data.cluster_grid.rows
+      app.gridColumns = data.cluster_grid.columns
       if (data.cluster_grid.rows.length * data.cluster_grid.columns.length > 1000) {
         app.grid_message = "Table is not shown (more than 1000 cells): "
-        app.gridCells = [];
+        app.gridCells = []
       } else {
-        app.grid_message = "";
-        app.gridCells = data.cluster_grid.cells;
+        app.grid_message = ""
+        app.gridCells = data.cluster_grid.cells
       }
       app.grid_message += data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : ", ")
       app.grid_message += data.cluster_grid.columns.length + " column" + (data.cluster_grid.columns.length > 1 ? "s" : "")
     }
 
-    app.wait = false;
+    app.wait = false
   })
 }
 
@@ -888,13 +888,13 @@ function count() {
 function open_param(param) {
   log ("open param:" + JSON.stringify(param))
 
-  cmEditor.setValue(param.request); 
+  cmEditor.setValue(param.request)
   app.current_corpus_id = param.corpus_id
   app.display = param.display
   set_clust_param (param.clust)
 }
 
-  // ==================================================================================
+// ==================================================================================
 function search_param() {
   let param = {
     request: cmEditor.getValue(),
@@ -912,22 +912,22 @@ function duplicate() {
   log ("param:" + JSON.stringify(param))
   localStorage.setItem("param_for_duplicate", JSON.stringify (param))
   let url = base_url + "?corpus=" + app.current_corpus_id
-  window.open(url, '_blank').focus();
+  window.open(url, '_blank').focus()
 }
 
-  // ==================================================================================
+// ==================================================================================
 function search() {
-  app.current_custom = "";
-  app.current_cluster_path = undefined;
-  app.current_view = 0;
+  app.current_custom = ""
+  app.current_cluster_path = undefined
+  app.current_view = 0
 
   generic ("search", search_param())
   .then (function (data) {
-    app.search_mode = true;
-    app.current_uuid = data.uuid;
-    app.current_pivots = data.pivots;
-    app.current_time = data.time;
-    app.nb_solutions = data.nb_solutions;
+    app.search_mode = true
+    app.current_uuid = data.uuid
+    app.current_pivots = data.pivots
+    app.current_time = data.time
+    app.nb_solutions = data.nb_solutions
 
     switch (data.status) {
       case "complete":
@@ -936,91 +936,91 @@ function search() {
       } else {
         app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
       }
-      break;
+      break
       case "max_results":
       app.result_message = 'More than ' + data.nb_solutions + ' results found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
-      break;
+      break
       case "timeout":
       app.result_message = 'Timeout. ' + data.nb_solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
-      break;
+      break
       default:
       direct_error("unknown status: " + data.status)
     }
 
     if ("cluster_single" in data) {
-      app.clusters = [];
-      app.cluster_dim = 0;
+      app.clusters = []
+      app.cluster_dim = 0
       if (data.nb_solutions > 0) {
-        app.current_cluster_path = [];
-        more_results(true);
+        app.current_cluster_path = []
+        more_results(true)
       }
     } else if ("cluster_array" in data) {
       app.cluster_list = data.cluster_array.map
       (function (elt, index) {
-        elt["index"] = index;
+        elt["index"] = index
         return elt
-      });
-      app.clusters = Array(app.cluster_list.length).fill([]);
-      app.cluster_dim = 1;
+      })
+      app.clusters = Array(app.cluster_list.length).fill([])
+      app.cluster_dim = 1
     } else if ("cluster_grid" in data) {
-      app.gridRows = data.cluster_grid.rows;
-      app.gridColumns = data.cluster_grid.columns;
-      app.gridCells = data.cluster_grid.cells;
-      app.clusters = [...Array(app.gridRows.length)].map(x => Array(app.gridColumns.length).fill([]));
-      app.cluster_dim = 2;
+      app.gridRows = data.cluster_grid.rows
+      app.gridColumns = data.cluster_grid.columns
+      app.gridCells = data.cluster_grid.cells
+      app.clusters = [...Array(app.gridRows.length)].map(x => Array(app.gridColumns.length).fill([]))
+      app.cluster_dim = 2
       if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
-        app.grid_message = "<b>" + data.cluster_grid.total_rows_nb + "</b> lines (lines above rank "+ data.cluster_grid.rows.length +" are merged with key <code>__*__</code>); ";
+        app.grid_message = "<b>" + data.cluster_grid.total_rows_nb + "</b> lines (lines above rank "+ data.cluster_grid.rows.length +" are merged with key <code>__*__</code>); "
       } else {
         app.grid_message = data.cluster_grid.total_rows_nb + " line" + (data.cluster_grid.total_rows_nb > 1 ? "s; " : "; ")
       }
       if (data.cluster_grid.total_columns_nb > data.cluster_grid.columns.length) {
-        app.grid_message += data.cluster_grid.total_columns_nb + " columns (columns above rank "+ data.cluster_grid.columns.length +" are merged with key <code>__*__</code>)";
+        app.grid_message += data.cluster_grid.total_columns_nb + " columns (columns above rank "+ data.cluster_grid.columns.length +" are merged with key <code>__*__</code>)"
       } else {
         app.grid_message += data.cluster_grid.total_columns_nb + " column" + (data.cluster_grid.total_columns_nb > 1 ? "s" : "")
       }
     }
   })
-  app.wait = false;
+  app.wait = false
 }
 
 // ==================================================================================
 function show_export_modal() {
-  let data_folder = app.backend_server + "data/" + app.current_uuid;
+  let data_folder = app.backend_server + "data/" + app.current_uuid
   $.get(data_folder + "/export.tsv", function (data) {
-    let lines = data.split("\n");
+    let lines = data.split("\n")
 
     let html
-    let headers = lines[0].split("\t");
+    let headers = lines[0].split("\t")
 
     if (headers.length == 2) {
-      html = "<table class=\"export-table-2\">";
-      html += "<colgroup><col width=\"10%\" /><col width=\"90%\" /></colgroup>";
+      html = "<table class=\"export-table-2\">"
+      html += "<colgroup><col width=\"10%\" /><col width=\"90%\" /></colgroup>"
     } else {
-      html = "<table class=\"export-table-4\">";
-      html += "<colgroup><col width=\"10%\" /><col width=\"40%\" align=\"right\" /><col width=\"10%\" /><col width=\"40%\" /></colgroup>";
+      html = "<table class=\"export-table-4\">"
+      html += "<colgroup><col width=\"10%\" /><col width=\"40%\" align=\"right\" /><col width=\"10%\" /><col width=\"40%\" /></colgroup>"
     }
 
     // headers
-    html += "<tr><th>" + lines[0].replace(/\t/g, "</th><th>") + "</th></tr>\n";
+    html += "<tr><th>" + lines[0].replace(/\t/g, "</th><th>") + "</th></tr>\n"
 
     lines.slice(1).forEach(line => {
-      html += "<tr><td>" + line.replace(/\t/g, "</td><td>") + "</td></tr>\n";
-    });
-    html += "</table>";
+      html += "<tr><td>" + line.replace(/\t/g, "</td><td>") + "</td></tr>\n"
+    })
+    html += "</table>"
 
-    $("#exportResult").html(html);
-  });
-  $('#export-modal').modal('show');
+    $("#exportResult").html(html)
+  })
+  $('#export-modal').modal('show')
 }
 
 // ==================================================================================
 function run_export() {
   if (app.current_pivots.length > 1) {
-    $('#pivot-modal').modal('show');
+    $('#pivot-modal').modal('show')
   } else if (app.current_pivots.length == 1) {
-    export_tsv(app.current_pivots[0]);
+    export_tsv(app.current_pivots[0])
   } else {
-    export_tsv("");
+    export_tsv("")
   }
 }
 
@@ -1038,15 +1038,15 @@ function clusters_export() {
 
 // ==================================================================================
 function export_tsv(pivot) {
-  $('#pivot-modal').modal('hide');
+  $('#pivot-modal').modal('hide')
   let param = {
     uuid: app.current_uuid,
     pivot: pivot,
-  };
+  }
 
   generic("export", param)
   .then(function (_) {
-    show_export_modal();
+    show_export_modal()
   })
 }
 
@@ -1054,12 +1054,12 @@ function export_tsv(pivot) {
 function conll_export() {
   let param = {
     uuid: app.current_uuid,
-  };
+  }
 
   generic("conll_export", param)
   .then(function () {
-    let data_folder = app.backend_server + "data/" + app.current_uuid;
-    window.location = data_folder + '/export.conllu';
+    let data_folder = app.backend_server + "data/" + app.current_uuid
+    window.location = data_folder + '/export.conllu'
   })
 }
 
@@ -1070,12 +1070,12 @@ function update_parallel() {
       uuid: app.current_uuid,
       corpus_id: app.parallel,
       sent_id: app.sent_id,
-    };
+    }
 
     generic("parallel", param)
     .then(
       function (data) {
-        app.parallel_svg = app.backend_server + "data/" + app.current_uuid + "/" + data;
+        app.parallel_svg = app.backend_server + "data/" + app.current_uuid + "/" + data
       }
     )
     .catch(function(err) {
@@ -1086,8 +1086,8 @@ function update_parallel() {
 
 // ==================================================================================
 function download() {
-  let data_folder = app.backend_server + "data/" + app.current_uuid;
-  window.location = data_folder + '/export.tsv';
+  let data_folder = app.backend_server + "data/" + app.current_uuid
+  window.location = data_folder + '/export.tsv'
 }
 
 // ==================================================================================
@@ -1097,19 +1097,19 @@ function show_conll() {
     current_view: app.current_view,
     cluster_path: app.current_cluster_path,
     named_cluster_path: named_cluster_path()
-  };
+  }
 
   generic ("conll", param)
   .then(function (data) {
-    $("#code_viewer").html(data);
-    $('#code_modal').modal('show');
+    $("#code_viewer").html(data)
+    $('#code_modal').modal('show')
   })
 }
 
 // ==================================================================================
 function show_code() {
-  $("#code_viewer").html(app.current_item.code);
-  $('#code_modal').modal('show');
+  $("#code_viewer").html(app.current_item.code)
+  $('#code_modal').modal('show')
 }
 
 // ==================================================================================
@@ -1121,7 +1121,7 @@ function code_copy() {
 function dowload_tgz() {
   let param = {
     corpus_id: app.current_corpus_id,
-  };
+  }
 
   generic("dowload_tgz", param)
   .then(function (data) {
@@ -1136,25 +1136,25 @@ function open_build_file(file,get_param,get_value) {
   let param = {
     corpus_id: app.current_corpus_id,
     file: expanded_file
-  };
+  }
 
   generic("get_build_file", param)
   .then(function (data) {
-    var new_window = window.open("");
+    var new_window = window.open("")
     var html = ""
     if (file.endsWith(".txt")) {
       html = "<pre>"+data+"</pre>"
     } else {
       html = data
     }
-    new_window.document.write(html);
+    new_window.document.write(html)
 
     if (get_param != undefined && get_value != undefined) {
       let params = new URLSearchParams(window.location.search)
       params.delete(get_param)
       params.append (get_param, get_value)
       let new_url = window.location.origin + "?" + params.toString()
-      new_window.history.replaceState({}, "", new_url);
+      new_window.history.replaceState({}, "", new_url)
     }
   })
 }
@@ -1167,44 +1167,44 @@ function save_request() {
     corpus: app.current_corpus_id,
     clust: get_clust_param(),
     display: app.display,
-  };
+  }
 
   generic("save", param)
   .then(function (_) {
-    history.pushState({ id: app.current_uuid }, "", "?custom=" + app.current_uuid);
-    app.current_custom = window.location.href;
-    SelectText("custom-url");
+    history.pushState({ id: app.current_uuid }, "", "?custom=" + app.current_uuid)
+    app.current_custom = window.location.href
+    SelectText("custom-url")
   })
 }
 
 
 // ==================================================================================
 function update_corpus() {
-  app.current_custom = "";
-  $('.timeago').remove();
-  app.meta_info = false;
+  app.current_custom = ""
+  $('.timeago').remove()
+  app.meta_info = false
 
-  let audio_player = document.getElementById("audioPlayer");
-  audio_player.pause();
+  let audio_player = document.getElementById("audioPlayer")
+  audio_player.pause()
 
   if (app.current_corpus["desc"]) {
-    $('#corpus-desc-label').tooltipster('enable');
-    $('#corpus-desc-label').tooltipster('content', app.current_corpus["desc"]);
+    $('#corpus-desc-label').tooltipster('enable')
+    $('#corpus-desc-label').tooltipster('content', app.current_corpus["desc"])
   } else {
-    $('#corpus-desc-label').tooltipster('disable');
+    $('#corpus-desc-label').tooltipster('disable')
   }
 
-  app.parallel = "no";
-  app.parallels = app.current_corpus["parallels"] ? app.current_corpus["parallels"] : [];
+  app.parallel = "no"
+  app.parallels = app.current_corpus["parallels"] ? app.current_corpus["parallels"] : []
 
   if (app.current_corpus["snippets"]) {
-    right_pane(app.current_corpus["snippets"]);
+    right_pane(app.current_corpus["snippets"])
   } else if (app.current_group["snippets"]) {
-    right_pane(app.current_group["snippets"]);
+    right_pane(app.current_group["snippets"])
   } else if (app.current_corpus["config"]) {
-    right_pane(app.current_corpus["config"]);
+    right_pane(app.current_corpus["config"])
   } else {
-    right_pane("_default");
+    right_pane("_default")
   }
 
   // update info button + update timestamp if needed
@@ -1212,23 +1212,23 @@ function update_corpus() {
     let param = {
       corpus_id: app.current_corpus_id,
       file: "desc.json"
-    };
+    }
 
     generic("get_build_file", param)
     .then(function (data) {
       let json = JSON.parse(data)
-      app.meta_info = true;
+      app.meta_info = true
       let html = ""
       for (let key in json) {
         if (key == "update") {
-          const event = new Date(json[key]);
-          $('#update_ago').html("<time class=\"timeago\" datetime=\"" + event.toISOString() + "\">update time</time>");
-          $('#update_ago > time').timeago(); // make it dynamic
+          const event = new Date(json[key])
+          $('#update_ago').html("<time class=\"timeago\" datetime=\"" + event.toISOString() + "\">update time</time>")
+          $('#update_ago > time').timeago() // make it dynamic
         } else {
-          html += "<p>" + key + ": " + json[key] + "</p>";
+          html += "<p>" + key + ": " + json[key] + "</p>"
         }
       }
-      $('#info-button').tooltipster('content', html);
+      $('#info-button').tooltipster('content', html)
     })
   }
 
@@ -1236,29 +1236,29 @@ function update_corpus() {
 
 
   if (app.skip_history) {
-    app.skip_history = false;
+    app.skip_history = false
   } else {
     setTimeout(function () {
       history.pushState({},
         "",
         "?corpus=" + app.current_corpus_id
-      );
+      )
     }, 100)
   }
 }
 
 // ==================================================================================
 function select_cluster_2d(c, r) {
-  log("=== select_cluster_2d ===");
-  log(c, r);
+  log("=== select_cluster_2d ===")
+  log(c, r)
   if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c)) {
-    app.current_cluster_path = [r, c];
-    app.current_view = 0;
+    app.current_cluster_path = [r, c]
+    app.current_view = 0
     if (app.clusters[r][c].length == 0) {
-      more_results(true);
+      more_results(true)
     } else {
-      app.update_current_cluster();
-      update_graph_view ();
+      app.update_current_cluster()
+      update_graph_view ()
     }
   }
 }
