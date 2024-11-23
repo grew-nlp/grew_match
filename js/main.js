@@ -670,13 +670,13 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
   if (url_params.has("relation")) {
     let source = ""
     if (url_params.has("source")) {
-      source = "GOV [upos=\"" + (url_params.get("source")) + "\"]; "
+      source = "X [upos=\"" + (url_params.get("source")) + "\"]; "
     }
     let target = ""
     if (url_params.has("target").length > 0) {
-      target = "DEP [upos=\"" + (url_params.get("target")) + "\"]; "
+      target = "Y [upos=\"" + (url_params.get("target")) + "\"]; "
     }
-    cmEditor.setValue("pattern {\n  " + source + target + "GOV -[" + url_params.get("relation") + "]-> DEP\n}")
+    cmEditor.setValue("pattern {\n  " + source + target + "X -[" + url_params.get("relation") + "]-> Y\n}")
     search()
   }
 
