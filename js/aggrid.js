@@ -244,9 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
       form.append("param", JSON.stringify(param));
       
       backend("get_build_file", form, function (data_string) {
-        console.log("----------------------------------")
-        console.log(data_string)
-        console.log("----------------------------------")
         let data = JSON.parse(data_string)
         build_grid(data)
         // let col_filter = url_params.get('cols');

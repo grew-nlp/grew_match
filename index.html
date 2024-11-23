@@ -414,7 +414,7 @@
 								{{ result_message }}
 								<span style="font-size: 60%">[{{current_time.toFixed(3)}}s]</span>
 							</h3>
-							<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_pattern()" style="margin-right:10px">
+							<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_request()" style="margin-right:10px">
 								Save <i class="fa fa-link" aria-hidden="true"></i>
 							</button>
 							<button id="export-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:run_export()" style="margin-right:10px">

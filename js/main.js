@@ -41,7 +41,7 @@ let app = new Vue({
     meta_info: false,
 
     // contents of whether boxes in not handle by Vue because of codemirror
-    // clust1_cm.setValue and clust1_cm.getValue are used instead
+    // clust*_cm.setValue and clust*_cm.getValue are used instead
     clust1: "no", // 3 possible values: no, key or whether
     clust1_key: "",
     clust2: "no", // 3 possible values: no, key or whether
@@ -410,35 +410,21 @@ async function deal_with_get_parameters() {
 
     fetch_json(app.backend_server + "shorten/" + custom_param + ".json")
     .then(function (data) {
-      cmEditor.setValue(data.pattern);
+     cmEditor.setValue(data.pattern);
 
-      // if corpus is given as GET parameter, it has priority
-      if (app.current_corpus_id == undefined) {
-        if ("corpus" in data) {
-          search_corpus(data.corpus);
-        }
-      }
-      if ("clust1_key" in data) {
-        app.clust1 = "key";
-        app.clust1_key = data.clust1_key
-      }
-      if ("clust1_whether" in data) {
-        app.clust1 = "whether";
-        setTimeout(function () {
-          clust1_cm.setValue(data.clust1_whether);
-        }, 0)
-      }
-      if ("clust2_key" in data) {
-        app.clust2 = "key";
-        app.clust2_key = data.clust2_key
-      }
-      if ("clust2_whether" in data) {
-        app.clust2 = "whether";
-        setTimeout(function () {
-          clust2_cm.setValue(data.clust2_whether);
-        }, 0)
-      }
-      setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
+     // if corpus is given as GET parameter, it has priority
+     if (app.current_corpus_id == undefined) {
+       if ("corpus" in data) {
+         search_corpus(data.corpus);
+       }
+     }
+     if ("clust" in data) {
+       set_clust_param(data.clust)
+     } else {
+       set_clust_param(data) // backward compatibility (clust* value at the top level)
+     }
+     if ("display" in data) {app.display = data.display}
+     setTimeout(search, 150); // hack: else clust*_cm value is not taken into account.
      })
     .catch (function (_) {
       // backup on old custom saving
@@ -448,7 +434,7 @@ async function deal_with_get_parameters() {
       fetch(app.backend_server + "shorten/" + custom_param)
       .then (function (pattern) {
         cmEditor.setValue(pattern);
-        setTimeout(search, 150); // hack: else clust1_cm value is not taken into account.
+        setTimeout(search, 150); // hack: else clust*_cm value is not taken into account.
       })
       .catch(function (_) {
         direct_error("Cannot find custom pattern `" + custom_param + "`\n\nCheck the URL.")
@@ -462,36 +448,22 @@ async function deal_with_get_parameters() {
     app.view_left_pane = true;
   }
 
+  // build a clust_param struct from url_params and use the generic code `set_clust_param`
+  let clust_param = {}
   // backward compatibility with the old "clustering" name
-  let clust1_key = url_params.has('clust1_key') ? url_params.get('clust1_key') : url_params.get('clustering');
-
+  if (url_params.has('clustering')) { clust_param.clust1_key (url_params.get('clustering')) }
+  if (url_params.has('clust1_key')) { clust_param.clust1_key (url_params.get('clust1_key')) } 
   // backward compatibility with the old "whether" name
-  let clust1_whether = url_params.has('clust1_whether') ? url_params.get('clust1_whether') : url_params.get('whether');
+  if (url_params.has('whether')) { clust_param.clust1_whether (url_params.get('whether')) }
+  if (url_params.has('clust1_whether')) { clust_param.clust1_whether (url_params.get('clust1_whether')) } 
 
-  let clust2_key = url_params.get("clust2_key");
-  let clust2_whether = url_params.get("clust2_whether");
+  if (url_params.has('clust2_key')) { clust_param.clust2_key (url_params.get('clust2_key')) } 
+  if (url_params.has('clust2_whether')) { clust_param.clust2_whether (url_params.get('clust2_whether')) } 
 
-  // update app.clust1 and app.clust2
-  app.clust1 = "no";   // default
-  if (clust1_whether) { app.clust1 = "whether" }
-  if (clust1_key) { app.clust1 = "key" }
-  app.clust2 = "no";   // default
-  if (clust2_whether) { app.clust2 = "whether" }
-  if (clust2_key) { app.clust2 = "key" }
-
-  app.clust1_key = clust1_key;
-  app.clust2_key = clust2_key;
-
-  if (clust1_whether || clust2_whether) {
-    // if there at least one whether, timeout for proper CodeMirror behaviour
-    setTimeout(function () {
-      if (clust1_whether) { clust1_cm.setValue(clust1_whether) }
-      if (clust2_whether) { clust2_cm.setValue(clust2_whether) }
-      get_param_stage2 ();
-    }, 0)
-  } else {
-    get_param_stage2 ();
-  }
+  await set_clust_param (clust_param)
+  .then(function (_) {
+    get_param_stage2()
+  })
 } // deal_with_get_parameters
 
 // ==================================================================================
@@ -727,6 +699,43 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
 }
 
 // ==================================================================================
+function get_clust_param () {
+  let param = {}
+  if (app.clust1 == "key") { param.clust1_key = app.clust1_key }
+  if (app.clust1 == "whether") { param.clust1_whether = clust1_cm.getValue() }
+  if (app.clust2 == "key") { param.clust2_key = app.clust2_key }
+  if (app.clust2 == "whether") { param.clust2_whether = clust2_cm.getValue() }
+  return param
+}
+
+// ==================================================================================
+async function set_clust_param(param) {
+  app.clust1 = "no" // default
+  if ("clust1_key" in param) {
+    app.clust1 = "key"
+    app.clust1_key = param.clust1_key
+  }
+  if ("clust1_whether" in param) {
+    app.clust1 = "whether"
+    setTimeout(function () {
+      clust1_cm.setValue(param.clust1_whether);
+    }, 0)
+  }
+
+  app.clust2 = "no" // default
+  if ("clust2_key" in param) {
+    app.clust2 = "key"
+    app.clust2_key = param.clust2_key
+  }
+  if ("clust2_whether" in param) {
+    app.clust2 = "whether"
+    setTimeout(function () {
+      clust2_cm.setValue(param.clust2_whether);
+    }, 0)
+  }
+}
+
+// ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
   let file = "snippets/" + base + ".html";
@@ -880,31 +889,9 @@ function open_param(param) {
   log ("open param:" + JSON.stringify(param))
 
   cmEditor.setValue(param.request); 
-  // app.current_corpus_id = param.corpus_id
-
-
+  app.current_corpus_id = param.corpus_id
   app.display = param.display
-
-  app.clust1 = param.clust1
-  app.clust2 = param.clust2
-
-  if (app.clust1 == "key") { 
-    app.clust1_key = param.clust1_data
-  }
-  if (app.clust1 == "whether") {
-    setTimeout(function () {
-      clust1_cm.setValue(param.clust1_data)
-    }, 0)
-  }
-
-  if (app.clust2 == "key") {
-     app.clust2_key = param.clust2_data
-  }
-  if (app.clust2 == "whether") {
-    setTimeout(function () {
-      clust2_cm.setValue(param.clust2_data)
-    }, 0)
-  }
+  set_clust_param (param.clust)
 }
 
   // ==================================================================================
@@ -912,25 +899,8 @@ function search_param() {
   let param = {
     request: cmEditor.getValue(),
     corpus_id: app.current_corpus_id,
-
     display: app.display,
-
-    clust1: app.clust1,
-    clust2: app.clust2,
-  };
-
-  if (app.clust1 == "key") {
-    param.clust1_data = app.clust1_key;
-  }
-  if (app.clust1 == "whether") {
-    param.clust1_data = clust1_cm.getValue();
-  }
-
-  if (app.clust2 == "key") {
-    param.clust2_data = app.clust2_key;
-  }
-  if (app.clust2 == "whether") {
-    param.clust2_data = clust2_cm.getValue();
+    clust: get_clust_param(),
   }
   return param
 }
@@ -1190,26 +1160,14 @@ function open_build_file(file,get_param,get_value) {
 }
 
 // ==================================================================================
-function save_pattern() {
+function save_request() {
   let param = {
     uuid: app.current_uuid,
     pattern: cmEditor.getValue(),
     corpus: app.current_corpus_id,
+    clust: get_clust_param(),
+    display: app.display,
   };
-
-  if (app.clust1 == "key") {
-    param.clust1_key = app.clust1_key;
-  }
-  if (app.clust1 == "whether") {
-    param.clust1_whether = clust1_cm.getValue();
-  }
-
-  if (app.clust2 == "key") {
-    param.clust2_key = app.clust2_key;
-  }
-  if (app.clust2 == "whether") {
-    param.clust2_whether = clust2_cm.getValue();
-  }
 
   generic("save", param)
   .then(function (_) {
