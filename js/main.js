@@ -368,6 +368,13 @@ async function deal_with_get_parameters() {
     app.view_left_pane = true;
   };
 
+  if (localStorage.param_for_duplicate) {
+    let param = JSON.parse (localStorage.param_for_duplicate)
+    localStorage.removeItem("param_for_duplicate");
+    open_param(param)
+    return // in case of duplicata, no need to go on with other parameters
+  } 
+
   if (url_params.get ("table") == "yes") {
     if (app.check_built("table.html")) {
       open_build_file('table.html')
@@ -866,6 +873,46 @@ function count() {
 }
 
 // ==================================================================================
+function open_param(param) {
+  log ("open param:" + JSON.stringify(param))
+
+  cmEditor.setValue(param.request); 
+  // app.current_corpus_id = param.corpus_id
+  app.lemma = param.lemma
+  app.upos = param.upos
+  app.xpos = param.xpos
+  app.features = param.features
+  app.tf_wf = param.tf_wf
+
+  $('#sentences-order').val(param.order)
+  app.context = param.context
+  app.pid = param.pid
+  
+  app.clust1 = param.clust1
+
+  app.clust2 = param.clust2
+
+  if (app.clust1 == "key") { 
+    app.clust1_key = param.clust1_data
+  }
+  if (app.clust1 == "whether") {
+    setTimeout(function () {
+      clust1_cm.setValue(param.clust1_data)
+    }, 0)
+  }
+
+  if (app.clust2 == "key") {
+     app.clust2_key = param.clust2_data
+  }
+  if (app.clust2 == "whether") {
+    setTimeout(function () {
+      clust2_cm.setValue(param.clust2_data)
+    }, 0)
+  }
+
+}
+
+  // ==================================================================================
 function search_param() {
   let param = {
     request: cmEditor.getValue(),
@@ -899,6 +946,16 @@ function search_param() {
 }
 
 // ==================================================================================
+function duplicate() {
+  let base_url = window.location.origin
+  let param = search_param()
+  log ("param:" + JSON.stringify(param))
+  localStorage.setItem("param_for_duplicate", JSON.stringify (param))
+  let url = base_url + "?corpus=" + app.current_corpus_id
+  window.open(url, '_blank').focus();
+}
+
+  // ==================================================================================
 function search() {
   app.current_custom = "";
   app.current_cluster_path = undefined;
