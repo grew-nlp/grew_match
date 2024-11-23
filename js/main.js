@@ -81,12 +81,11 @@ let app = new Vue({
     current_cluster: [],
     current_cluster_size: 0,
     current_time: 0,
-    skip_history: false, // flag used to avoid history to be rewritten when loading a custom pattern
+    skip_history: false, // flag used to avoid history to be rewritten when loading a custom request
     current_custom: "",
 
     warning_level: 0,
     warning_message: "",
-
   }, // end data
 
   methods: {
@@ -411,7 +410,8 @@ async function deal_with_get_parameters() {
 
     fetch_json(app.backend_server + "shorten/" + custom_param + ".json")
     .then(function (data) {
-      cmEditor.setValue(data.pattern)
+      let request = data.request ? data.request : data.pattern // backward compatibility
+      cmEditor.setValue(request)
 
       // if corpus is given as GET parameter, it has priority
       if (app.current_corpus_id == undefined) {
@@ -425,7 +425,11 @@ async function deal_with_get_parameters() {
         set_clust_param(data) // backward compatibility (clust* value at the top level)
       }
       if ("display" in data) {app.display = data.display}
-      setTimeout(search, 150) // hack: else clust*_cm value is not taken into account.
+      if (data.search_mode == false) {
+        setTimeout(count, 150) // behind timeout, else clust*_cm value is not taken into account.
+      } else {
+        setTimeout(search, 150) // behind timeout, else clust*_cm value is not taken into account.
+      }
     })
     .catch (function (_) {
       // backup on old custom saving
@@ -433,12 +437,12 @@ async function deal_with_get_parameters() {
         search_corpus() // if no corpus is specified, take the default
       }
       fetch(app.backend_server + "shorten/" + custom_param)
-      .then (function (pattern) {
-        cmEditor.setValue(pattern)
+      .then (function (request) {
+        cmEditor.setValue(request)
         setTimeout(search, 150) // hack: else clust*_cm value is not taken into account.
       })
       .catch(function (_) {
-        direct_error("Cannot find custom pattern `" + custom_param + "`\n\nCheck the URL.")
+        direct_error("Cannot find custom request `" + custom_param + "`\n\nCheck the URL.")
       })
     })
     return
@@ -742,39 +746,17 @@ function right_pane(base) {
   $.get(file, function (data) {
     $('#right-pane').html(data)
     $(".inter").click(function () {
-      app.clust1 = "no" // default value
-      app.clust2 = "no" // default value
-      const clustering = $(this).attr('clustering')
-      if (clustering) {
-        app.clust1 = "key"
-        app.clust1_key = clustering
-      }
-      const whether = $(this).attr('whether')
-      if (whether) {
-        app.clust1 = "whether"
-        // setValue is behind timeout to ensure proper cm update
-        setTimeout(function () { // hack for correct update of clust1_cm
-          clust1_cm.setValue(whether)
-        }, 0)
-      }
-      const clustering2 = $(this).attr('clustering2')
-      if (clustering2) {
-        app.clust2 = "key"
-        app.clust2_key = clustering2
-      }
-      const whether2 = $(this).attr('whether2')
-      if (whether2) {
-        app.clust2 = "whether"
-        // setValue is behind timeout to ensure proper cm update
-        setTimeout(function () { // hack for correct update of clust1_cm
-          clust2_cm.setValue(whether2)
-        }, 0)
-      }
+      let clust_param = {}
+      if ($(this).attr('clustering')) { clust_param.clust1_key = $(this).attr('clustering') }
+      if ($(this).attr('whether')) { clust_param.clust1_whether = $(this).attr('whether') }
+      if ($(this).attr('clustering2')) { clust_param.clust2_key = $(this).attr('clustering2') }
+      if ($(this).attr('whether2')) { clust_param.clust2_whether = $(this).attr('whether2') }
+      set_clust_param (clust_param)
 
       // Update of the textarea
       const file = "snippets/" + $(this).attr('snippet-file')
-      $.get(file, function (pattern) {
-        cmEditor.setValue(pattern)
+      $.get(file, function (request) {
+        cmEditor.setValue(request)
       }, null, "text")
       .error(function () {
         direct_error("Cannot find file `" + file + "`")
@@ -1163,12 +1145,12 @@ function open_build_file(file,get_param,get_value) {
 function save_request() {
   let param = {
     uuid: app.current_uuid,
-    pattern: cmEditor.getValue(),
+    request: cmEditor.getValue(),
     corpus: app.current_corpus_id,
     clust: get_clust_param(),
     display: app.display,
+    search_mode: app.search_mode,
   }
-
   generic("save", param)
   .then(function (_) {
     history.pushState({ id: app.current_uuid }, "", "?custom=" + app.current_uuid)
