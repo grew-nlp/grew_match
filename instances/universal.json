@@ -748,16 +748,6 @@
     "style": "left_pane",
     "default": "UD_French-GSD@conv",
     "corpora": [
-      "UD_Chinese-HK@ucxn",
-      "UD_Coptic-Scriptorium@ucxn",
-      "UD_English-EWT@ucxn",
-      "UD_English-GUM@ucxn",
-      "UD_French-GSD@ucxn",
-      "UD_German-HDT@ucxn",
-      "UD_Hebrew-HTB@ucxn",
-      "UD_Hebrew-IAHLTwiki@ucxn",
-      "UD_Portuguese-Bosque@ucxn",
-      "UD_Swedish-Talbanken@ucxn",
 
       "UD_Beja-Autogramm@conv",
       "mUD_Beja-Autogramm@conv",
@@ -786,17 +776,7 @@
       "UD_Mandarin-DiLSi@conv",
 
       "elexis-wsd-et",
-      "elexis-wsd-nl",
-      "UD_Chinese-HK@ucxn2",
-      "UD_Coptic-Scriptorium@ucxn2",
-      "UD_English-EWT@ucxn2",
-      "UD_English-GUM@ucxn2",
-      "UD_French-GSD@ucxn2",
-      "UD_German-HDT@ucxn2",
-      "UD_Hebrew-HTB@ucxn2",
-      "UD_Hebrew-IAHLTwiki@ucxn2",
-      "UD_Portuguese-Bosque@ucxn2",
-      "UD_Swedish-Talbanken@ucxn2"
+      "elexis-wsd-nl"
     ]
   },
   
