@@ -409,7 +409,7 @@ async function deal_with_get_parameters() {
     app.skip_history = true
 
     fetch_json(app.backend_server + "shorten/" + custom_param + ".json")
-    .then(function (data) {
+    .then(data => {
       let request = data.request ? data.request : data.pattern // backward compatibility
       cmEditor.setValue(request)
 
@@ -517,68 +517,80 @@ function update_graph_view() {
 
 // ==================================================================================
 function search_path(path, data) {
-  if (path.length == 0) {
-    return data
+  if (path.length === 0) {
+    return data;
+  }
+  const [head, ...tail] = path
+  return search_path(tail, data[head])
+}
+
+
+// ==================================================================================
+function search_corpus(requested_corpus) {
+  log("=== search_corpus === " + requested_corpus);
+
+  if (requested_corpus === undefined) {
+    set_default_corpus();
   } else {
-    let head = path[0]
-    let tail = path.slice(1)
-    return (search_path(tail, data[head]))
+    find_best_match_corpus(requested_corpus);
   }
 }
 
 // ==================================================================================
-function search_corpus(requested_corpus) {
-  // update the global variables app.current_corpus_id and app.current_group_id
-  log("=== search_corpus === " + requested_corpus)
+function set_default_corpus() {
+  const first_group = app.groups[0]
+  const group = first_group.id === "Tutorial" ? app.groups[1] : first_group
 
-  if (requested_corpus == undefined) {
-    let group = app.groups[0] // chose the first group
-    if (group.id == "Tutorial") {
-      group = app.groups[1]  // or the second if first is a Tuto
-    }
-    app.current_group_id = group["id"]
-    app.current_corpus_id = group["default"]
-    if (app.current_corpus_id == undefined) {
-      let pos = Math.floor(Math.random() * group["corpora"].length)
-      app.skip_history = true
-      app.current_corpus_id = group["corpora"][pos]["id"] // if no default in the group -> random corpus
-    }
-  } else {
-    app.current_corpus_id = undefined
-    app.current_group_id = undefined
-    let best_cpl = 0
-    let best_ld = Number.MAX_SAFE_INTEGER
-    let best_corpus_id = undefined
-    let best_group_id = undefined
-    for (let g = 0; g < app.groups.length; g++) {
-      let group = app.groups[g]
-      let corpora = group["corpora"]
-      if (corpora != undefined && group.id != "Tutorial") { // it is undefined for "links" menus
-        for (let c = 0; c < corpora.length; c++) {
-          if (corpora[c]["id"] != undefined) {
-            if (requested_corpus == corpora[c]["id"]) {
-              app.current_corpus_id = corpora[c]["id"]
-              app.current_group_id = group["id"]
-              return
-            }
-            let cpl = common_prefix_length(requested_corpus, corpora[c]["id"])
-            let ld = levenshtein(requested_corpus, corpora[c]["id"])
-            if ((cpl > best_cpl) || (cpl == best_cpl && ld < best_ld)) {
-              best_cpl = cpl
-              best_ld = ld
-              best_corpus_id = corpora[c]["id"]
-              best_group_id = group["id"]
-            }
-          }
-        }
+  app.current_group_id = group.id
+  app.current_corpus_id = group.default
+
+  if (app.current_corpus_id === undefined) {
+    const randomIndex = Math.floor(Math.random() * group.corpora.length);
+    app.skip_history = true;
+    app.current_corpus_id = group.corpora[randomIndex].id;
+  }
+}
+
+// ==================================================================================
+function find_best_match_corpus(requested_corpus) {
+  let best_match = {
+    corpus_id: undefined,
+    group_id: undefined,
+    cpl: 0,
+    ld: Number.MAX_SAFE_INTEGER
+  };
+
+  for (const group of app.groups) {
+    if (group.id === "Tutorial" || !group.corpora) continue;
+
+    for (const corpus of group.corpora) {
+      if (!corpus.id) continue;
+
+      if (requested_corpus === corpus.id) {
+        app.current_corpus_id = corpus.id;
+        app.current_group_id = group.id;
+        return;
+      }
+
+      const cpl = common_prefix_length(requested_corpus, corpus.id);
+      const ld = levenshtein(requested_corpus, corpus.id);
+
+      if (cpl > best_match.cpl || (cpl === best_match.cpl && ld < best_match.ld)) {
+        best_match = {
+          corpus_id: corpus.id,
+          group_id: group.id,
+          cpl: cpl,
+          ld: ld
+        };
       }
     }
-    // no exact matching
-    app.warning_level = 2  // init at 2 because the watcher `current_corpus_id` decrement later
-    app.warning_message = "⚠️ " + requested_corpus + " &rarr; " + best_corpus_id
-    app.current_corpus_id = best_corpus_id
-    app.current_group_id = best_group_id
   }
+
+  // No exact match found
+  app.warning_level = 2; // Initialize at 2 because the watcher `current_corpus_id` decrements later
+  app.warning_message = "⚠️ " + requested_corpus + " &rarr; " + best_match.corpus_id;
+  app.current_corpus_id = best_match.corpus_id;
+  app.current_group_id = best_match.group_id;
 }
 
 // ==================================================================================
@@ -636,7 +648,6 @@ function audio_init() {
     app.audio_speaking_index = position
     new_word.classList.add("speaking")
   }
-
 }
 
 // ==================================================================================
@@ -786,29 +797,24 @@ function more_results(post_update_graph_view=false) {
     cluster_path: app.current_cluster_path,
     named_cluster_path: named_cluster_path()
   }
-
+  
   generic ("more_results", param)
-  .then (
-    function (data) {
-      if (app.cluster_dim == 0) {
-        app.clusters = app.clusters.concat(data.items)
-        app.update_current_cluster()
-      } else if (app.cluster_dim == 1) {
-        let old_items = app.clusters[app.current_cluster_path[0]]
-        const new_items = old_items.concat(data.items)
-        app.clusters[app.current_cluster_path[0]] = new_items
-        app.update_current_cluster()
-      } else if (app.cluster_dim == 2) {
-        let old_items = app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]]
-        const new_items = old_items.concat(data.items)
-        app.clusters[app.current_cluster_path[0]][app.current_cluster_path[1]] = new_items
-        app.update_current_cluster()
-      }
-      if (post_update_graph_view) {
-        update_graph_view()
-      }
+  .then(data => {
+    const { cluster_dim, current_cluster_path } = app;
+
+    if (cluster_dim === 0) {
+      app.clusters = app.clusters.concat(data.items)
+    } else if (cluster_dim === 1) {
+      app.clusters[current_cluster_path[0]] = app.clusters[current_cluster_path[0]].concat(data.items)
+    } else if (cluster_dim === 2) {
+      app.clusters[current_cluster_path[0]][current_cluster_path[1]] = app.clusters[current_cluster_path[0]][current_cluster_path[1]].concat(data.items)
     }
-  )
+    app.update_current_cluster()
+
+    if (post_update_graph_view) {
+      update_graph_view()
+    }
+  })
 }
 
 // ==================================================================================
@@ -904,7 +910,7 @@ function search() {
   app.current_view = 0
 
   generic ("search", search_param())
-  .then (function (data) {
+  .then (data => {
     app.search_mode = true
     app.current_uuid = data.uuid
     app.current_pivots = data.pivots
@@ -1027,7 +1033,7 @@ function export_tsv(pivot) {
   }
 
   generic("export", param)
-  .then(function (_) {
+  .then( _ => {
     show_export_modal()
   })
 }
@@ -1039,7 +1045,7 @@ function conll_export() {
   }
 
   generic("conll_export", param)
-  .then(function () {
+  .then( () => {
     let data_folder = app.backend_server + "data/" + app.current_uuid
     window.location = data_folder + '/export.conllu'
   })
@@ -1055,14 +1061,12 @@ function update_parallel() {
     }
 
     generic("parallel", param)
-    .then(
-      function (data) {
-        app.parallel_svg = app.backend_server + "data/" + app.current_uuid + "/" + data
-      }
-    )
+    .then( data => {
+      app.parallel_svg = app.backend_server + "data/" + app.current_uuid + "/" + data
+      })
     .catch(function(err) {
-      direct_error (JSON.stringify(err.message)) }
-    )
+      direct_error (JSON.stringify(err.message))
+    })
   }
 }
 
@@ -1082,7 +1086,7 @@ function show_conll() {
   }
 
   generic ("conll", param)
-  .then(function (data) {
+  .then( data => {
     $("#code_viewer").html(data)
     $('#code_modal').modal('show')
   })
@@ -1106,7 +1110,7 @@ function dowload_tgz() {
   }
 
   generic("dowload_tgz", param)
-  .then(function (data) {
+  .then( data => {
     window.open(app.backend_server + data)
   })
 }
@@ -1121,7 +1125,7 @@ function open_build_file(file,get_param,get_value) {
   }
 
   generic("get_build_file", param)
-  .then(function (data) {
+  .then( data => {
     var new_window = window.open("")
     var html = ""
     if (file.endsWith(".txt")) {
@@ -1152,7 +1156,7 @@ function save_request() {
     search_mode: app.search_mode,
   }
   generic("save", param)
-  .then(function (_) {
+  .then( _ => {
     history.pushState({ id: app.current_uuid }, "", "?custom=" + app.current_uuid)
     app.current_custom = window.location.href
     SelectText("custom-url")
@@ -1197,7 +1201,7 @@ function update_corpus() {
     }
 
     generic("get_build_file", param)
-    .then(function (data) {
+    .then( data => {
       let json = JSON.parse(data)
       app.meta_info = true
       let html = ""
