@@ -32,14 +32,6 @@
     "corpora": [ "Tundra_nenets" ]
   },
   {
-    "id": "Yali",
-    "snippets": "autogramm",
-    "mode": "syntax",
-    "style": "single",
-    "default": "Yali",
-    "corpora": [ "Yali" ]
-  },
-  {
     "id": "Zaar",
     "snippets": "autogramm",
     "mode": "syntax",
