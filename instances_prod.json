@@ -1,20 +1,13 @@
 {
-  "test.grew.fr":
-  {
-    "backend": "https://gmb-universal.grew.fr/",
-    "instance": "universal.json"
-  },
-
-
   "universal.grew.fr":
   {
-    "backend": "https://gmb-universal.grew.fr/",
+    "backend": "https://gmd-universal.grew.fr/",
     "instance": "universal.json"
   },
 
   "parseme.grew.fr":
   {
-    "backend": "https://gmb-parseme.grew.fr/",
+    "backend": "https://gmd-parseme.grew.fr/",
     "instance": "parseme.json",
     "top_project": {
       "website": "https://gitlab.com/parseme/corpora/-/wikis/home",
@@ -24,13 +17,13 @@
 
   "semantics.grew.fr":
   {
-    "backend": "https://gmb-semantics.grew.fr/",
+    "backend": "https://gmd-semantics.grew.fr/",
     "instance": "semantics.json"
   },
 
   "orfeo.grew.fr":
   {
-    "backend": "https://gmb-orfeo.grew.fr/",
+    "backend": "https://gmd-orfeo.grew.fr/",
     "instance": "orfeo.json",
     "top_project": {
       "website": "https://www.ortolang.fr/market/corpora/cefc-orfeo/",
@@ -40,13 +33,13 @@
 
   "sequoia.grew.fr":
   {
-    "backend": "https://gmb-sequoia.grew.fr/",
+    "backend": "https://gmd-sequoia.grew.fr/",
     "instance": "sequoia.json"
   },
 
   "naija.grew.fr":
   {
-    "backend": "https://gmb-naija.grew.fr/",
+    "backend": "https://gmd-naija.grew.fr/",
     "instance": "naija.json",
     "top_project": {
       "website": "https://naijasyncor.huma-num.fr/",
@@ -56,13 +49,13 @@
 
   "autogramm.grew.fr":
   {
-    "backend": "https://gmb-autogramm.grew.fr/",
+    "backend": "https://gmd-autogramm.grew.fr/",
     "instance": "autogramm.json"
   },
 
   "sawg.grew.fr":
   {
-    "backend": "https://gmb-sawg.grew.fr/",
+    "backend": "https://gmd-sawg.grew.fr/",
     "instance": "sawg.json"
   }
 
