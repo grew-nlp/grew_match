@@ -18,6 +18,17 @@
     ]
   },
   {
+    "id": "yarn",
+    "name": "YARN",
+    "mode": "semantics",
+    "style": "dropdown",
+    "snippets": "drs",
+    "default": "yarn_PUD_100",
+    "corpora": [
+      "yarn_PUD_100"
+    ]
+  },
+  {
     "id": "drs",
     "name": "DRS",
     "mode": "semantics",

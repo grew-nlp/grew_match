@@ -68,6 +68,14 @@
 	<script>
 		var md = new Remarkable();
 	</script>
+
+	<!-- See: https://tikzjax.com/ for YARN drawing -->
+	<script src="js/tikzjax.js"></script>
+	<!-- <script src="https://tikzjax.com/v1/tikzjax.js"></script> -->
+	<script src="js/dagre.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+	<!-- <script src="https://tikzjax.com/v1/tikzjax.js"></script> -->
+
 </head>
 
 <body>
@@ -570,6 +578,13 @@
 										<h4>{{parallel_message}}</h4>
 									</div>
 								</div>
+
+								<!-- <div v-show='current_item.meta !== undefined && "yarn" in current_item.meta'> -->
+									<div class="box has-text-centered svg-container">
+
+									<div id="yarn_output"></div>
+									</div>
+								<!-- </div> -->
 							</div>
 						</div>
 					</div>
@@ -676,12 +691,11 @@
 	</table>
 	</script>
 
-
-
 	<!-- Grew-match specific CSS and JS -->
 	<script src="js/utils.js"></script>
 	<script src="js/grid_comp.js"></script>
 	<script src="js/main.js"></script>
+	<script src="js/yarn2graph_V2.js" defer></script>
 	<link rel="stylesheet" href="css/grid.css">
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/sidebar.css">

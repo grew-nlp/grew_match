@@ -482,6 +482,7 @@ function update_graph_view() {
       scrollLeft: app.current_item.shift - (document.getElementById("display-svg").offsetWidth / 2)
     }, "fast")
     update_parallel()
+    draw_yarn()
 
     if (app.current_item.audio) {
       $("#audioPlayer").attr("src", app.current_item.audio)
@@ -1067,6 +1068,17 @@ function update_parallel() {
     .catch(function(err) {
       direct_error (JSON.stringify(err.message))
     })
+  }
+}
+
+// ==================================================================================
+function draw_yarn() {
+  if (app.current_item.meta !== undefined && "yarn" in app.current_item.meta) {
+    console.log ("111===draw_yarn===")
+    console.log (app.current_item.meta.yarn)
+    console.log ("222===draw_yarn===")
+    const jsonObject = JSON.parse(app.current_item.meta.yarn)
+    updateGraph(jsonObject)
   }
 }
 
