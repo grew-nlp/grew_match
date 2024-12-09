@@ -25,7 +25,8 @@
     "snippets": "drs",
     "default": "yarn_PUD_100",
     "corpora": [
-      "yarn_PUD_100"
+      "yarn_PUD_100",
+      "yarn_pmb_025"
     ]
   },
   {
