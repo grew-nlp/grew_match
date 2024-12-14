@@ -284,14 +284,14 @@ async function generic(service, data) {
       body: JSON.stringify(data)
     })
     const result = await response.json()
-    if (result["status"] == "ERROR") {
+    if (result["status"] === "ERROR") {
       direct_error (JSON.stringify (result.message))
       return
     } else {
       return (result["data"])
     }
-  } catch (err) {
-    const msg = `Service \`${service}\` unavailable.\n\n${err.message}`
+  } catch (error) {
+    const msg = `Service \`${service}\` unavailable.\n\n${error.message}`
     direct_error (msg, "Network error")
   }
 }
@@ -307,23 +307,48 @@ $(document).ready(function () {
 
 // ==================================================================================
 async function start() {
-  const instances = await fetch_json("instances.json")
-  let host = window.location.host
-  if (!(host in instances)) {
-    direct_error("No backend associated to `"+host+"`, check `instances.json`")
-    return
+  try {
+    await initialize_from_instance();
+  } catch (error1) {
+    try {
+      await initialize_from_instances();
+    } catch (error2) {
+      direct_error(`${error1.message}\n\n${error2.message}`, "Config error");
+    }
   }
-  app.backend_server = instances[host]["backend"]
-  app.top_project = instances[host]["top_project"]
-  let instance = instances[host]["instance"]
-
-  let param = {
-    instance_desc: await fetch_json("instances/"+instance)
-  }
-
-  app.groups = await generic ("get_corpora_desc", param)
-  init ()
 }
+
+// ==================================================================================
+async function initialize_from_instance() {
+  const instance = await fetch_json("instance.json");
+  app.backend_server = instance["backend"];
+  const param = { instance_desc: instance["desc"] };
+  app.groups = await generic("get_corpora_desc", param);
+  init();
+}
+
+// ==================================================================================
+async function initialize_from_instances() {
+  const instances = await fetch_json("instances.json");
+  const host = window.location.host;
+
+  if (!(host in instances)) {
+    direct_error(`No backend associated with "${host}", check "instances.json"`);
+    return;
+  }
+
+  app.backend_server = instances[host]["backend"];
+  app.top_project = instances[host]["top_project"];
+  const instance = instances[host]["instance"];
+
+  const param = {
+    instance_desc: await fetch_json(`instances/${instance}`)
+  };
+
+  app.groups = await generic("get_corpora_desc", param);
+  init();
+}
+
 
 // ==================================================================================
 function init() {
@@ -797,7 +822,7 @@ function more_results(post_update_graph_view=false) {
     cluster_path: app.current_cluster_path,
     named_cluster_path: named_cluster_path()
   }
-  
+
   generic ("more_results", param)
   .then(data => {
     const { cluster_dim, current_cluster_path } = app;
@@ -919,7 +944,7 @@ function search() {
 
     switch (data.status) {
       case "complete":
-      if (data.nb_solutions == 0) {
+      if (data.nb_solutions === 0) {
         app.result_message = "No results"
       } else {
         app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
@@ -943,8 +968,7 @@ function search() {
         more_results(true)
       }
     } else if ("cluster_array" in data) {
-      app.cluster_list = data.cluster_array.map
-      (function (elt, index) {
+      app.cluster_list = data.cluster_array.map((elt, index) => {
         elt["index"] = index
         return elt
       })
@@ -954,7 +978,7 @@ function search() {
       app.gridRows = data.cluster_grid.rows
       app.gridColumns = data.cluster_grid.columns
       app.gridCells = data.cluster_grid.cells
-      app.clusters = [...Array(app.gridRows.length)].map(x => Array(app.gridColumns.length).fill([]))
+      app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
       app.cluster_dim = 2
       if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
         app.grid_message = "<b>" + data.cluster_grid.total_rows_nb + "</b> lines (lines above rank "+ data.cluster_grid.rows.length +" are merged with key <code>__*__</code>); "
@@ -975,12 +999,12 @@ function search() {
 function show_export_modal() {
   let data_folder = app.backend_server + "data/" + app.current_uuid
   $.get(data_folder + "/export.tsv", function (data) {
-    let lines = data.split("\n")
+    const lines = data.split("\n")
 
     let html
     let headers = lines[0].split("\t")
 
-    if (headers.length == 2) {
+    if (headers.length === 2) {
       html = "<table class=\"export-table-2\">"
       html += "<colgroup><col width=\"10%\" /><col width=\"90%\" /></colgroup>"
     } else {
