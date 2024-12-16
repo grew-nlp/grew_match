@@ -14,9 +14,9 @@ let app = new Vue({
     audio_tokens: undefined,  // audio_tokens != undefined <==> time alignement is available
     audio_interval_id: undefined,
 
-    gridColumns: [],
-    gridRows: [],
-    gridCells: [],
+    grid_columns: [],
+    grid_rows: [],
+    grid_cells: [],
     grid_message: "",
 
     metadata_open: false,
@@ -147,7 +147,7 @@ let app = new Vue({
         } else if (app.cluster_dim == 1) {
           app.current_cluster_size = this.cluster_list[this.current_cluster_path[0]].size
         } else if (app.cluster_dim == 2) {
-          app.current_cluster_size = this.gridCells[this.current_cluster_path[0]][this.current_cluster_path[1]]
+          app.current_cluster_size = this.grid_cells[this.current_cluster_path[0]][this.current_cluster_path[1]]
         }
       }
     }
@@ -808,8 +808,8 @@ function named_cluster_path() {
   }
   if (app.cluster_dim == 2) {
     return ([
-      app.gridRows[app.current_cluster_path[0]].value,
-      app.gridColumns[app.current_cluster_path[1]].value
+      app.grid_rows[app.current_cluster_path[0]].value,
+      app.grid_columns[app.current_cluster_path[1]].value
     ])
   }
   return ([])
@@ -880,14 +880,14 @@ function count() {
       app.cluster_dim = 1
     } else if ("cluster_grid" in data) {
       app.cluster_dim = 2
-      app.gridRows = data.cluster_grid.rows
-      app.gridColumns = data.cluster_grid.columns
+      app.grid_rows = data.cluster_grid.rows
+      app.grid_columns = data.cluster_grid.columns
       if (data.cluster_grid.rows.length * data.cluster_grid.columns.length > 1000) {
         app.grid_message = "Table is not shown (more than 1000 cells): "
-        app.gridCells = []
+        app.grid_cells = []
       } else {
         app.grid_message = ""
-        app.gridCells = data.cluster_grid.cells
+        app.grid_cells = data.cluster_grid.cells
       }
       app.grid_message += data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : ", ")
       app.grid_message += data.cluster_grid.columns.length + " column" + (data.cluster_grid.columns.length > 1 ? "s" : "")
@@ -975,9 +975,9 @@ function search() {
       app.clusters = Array(app.cluster_list.length).fill([])
       app.cluster_dim = 1
     } else if ("cluster_grid" in data) {
-      app.gridRows = data.cluster_grid.rows
-      app.gridColumns = data.cluster_grid.columns
-      app.gridCells = data.cluster_grid.cells
+      app.grid_rows = data.cluster_grid.rows
+      app.grid_columns = data.cluster_grid.columns
+      app.grid_cells = data.cluster_grid.cells
       app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
       app.cluster_dim = 2
       if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
