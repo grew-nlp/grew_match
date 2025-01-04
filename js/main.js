@@ -284,11 +284,11 @@ async function generic(service, data) {
       body: JSON.stringify(data)
     })
     const result = await response.json()
-    if (result["status"] === "ERROR") {
+    if (result.status === "ERROR") {
       direct_error (JSON.stringify (result.message))
-      return
+      return null
     } else {
-      return (result["data"])
+      return (result.data)
     }
   } catch (error) {
     const msg = `Service \`${service}\` unavailable.\n\n${error.message}`
@@ -298,7 +298,7 @@ async function generic(service, data) {
 
 // ==================================================================================
 // this function is run after page loading
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function() {
   url_params = new URLSearchParams(window.location.search)
   audio_init()
   init_tooltips()
@@ -349,7 +349,6 @@ async function initialize_from_instances() {
   init();
 }
 
-
 // ==================================================================================
 function init() {
 
@@ -366,12 +365,6 @@ function init() {
   // Initialise CodeMirror
   clust2_cm = CodeMirror.fromTextArea(document.getElementById("whether-input2"), {
     lineNumbers: true,
-  })
-
-  $(function() {
-    $('#sort-box').change(function() {
-      app.sort = $(this).prop('checked')
-    })
   })
 
   deal_with_get_parameters() // force to interpret get parameters after the update of groups menus
@@ -498,7 +491,7 @@ async function deal_with_get_parameters() {
 
 // ==================================================================================
 function update_graph_view() {
-  let audio_player = document.getElementById("audioPlayer")
+  const audio_player = document.getElementById("audioPlayer")
   audio_player.pause()
 
   setTimeout(function () { // Delay running is needed for proper audio starting
@@ -511,15 +504,16 @@ function update_graph_view() {
     if (app.current_item.audio) {
       $("#audioPlayer").attr("src", app.current_item.audio)
       if (app.current_item.audio.includes("#t=")) {
-        let start_stop=app.current_item.audio.split("#t=").pop().split(",")
+        const start_stop = app.current_item.audio.split("#t=").pop().split(",")
         app.audio_begin = start_stop[0]
         app.audio_end = start_stop[1]
 
-        let sentence = document.getElementById("sentence")
+        const sentence = document.getElementById("sentence")
         app.audio_tokens = sentence.querySelectorAll('[data-begin]')
+
         app.audio_tokens.forEach(function (token) {
           token.addEventListener('click', function (_) {
-            let init_pos = Number(token["dataset"]["begin"])
+            let init_pos = Number(token.dataset.begin)
             audio_player.currentTime = init_pos
           })
         })
