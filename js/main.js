@@ -56,6 +56,7 @@ let app = new Vue({
 
     wait: false,
     sort: true,
+    raw_nb: true,
 
     // printing parameters
     display: {
@@ -175,7 +176,7 @@ let app = new Vue({
     },
     cluster_list_sorted: function () {
       if (this.sort) {
-        var data = this.cluster_list.slice(0)
+        var data = this.cluster_list.slice() // copy the array before sorting
         data.sort (function (c1, c2) {
           return c2.size - c1.size
         })
@@ -862,12 +863,12 @@ function count() {
       app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
     }
     if ("cluster_array" in data) {
-      app.cluster_list = data.cluster_array.map
-      (function (elt, index) {
-        elt.index = index
-        return elt}
-      )
       app.cluster_dim = 1
+      app.cluster_list = data.cluster_array.map((elt, index) => {
+        elt.index = index;
+        elt.percent = `${(elt.size/data.nb_solutions*100).toFixed(2)}%`;
+        return elt;
+      });
     } else if ("cluster_grid" in data) {
       app.cluster_dim = 2
       app.grid_rows = data.cluster_grid.rows
@@ -951,25 +952,26 @@ function search() {
     }
 
     if ("cluster_single" in data) {
-      app.clusters = []
       app.cluster_dim = 0
+      app.clusters = []
       if (data.nb_solutions > 0) {
         app.current_cluster_path = []
         more_results(true)
       }
     } else if ("cluster_array" in data) {
-      app.cluster_list = data.cluster_array.map((elt, index) => {
-        elt.index = index
-        return elt
-      })
-      app.clusters = Array(app.cluster_list.length).fill([])
       app.cluster_dim = 1
+      app.cluster_list = data.cluster_array.map((elt, index) => {
+        elt.index = index;
+        elt.percent = `${(elt.size/data.nb_solutions*100).toFixed(2)}%`;
+        return elt;
+      });
+      app.clusters = Array(app.cluster_list.length).fill([])
     } else if ("cluster_grid" in data) {
+      app.cluster_dim = 2
       app.grid_rows = data.cluster_grid.rows
       app.grid_columns = data.cluster_grid.columns
       app.grid_cells = data.cluster_grid.cells
       app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
-      app.cluster_dim = 2
       if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
         app.grid_message = "<b>" + data.cluster_grid.total_rows_nb + "</b> lines (lines above rank "+ data.cluster_grid.rows.length +" are merged with key <code>__*__</code>); "
       } else {

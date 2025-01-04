@@ -436,12 +436,39 @@
 								<button class="btn btn-primary tooltip-desc btn-sm" onclick="javascript:clusters_export()" style="margin-right:10px">
 									TSV <i class="fa fa-download" aria-hidden="true"></i></span>
 								</button>
-								<input type="checkbox" onchange="app.sort=this.checked" checked data-toggle="toggle" data-off="<i class='fa fa-sort-alpha-asc fa'>" data-on="<i class='fa fa-sort-amount-desc fa'>" data-onstyle="primary" data-offstyle="primary" data-size="small">
-								<button v-for="cluster in cluster_list_sorted" type="button" class="btn" v-on:click="select_cluster_1d(cluster.index)" v-bind:class="current_cluster_path != undefined && cluster.index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
+								<input 
+									type="checkbox" 
+									onchange="app.sort=this.checked" 
+									checked 
+									data-toggle="toggle" 
+									data-off="<i class='fa fa-sort-alpha-asc'>" 
+									data-on="<i class='fa fa-sort-amount-desc'>" 
+									data-onstyle="primary" 
+									data-offstyle="primary" 
+									data-size="small">
+								<input
+									type="checkbox"
+									onchange="app.raw_nb=this.checked"
+									checked 
+									data-toggle="toggle"
+									data-off="<i class='fa fa-percent'>"
+									data-on="<i class='fa fa-hashtag'>"
+									data-onstyle="primary"
+									data-offstyle="primary" 
+									data-size="small">
+								<button 
+									v-for="cluster in cluster_list_sorted" 
+									type="button" 
+									class="btn" 
+									v-on:click="select_cluster_1d(cluster.index)" 
+									v-bind:class="current_cluster_path != undefined && cluster.index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
 									style="margin:10px">
-								<span class="badge badge-pill badge-info">{{cluster.size}}</span>
-								{{ cluster.value }}
+									<span class="badge badge-pill badge-info">
+										{{ raw_nb ? cluster.size : cluster.percent}}
+									</span>
+									{{ cluster.value }}
 								</button>
+
 							</div>
 
 							<div v-if="cluster_dim == 2 && nb_solutions > 0" class="row" style="margin-left: 0;">
