@@ -92,7 +92,7 @@ let app = new Vue({
     // ==================================================================================
     check_built (file) {
       let expanded_file = file.replace("__id__", this.current_corpus_id)
-      return this.current_corpus["built_files"] && app.current_corpus["built_files"].includes(expanded_file)
+      return this.current_corpus.built_files && app.current_corpus.built_files.includes(expanded_file)
     },
 
     select_cluster_1d(index) {
@@ -132,9 +132,9 @@ let app = new Vue({
       app.current_group_id = group_id
       this.view_left_pane = true // always make left pane visible when a new group is selected
       if ("default" in app.current_group) {
-        app.current_corpus_id = app.current_group["default"]
+        app.current_corpus_id = app.current_group.default
       } else {
-        app.current_corpus_id = app.current_group["corpora"][0]["id"]
+        app.current_corpus_id = app.current_group.corpora[0].id
       }
     },
 
@@ -198,14 +198,14 @@ let app = new Vue({
 
     number_of_corpora: function () {
       if (this.current_group) {
-        return this.current_group["corpora"].length
+        return this.current_group.corpora.length
       }
     },
 
     filtered_corpora_list: function () {
       let self = this
       if (this.current_group) {
-        return this.current_group["corpora"].filter(function (corpus) {
+        return this.current_group.corpora.filter(function (corpus) {
           return corpus.id.toLowerCase().indexOf(self.corpora_filter.toLowerCase()) >= 0
         })
       }
@@ -213,7 +213,7 @@ let app = new Vue({
 
     current_group: function () {
       for (let g = 0; g < this.groups.length; g++) {
-        if (this.groups[g]["id"] == this.current_group_id) {
+        if (this.groups[g].id == this.current_group_id) {
           return this.groups[g]
         }
       }
@@ -221,9 +221,9 @@ let app = new Vue({
 
     current_corpus: function () {
       if (this.current_group) {
-        let corpora = this.current_group["corpora"]
+        let corpora = this.current_group.corpora
         for (let g = 0; g < corpora.length; g++) {
-          if (corpora[g]["id"] == this.current_corpus_id) {
+          if (corpora[g].id == this.current_corpus_id) {
             return corpora[g]
           }
         }
@@ -241,16 +241,12 @@ let app = new Vue({
     },
 
     mode: function () {
-      if (this.current_group) {
-        return this.current_group["mode"]
-      } else {
-        return ""
-      }
+      return this.current_group ? this.current_group.mode : "";
     },
 
     left_pane: function () {
       if (this.current_group) {
-        return (this.current_group["style"] == "left_pane")
+        return (this.current_group.style == "left_pane")
       }
     },
 
@@ -321,8 +317,8 @@ async function start() {
 // ==================================================================================
 async function initialize_from_instance() {
   const instance = await fetch_json("instance.json");
-  app.backend_server = instance["backend"];
-  const param = { instance_desc: instance["desc"] };
+  app.backend_server = instance.backend;
+  const param = { instance_desc: instance.desc };
   app.groups = await generic("get_corpora_desc", param);
   init();
 }
@@ -337,9 +333,9 @@ async function initialize_from_instances() {
     return;
   }
 
-  app.backend_server = instances[host]["backend"];
-  app.top_project = instances[host]["top_project"];
-  const instance = instances[host]["instance"];
+  app.backend_server = instances[host].backend;
+  app.top_project = instances[host].top_project;
+  const instance = instances[host].instance;
 
   const param = {
     instance_desc: await fetch_json(`instances/${instance}`)
@@ -619,8 +615,8 @@ function audio_init() {
     if (audio_player.currentTime >= app.audio_end) {
       audio_player.pause()
     } else {
-      let token_data = app.audio_tokens[app.audio_speaking_index]["dataset"]
-      let token_end = Number(token_data["begin"]) + Number(token_data["dur"])
+      let token_data = app.audio_tokens[app.audio_speaking_index].dataset
+      let token_end = Number(token_data.begin) + Number(token_data.dur)
       if (audio_player.currentTime > token_end) {
         audio_speaking_token (app.audio_speaking_index + 1)
       }
@@ -650,8 +646,8 @@ function audio_init() {
       let pos = 0
       app.audio_tokens.forEach (function (node,index) {
         node.classList.remove("speaking")
-        let begin = Number(node["dataset"]["begin"])
-        let end = begin + Number(node["dataset"]["dur"])
+        let begin = Number(node.dataset.begin)
+        let end = begin + Number(node.dataset.dur)
         if (audio_player.currentTime >= begin && audio_player.currentTime <= end) {
           pos = index
         }
@@ -868,7 +864,7 @@ function count() {
     if ("cluster_array" in data) {
       app.cluster_list = data.cluster_array.map
       (function (elt, index) {
-        elt["index"] = index
+        elt.index = index
         return elt}
       )
       app.cluster_dim = 1
@@ -963,7 +959,7 @@ function search() {
       }
     } else if ("cluster_array" in data) {
       app.cluster_list = data.cluster_array.map((elt, index) => {
-        elt["index"] = index
+        elt.index = index
         return elt
       })
       app.clusters = Array(app.cluster_list.length).fill([])
@@ -1191,22 +1187,22 @@ function update_corpus() {
   let audio_player = document.getElementById("audioPlayer")
   audio_player.pause()
 
-  if (app.current_corpus["desc"]) {
+  if (app.current_corpus.desc) {
     $('#corpus-desc-label').tooltipster('enable')
-    $('#corpus-desc-label').tooltipster('content', app.current_corpus["desc"])
+    $('#corpus-desc-label').tooltipster('content', app.current_corpus.desc)
   } else {
     $('#corpus-desc-label').tooltipster('disable')
   }
 
   app.parallel = "no"
-  app.parallels = app.current_corpus["parallels"] ? app.current_corpus["parallels"] : []
+  app.parallels = app.current_corpus.parallels ? app.current_corpus.parallels : []
 
-  if (app.current_corpus["snippets"]) {
-    right_pane(app.current_corpus["snippets"])
-  } else if (app.current_group["snippets"]) {
-    right_pane(app.current_group["snippets"])
-  } else if (app.current_corpus["config"]) {
-    right_pane(app.current_corpus["config"])
+  if (app.current_corpus.snippets) {
+    right_pane(app.current_corpus.snippets)
+  } else if (app.current_group.snippets) {
+    right_pane(app.current_group.snippets)
+  } else if (app.current_corpus.config) {
+    right_pane(app.current_corpus.config)
   } else {
     right_pane("_default")
   }
