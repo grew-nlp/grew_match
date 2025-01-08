@@ -472,9 +472,16 @@
 							</div>
 
 							<div v-if="cluster_dim == 2 && nb_solutions > 0" class="row" style="margin-left: 0;">
+								<div class="btn-group" role="group">
+									<button type="button" class="btn" v-on:click="grid_display=Grid_display.SIZE" v-bind:class="grid_display === Grid_display.SIZE ? 'btn-success' : 'btn-default'">#</button>
+									<button type="button" class="btn" v-on:click="grid_display=Grid_display.PERCENT" v-bind:class="grid_display === Grid_display.PERCENT ? 'btn-success' : 'btn-default'">% ↖</button>
+									<button type="button" class="btn" v-on:click="grid_display=Grid_display.PERCENT_COL" v-bind:class="grid_display === Grid_display.PERCENT_COL ? 'btn-success' : 'btn-default'">% ↑</button>
+									<button type="button" class="btn" v-on:click="grid_display=Grid_display.PERCENT_ROW" v-bind:class="grid_display === Grid_display.PERCENT_ROW ? 'btn-success' : 'btn-default'">% ←</button>
+								</div>
 								<span style="font-size: 150%" v-html="grid_message"></span>
+	
 								<div style="overflow-y:scroll;">
-									<cluster-grid :columns="grid_columns" :rows="grid_rows" :cells="grid_cells" :col_label="col_label" :row_label="row_label">
+									<cluster-grid :columns="grid_columns" :rows="grid_rows" :cells="grid_cells" :col_label="col_label" :row_label="row_label" :grid_display="grid_display">
 									</cluster-grid>
 							  </div>
 							</div>
@@ -686,16 +693,28 @@
 					</div>
 				</td>
 				<th class="th-grid" v-for="col in columns">
-					<span class="label label-default"><span class="badge badge-pill"style="background-color: black;">{{col.size}}</span> {{col.value}}</span>
+					<span class="label label-default">
+						<span class="badge badge-pill"style="background-color: black;">
+							{{ grid_display === Grid_display.SIZE ? col.size : grid_display === Grid_display.PERCENT_COL ? "100%" : col.percent }}
+						</span>
+						{{ col.value }}
+					</span>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr v-for="(row,row_index) in rows">
-				<th class="th-grid"> <span class="label label-default"><span class="badge badge-pill"style="background-color: black;">{{row.size}}</span> {{row.value}}</span> </th>
+				<th class="th-grid"> 
+					<span class="label label-default">
+						<span class="badge badge-pill"style="background-color: black;">
+							{{ grid_display === Grid_display.SIZE ? row.size : grid_display === Grid_display.PERCENT_ROW ? "100%" : row.percent }}
+						</span> 
+						{{ row.value }}
+					</span> 
+				</th>
 				<td class="td-grid" v-for="(col,col_index) in columns">
-					<a v-if="cells[row_index][col_index] > 0" class="btn" v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'" v-on:click="select_cluster_2d_(col_index,row_index)">
-						{{ cells[row_index][col_index] }}
+					<a v-if="cells[row_index][col_index].size > 0" class="btn" v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'" v-on:click="select_cluster_2d_(col_index,row_index)">
+						{{ grid_display === Grid_display.SIZE ? cells[row_index][col_index].size : grid_display === Grid_display.PERCENT ? cells[row_index][col_index].percent : grid_display === Grid_display.PERCENT_COL ? cells[row_index][col_index].percent_col : cells[row_index][col_index]. percent_row }}
 					</a>
 				</td>
 			</tr>

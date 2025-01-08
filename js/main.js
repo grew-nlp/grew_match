@@ -58,6 +58,8 @@ let app = new Vue({
     sort: true,
     raw_nb: true,
 
+    grid_display: Grid_display.SIZE,
+
     // printing parameters
     display: {
       lemma: true,
@@ -866,13 +868,19 @@ function count() {
       app.cluster_dim = 1
       app.cluster_list = data.cluster_array.map((elt, index) => {
         elt.index = index;
-        elt.percent = `${(elt.size/data.nb_solutions*100).toFixed(2)}%`;
+        elt.percent = ratio(elt.size, data.nb_solutions);
         return elt;
       });
     } else if ("cluster_grid" in data) {
       app.cluster_dim = 2
-      app.grid_rows = data.cluster_grid.rows
-      app.grid_columns = data.cluster_grid.columns
+      app.grid_rows = data.cluster_grid.rows.map((elt, _) => {
+        elt.percent = ratio(elt.size, data.nb_solutions);
+        return elt;
+      });
+      app.grid_columns = data.cluster_grid.columns.map((elt, _) => {
+        elt.percent = ratio(elt.size, data.nb_solutions);
+        return elt;
+      });
       if (data.cluster_grid.rows.length * data.cluster_grid.columns.length > 1000) {
         app.grid_message = "Table is not shown (more than 1000 cells): "
         app.grid_cells = []
@@ -962,15 +970,38 @@ function search() {
       app.cluster_dim = 1
       app.cluster_list = data.cluster_array.map((elt, index) => {
         elt.index = index;
-        elt.percent = `${(elt.size/data.nb_solutions*100).toFixed(2)}%`;
+        elt.percent = ratio(elt.size, data.nb_solutions);
         return elt;
       });
       app.clusters = Array(app.cluster_list.length).fill([])
     } else if ("cluster_grid" in data) {
       app.cluster_dim = 2
-      app.grid_rows = data.cluster_grid.rows
-      app.grid_columns = data.cluster_grid.columns
-      app.grid_cells = data.cluster_grid.cells
+      app.grid_rows = data.cluster_grid.rows.map((elt, _) => {
+        elt.percent = ratio(elt.size, data.nb_solutions);
+        return elt;
+      });
+      app.grid_columns = data.cluster_grid.columns.map((elt, _) => {
+        elt.percent = ratio(elt.size, data.nb_solutions);
+        return elt;
+      });
+      console.log (data.cluster_grid.cells)
+
+      app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
+        return row.map((cell,col_index) => {
+          return {
+            size: cell,
+            percent: ratio(cell, data.nb_solutions),
+            percent_col: ratio(cell, app.grid_columns[col_index].size),
+            percent_row: ratio(cell, app.grid_rows[row_index].size),
+          }
+        })
+      })
+
+
+      console.log (app.grid_cells)
+
+
+
       app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
       if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
         app.grid_message = "<b>" + data.cluster_grid.total_rows_nb + "</b> lines (lines above rank "+ data.cluster_grid.rows.length +" are merged with key <code>__*__</code>); "
@@ -1079,7 +1110,7 @@ function update_parallel() {
     generic("parallel", param)
     .then( data => {
       app.parallel_svg = app.backend_server + "data/" + app.current_uuid + "/" + data
-      })
+    })
     .catch(function(err) {
       direct_error (JSON.stringify(err.message))
     })

@@ -27,6 +27,20 @@ function download_text(file, text) {
 }
 
 // ==================================================================================
+function ratio(value, total) {
+  return `${(value/total*100).toFixed(2)}%`
+}
+
+// ==================================================================================
+const Grid_display = Object.freeze({
+  SIZE: 0,
+  PERCENT: 1,
+  PERCENT_COL: 2,
+  PERCENT_ROW: 3,
+});
+
+
+// ==================================================================================
 function common_prefix_length(s1, s2) {
   let i = 0
   while (s1[i] == s2[i] && s1[i] != undefined) {

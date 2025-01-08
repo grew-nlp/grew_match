@@ -8,6 +8,7 @@ Vue.component("cluster-grid", {
   },
   template: "#grid-template",
   props: {
+    grid_display: Number,
     row_label: String,
     col_label: String,
     columns: Array,
