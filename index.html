@@ -409,7 +409,7 @@
 				<!-- Middle part: clusters buttons -->
 				<div v-show='result_message != ""' class="row">
 					<div class="jumbotron" id="jumbo-clust">
-						<div class="container-fluid">
+						<div class="container-fluid" style="padding-left: 5px;">
 							<h3 id="result_message">
 								{{ result_message }}
 								<span style="font-size: 60%">[{{current_time.toFixed(3)}}s]</span>
@@ -431,38 +431,33 @@
 							</h5>
 
 							<!-- NB: v-show needed instead of v-if for proper switch initialisation -->
-							<div v-show="cluster_dim == 1" class="row" style="margin-left: 0;">
-								<span style="font-size: 150%">{{cluster_list.length}} cluster{{ cluster_list.length > 1 ? "s" : "" }}:</span>
+							<div v-show="cluster_dim == 1" class="row" style="margin-left: 0; margin-top: 10px; margin-bottom: 10px;">
+								<span style="font-size: 150%; margin-right:10px">{{cluster_list.length}} cluster{{ cluster_list.length > 1 ? "s" : "" }}</span>
+
 								<button class="btn btn-primary tooltip-desc btn-sm" onclick="javascript:clusters_export()" style="margin-right:10px">
 									TSV <i class="fa fa-download" aria-hidden="true"></i></span>
 								</button>
-								<input 
-									type="checkbox" 
-									onchange="app.sort=this.checked" 
-									checked 
-									data-toggle="toggle" 
-									data-off="<i class='fa fa-sort-alpha-asc'>" 
-									data-on="<i class='fa fa-sort-amount-desc'>" 
-									data-onstyle="primary" 
-									data-offstyle="primary" 
-									data-size="small">
-								<input
-									type="checkbox"
-									onchange="app.raw_nb=this.checked"
-									checked 
-									data-toggle="toggle"
-									data-off="<i class='fa fa-percent'>"
-									data-on="<i class='fa fa-hashtag'>"
-									data-onstyle="primary"
-									data-offstyle="primary" 
-									data-size="small">
+
+								<div class="btn-group" role="group" style="margin-right:10px">
+									<button type="button" class="btn btn-sm" v-on:click="sort=true" v-bind:class="sort ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-amount-desc'></i></button>
+									<button type="button" class="btn btn-sm" v-on:click="sort=false" v-bind:class="!sort ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-alpha-asc'></i></button>
+								</div>
+
+								<div class="btn-group" role="group" style="margin-right:10px">
+									<button type="button" class="btn btn-sm" v-on:click="raw_nb=true" v-bind:class="raw_nb ? 'btn-success' : 'btn-default'"><i class='fa fa-hashtag'></i></button>
+									<button type="button" class="btn btn-sm" v-on:click="raw_nb=false" v-bind:class="!raw_nb ? 'btn-success' : 'btn-default'"><i class='fa fa-percent'></i></button>
+								</div>
+
+							</div>
+							<div v-show="cluster_dim == 1" class="row" style="margin-left: 0; margin-top: 10px; margin-bottom: 10px;">
 								<button 
 									v-for="cluster in cluster_list_sorted" 
 									type="button" 
-									class="btn" 
+									class="btn btn-sm" 
 									v-on:click="select_cluster_1d(cluster.index)" 
 									v-bind:class="current_cluster_path != undefined && cluster.index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
-									style="margin:10px">
+									style="margin-right:10px"
+								>
 									<span class="badge badge-pill badge-info">
 										{{ raw_nb ? cluster.size : cluster.percent}}
 									</span>
@@ -471,14 +466,24 @@
 
 							</div>
 
-							<div v-if="cluster_dim == 2 && nb_solutions > 0" class="row" style="margin-left: 0;">
-								<div class="btn-group" role="group">
-									<button type="button" class="btn" v-on:click="grid_display=Grid_display.SIZE" v-bind:class="grid_display === Grid_display.SIZE ? 'btn-success' : 'btn-default'">#</button>
-									<button type="button" class="btn" v-on:click="grid_display=Grid_display.PERCENT" v-bind:class="grid_display === Grid_display.PERCENT ? 'btn-success' : 'btn-default'">% ↖</button>
-									<button type="button" class="btn" v-on:click="grid_display=Grid_display.PERCENT_COL" v-bind:class="grid_display === Grid_display.PERCENT_COL ? 'btn-success' : 'btn-default'">% ↑</button>
-									<button type="button" class="btn" v-on:click="grid_display=Grid_display.PERCENT_ROW" v-bind:class="grid_display === Grid_display.PERCENT_ROW ? 'btn-success' : 'btn-default'">% ←</button>
+							<div v-if="cluster_dim == 2 && nb_solutions > 0" class="row" style="margin-left: 0">
+								<div class="btn-group" role="group" style="margin-top: 10px; margin-bottom: 10px;">
+									<button type="button" class="btn btn-sm" v-on:click="grid_display=Grid_display.SIZE" v-bind:class="grid_display === Grid_display.SIZE ? 'btn-success' : 'btn-default'">
+										<i class='fa fa-hashtag'></i>
+									</button>
+									<button type="button" class="btn btn-sm" v-on:click="grid_display=Grid_display.PERCENT" v-bind:class="grid_display === Grid_display.PERCENT ? 'btn-success' : 'btn-default'">
+										<i class='fa fa-percent'></i>	↖
+									</button>
+									<button type="button" class="btn btn-sm" v-on:click="grid_display=Grid_display.PERCENT_COL" v-bind:class="grid_display === Grid_display.PERCENT_COL ? 'btn-success' : 'btn-default'">
+										<i class='fa fa-percent'></i>
+										<i class="fa fa-arrow-up"></i>
+									</button>
+									<button type="button" class="btn btn-sm" v-on:click="grid_display=Grid_display.PERCENT_ROW" v-bind:class="grid_display === Grid_display.PERCENT_ROW ? 'btn-success' : 'btn-default'">
+										<i class='fa fa-percent'></i>
+										<i class="fa fa-arrow-left"></i>
+									</button>
 								</div>
-								<span style="font-size: 150%" v-html="grid_message"></span>
+								<span style="font-size: 150%; margin-left: 10px;" v-html="grid_message"></span>
 	
 								<div style="overflow-y:scroll;">
 									<cluster-grid :columns="grid_columns" :rows="grid_rows" :cells="grid_cells" :col_label="col_label" :row_label="row_label" :grid_display="grid_display">

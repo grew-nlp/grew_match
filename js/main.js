@@ -886,7 +886,16 @@ function count() {
         app.grid_cells = []
       } else {
         app.grid_message = ""
-        app.grid_cells = data.cluster_grid.cells
+        app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
+          return row.map((cell,col_index) => {
+            return {
+              size: cell,
+              percent: ratio(cell, data.nb_solutions),
+              percent_col: ratio(cell, app.grid_columns[col_index].size),
+              percent_row: ratio(cell, app.grid_rows[row_index].size),
+            }
+          })
+        })
       }
       app.grid_message += data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : ", ")
       app.grid_message += data.cluster_grid.columns.length + " column" + (data.cluster_grid.columns.length > 1 ? "s" : "")
@@ -984,8 +993,6 @@ function search() {
         elt.percent = ratio(elt.size, data.nb_solutions);
         return elt;
       });
-      console.log (data.cluster_grid.cells)
-
       app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
         return row.map((cell,col_index) => {
           return {
@@ -996,11 +1003,6 @@ function search() {
           }
         })
       })
-
-
-      console.log (app.grid_cells)
-
-
 
       app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
       if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
