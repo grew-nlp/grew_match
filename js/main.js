@@ -473,14 +473,14 @@ async function deal_with_get_parameters() {
   // build a clust_param struct from url_params and use the generic code `set_clust_param`
   let clust_param = {}
   // backward compatibility with the old "clustering" name
-  if (url_params.has('clustering')) { clust_param.clust1_key (url_params.get('clustering')) }
-  if (url_params.has('clust1_key')) { clust_param.clust1_key (url_params.get('clust1_key')) }
+  if (url_params.has('clustering')) { clust_param.clust1_key = url_params.get('clustering') }
+  if (url_params.has('clust1_key')) { clust_param.clust1_key = url_params.get('clust1_key') }
   // backward compatibility with the old "whether" name
-  if (url_params.has('whether')) { clust_param.clust1_whether (url_params.get('whether')) }
-  if (url_params.has('clust1_whether')) { clust_param.clust1_whether (url_params.get('clust1_whether')) }
+  if (url_params.has('whether')) { clust_param.clust1_whether = url_params.get('whether') }
+  if (url_params.has('clust1_whether')) { clust_param.clust1_whether = url_params.get('clust1_whether') }
 
-  if (url_params.has('clust2_key')) { clust_param.clust2_key (url_params.get('clust2_key')) }
-  if (url_params.has('clust2_whether')) { clust_param.clust2_whether (url_params.get('clust2_whether')) }
+  if (url_params.has('clust2_key')) { clust_param.clust2_key = url_params.get('clust2_key') }
+  if (url_params.has('clust2_whether')) { clust_param.clust2_whether = url_params.get('clust2_whether') }
 
   await set_clust_param (clust_param)
   .then(function (_) {
