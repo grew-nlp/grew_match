@@ -685,6 +685,7 @@
       "UD_Spanish-GSD@dev",
       "UD_Wolof-WTB@dev",
       "diachronie_CRISCO@main",
+      "UD_French-ECALM-coref@main",
       "svt-2022_10K"
     ]
   },
