@@ -1,5 +1,5 @@
-SUD_LATEST=/home/guillaum/resources/sud-treebanks-latest
-SUD_TOOLS=/home/guillaum/resources/sud_tools
+SUD_LATEST=${RESOURCES}/github.com/surfacesyntacticud
+SUD_TOOLS=${SUD_LATEST}/tools
 CORPUS=SUD_French-GSD
 
 AGG+=${SUD_LATEST}/${CORPUS}/_build_grew/${CORPUS}@latest/feat_upos.json
