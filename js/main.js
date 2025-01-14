@@ -1162,8 +1162,8 @@ function open_build_file(file,get_param,get_value) {
     new_window.document.write(html)
 
     if (get_param != undefined && get_value != undefined) {
-      let params = new URLSearchParams(window.location.search)
-      params.delete(get_param)
+      let params = new URLSearchParams()
+      params.append ("corpus", app.current_corpus_id)
       params.append (get_param, get_value)
       let new_url = window.location.origin + "?" + params.toString()
       new_window.history.replaceState({}, "", new_url)
