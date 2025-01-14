@@ -16,6 +16,29 @@ async function fetch_json(url) {
 }
 
 // ==================================================================================
+async function generic(backend, service, data) {
+  try {
+    const response = await fetch(backend+service, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    const result = await response.json()
+    if (result.status === "ERROR") {
+      direct_error (JSON.stringify (result.message))
+      return null
+    } else {
+      return (result.data)
+    }
+  } catch (error) {
+    const msg = `Service \`${service}\` unavailable.\n\n${error.message}`
+    direct_error (msg, "Network error")
+  }
+}
+
+// ==================================================================================
 // https://www.geeksforgeeks.org/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript/#using-a-custom-javascript-function
 function download_text(file, text) {
   var element = document.createElement('a')

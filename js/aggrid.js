@@ -251,26 +251,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 });
-
-// ==================================================================================
-async function generic(backend, service, data) {
-  try {
-    const response = await fetch(backend+service, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    const result = await response.json()
-    if (result.status === "ERROR") {
-      direct_error (JSON.stringify (result.message))
-      return null
-    } else {
-      return (result.data)
-    }
-  } catch (error) {
-    const msg = `Service \`${service}\` unavailable.\n\n${error.message}`
-    direct_error (msg, "Network error")
-  }
-}

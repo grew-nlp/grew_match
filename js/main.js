@@ -273,29 +273,6 @@ let app = new Vue({
 })
 
 // ==================================================================================
-async function generic(service, data) {
-  try {
-    const response = await fetch(app.backend_server+service, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    const result = await response.json()
-    if (result.status === "ERROR") {
-      direct_error (JSON.stringify (result.message))
-      return null
-    } else {
-      return (result.data)
-    }
-  } catch (error) {
-    const msg = `Service \`${service}\` unavailable.\n\n${error.message}`
-    direct_error (msg, "Network error")
-  }
-}
-
-// ==================================================================================
 // this function is run after page loading
 document.addEventListener('DOMContentLoaded', function() {
   url_params = new URLSearchParams(window.location.search)
@@ -322,7 +299,7 @@ async function initialize_from_instance() {
   const instance = await fetch_json("instance.json");
   app.backend_server = instance.backend;
   const param = { instance_desc: instance.desc };
-  app.groups = await generic("get_corpora_desc", param);
+  app.groups = await generic(app.backend_server, "get_corpora_desc", param);
   init();
 }
 
@@ -344,7 +321,7 @@ async function initialize_from_instances() {
     instance_desc: await fetch_json(`instances/${instance}`)
   };
 
-  app.groups = await generic("get_corpora_desc", param);
+  app.groups = await generic(app.backend_server, "get_corpora_desc", param);
   init();
 }
 
@@ -675,7 +652,7 @@ function open_validation_page() {
     file: "valid_sud.json"
   }
 
-  generic("get_build_file", param)
+  generic(app.backend_server, "get_build_file", param)
   .then(function (data) {
     localStorage.setItem('valid_data', data)
     localStorage.setItem('top_url', window.location.origin)
@@ -816,7 +793,7 @@ function more_results(post_update_graph_view=false) {
     named_cluster_path: named_cluster_path()
   }
 
-  generic ("more_results", param)
+  generic(app.backend_server, "more_results", param)
   .then(data => {
     const { cluster_dim, current_cluster_path } = app;
 
@@ -843,7 +820,7 @@ function count() {
   app.wait = true
   app.search_mode = false
 
-  generic ("count", search_param())
+  generic(app.backend_server, "count", search_param())
   .then(function (data) {
     var message = [
       "Hi, it seems that you sent many times (20?) the same request on different treebanks",
@@ -942,7 +919,7 @@ function search() {
   app.current_cluster_path = undefined
   app.current_view = 0
 
-  generic ("search", search_param())
+  generic(app.backend_server, "search", search_param())
   .then (data => {
     app.search_mode = true
     app.current_uuid = data.uuid
@@ -1081,7 +1058,7 @@ function export_tsv(pivot) {
     pivot: pivot,
   }
 
-  generic("export", param)
+  generic(app.backend_server, "export", param)
   .then( _ => {
     show_export_modal()
   })
@@ -1093,7 +1070,7 @@ function conll_export() {
     uuid: app.current_uuid,
   }
 
-  generic("conll_export", param)
+  generic(app.backend_server, "conll_export", param)
   .then( () => {
     let data_folder = app.backend_server + "data/" + app.current_uuid
     window.location = data_folder + '/export.conllu'
@@ -1109,7 +1086,7 @@ function update_parallel() {
       sent_id: app.sent_id,
     }
 
-    generic("parallel", param)
+    generic(app.backend_server, "parallel", param)
     .then( data => {
       app.parallel_svg = app.backend_server + "data/" + app.current_uuid + "/" + data
     })
@@ -1134,7 +1111,7 @@ function show_conll() {
     named_cluster_path: named_cluster_path()
   }
 
-  generic ("conll", param)
+  generic(app.backend_server, "conll", param)
   .then( data => {
     $("#code_viewer").html(data)
     $('#code_modal').modal('show')
@@ -1158,7 +1135,7 @@ function dowload_tgz() {
     corpus_id: app.current_corpus_id,
   }
 
-  generic("dowload_tgz", param)
+  generic(app.backend_server, "dowload_tgz", param)
   .then( data => {
     window.open(app.backend_server + data)
   })
@@ -1173,7 +1150,7 @@ function open_build_file(file,get_param,get_value) {
     file: expanded_file
   }
 
-  generic("get_build_file", param)
+  generic(app.backend_server, "get_build_file", param)
   .then( data => {
     var new_window = window.open("")
     var html = ""
@@ -1204,7 +1181,7 @@ function save_request() {
     display: app.display,
     search_mode: app.search_mode,
   }
-  generic("save", param)
+  generic(app.backend_server, "save", param)
   .then( _ => {
     history.pushState({ id: app.current_uuid }, "", "?custom=" + app.current_uuid)
     app.current_custom = window.location.href
@@ -1249,7 +1226,7 @@ function update_corpus() {
       file: "desc.json"
     }
 
-    generic("get_build_file", param)
+    generic(app.backend_server, "get_build_file", param)
     .then( data => {
       let json = JSON.parse(data)
       app.meta_info = true
