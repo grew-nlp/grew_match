@@ -878,9 +878,9 @@ function count() {
       app.grid_message += data.cluster_grid.columns.length + " column" + (data.cluster_grid.columns.length > 1 ? "s" : "")
     }
 
-    app.wait = false
   })
-}
+  app.wait = false
+} // count
 
 // ==================================================================================
 function open_param(param) {
@@ -918,6 +918,7 @@ function search() {
   app.current_custom = ""
   app.current_cluster_path = undefined
   app.current_view = 0
+  app.wait = true
 
   generic(app.backend_server, "search", search_param())
   .then (data => {
@@ -995,7 +996,7 @@ function search() {
     }
   })
   app.wait = false
-}
+} // search
 
 // ==================================================================================
 function show_export_modal() {
