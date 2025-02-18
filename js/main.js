@@ -858,22 +858,17 @@ function count() {
         elt.percent = ratio(elt.size, data.nb_solutions);
         return elt;
       });
-      if (data.cluster_grid.rows.length * data.cluster_grid.columns.length > 1000) {
-        app.grid_message = "Table is not shown (more than 1000 cells): "
-        app.grid_cells = []
-      } else {
-        app.grid_message = ""
-        app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
-          return row.map((cell,col_index) => {
-            return {
-              size: cell,
-              percent: ratio(cell, data.nb_solutions),
-              percent_col: ratio(cell, app.grid_columns[col_index].size),
-              percent_row: ratio(cell, app.grid_rows[row_index].size),
-            }
-          })
+      app.grid_message = ""
+      app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
+        return row.map((cell,col_index) => {
+          return {
+            size: cell,
+            percent: ratio(cell, data.nb_solutions),
+            percent_col: ratio(cell, app.grid_columns[col_index].size),
+            percent_row: ratio(cell, app.grid_rows[row_index].size),
+          }
         })
-      }
+      })
       app.grid_message += data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : ", ")
       app.grid_message += data.cluster_grid.columns.length + " column" + (data.cluster_grid.columns.length > 1 ? "s" : "")
     }
