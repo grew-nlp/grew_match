@@ -869,8 +869,7 @@ function count() {
           }
         })
       })
-      app.grid_message += data.cluster_grid.rows.length + " line" + (data.cluster_grid.rows.length > 1 ? "s; " : ", ")
-      app.grid_message += data.cluster_grid.columns.length + " column" + (data.cluster_grid.columns.length > 1 ? "s" : "")
+      update_grid_message(data)
     }
 
   })
@@ -978,20 +977,25 @@ function search() {
       })
 
       app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
-      if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
-        app.grid_message = "<b>" + data.cluster_grid.total_rows_nb + "</b> lines (lines above rank "+ data.cluster_grid.rows.length +" are merged with key <code>__*__</code>); "
-      } else {
-        app.grid_message = data.cluster_grid.total_rows_nb + " line" + (data.cluster_grid.total_rows_nb > 1 ? "s; " : "; ")
-      }
-      if (data.cluster_grid.total_columns_nb > data.cluster_grid.columns.length) {
-        app.grid_message += data.cluster_grid.total_columns_nb + " columns (columns above rank "+ data.cluster_grid.columns.length +" are merged with key <code>__*__</code>)"
-      } else {
-        app.grid_message += data.cluster_grid.total_columns_nb + " column" + (data.cluster_grid.total_columns_nb > 1 ? "s" : "")
-      }
+      update_grid_message(data)
     }
   })
   app.wait = false
 } // search
+
+// ==================================================================================
+function update_grid_message(data) {
+  if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
+    app.grid_message = "<b>" + data.cluster_grid.total_rows_nb + "</b> lines (lines above rank "+ data.cluster_grid.rows.length +" are merged with key <code>__*__</code>); "
+  } else {
+    app.grid_message = data.cluster_grid.total_rows_nb + " line" + (data.cluster_grid.total_rows_nb > 1 ? "s; " : "; ")
+  }
+  if (data.cluster_grid.total_columns_nb > data.cluster_grid.columns.length) {
+    app.grid_message += data.cluster_grid.total_columns_nb + " columns (columns above rank "+ data.cluster_grid.columns.length +" are merged with key <code>__*__</code>)"
+  } else {
+    app.grid_message += data.cluster_grid.total_columns_nb + " column" + (data.cluster_grid.total_columns_nb > 1 ? "s" : "")
+  }
+}
 
 // ==================================================================================
 function show_export_modal() {
