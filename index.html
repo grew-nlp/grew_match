@@ -152,12 +152,26 @@
 		<!-- wrapper: left menu for corpus selection -->
 		<div class="wrapper" id="wrap">
 			<nav id="sidebar" v-if="left_pane" v-bind:class="{ active: view_left_pane }">
-				<h4>{{number_of_corpora}} corp{{ number_of_corpora > 1 ? "ora" : "us" }}</h4>
+				<h4 style="display: flex; justify-content: space-between; align-items: center;">
+					<div style="margin-left:10px;">
+						{{number_of_corpora}} corp{{ number_of_corpora > 1 ? "ora" : "us" }}
+					</div>
+					<div class="btn-group" role="group" style="margin-right:10px;">
+						<button type="button" class="btn btn-sm" v-on:click="multi_mode=false" v-bind:class="!multi_mode ? 'btn-success' : 'btn-default'"><i class='fa fa-circle'></i></button>
+						<button type="button" class="btn btn-sm" v-on:click="multi_mode=true" v-bind:class="multi_mode ? 'btn-success' : 'btn-default'"><i class='fa fa-ellipsis-h'></i></button>
+					</div>
+				</h4>
 				<div>
 					Filter:
 					<input type="text" v-model="corpora_filter" />
 					<i v-on:click="corpora_filter = ''" class="fa fa-times-circle fa-lg"></i>
 				</div>
+
+				<div v-if="multi_mode">
+					<button class="btn btn-primary" :disabled='filtered_corpora_list.length>10' @click="selected_corpora=filtered_corpora_list.map(x => x.id)" style="margin-right:10px">Select filtered</button>
+					<button class="btn btn-primary" @click="selected_corpora=[]" style="margin-right:10px">Select none</button>
+				</div>
+
 
 				<div style="height: calc(100% - 90px);padding-top:10px">
 					<div style="max-height:100%;overflow:auto;">
@@ -167,6 +181,7 @@
 								<tbody>
 									<tr>
 										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-on:click="current_corpus_id=corpus.id" href="#" style="padding-left: 5px;">
+											<input v-if="multi_mode" :disabled="selected_corpora.length >= 10 && !selected_corpora.includes(corpus.id)" type="checkbox" :value='corpus.id' v-model="selected_corpora" style="margin-left: 4px;">
 											{{ corpus.id }}
 											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
 											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
@@ -199,7 +214,23 @@
 										<i id="warning-tooltip" class="fa fa-question-circle fa-lg tooltip-desc"></i>
 									</h4>
 									<h2 id="corpus">
-										<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
+
+
+										
+										<div v-if="multi_mode">
+											<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
+												<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>  
+												<!-- TODO: out of if -->
+											</button>
+											<span style="font-size: 18px;">{{selected_corpora.length}} corp{{ selected_corpora.length > 1 ? "ora" : "us" }} selected</span>
+											<br/>
+											<span v-for="corpus in selected_corpora" class="tooltip-desc badge badge-default" style="font-size: 18px;">
+												{{ corpus }}
+												<i v-on:click="selected_corpora = selected_corpora.filter(item => item !== corpus)" class="fa fa-times-circle fa-lg" style="margin-left: 10px;"></i>
+											</span>
+										</div>
+										<div v-else>
+											<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
 											<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>
 										</button>
 
@@ -315,7 +346,7 @@
 										<div class="row">
 											<div class="col-md-6" style="padding-left: 0px;">
 												<div>
-													<b>Clustering 1:</b>
+													<b>Clustering<span v-show="!multi_mode"> 1:</span></b>
 													<label><input type="radio" name="clust1" value="no" v-model="clust1"> No</label>
 													<label><input type="radio" name="clust1" value="key" v-model="clust1"> Key</label>
 													<label><input type="radio" name="clust1" value="whether" v-model="clust1"> Whether</label>
@@ -324,9 +355,9 @@
 												<div v-show="clust1=='whether'">
 													<textarea id="whether-input1"></textarea>
 												</div>
-			
 											</div>
-											<div class="col-md-6" v-show="clust1 != 'no'" style="padding-right: 0px;">
+
+											<div class="col-md-6" v-show="clust1 != 'no' && !multi_mode" style="padding-right: 0px;">
 												<div>
 													<b>Clustering 2:</b>
 													<label><input type="radio" name="clust2" value="no" v-model="clust2"> No</label>
@@ -338,6 +369,7 @@
 													<textarea id="whether-input2"></textarea>
 												</div>
 											</div>
+
 										</div>
 									</div>
 									<p>
@@ -382,11 +414,11 @@
 										</label>
 									</p>
 									<p>
-										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait || corpus_error" style="margin-right:10px">
+										<button class="btn btn-primary" onclick="javascript:if (app.multi_mode) {search_multi()} else { search ()}" :disabled="wait || corpus_error" style="margin-right:10px">
 											{{ wait ? "Searching..." : "Search" }}
 											<i class="fa fa-search" aria-hidden="true"></i>
 										</button>
-										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait || corpus_error' style="margin-right:10px">
+										<button class="btn btn-primary" onclick="count()" :disabled='wait || corpus_error' style="margin-right:10px">
 											{{ wait ? "Counting..." : "Count" }}
 											<i class="fa fa-list-ol" aria-hidden="true"></i>
 										</button>
@@ -456,6 +488,7 @@
 									class="btn btn-sm" 
 									v-on:click="select_cluster_1d(cluster.index)" 
 									v-bind:class="current_cluster_path != undefined && cluster.index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
+									v-bind:disabled="cluster.size == 0"
 									style="margin-right:10px"
 								>
 									<span class="badge badge-pill badge-info">

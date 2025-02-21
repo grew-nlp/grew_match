@@ -23,6 +23,9 @@ let app = new Vue({
 
     search_mode: true,
 
+    multi_mode: false, // allow multi selection
+    selected_corpora: [], // list of selected corpora
+
     corpora_filter: "",
 
     backend_server: undefined,
@@ -254,7 +257,13 @@ let app = new Vue({
     },
 
     col_label: function () {
-      if (app.clust2 == "key") {
+      if (app.multi_mode) {
+        if (app.clust1 == "key") {
+          return app.clust1_key
+        } else {
+          return "Whether"
+        }
+      } else if (app.clust2 == "key") {
         return app.clust2_key
       } else {
         return "Whether_2"
@@ -262,7 +271,9 @@ let app = new Vue({
     },
 
     row_label: function () {
-      if (app.clust1 == "key") {
+      if (app.multi_mode) {
+        return "Corpus"
+      } else if (app.clust1 == "key") {
         return app.clust1_key
       } else {
         return "Whether_1"
@@ -713,8 +724,8 @@ function get_clust_param () {
   let param = {}
   if (app.clust1 == "key") { param.clust1_key = app.clust1_key }
   if (app.clust1 == "whether") { param.clust1_whether = clust1_cm.getValue() }
-  if (app.clust2 == "key") { param.clust2_key = app.clust2_key }
-  if (app.clust2 == "whether") { param.clust2_whether = clust2_cm.getValue() }
+  if (app.clust2 == "key" && !app.multi_mode) { param.clust2_key = app.clust2_key }
+  if (app.clust2 == "whether" && !app.multi_mode) { param.clust2_whether = clust2_cm.getValue() }
   return param
 }
 
@@ -984,7 +995,71 @@ function search() {
 } // search
 
 // ==================================================================================
-function update_grid_message(data) {
+function search_multi() {
+  app.current_custom = ""
+  app.current_cluster_path = undefined
+  app.current_view = 0
+  app.wait = true
+
+  let param = {
+    request: cmEditor.getValue(),
+    corpus_id_list: app.selected_corpora,
+    display: app.display,
+    clust: get_clust_param(),
+  }
+
+  generic(app.backend_server, "search_multi", param)
+  .then (data => {
+    app.search_mode = true
+    app.current_uuid = data.uuid
+    app.current_time = data.time
+    app.nb_solutions = data.nb_solutions
+
+    console.log("-----------------")
+    console.log(data.nb_partial)
+    app.result_message =  `${app.nb_solutions} occurrences in ${param.corpus_id_list.length} corpora`;
+    if (data.nb_partial > 0) {
+      app.result_message += ` (partial results in ${data.nb_partial} corp${data.nb_partial > 1 ? "ora" : "us"})`
+    }
+    if ("cluster_array" in data) {
+      app.cluster_dim = 1
+      app.cluster_list = data.cluster_array.map((elt, index) => {
+        elt.index = index;
+        elt.percent = ratio(elt.size, data.nb_solutions);
+        return elt;
+      });
+      app.clusters = Array(app.cluster_list.length).fill([])
+    } 
+    else if ("cluster_grid" in data) {
+      app.cluster_dim = 2
+      app.grid_rows = data.cluster_grid.rows.map((elt, _) => {
+        elt.percent = ratio(elt.size, data.nb_solutions);
+        return elt;
+      });
+      app.grid_columns = data.cluster_grid.columns.map((elt, _) => {
+        elt.percent = ratio(elt.size, data.nb_solutions);
+        return elt;
+      });
+      app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
+        return row.map((cell,col_index) => {
+          return {
+            size: cell,
+            percent: ratio(cell, data.nb_solutions),
+            percent_col: ratio(cell, app.grid_columns[col_index].size),
+            percent_row: ratio(cell, app.grid_rows[row_index].size),
+          }
+        })
+      })
+
+      app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
+      update_grid_message(data)
+    }
+  })
+  app.wait = false
+} // search
+
+// ==================================================================================
+  function update_grid_message(data) {
   if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
     app.grid_message = "<b>" + data.cluster_grid.total_rows_nb + "</b> lines (lines above rank "+ data.cluster_grid.rows.length +" are merged with key <code>__*__</code>); "
   } else {
@@ -1274,4 +1349,3 @@ function select_cluster_2d(c, r) {
     }
   }
 }
-
