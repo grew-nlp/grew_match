@@ -901,9 +901,13 @@ function open_param(param) {
 function search_param() {
   let param = {
     request: cmEditor.getValue(),
-    corpus_id: app.current_corpus_id,
     display: app.display,
     clust: get_clust_param(),
+  }
+  if (app.multi_mode) {
+    param.corpus_id_list = app.selected_corpora
+  } else {
+    param.corpus_id = app.current_corpus_id
   }
   return param
 }
@@ -925,7 +929,7 @@ function search() {
   app.current_view = 0
   app.wait = true
 
-  generic(app.backend_server, "search", search_param())
+  generic(app.backend_server, app.multi_mode ? "search_multi" :"search" , search_param())
   .then (data => {
     app.search_mode = true
     app.current_uuid = data.uuid
@@ -933,22 +937,29 @@ function search() {
     app.current_time = data.time
     app.nb_solutions = data.nb_solutions
 
-    switch (data.status) {
-      case "complete":
-      if (data.nb_solutions === 0) {
-        app.result_message = "No results"
-      } else {
-        app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
+    if (app.multi_mode) {
+      app.result_message =  `${app.nb_solutions} occurrences in ${app.selected_corpora.length} corpora`;
+      if (data.nb_partial > 0) {
+        app.result_message += ` (partial results in ${data.nb_partial} corp${data.nb_partial > 1 ? "ora" : "us"})`
+      }  
+    } else {
+      switch (data.status) {
+        case "complete":
+        if (data.nb_solutions === 0) {
+          app.result_message = "No results"
+        } else {
+          app.result_message = data.nb_solutions + ' occurrence' + ((data.nb_solutions > 1) ? 's' : '')
+        }
+        break
+        case "max_results":
+        app.result_message = 'More than ' + data.nb_solutions + ' results found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
+        break
+        case "timeout":
+        app.result_message = 'Timeout. ' + data.nb_solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
+        break
+        default:
+        direct_error("unknown status: " + data.status)
       }
-      break
-      case "max_results":
-      app.result_message = 'More than ' + data.nb_solutions + ' results found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
-      break
-      case "timeout":
-      app.result_message = 'Timeout. ' + data.nb_solutions + ' occurrences found in ' + (100 * data.ratio).toFixed(2) + '% of the corpus'
-      break
-      default:
-      direct_error("unknown status: " + data.status)
     }
 
     if ("cluster_single" in data) {
@@ -967,70 +978,6 @@ function search() {
       });
       app.clusters = Array(app.cluster_list.length).fill([])
     } else if ("cluster_grid" in data) {
-      app.cluster_dim = 2
-      app.grid_rows = data.cluster_grid.rows.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_columns = data.cluster_grid.columns.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
-        return row.map((cell,col_index) => {
-          return {
-            size: cell,
-            percent: ratio(cell, data.nb_solutions),
-            percent_col: ratio(cell, app.grid_columns[col_index].size),
-            percent_row: ratio(cell, app.grid_rows[row_index].size),
-          }
-        })
-      })
-
-      app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
-      update_grid_message(data)
-    }
-  })
-  app.wait = false
-} // search
-
-// ==================================================================================
-function search_multi() {
-  app.current_custom = ""
-  app.current_cluster_path = undefined
-  app.current_view = 0
-  app.wait = true
-
-  let param = {
-    request: cmEditor.getValue(),
-    corpus_id_list: app.selected_corpora,
-    display: app.display,
-    clust: get_clust_param(),
-  }
-
-  generic(app.backend_server, "search_multi", param)
-  .then (data => {
-    app.search_mode = true
-    app.current_uuid = data.uuid
-    app.current_time = data.time
-    app.nb_solutions = data.nb_solutions
-
-    console.log("-----------------")
-    console.log(data.nb_partial)
-    app.result_message =  `${app.nb_solutions} occurrences in ${param.corpus_id_list.length} corpora`;
-    if (data.nb_partial > 0) {
-      app.result_message += ` (partial results in ${data.nb_partial} corp${data.nb_partial > 1 ? "ora" : "us"})`
-    }
-    if ("cluster_array" in data) {
-      app.cluster_dim = 1
-      app.cluster_list = data.cluster_array.map((elt, index) => {
-        elt.index = index;
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.clusters = Array(app.cluster_list.length).fill([])
-    } 
-    else if ("cluster_grid" in data) {
       app.cluster_dim = 2
       app.grid_rows = data.cluster_grid.rows.map((elt, _) => {
         elt.percent = ratio(elt.size, data.nb_solutions);

@@ -402,7 +402,7 @@
 										</label>
 									</p>
 									<p>
-										<button class="btn btn-primary" onclick="javascript:if (app.multi_mode) {search_multi()} else { search ()}" :disabled="wait || corpus_error" style="margin-right:10px">
+										<button class="btn btn-primary" onclick="javascript:search ()" :disabled="wait || corpus_error" style="margin-right:10px">
 											{{ wait ? "Searching..." : "Search" }}
 											<i class="fa fa-search" aria-hidden="true"></i>
 										</button>
