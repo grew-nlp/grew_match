@@ -239,79 +239,15 @@ document.addEventListener('DOMContentLoaded', () => {
         corpus_id: corpus,
         file: datafile
       };
-      
-      let form = new FormData();
-      form.append("param", JSON.stringify(param));
-      
-      backend("get_build_file", form, function (data_string) {
+
+      generic(backend_url, "get_build_file", param)
+      .then (data_string => {
+        // console.log(data_string)
         let data = JSON.parse(data_string)
         build_grid(data)
-        // let col_filter = url_params.get('cols');
-        // if (col_filter != null) {
-        //   app.filter_kind = "cols";
-        //   app.filter_value = col_filter;
-        // }
-        // let row_filter = url_params.get('rows');
-        // if (row_filter != null) {
-        //   app.filter_kind = "rows";
-        //   app.filter_value = row_filter;
-        // }
-      }, null, backend_url)
-      // if (get_param != undefined && get_value != undefined) {
-      //     let params = new URLSearchParams(window.location.search)
-      //     params.delete(get_param)
-      //     params.append (get_param, get_value)
-      //     let new_url = window.location.origin + "?" + params.toString()
-      //     new_window.history.replaceState({}, "", new_url);
-      //   } 
-      // })
+      })
     } else {
       direct_error ('Wrong parameters (`corpus` and `datafile` expected)')
     }
   })
 });
-
-// ==================================================================================
-function backend(service, form, data_fct, error_fct, backend_url) {
-  let settings = {
-    "url": backend_url + service,
-    "method": "POST",
-    "timeout": 0,
-    "processData": false,
-    "mimeType": "multipart/form-data",
-    "contentType": false,
-    "data": form
-  };
-
-  $.ajax(settings)
-    .done(function (response_string) {
-      let response = JSON.parse(response_string);
-      if (response.status === "ERROR") {
-        if (error_fct === undefined) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            html: JSON.stringify(response.message),
-          });
-        } else {
-          error_fct(response.message);
-        }
-      } else if (response.status === "BUG") {
-        Swal.fire({
-          icon: 'error',
-          title: 'A BUG occurred, please report',
-          html: JSON.stringify(response.exception),
-        });
-      } else {
-        data_fct(response.data);
-      }
-    })
-    .fail(function () {
-      Swal.fire({
-        icon: 'error',
-        title: 'Connection fail',
-        html: md.render("The `" + service + "` service is not available."),
-      });
-    });
-}
-

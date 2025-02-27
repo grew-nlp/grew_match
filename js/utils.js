@@ -16,6 +16,29 @@ async function fetch_json(url) {
 }
 
 // ==================================================================================
+async function generic(backend, service, data) {
+  try {
+    const response = await fetch(backend+service, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    const result = await response.json()
+    if (result.status === "ERROR") {
+      direct_error (JSON.stringify (result.message))
+      return null
+    } else {
+      return (result.data)
+    }
+  } catch (error) {
+    const msg = `Service \`${service}\` unavailable.\n\n${error.message}`
+    direct_error (msg, "Network error")
+  }
+}
+
+// ==================================================================================
 // https://www.geeksforgeeks.org/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript/#using-a-custom-javascript-function
 function download_text(file, text) {
   var element = document.createElement('a')
@@ -25,6 +48,20 @@ function download_text(file, text) {
   element.click()
   document.body.removeChild(element)
 }
+
+// ==================================================================================
+function ratio(value, total) {
+  return `${(value/total*100).toFixed(2)}%`
+}
+
+// ==================================================================================
+const Grid_display = Object.freeze({
+  SIZE: 0,
+  PERCENT: 1,
+  PERCENT_COL: 2,
+  PERCENT_ROW: 3,
+});
+
 
 // ==================================================================================
 function common_prefix_length(s1, s2) {
