@@ -659,7 +659,7 @@ function audio_init() {
 // ==================================================================================
 function open_validation_page() {
   let param = {
-    corpus_id: app.current_corpus_id,
+    corpus: app.current_corpus_id,
     file: "valid_sud.json"
   }
 
@@ -831,7 +831,7 @@ function count() {
   app.wait = true
   app.search_mode = false
 
-  generic(app.backend_server, "count", search_param())
+  generic(app.backend_server, app.multi_mode ? "count_multi" :"count", search_param())
   .then(function (data) {
     var message = [
       "Hi, it seems that you sent many times (20?) the same request on different treebanks",
@@ -892,7 +892,13 @@ function open_param(param) {
   log ("open param:" + JSON.stringify(param))
 
   cmEditor.setValue(param.request)
-  app.current_corpus_id = param.corpus_id
+  if ('corpus' in param) {
+    app.multi_mode = false
+    app.current_corpus_id = param.corpus_id
+  } else {
+    app.multi_mode = true
+    app.selected_corpora = param.corpus_id_list 
+  }
   app.display = param.display
   set_clust_param (param.clust)
 }
@@ -905,9 +911,9 @@ function search_param() {
     clust: get_clust_param(),
   }
   if (app.multi_mode) {
-    param.corpus_id_list = app.selected_corpora
+    param.corpus_list = app.selected_corpora
   } else {
-    param.corpus_id = app.current_corpus_id
+    param.corpus = app.current_corpus_id
   }
   return param
 }
@@ -928,10 +934,10 @@ function search() {
   app.current_cluster_path = undefined
   app.current_view = 0
   app.wait = true
+  app.search_mode = true
 
   generic(app.backend_server, app.multi_mode ? "search_multi" :"search" , search_param())
   .then (data => {
-    app.search_mode = true
     app.current_uuid = data.uuid
     app.current_pivots = data.pivots
     app.current_time = data.time
@@ -1104,7 +1110,7 @@ function update_parallel() {
   if (app.parallel != "no") {
     let param = {
       uuid: app.current_uuid,
-      corpus_id: app.parallel,
+      corpus: app.parallel,
       sent_id: app.sent_id,
     }
 
@@ -1154,7 +1160,7 @@ function code_copy() {
 // ==================================================================================
 function dowload_tgz() {
   let param = {
-    corpus_id: app.current_corpus_id,
+    corpus: app.current_corpus_id,
   }
 
   generic(app.backend_server, "dowload_tgz", param)
@@ -1168,7 +1174,7 @@ function dowload_tgz() {
 function open_build_file(file,get_param,get_value) {
   let expanded_file = file.replace("__id__", app.current_corpus_id)
   let param = {
-    corpus_id: app.current_corpus_id,
+    corpus: app.current_corpus_id,
     file: expanded_file
   }
 
@@ -1195,14 +1201,9 @@ function open_build_file(file,get_param,get_value) {
 
 // ==================================================================================
 function save_request() {
-  let param = {
-    uuid: app.current_uuid,
-    request: cmEditor.getValue(),
-    corpus: app.current_corpus_id,
-    clust: get_clust_param(),
-    display: app.display,
-    search_mode: app.search_mode,
-  }
+  let param = search_param()
+  param.uuid = app.current_uuid
+  param.search_mode = app.search_mode
   generic(app.backend_server, "save", param)
   .then( _ => {
     history.pushState({ id: app.current_uuid }, "", "?custom=" + app.current_uuid)
@@ -1244,7 +1245,7 @@ function update_corpus() {
   // update info button + update timestamp if needed
   if (app.check_built("desc.json")) {
     let param = {
-      corpus_id: app.current_corpus_id,
+      corpus: app.current_corpus_id,
       file: "desc.json"
     }
 
