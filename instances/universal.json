@@ -738,7 +738,11 @@
       "mSUD_Mandarin-DiLSi@latest",
       "SUD_Taigi-DiLSi@latest",
       "SUD_Teochew-DiLSi@latest",
-      "SUD_Mandarin-DiLSi@latest"
+      "SUD_Mandarin-DiLSi@latest",
+
+      "mSUD_Bokota@partial",
+      "SUD_Bokota@partial"
+
     ]
   },
   
@@ -765,6 +769,7 @@
       "UD_Zaar-Autogramm@conv",
 
       "UD_Bokota@conv",
+      "UD_Bokota@partial",
       "UD_Egyptian_Arabic-Autogramm@conv",
       "UD_Hausa-SouthernAutogramm@conv",
       "UD_Hausa-NorthernAutogramm@conv",
