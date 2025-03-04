@@ -741,7 +741,9 @@
       "SUD_Mandarin-DiLSi@latest",
 
       "mSUD_Bokota@partial",
-      "SUD_Bokota@partial"
+      "SUD_Bokota@partial",
+      "mSUD_Ika@partial",
+      "SUD_Ika@partial"
 
     ]
   },
@@ -774,6 +776,7 @@
       "UD_Hausa-SouthernAutogramm@conv",
       "UD_Hausa-NorthernAutogramm@conv",
       "UD_Ika@conv",
+      "UD_Ika@partial",
       "UD_Tunisian_Arabic-NAxLAT@conv",
       "UD_Tuwari-Autogramm@conv",
 
