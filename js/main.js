@@ -657,6 +657,7 @@ function open_validation_page() {
 
   generic(app.backend_server, "get_build_file", param)
   .then(function (data) {
+    if (data === null) { return }
     localStorage.setItem('valid_data', data)
     localStorage.setItem('top_url', window.location.origin)
     localStorage.setItem('corpus', app.current_corpus_id)
@@ -798,6 +799,7 @@ function more_results(post_update_graph_view=false) {
 
   generic(app.backend_server, "more_results", param)
   .then(data => {
+    if (data === null) { return }
     const { cluster_dim, current_cluster_path } = app;
 
     if (cluster_dim === 0) {
@@ -825,6 +827,7 @@ function count() {
 
   generic(app.backend_server, "count", search_param())
   .then(function (data) {
+    if (data === null) { app.wait = false; return }
     var message = [
       "Hi, it seems that you sent many times (20?) the same request on different treebanks",
       "This usage makes the server crashes regularly",
@@ -874,9 +877,8 @@ function count() {
       })
       update_grid_message(data)
     }
-
+    app.wait = false
   })
-  app.wait = false
 } // count
 
 // ==================================================================================
@@ -912,13 +914,15 @@ function duplicate() {
 
 // ==================================================================================
 function search() {
-  app.current_custom = ""
+  app.current_custom = ''
+  app.result_message = ''
   app.current_cluster_path = undefined
   app.current_view = 0
   app.wait = true
 
   generic(app.backend_server, "search", search_param())
   .then (data => {
+    if (data === null) { app.wait = false; return }
     app.search_mode = true
     app.current_uuid = data.uuid
     app.current_pivots = data.pivots
@@ -982,8 +986,8 @@ function search() {
       app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
       update_grid_message(data)
     }
+    app.wait = false
   })
-  app.wait = false
 } // search
 
 // ==================================================================================
@@ -1091,10 +1095,8 @@ function update_parallel() {
 
     generic(app.backend_server, "parallel", param)
     .then( data => {
+      if (data === null) { return }
       app.parallel_svg = app.backend_server + "data/" + app.current_uuid + "/" + data
-    })
-    .catch(function(err) {
-      direct_error (JSON.stringify(err.message))
     })
   }
 }
