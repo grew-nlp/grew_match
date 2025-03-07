@@ -254,21 +254,24 @@ let app = new Vue({
     },
 
     col_label: function () {
-      if (app.clust2 == "key") {
-        return app.clust2_key
+      if (this.clust2 == "key") {
+        return this.clust2_key
       } else {
         return "Whether_2"
       }
     },
 
     row_label: function () {
-      if (app.clust1 == "key") {
-        return app.clust1_key
+      if (this.clust1 == "key") {
+        return this.clust1_key
       } else {
         return "Whether_1"
       }
-    }
+    },
 
+    disable_search: function () {
+      return (this.clust1 === 'key' && this.clust1_key.trim() === '') || (this.clust2 === 'key' && this.clust2_key.trim() === '')
+    }
   } // end computed
 })
 
