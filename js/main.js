@@ -18,6 +18,8 @@ let app = new Vue({
     grid_rows: [],
     grid_cells: [],
     grid_message: "",
+    col_label: '',
+    row_label: '',
 
     metadata_open: false,
 
@@ -250,22 +252,6 @@ let app = new Vue({
     left_pane: function () {
       if (this.current_group) {
         return (this.current_group.style == "left_pane")
-      }
-    },
-
-    col_label: function () {
-      if (this.clust2 == "key") {
-        return this.clust2_key
-      } else {
-        return "Whether_2"
-      }
-    },
-
-    row_label: function () {
-      if (this.clust1 == "key") {
-        return this.clust1_key
-      } else {
-        return "Whether_1"
       }
     },
 
@@ -715,10 +701,10 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
 // ==================================================================================
 function get_clust_param () {
   let param = {}
-  if (app.clust1 == "key") { param.clust1_key = app.clust1_key }
-  if (app.clust1 == "whether") { param.clust1_whether = clust1_cm.getValue() }
-  if (app.clust2 == "key") { param.clust2_key = app.clust2_key }
-  if (app.clust2 == "whether") { param.clust2_whether = clust2_cm.getValue() }
+  if (app.clust1 == "key") { param.clust1_key = app.clust1_key; app.row_label = app.clust1_key }
+  if (app.clust1 == "whether") { param.clust1_whether = clust1_cm.getValue(); app.row_label = 'Whether_1' }
+  if (app.clust2 == "key") { param.clust2_key = app.clust2_key; app.col_label = app.clust2_key }
+  if (app.clust2 == "whether") { param.clust2_whether = clust2_cm.getValue(); app.col_label = 'Whether_2' }
   return param
 }
 
