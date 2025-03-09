@@ -390,11 +390,11 @@
 										</label>
 									</p>
 									<p>
-										<button class="btn btn-primary" onclick="javascript:search()" :disabled="wait || corpus_error" style="margin-right:10px">
+										<button class="btn btn-primary" onclick="javascript:search()" :disabled="disable_search || wait || corpus_error" style="margin-right:10px">
 											{{ wait ? "Searching..." : "Search" }}
 											<i class="fa fa-search" aria-hidden="true"></i>
 										</button>
-										<button class="btn btn-primary" onclick="javascript:count()" :disabled='wait || corpus_error' style="margin-right:10px">
+										<button class="btn btn-primary" onclick="javascript:count()" :disabled="disable_search || wait || corpus_error" style="margin-right:10px">
 											{{ wait ? "Counting..." : "Count" }}
 											<i class="fa fa-list-ol" aria-hidden="true"></i>
 										</button>

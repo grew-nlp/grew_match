@@ -9,7 +9,7 @@ function log(msg) {
 async function fetch_json(url) {
   const response = await fetch(url)
   if (response.status != 200) {
-    throw Error ("Cannot load: " + url)
+    throw Error ('Cannot load: ' + url)
   }
   const json_data = await response.json()
   return json_data
@@ -26,15 +26,15 @@ async function generic(backend, service, data) {
       body: JSON.stringify(data)
     })
     const result = await response.json()
-    if (result.status === "ERROR") {
+    if (result.status === 'ERROR') {
       direct_error (JSON.stringify (result.message))
-      return null
+      return
     } else {
       return (result.data)
     }
   } catch (error) {
     const msg = `Service \`${service}\` unavailable.\n\n${error.message}`
-    direct_error (msg, "Network error")
+    direct_error (msg, 'Network error')
   }
 }
 
@@ -115,7 +115,7 @@ function SelectText(element) {
 }
 
 // ==================================================================================
-function direct_error(msg, title="Error") {
+function direct_error(msg, title='Error') {
   let html = md.render(msg)
   Swal.fire({
     icon: 'error',
@@ -155,24 +155,24 @@ function init_tooltips() {
   })
 
   // Long HTML tooltip are defined in run.html
-  $('#tf-wf-tooltip').tooltipster('content', $("#tf-wf-tip").html())
-  $('#pid-tooltip').tooltipster('content', "Show names of matched nodes in the graph")
-  $('#warning-tooltip').tooltipster('content', $("#warning-tip").html())
+  $('#tf-wf-tooltip').tooltipster('content', $('#tf-wf-tip').html())
+  $('#pid-tooltip').tooltipster('content', 'Show names of matched nodes in the graph')
+  $('#warning-tooltip').tooltipster('content', $('#warning-tip').html())
 
-  $('#export-button').tooltipster('content', "Export the sentence text of each occurrence like in a concordancer")
-  $('#save-button').tooltipster('content', "Build a permanent URL with the current session")
-  $('#download-conll-button').tooltipster('content', "Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.")
+  $('#export-button').tooltipster('content', 'Export the sentence text of each occurrence like in a concordancer')
+  $('#save-button').tooltipster('content', 'Build a permanent URL with the current session')
+  $('#download-conll-button').tooltipster('content', 'Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.')
 
-  $('#conll-button').tooltipster('content', "Show the CoNLL code of the current dependency tree")
+  $('#conll-button').tooltipster('content', 'Show the CoNLL code of the current dependency tree')
 
-  $('#duplicate').tooltipster('content', "Open a new tab with the same corpus and request")
-  $('#github-button').tooltipster('content', "GitHub repository")
-  $('#guidelines-button').tooltipster('content', "Guidelines")
-  $('#issue-button').tooltipster('content', "Report error")
-  $('#link-button').tooltipster('content', "External link")
-  $('#sud-valid-button').tooltipster('content', "SUD validation (new page)")
-  $('#ud-valid-button').tooltipster('content', "UD validation (new page)")
-  $('#table-button').tooltipster('content', "Relation tables (new page)")
-  $('#para-tooltip').tooltipster('content', "Select a treebank in the list to show the same sentence in this parallel corpus. Use <i aria-hidden='true' class='fa fa fa-link'></i> to select the corpus for querying")
-  $('#para-close-tooltip').tooltipster('content', "Unselect the current parallel treebank");
+  $('#duplicate').tooltipster('content', 'Open a new tab with the same corpus and request')
+  $('#github-button').tooltipster('content', 'GitHub repository')
+  $('#guidelines-button').tooltipster('content', 'Guidelines')
+  $('#issue-button').tooltipster('content', 'Report error')
+  $('#link-button').tooltipster('content', 'External link')
+  $('#sud-valid-button').tooltipster('content', 'SUD validation (new page)')
+  $('#ud-valid-button').tooltipster('content', 'UD validation (new page)')
+  $('#table-button').tooltipster('content', 'Relation tables (new page)')
+  $('#para-tooltip').tooltipster('content', 'Select a treebank in the list to show the same sentence in this parallel corpus. Use <i aria-hidden="true" class="fa fa fa-link"></i> to select the corpus for querying')
+  $('#para-close-tooltip').tooltipster('content', 'Unselect the current parallel treebank');
 }
