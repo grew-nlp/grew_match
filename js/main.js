@@ -139,6 +139,9 @@ let app = new Vue({
     select_group(group_id) {
       app.current_group_id = group_id
       this.view_left_pane = true // always make left pane visible when a new group is selected
+      if (app.current_group.style != 'left_pane') {
+        app.multi_mode = false
+      }
       if ('default' in app.current_group) {
         app.current_corpus_id = app.current_group.default
       } else {
@@ -175,6 +178,16 @@ let app = new Vue({
         app.clust2 = 'no'
       }
     },
+
+  selected_corpora: function () {
+    console.log ("selected_Corp")
+//    setTimeout(function () {
+      history.pushState({},
+        '',
+        `?corpus_list=${app.selected_corpora.join(',')}`
+      )
+//current_corpus_id    }, 100)
+  }
   }, // end watch
 
   computed: {
@@ -356,6 +369,13 @@ async function deal_with_get_parameters() {
   if (url_params.has('corpus')) {
     app.skip_history = true
     search_corpus(url_params.get('corpus'))
+    app.view_left_pane = true
+  }
+
+  if (url_params.has('corpus_list')) {
+    app.skip_history = true
+    app.multi_mode = true
+    app.selected_corpora = url_params.get('corpus_list').split(',')
     app.view_left_pane = true
   }
 

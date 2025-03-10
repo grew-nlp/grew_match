@@ -165,12 +165,11 @@
 				<div style="height: calc(100% - 90px);padding-top:10px">
 					<div style="max-height:100%;overflow:auto;">
 
-						<div class="corpus" v-for="corpus in filtered_corpora_list">
+						<div v-if="!multi_mode" class="corpus" v-for="corpus in filtered_corpora_list">
 							<table class="table">
 								<tbody>
 									<tr>
 										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-on:click="current_corpus_id=corpus.id" href="#" style="padding-left: 5px;">
-											<input v-if="multi_mode" :disabled="selected_corpora.length >= 10 && !selected_corpora.includes(corpus.id)" type="checkbox" :value='corpus.id' v-model="selected_corpora" style="margin-left: 4px;">
 											{{ corpus.id }}
 											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
 											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
@@ -184,6 +183,27 @@
 								</tbody>
 							</table>
 						</div>
+
+						<div  v-if="multi_mode" class="corpus" v-for="corpus in filtered_corpora_list">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td class="alone" v-bind:class="{ selected: selected_corpora.includes(corpus.id) }" href="#" style="padding-left: 5px;">
+											<input v-if='!(corpus.built_files && !(corpus.built_files.includes("marshal")))' :disabled="selected_corpora.length >= 10 && !selected_corpora.includes(corpus.id)" type="checkbox" :value='corpus.id' v-model="selected_corpora" style="margin-left: 4px;">
+											{{ corpus.id }}
+											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
+											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
+											<i v-if="corpus.grs" class="fa fa-gear fa-lg" style="float: right;"></i>
+											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
+											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
+											<img v-if="corpus.audio" src="icon/audio.svg" width="20" height="20" style="float: right;"></img>
+											<img v-if="corpus.no_word" src="icon/no_word.svg" width="20" height="20" style="float: right;"></img>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
 					</div>
 				</div>
 			</nav>
@@ -437,10 +457,10 @@
 							<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_request()" style="margin-right:10px">
 								Save <i class="fa fa-link" aria-hidden="true"></i>
 							</button>
-							<button id="export-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:run_export()" style="margin-right:10px">
+							<button v-if="!multi_mode" id="export-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:run_export()" style="margin-right:10px">
 								TSV <i class="fa fa-download" aria-hidden="true"></i></span>
 							</button>
-							<button id="download-conll-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
+							<button v-if="!multi_mode" id="download-conll-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
 								CoNLL <i class="fa fa-download" aria-hidden="true"></i></span>
 							</button>
 
