@@ -357,9 +357,9 @@ async function deal_with_get_parameters() {
     app.view_left_pane = true
   }
 
-  if (localStorage.param_for_duplicate) {
-    let param = JSON.parse (localStorage.param_for_duplicate)
-    localStorage.removeItem('param_for_duplicate')
+  if (localStorage.param_for_clone) {
+    let param = JSON.parse (localStorage.param_for_clone)
+    localStorage.removeItem('param_for_clone')
     open_param(param)
     return // in case of duplicata, no need to go on with other parameters
   }
@@ -897,10 +897,10 @@ function open_param(param) {
   cmEditor.setValue(param.request)
   if ('corpus' in param) {
     app.multi_mode = false
-    app.current_corpus_id = param.corpus_id
+    app.current_corpus_id = param.corpus
   } else {
     app.multi_mode = true
-    app.selected_corpora = param.corpus_id_list 
+    app.selected_corpora = param.corpus_list
   }
   app.display = param.display
   set_clust_param (param.clust)
@@ -922,10 +922,10 @@ function search_param() {
 }
 
 // ==================================================================================
-function duplicate() {
+function clone() {
   let base_url = window.location.origin
   let param = search_param()
-  localStorage.setItem('param_for_duplicate', JSON.stringify (param))
+  localStorage.setItem('param_for_clone', JSON.stringify (param))
   let url = `${base_url}?corpus=${app.current_corpus_id}`
   window.open(url, '_blank').focus()
 }

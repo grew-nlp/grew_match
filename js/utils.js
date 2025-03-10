@@ -165,7 +165,7 @@ function init_tooltips() {
 
   $('#conll-button').tooltipster('content', 'Show the CoNLL code of the current dependency tree')
 
-  $('#duplicate').tooltipster('content', 'Open a new tab with the same corpus and request')
+  $('#clone').tooltipster('content', 'Open a new tab with the corpus selection and request')
   $('#github-button').tooltipster('content', 'GitHub repository')
   $('#guidelines-button').tooltipster('content', 'Guidelines')
   $('#issue-button').tooltipster('content', 'Report error')
