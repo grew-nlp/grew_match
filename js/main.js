@@ -402,9 +402,14 @@ async function deal_with_get_parameters() {
       cmEditor.setValue(request)
 
       // if corpus is given as GET parameter, it has priority
-      if (app.current_corpus_id == undefined) {
+      if (app.current_corpus_id === undefined) {
         if ('corpus' in data) {
           search_corpus(data.corpus)
+        } else if ('corpus_list' in data) {
+          app.multi_mode = true;
+          app.selected_corpora = data.corpus_list;
+        } else {
+          direct_error (`no corpus defined in ${custom_param}. Please report with this message`)
         }
       }
       if ('clust' in data) {
