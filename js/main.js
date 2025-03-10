@@ -259,7 +259,9 @@ let app = new Vue({
     },
 
     disable_search: function () {
-      return (this.clust1 === 'key' && this.clust1_key.trim() === '') || (this.clust2 === 'key' && this.clust2_key.trim() === '')
+      return (this.clust1 === 'key' && this.clust1_key.trim() === '') 
+      || (this.clust2 === 'key' && this.clust2_key.trim() === '')
+      || (this.multi_mode && this.selected_corpora.length === 0)
     }
   } // end computed
 })
@@ -704,10 +706,26 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
 // ==================================================================================
 function get_clust_param () {
   let param = {}
-  if (app.clust1 == 'key') { param.clust1_key = app.clust1_key; app.row_label = app.clust1_key }
-  if (app.clust1 == 'whether') { param.clust1_whether = clust1_cm.getValue(); app.row_label = 'Whether_1' }
-  if (app.clust2 == 'key') { param.clust2_key = app.clust2_key; app.col_label = app.clust2_key }
-  if (app.clust2 == 'whether') { param.clust2_whether = clust2_cm.getValue(); app.col_label = 'Whether_2' }
+  if (app.clust1 === 'key') {
+    param.clust1_key = app.clust1_key;
+    app.row_label = app.multi_mode ? "Corpus" : app.clust1_key;
+    app.col_label = app.multi_mode ? app.clust1_key : "_";
+  }
+  if (app.clust1 === 'whether') {
+    param.clust1_whether = clust1_cm.getValue();
+    app.row_label = app.multi_mode ? "Corpus" : 'Whether_1'
+    app.col_label = app.multi_mode ? 'Whether_1' : "_"
+  }
+  if (!app.multi_mode) {
+    if (app.clust2 === 'key') {
+      param.clust2_key = app.clust2_key;
+      app.col_label = app.clust2_key
+    }
+    if (app.clust2 === 'whether') {
+      param.clust2_whether = clust2_cm.getValue();
+      app.col_label = 'Whether_2'
+    }
+  }
   return param
 }
 
@@ -754,6 +772,10 @@ function right_pane(base) {
     if (data === null) { return }
     $('#right-pane').html(data)
     $('.inter').click(function () {
+      if (app.multi_mode && (this.getAttribute('clustering2') || this.getAttribute('whether2'))) {
+        direct_warning ('Double clustering is not available in multi-corpora mode')
+        return
+      }
       let clust_param = {}
       if (this.getAttribute('clustering')) { clust_param.clust1_key = this.getAttribute('clustering') }
       if (this.getAttribute('whether')) { clust_param.clust1_whether = this.getAttribute('whether') }
