@@ -129,7 +129,9 @@ let app = new Vue({
     },
 
     search_corpus_(id) {
-      search_corpus(id)
+      const corp_group = find_best_match_corpus(id)
+      app.current_corpus_id = corp_group.corpus_id;
+      app.current_group_id = corp_group.group_id;
     },
 
     export_tsv_(pivot) {
@@ -179,15 +181,10 @@ let app = new Vue({
       }
     },
 
-  selected_corpora: function () {
-    console.log ("selected_Corp")
-//    setTimeout(function () {
-      history.pushState({},
-        '',
-        `?corpus_list=${app.selected_corpora.join(',')}`
-      )
-//current_corpus_id    }, 100)
-  }
+    selected_corpora: function () {
+      update_url()
+    }
+
   }, // end watch
 
   computed: {
@@ -272,7 +269,7 @@ let app = new Vue({
     },
 
     disable_search: function () {
-      return (this.clust1 === 'key' && this.clust1_key.trim() === '') 
+      return (this.clust1 === 'key' && this.clust1_key.trim() === '')
       || (this.clust2 === 'key' && this.clust2_key.trim() === '')
       || (this.multi_mode && this.selected_corpora.length === 0)
     }
@@ -368,14 +365,19 @@ async function deal_with_get_parameters() {
 
   if (url_params.has('corpus')) {
     app.skip_history = true
-    search_corpus(url_params.get('corpus'))
+    const corp_group = find_best_match_corpus(url_params.get('corpus'))
+    app.current_corpus_id = corp_group.corpus_id;
+    app.current_group_id = corp_group.group_id;
     app.view_left_pane = true
   }
 
   if (url_params.has('corpus_list')) {
+    const corpus_list = url_params.get('corpus_list').split(',')
+    const corp_group = find_best_match_corpus (corpus_list[0]) // hack for a initialisation of group_id
+    app.current_group_id = corp_group.group_id;
     app.skip_history = true
     app.multi_mode = true
-    app.selected_corpora = url_params.get('corpus_list').split(',')
+    app.selected_corpora = corpus_list
     app.view_left_pane = true
   }
 
@@ -424,9 +426,14 @@ async function deal_with_get_parameters() {
       // if corpus is given as GET parameter, it has priority
       if (app.current_corpus_id === undefined) {
         if ('corpus' in data) {
-          search_corpus(data.corpus)
+          const corp_group = find_best_match_corpus(data.corpus)
+          app.current_corpus_id = corp_group.corpus_id;
+          app.current_group_id = corp_group.group_id;
         } else if ('corpus_list' in data) {
+          const corp_group = find_best_match_corpus (data.corpus_list[0]) // hack for a initialisation of group_id
+          app.current_group_id = corp_group.group_id;
           app.multi_mode = true;
+          app.skip_history = true;
           app.selected_corpora = data.corpus_list;
         } else {
           direct_error (`no corpus defined in ${custom_param}. Please report with this message`)
@@ -447,7 +454,7 @@ async function deal_with_get_parameters() {
     .catch (function (_) {
       // backup on old custom saving
       if (app.current_corpus_id == undefined) {
-        search_corpus() // if no corpus is specified, take the default
+        set_default_corpus() // if no corpus is specified, take the default
       }
       fetch(`${app.backend_server}shorten/${custom_param}`)
       .then (function (request) {
@@ -462,7 +469,7 @@ async function deal_with_get_parameters() {
   }
 
   if (app.current_corpus_id == undefined) {
-    search_corpus() // if no corpus is specified, take the default
+    set_default_corpus() // if no corpus is specified, take the default
     app.view_left_pane = true
   }
 
@@ -538,18 +545,6 @@ function search_path(path, data) {
   return search_path(tail, data[head])
 }
 
-
-// ==================================================================================
-function search_corpus(requested_corpus) {
-  log(`=== search_corpus === ${requested_corpus}`);
-
-  if (requested_corpus === undefined) {
-    set_default_corpus();
-  } else {
-    find_best_match_corpus(requested_corpus);
-  }
-}
-
 // ==================================================================================
 function set_default_corpus() {
   const first_group = app.groups[0]
@@ -581,9 +576,7 @@ function find_best_match_corpus(requested_corpus) {
       if (!corpus.id) continue;
 
       if (requested_corpus === corpus.id) {
-        app.current_corpus_id = corpus.id;
-        app.current_group_id = group.id;
-        return;
+        return { 'corpus_id':corpus.id, 'group_id': group.id }
       }
 
       const cpl = common_prefix_length(requested_corpus, corpus.id);
@@ -603,8 +596,7 @@ function find_best_match_corpus(requested_corpus) {
   // No exact match found
   app.warning_level = 2; // Initialize at 2 because the watcher `current_corpus_id` decrements later
   app.warning_message = `⚠️  ${requested_corpus} &rarr; ${best_match.corpus_id}`;
-  app.current_corpus_id = best_match.corpus_id;
-  app.current_group_id = best_match.group_id;
+  return { 'corpus_id':best_match.id, 'group_id': best_match.id }
 }
 
 // ==================================================================================
@@ -999,25 +991,25 @@ function search() {
       app.result_message =  `${app.nb_solutions} occurrences in ${app.selected_corpora.length} corpora`;
       if (data.nb_partial > 0) {
         app.result_message += ` (partial results in ${data.nb_partial} corp${data.nb_partial > 1 ? "ora" : "us"})`
-      }  
+      }
     } else {
       switch (data.status) {
         case 'complete':
-          if (data.nb_solutions === 0) {
-            app.result_message = 'No results'
-          } else {
-            app.result_message = `${data.nb_solutions} occurrence${(data.nb_solutions > 1) ? 's' : ''}`
-          }
-          break
-          case 'max_results':
-          app.result_message = `More than ${data.nb_solutions} results found in ${(100 * data.ratio).toFixed(2)}% of the corpus`
-          break
-          case 'timeout':
-          app.result_message = `Timeout. ${data.nb_solutions} occurrences found in ${(100 * data.ratio).toFixed(2)}% of the corpus`
-          break
-          default:
-          direct_error(`unknown status: ${data.status}`)
-          }
+        if (data.nb_solutions === 0) {
+          app.result_message = 'No results'
+        } else {
+          app.result_message = `${data.nb_solutions} occurrence${(data.nb_solutions > 1) ? 's' : ''}`
+        }
+        break
+        case 'max_results':
+        app.result_message = `More than ${data.nb_solutions} results found in ${(100 * data.ratio).toFixed(2)}% of the corpus`
+        break
+        case 'timeout':
+        app.result_message = `Timeout. ${data.nb_solutions} occurrences found in ${(100 * data.ratio).toFixed(2)}% of the corpus`
+        break
+        default:
+        direct_error(`unknown status: ${data.status}`)
+      }
     }
 
 
@@ -1070,7 +1062,7 @@ function search() {
 } // search
 
 // ==================================================================================
-  function update_grid_message(data) {
+function update_grid_message(data) {
   if (data.cluster_grid.total_rows_nb > data.cluster_grid.rows.length) {
     app.grid_message = '<b>' + data.cluster_grid.total_rows_nb + '</b> lines (lines above rank '+ data.cluster_grid.rows.length +' are merged with key <code>__*__</code>); '
   } else {
@@ -1323,18 +1315,18 @@ function update_corpus() {
     })
   }
 
+  update_url ()
+}
 
+// ==================================================================================
 
-
-  if (app.skip_history) {
-    app.skip_history = false
+function update_url() {
+  if (app.skip_history) { app.skip_history = false; return } 
+  
+  if (app.multi_mode) {
+    history.pushState({}, '', `?corpus_list=${app.selected_corpora.join(',')}`)
   } else {
-    setTimeout(function () {
-      history.pushState({},
-        '',
-        `?corpus=${app.current_corpus_id}`
-      )
-    }, 100)
+    history.pushState({}, '', `?corpus=${app.current_corpus_id}`)
   }
 }
 

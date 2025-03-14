@@ -146,8 +146,8 @@
 						{{number_of_corpora}} corp{{ number_of_corpora > 1 ? "ora" : "us" }}
 					</div>
 					<div class="btn-group" role="group" style="margin-right:10px;">
-						<button type="button" class="btn btn-sm" v-on:click="multi_mode=false" v-bind:class="!multi_mode ? 'btn-success' : 'btn-default'"><i class='fa fa-circle'></i></button>
-						<button type="button" class="btn btn-sm" v-on:click="multi_mode=true" v-bind:class="multi_mode ? 'btn-success' : 'btn-default'"><i class='fa fa-ellipsis-h'></i></button>
+						<button type="button" class="btn btn-sm" v-on:click="multi_mode=false; update_url()" v-bind:class="!multi_mode ? 'btn-success' : 'btn-default'"><i class='fa fa-circle'></i></button>
+						<button type="button" class="btn btn-sm" v-on:click="multi_mode=true; update_url()" v-bind:class="multi_mode ? 'btn-success' : 'btn-default'"><i class='fa fa-ellipsis-h'></i></button>
 					</div>
 				</h4>
 				<div>
