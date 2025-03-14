@@ -129,9 +129,9 @@ let app = new Vue({
     },
 
     search_corpus_(id) {
-      const corp_group = find_best_match_corpus(id)
-      app.current_corpus_id = corp_group.corpus_id;
-      app.current_group_id = corp_group.group_id;
+      const best_match = find_best_match_corpus(id)
+      app.current_corpus_id = best_match.corpus_id;
+      app.current_group_id = best_match.group_id;
     },
 
     export_tsv_(pivot) {
@@ -183,8 +183,18 @@ let app = new Vue({
 
     selected_corpora: function () {
       update_url()
-    }
+    },
 
+    multi_mode: function () {
+      app.result_message = ''
+      if (app.multi_mode && app.selected_corpora.length === 0) {
+        app.selected_corpora = [app.current_corpus_id]
+      }
+      if (!app.multi_mode && app.current_corpus_id === undefined) {
+        set_default_corpus()
+      }
+      update_url()
+    }
   }, // end watch
 
   computed: {
@@ -365,17 +375,19 @@ async function deal_with_get_parameters() {
 
   if (url_params.has('corpus')) {
     app.skip_history = true
-    const corp_group = find_best_match_corpus(url_params.get('corpus'))
-    app.current_corpus_id = corp_group.corpus_id;
-    app.current_group_id = corp_group.group_id;
+    const best_match = find_best_match_corpus(url_params.get('corpus'))
+    app.current_corpus_id = best_match.corpus_id;
+    app.current_group_id = best_match.group_id;
     app.view_left_pane = true
   }
 
   if (url_params.has('corpus_list')) {
-    const corpus_list = url_params.get('corpus_list').split(',')
-    const corp_group = find_best_match_corpus (corpus_list[0]) // hack for a initialisation of group_id
-    app.current_group_id = corp_group.group_id;
-    app.skip_history = true
+    const corpus_list = url_params.get('corpus_list').split(',').filter(s => s.trim() !== '')
+    if (corpus_list.length > 0) {
+      const best_match = find_best_match_corpus (corpus_list[0])
+      app.current_group_id = best_match.group_id;
+      app.skip_history = true
+    }
     app.multi_mode = true
     app.selected_corpora = corpus_list
     app.view_left_pane = true
@@ -420,25 +432,24 @@ async function deal_with_get_parameters() {
 
     fetch_json(`${app.backend_server}shorten/${custom_param}.json`)
     .then(data => {
-      let request = data.request ? data.request : data.pattern // backward compatibility
+      let request = 'request' in data ? data.request : data.pattern // backward compatibility
       cmEditor.setValue(request)
 
-      // if corpus is given as GET parameter, it has priority
-      if (app.current_corpus_id === undefined) {
-        if ('corpus' in data) {
-          const corp_group = find_best_match_corpus(data.corpus)
-          app.current_corpus_id = corp_group.corpus_id;
-          app.current_group_id = corp_group.group_id;
-        } else if ('corpus_list' in data) {
-          const corp_group = find_best_match_corpus (data.corpus_list[0]) // hack for a initialisation of group_id
-          app.current_group_id = corp_group.group_id;
-          app.multi_mode = true;
-          app.skip_history = true;
-          app.selected_corpora = data.corpus_list;
-        } else {
-          direct_error (`no corpus defined in ${custom_param}. Please report with this message`)
-        }
+      // Mono corpus custom pattern
+      if ('corpus' in data) {
+        const best_match = find_best_match_corpus(data.corpus)
+        app.current_corpus_id = best_match.corpus_id;
+        app.current_group_id = best_match.group_id;
+     }
+
+      // Multi corpus custom pattern
+      if ('corpus_list' in data) {
+        app.multi_mode = true;
+        const best_match = find_best_match_corpus (data.corpus_list[0])
+        app.current_group_id = best_match.group_id;
+        app.selected_corpora = data.corpus_list;
       }
+
       if ('clust' in data) {
         set_clust_param(data.clust)
       } else {
