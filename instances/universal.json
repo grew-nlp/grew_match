@@ -741,10 +741,12 @@
       "SUD_Teochew-DiLSi@latest",
       "SUD_Mandarin-DiLSi@latest",
 
-      "mSUD_Bokota@partial",
-      "SUD_Bokota@partial",
-      "mSUD_Ika@partial",
-      "SUD_Ika@partial"
+      "mSUD_Bokota@tree",
+      "SUD_Bokota@tree",
+      "wSUD_Bokota@tree",
+      "mSUD_Ika@tree",
+      "SUD_Ika@tree",
+      "wSUD_Ika@tree"
 
     ]
   },
@@ -772,12 +774,12 @@
       "UD_Zaar-Autogramm@conv",
 
       "UD_Bokota-ChibErgIS@conv",
-      "UD_Bokota@partial",
+      "UD_Bokota@tree",
       "UD_Egyptian_Arabic-Autogramm@conv",
       "UD_Hausa-SouthernAutogramm@conv",
       "UD_Hausa-NorthernAutogramm@conv",
       "UD_Ika-ChibErgIS@conv",
-      "UD_Ika@partial",
+      "UD_Ika@tree",
       "UD_Tunisian_Arabic-NAxLAT@conv",
       "UD_Tuwari-Autogramm@conv",
 
