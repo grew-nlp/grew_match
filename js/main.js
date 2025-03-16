@@ -886,7 +886,7 @@ function count() {
 
   generic(app.backend_server, app.multi_mode ? 'count_multi' :'count', search_param())
   .then(function (data) {
-    if (data === null) { app.wait = false; return }
+    if (!data) { app.wait = false; return }
     var message = `Hi, it seems that you sent many times (20?) the same request on different treebanks
 This usage makes the server crashes regularly
 
@@ -991,7 +991,7 @@ function search() {
 
   generic(app.backend_server, app.multi_mode ? 'search_multi' :'search' , search_param())
   .then (data => {
-    if (data === null) { app.wait = false; return }
+    if (!data) { app.wait = false; return }
     app.search_mode = true
     app.current_uuid = data.uuid
     app.current_pivots = data.pivots
