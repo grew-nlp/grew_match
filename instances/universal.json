@@ -754,7 +754,7 @@
   {
     "id": "UD auto",
     "mode": "syntax",
-    "snippets": "ucxn_French-GSD",
+    "snippets": "sud",
     "style": "left_pane",
     "default": "UD_French-GSD@conv",
     "corpora": [
