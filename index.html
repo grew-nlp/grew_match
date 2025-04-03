@@ -1,10 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js">
-<!--<![endif]-->
+<html>
 
 <head>
 	<meta charset="utf-8">
@@ -16,7 +11,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
-
 	<link rel="stylesheet" href="vendor/bootflat.css">
 
 	<script src="vendor/jquery-2.1.1.min.js"></script>
@@ -48,12 +42,7 @@
 	<link rel="mask-icon" href="icon/safari-pinned-tab.svg?v=2" color="#5bbad5">
 	<link rel="shortcut icon" href="icon/favicon.ico?v=2">
 
-	<!-- Toggle button for cluster sorting -->
-	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
 	<script src="js/vendor/jquery.timeago.js"></script>
-
 	<script type="text/javascript">
 		jQuery.timeago.settings.strings.prefixAgo = "updated";
 		jQuery.timeago.settings.strings.seconds = "less than 1 minute";
@@ -160,17 +149,31 @@
 		<!-- wrapper: left menu for corpus selection -->
 		<div class="wrapper" id="wrap">
 			<nav id="sidebar" v-if="left_pane" v-bind:class="{ active: view_left_pane }">
-				<h4>{{number_of_corpora}} corp{{ number_of_corpora > 1 ? "ora" : "us" }}</h4>
+				<h4 style="display: flex; justify-content: space-between; align-items: center;">
+					<div style="margin-left:10px;">
+						{{number_of_corpora}} corp{{ number_of_corpora > 1 ? "ora" : "us" }}
+					</div>
+					<div class="btn-group" role="group" style="margin-right:10px;">
+						<button type="button" class="btn btn-sm" v-on:click="multi_mode=false" v-bind:class="!multi_mode ? 'btn-success' : 'btn-default'"><i class='fa fa-circle'></i></button>
+						<button type="button" class="btn btn-sm" v-on:click="multi_mode=true" v-bind:class="multi_mode ? 'btn-success' : 'btn-default'"><i class='fa fa-ellipsis-h'></i></button>
+					</div>
+				</h4>
 				<div>
 					Filter:
 					<input type="text" v-model="corpora_filter" />
 					<i v-on:click="corpora_filter = ''" class="fa fa-times-circle fa-lg"></i>
 				</div>
 
+				<div v-if="multi_mode">
+					<button class="btn btn-primary" :disabled='filtered_corpora_list.length>10' @click="selected_corpora=filtered_corpora_list.map(x => x.id)" style="margin-right:10px">Select filtered</button>
+					<button class="btn btn-primary" @click="selected_corpora=[]" style="margin-right:10px">Select none</button>
+				</div>
+
+
 				<div style="height: calc(100% - 90px);padding-top:10px">
 					<div style="max-height:100%;overflow:auto;">
 
-						<div class="corpus" v-for="corpus in filtered_corpora_list">
+						<div v-if="!multi_mode" class="corpus" v-for="corpus in filtered_corpora_list">
 							<table class="table">
 								<tbody>
 									<tr>
@@ -188,6 +191,27 @@
 								</tbody>
 							</table>
 						</div>
+
+						<div  v-if="multi_mode" class="corpus" v-for="corpus in filtered_corpora_list">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td class="alone" v-bind:class="{ selected: selected_corpora.includes(corpus.id) }" href="#" style="padding-left: 5px;">
+											<input v-if='!(corpus.built_files && !(corpus.built_files.includes("marshal")))' :disabled="selected_corpora.length >= 10 && !selected_corpora.includes(corpus.id)" type="checkbox" :value='corpus.id' v-model="selected_corpora" style="margin-left: 4px;">
+											{{ corpus.id }}
+											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
+											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
+											<i v-if="corpus.grs" class="fa fa-gear fa-lg" style="float: right;"></i>
+											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
+											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
+											<img v-if="corpus.audio" src="icon/audio.svg" width="20" height="20" style="float: right;"></img>
+											<img v-if="corpus.no_word" src="icon/no_word.svg" width="20" height="20" style="float: right;"></img>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
 					</div>
 				</div>
 			</nav>
@@ -207,112 +231,127 @@
 										<i id="warning-tooltip" class="fa fa-question-circle fa-lg tooltip-desc"></i>
 									</h4>
 									<h2 id="corpus">
-										<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
-											<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>
-										</button>
 
-										<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus_id }}</span>
-
-										<span v-if="corpus_error">
-											⚠️ <span style="color: red" v-html="corpus_error"></span>
-										</span>
-
-										<!-- Info button -->
-										<a v-show='meta_info'>
-											<i id="info-button" class="fa fa-info-circle tooltip-desc"></i>
-										</a>
-
-										<!-- "ago" info -->
-										<span id="update_ago" style="font-size: initial;"></span>
-
-										<!-- Download button -->
-										<a v-show='check_built("__id__.tgz")'>
-											<button type="button" class="btn btn-primary" onclick="dowload_tgz()">
-												<i class="fa fa-download fa-lg"></i>
+										<div v-if="multi_mode">
+											<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
+												<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>
 											</button>
-										</a>
+											<span style="font-size: 18px;">{{selected_corpora.length}} corp{{ selected_corpora.length > 1 ? "ora" : "us" }} selected</span>
+											<br/>
+											<span v-for="corpus in selected_corpora" class="tooltip-desc badge badge-default" style="font-size: 18px;">
+												{{ corpus }}
+												<i v-on:click="selected_corpora = selected_corpora.filter(item => item !== corpus)" class="fa fa-times-circle fa-lg" style="margin-left: 10px;"></i>
+											</span>
+										</div>
 
-										<!-- Error log button -->
-										<a v-show='check_built("log")'>
-											<button type="button" class="btn btn-danger" onclick="open_build_file('log')">
-												<i class="fa fa-exclamation-triangle fa-lg"></i>
+										<div v-else>
+											<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
+												<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>
 											</button>
-										</a>
 
-										<!-- UD validation -->
-										<a v-show='check_built("valid_ud.txt")'>
-											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">
-												<img src="icon/ud.svg" width="20"></img>
-												<i class="fa fa-check fa-lg"></i>
-											</button>
-										</a>
+											<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus_id }}</span>
 
-										<!-- SUD validation -->
-										<a v-show='check_built("valid_sud.json")'>
-											<button type="button" class="tooltip-desc btn btn-primary" onclick="open_validation_page()">
-												<img src="icon/sud.svg" height="20"></img>
-												<i class="fa fa-check fa-lg"></i>
-											</button>
-										</a>
+											<span v-if="corpus_error">
+												⚠️ <span style="color: red" v-html="corpus_error"></span>
+											</span>
 
-										<!-- Github button -->
-										<a v-show='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">
-											<button id="github-button" type="button" class="tooltip-desc btn btn-primary">
-												<i class="fa fa-github fa-lg"></i>
-											</button>
-										</a>
-										
-										<!-- Table button -->
-										<span v-show='check_built("table.html") || check_built("feat_upos.json") || check_built("dep_upos.json") || check_built("amb_lemmas.json")' class="dropdown">
-											<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
-												<button type="button" class="btn btn-primary" style="margin-top: -3px;">
-													<i class="fa fa-table fa-lg"></i>
-													<span class="caret"></span>
+											<!-- Info button -->
+											<a v-show='meta_info'>
+												<i id="info-button" class="fa fa-info-circle tooltip-desc"></i>
+											</a>
+
+											<!-- "ago" info -->
+											<span id="update_ago" style="font-size: initial;"></span>
+
+											<!-- Download button -->
+											<a v-show='check_built("__id__.tgz")'>
+												<button type="button" class="btn btn-primary" onclick="dowload_tgz()">
+													<i class="fa fa-download fa-lg"></i>
 												</button>
 											</a>
-											<ul class="dropdown-menu" style="margin-top: 10px;">
-												<li v-show='check_built("table.html")' ><a onclick="open_build_file('table.html', 'table', 'yes')" target="_blank">Relations tables</a></li>
-												<li v-show='check_built("feat_upos.json")' ><a onclick="aggrid('feat_upos')" target="_blank">Features by upos</a></li>
-												<li v-show='check_built("dep_upos.json")' ><a onclick="aggrid('dep_upos')" target="_blank">Relation by upos</a></li>
-												<li v-show='check_built("amb_lemmas.json")' ><a onclick="aggrid('amb_lemmas')" target="_blank">Lemmas with more than one upos</a></li>
-											</ul>
-										</span>
 
-										<!-- Gitlab button -->
-										<a v-show='current_corpus["gitlab"]' v-bind:href='current_corpus["gitlab"]' target="_blank">
-											<button id="gitlab-button" type="button" class="tooltip-desc btn btn-primary">
-												<i class="fa fa-gitlab fa-lg"></i>
-											</button>
-										</a>
+											<!-- Error log button -->
+											<a v-show='check_built("log")'>
+												<button type="button" class="btn btn-danger" onclick="open_build_file('log')">
+													<i class="fa fa-exclamation-triangle fa-lg"></i>
+												</button>
+											</a>
 
-										<!-- issue button -->
-										<a v-show='current_corpus["issue"]' v-bind:href='current_corpus["issue"]' target="_blank">
-											<button id="issue-button" type="button" class="tooltip-desc btn btn-primary">
-												<i class="fa fa-bug fa-lg"></i>
-											</button>
-										</a>
+											<!-- UD validation -->
+											<a v-show='check_built("valid_ud.txt")'>
+												<button type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">
+													<img src="icon/ud.svg" width="20"></img>
+													<i class="fa fa-check fa-lg"></i>
+												</button>
+											</a>
 
-										<!-- guidelines button -->
-										<a v-show='current_corpus["guidelines"]' v-bind:href='current_corpus["guidelines"]' target="_blank">
-											<button id="guidelines-button" type="button" class="tooltip-desc btn btn-primary">
-												<i class="fa fa-book fa-lg"></i>
-											</button>
-										</a>
+											<!-- SUD validation -->
+											<a v-show='check_built("valid_sud.json")'>
+												<button type="button" class="tooltip-desc btn btn-primary" onclick="open_validation_page()">
+													<img src="icon/sud.svg" height="20"></img>
+													<i class="fa fa-check fa-lg"></i>
+												</button>
+											</a>
 
-										<!-- Download button -->
-										<a v-show='current_corpus["download"]' v-bind:href='current_corpus["download"]' target="_blank">
-											<button id="download-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-download fa-lg"></i></button>
-										</a>
+											<!-- Github button -->
+											<a v-show='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">
+												<button id="github-button" type="button" class="tooltip-desc btn btn-primary">
+													<i class="fa fa-github fa-lg"></i>
+												</button>
+											</a>
 
-										<!-- Link button -->
-										<a v-show='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
-											<button id="link-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-link fa-lg"></i></button>
-										</a>
+											<!-- Table button -->
+											<span v-show='check_built("table.html") || check_built("feat_upos.json") || check_built("dep_upos.json") || check_built("amb_lemmas.json")' class="dropdown">
+												<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
+													<button type="button" class="btn btn-primary" style="margin-top: -3px;">
+														<i class="fa fa-table fa-lg"></i>
+														<span class="caret"></span>
+													</button>
+												</a>
+												<ul class="dropdown-menu" style="margin-top: 10px;">
+													<li v-show='check_built("table.html")' ><a onclick="open_build_file('table.html', 'table', 'yes')" target="_blank">Relations tables</a></li>
+													<li v-show='check_built("feat_upos.json")' ><a onclick="aggrid('feat_upos')" target="_blank">Features by upos</a></li>
+													<li v-show='check_built("dep_upos.json")' ><a onclick="aggrid('dep_upos')" target="_blank">Relation by upos</a></li>
+													<li v-show='check_built("amb_lemmas.json")' ><a onclick="aggrid('amb_lemmas')" target="_blank">Lemmas with more than one upos</a></li>
+												</ul>
+											</span>
 
-										<!-- PARSEME validation button -->
-										<a v-show='current_corpus["consistencyCheck"]' v-bind:href='current_corpus["consistencyCheck"]' target="_blank">
-											<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
-										</a>
+											<!-- Gitlab button -->
+											<a v-show='current_corpus["gitlab"]' v-bind:href='current_corpus["gitlab"]' target="_blank">
+												<button id="gitlab-button" type="button" class="tooltip-desc btn btn-primary">
+													<i class="fa fa-gitlab fa-lg"></i>
+												</button>
+											</a>
+
+											<!-- issue button -->
+											<a v-show='current_corpus["issue"]' v-bind:href='current_corpus["issue"]' target="_blank">
+												<button id="issue-button" type="button" class="tooltip-desc btn btn-primary">
+													<i class="fa fa-bug fa-lg"></i>
+												</button>
+											</a>
+
+											<!-- guidelines button -->
+											<a v-show='current_corpus["guidelines"]' v-bind:href='current_corpus["guidelines"]' target="_blank">
+												<button id="guidelines-button" type="button" class="tooltip-desc btn btn-primary">
+													<i class="fa fa-book fa-lg"></i>
+												</button>
+											</a>
+
+											<!-- Download button -->
+											<a v-show='current_corpus["download"]' v-bind:href='current_corpus["download"]' target="_blank">
+												<button id="download-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-download fa-lg"></i></button>
+											</a>
+
+											<!-- Link button -->
+											<a v-show='current_corpus["url"]' v-bind:href='current_corpus["url"]' target="_blank">
+												<button id="link-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-link fa-lg"></i></button>
+											</a>
+
+											<!-- PARSEME validation button -->
+											<a v-show='current_corpus["consistencyCheck"]' v-bind:href='current_corpus["consistencyCheck"]' target="_blank">
+												<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
+											</a>
+										</div>
 									</h2>
 
 									<div>
@@ -323,7 +362,7 @@
 										<div class="row">
 											<div class="col-md-6" style="padding-left: 0px;">
 												<div>
-													<b>Clustering 1:</b>
+													<b>Clustering<span v-show="!multi_mode"> 1:</span></b>
 													<label><input type="radio" name="clust1" value="no" v-model="clust1"> No</label>
 													<label><input type="radio" name="clust1" value="key" v-model="clust1"> Key</label>
 													<label><input type="radio" name="clust1" value="whether" v-model="clust1"> Whether</label>
@@ -332,9 +371,9 @@
 												<div v-show="clust1=='whether'">
 													<textarea id="whether-input1"></textarea>
 												</div>
-			
 											</div>
-											<div class="col-md-6" v-show="clust1 != 'no'" style="padding-right: 0px;">
+
+											<div class="col-md-6" v-show="clust1 != 'no' && !multi_mode" style="padding-right: 0px;">
 												<div>
 													<b>Clustering 2:</b>
 													<label><input type="radio" name="clust2" value="no" v-model="clust2"> No</label>
@@ -346,6 +385,7 @@
 													<textarea id="whether-input2"></textarea>
 												</div>
 											</div>
+
 										</div>
 									</div>
 									<p>
@@ -398,7 +438,7 @@
 											{{ wait ? "Counting..." : "Count" }}
 											<i class="fa fa-list-ol" aria-hidden="true"></i>
 										</button>
-										<button id="duplicate" type="button" class="tooltip-desc btn btn-primary" onclick="duplicate()">
+										<button id="clone" type="button" class="tooltip-desc btn btn-primary" onclick="clone()">
 											Clone
 											<i class="fa fa-files-o" aria-hidden="true"></i>
 										</button>
@@ -425,10 +465,10 @@
 							<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_request()" style="margin-right:10px">
 								Save <i class="fa fa-link" aria-hidden="true"></i>
 							</button>
-							<button id="export-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:run_export()" style="margin-right:10px">
+							<button v-if="!multi_mode" id="export-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:run_export()" style="margin-right:10px">
 								TSV <i class="fa fa-download" aria-hidden="true"></i></span>
 							</button>
-							<button id="download-conll-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
+							<button v-if="!multi_mode" id="download-conll-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
 								CoNLL <i class="fa fa-download" aria-hidden="true"></i></span>
 							</button>
 
@@ -458,14 +498,7 @@
 
 							</div>
 							<div v-show="cluster_dim == 1" class="row" style="margin-left: 0; margin-top: 10px; margin-bottom: 10px;">
-								<button 
-									v-for="cluster in cluster_list_sorted" 
-									type="button" 
-									class="btn btn-sm" 
-									v-on:click="select_cluster_1d(cluster.index)" 
-									v-bind:class="current_cluster_path != undefined && cluster.index == current_cluster_path[0] ? 'btn-success' : 'btn-default'"
-									style="margin-right:10px"
-								>
+								<button v-for="cluster in cluster_list_sorted" type="button" class="btn btn-sm" v-on:click="select_cluster_1d(cluster.index)" v-bind:class="current_cluster_path != undefined && cluster.index == current_cluster_path[0] ? 'btn-success' : 'btn-default'" v-bind:disabled="cluster.size == 0" style="margin-right:10px">
 									<span class="badge badge-pill badge-info">
 										{{ raw_nb ? cluster.size : cluster.percent}}
 									</span>
@@ -492,11 +525,11 @@
 									</button>
 								</div>
 								<span style="font-size: 150%; margin-left: 10px;" v-html="grid_message"></span>
-	
+
 								<div style="overflow-y:scroll;">
 									<cluster-grid :columns="grid_columns" :rows="grid_rows" :cells="grid_cells" :col_label="col_label" :row_label="row_label" :grid_display="grid_display">
 									</cluster-grid>
-							  </div>
+								</div>
 							</div>
 
 						</div>
@@ -541,7 +574,7 @@
 									<audio id="audioPlayer" preload="none" controls style="width: 100%; height: 30px;">
 										<source src="to_be_filled_dynamically">
 										Your browser does not support the audio tag.
-									</audio> 
+									</audio>
 								</div>
 
 								<div v-if="result_nb > 0">
@@ -549,7 +582,7 @@
 
 										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
 
-											<button v-if='current_view >= 0 && "meta" in current_item && Object.keys(current_item.meta).length > 0' 
+											<button v-if='current_view >= 0 && "meta" in current_item && Object.keys(current_item.meta).length > 0'
 												class="btn btn-primary btn-sm" type="button" v-on:click="metadata_open=!metadata_open">
 												Metadata&nbsp;
 												<i class="fa fa-fw" v-bind:class="metadata_open ? ['fa-chevron-down'] : ['fa-chevron-right']"></i>
@@ -598,15 +631,15 @@
 								</div>
 
 								<div v-show="current_corpus.parallels && current_corpus.parallels.length > 0 && current_group_id != 'Tutorial'">
-									Parallel corpora: 
+									Parallel corpora:
 									<i id="para-tooltip" class="fa fa-question-circle tooltip-desc"></i>
 									<i id="para-close-tooltip" v-show="parallel != 'no'" class="fa fa-times-circle fa-lg tooltip-desc" v-on:click="parallel='no'; update_parallel_()" style="float: right; margin-top: 8px;"></i>
 									<span v-for="par in current_corpus.parallels">
-										<button style="margin-left:20px" type="button" class="btn" v-on:click="parallel=par; update_parallel_()" v-bind:class="par == parallel ? 'btn-success' : 'btn-default'" > 
-										{{ par }}
-									</button>
-									<i aria-hidden="true" class="fa fa-lg fa-link" v-on:click="search_corpus_(par)"></i>
-								</span>
+										<button style="margin-left:20px" type="button" class="btn" v-on:click="parallel=par; update_parallel_()" v-bind:class="par == parallel ? 'btn-success' : 'btn-default'" >
+											{{ par }}
+										</button>
+										<i aria-hidden="true" class="fa fa-lg fa-link" v-on:click="search_corpus_(par)"></i>
+									</span>
 								</div>
 
 								<div v-if="current_corpus.parallels && current_corpus.parallels.length > 0 && parallel != 'no'" id="display-parallel">
@@ -703,42 +736,49 @@
 	<!-- component template -->
 	<script type="text/x-template" id="grid-template">
 		<table class="table-bordered" style="margin-bottom: 10px;" >
-		<thead>
-			<tr>
-				<td style="padding:0px">
-					<div class="cell diag">
-						<div class="cell--topRight"><code>{{col_label}}</code></div>
-						<div class="cell--bottomLeft"><code>{{row_label}}</code></div>
-					</div>
-				</td>
-				<th class="th-grid" v-for="col in columns">
-					<span class="label label-default">
-						<span class="badge badge-pill"style="background-color: black;">
-							{{ grid_display === Grid_display.SIZE ? col.size : grid_display === Grid_display.PERCENT_COL ? "100%" : col.percent }}
+			<thead>
+				<tr>
+					<td style="padding:0px">
+						<div class="cell diag">
+							<div class="cell--topRight"><code>{{col_label}}</code></div>
+							<div class="cell--bottomLeft"><code>{{row_label}}</code></div>
+						</div>
+					</td>
+					<th class="th-grid" v-for="col in columns">
+						<span class="label label-default">
+							<span class="badge badge-pill"style="background-color: black;">
+								{{ grid_display === Grid_display.SIZE ? col.size : grid_display === Grid_display.PERCENT_COL ? "100%" : col.percent }}
+							</span>
+							{{ col.value }}
 						</span>
-						{{ col.value }}
-					</span>
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-for="(row,row_index) in rows">
-				<th class="th-grid"> 
-					<span class="label label-default">
-						<span class="badge badge-pill"style="background-color: black;">
-							{{ grid_display === Grid_display.SIZE ? row.size : grid_display === Grid_display.PERCENT_ROW ? "100%" : row.percent }}
-						</span> 
-						{{ row.value }}
-					</span> 
-				</th>
-				<td class="td-grid" v-for="(col,col_index) in columns">
-					<a v-if="cells[row_index][col_index].size > 0" class="btn" v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'" v-on:click="select_cluster_2d_(col_index,row_index)">
-						{{ grid_display === Grid_display.SIZE ? cells[row_index][col_index].size : grid_display === Grid_display.PERCENT ? cells[row_index][col_index].percent : grid_display === Grid_display.PERCENT_COL ? cells[row_index][col_index].percent_col : cells[row_index][col_index]. percent_row }}
-					</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="(row,row_index) in rows">
+					<th class="th-grid">
+						<span class="label label-default">
+							<span class="badge badge-pill"style="background-color: black;">
+								{{ grid_display === Grid_display.SIZE ? row.size : grid_display === Grid_display.PERCENT_ROW ? "100%" : row.percent }}
+							</span>
+							{{ row.value }}
+						</span>
+					</th>
+					<td class="td-grid" v-for="(col,col_index) in columns">
+						<a v-if="cells[row_index][col_index].size > 0" class="btn" v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'" v-on:click="select_cluster_2d_(col_index,row_index)">
+							{{ grid_display === Grid_display.SIZE
+								? cells[row_index][col_index].size
+								: grid_display === Grid_display.PERCENT
+								? cells[row_index][col_index].percent
+								: grid_display === Grid_display.PERCENT_COL
+								? cells[row_index][col_index].percent_col
+								: cells[row_index][col_index]. percent_row
+							}}
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</script>
 
 	<!-- Grew-match specific CSS and JS -->

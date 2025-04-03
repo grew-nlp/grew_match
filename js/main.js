@@ -25,6 +25,9 @@ let app = new Vue({
 
     search_mode: true,
 
+    multi_mode: false, // allow multi selection
+    selected_corpora: [], // list of selected corpora
+
     corpora_filter: '',
 
     backend_server: undefined,
@@ -126,7 +129,9 @@ let app = new Vue({
     },
 
     search_corpus_(id) {
-      search_corpus(id)
+      const best_match = find_best_match_corpus(id)
+      app.current_corpus_id = best_match.corpus_id;
+      app.current_group_id = best_match.group_id;
     },
 
     export_tsv_(pivot) {
@@ -136,6 +141,9 @@ let app = new Vue({
     select_group(group_id) {
       app.current_group_id = group_id
       this.view_left_pane = true // always make left pane visible when a new group is selected
+      if (app.current_group.style != 'left_pane') {
+        app.multi_mode = false
+      }
       if ('default' in app.current_group) {
         app.current_corpus_id = app.current_group.default
       } else {
@@ -172,6 +180,21 @@ let app = new Vue({
         app.clust2 = 'no'
       }
     },
+
+    selected_corpora: function () {
+      update_url()
+    },
+
+    multi_mode: function () {
+      app.result_message = ''
+      if (app.multi_mode && app.selected_corpora.length === 0) {
+        app.selected_corpora = [app.current_corpus_id]
+      }
+      if (!app.multi_mode && app.current_corpus_id === undefined) {
+        set_default_corpus()
+      }
+      update_url()
+    }
   }, // end watch
 
   computed: {
@@ -256,7 +279,9 @@ let app = new Vue({
     },
 
     disable_search: function () {
-      return (this.clust1 === 'key' && this.clust1_key.trim() === '') || (this.clust2 === 'key' && this.clust2_key.trim() === '')
+      return (this.clust1 === 'key' && this.clust1_key.trim() === '')
+      || (this.clust2 === 'key' && this.clust2_key.trim() === '')
+      || (this.multi_mode && this.selected_corpora.length === 0)
     }
   } // end computed
 })
@@ -350,13 +375,27 @@ async function deal_with_get_parameters() {
 
   if (url_params.has('corpus')) {
     app.skip_history = true
-    search_corpus(url_params.get('corpus'))
+    const best_match = find_best_match_corpus(url_params.get('corpus'))
+    app.current_corpus_id = best_match.corpus_id;
+    app.current_group_id = best_match.group_id;
     app.view_left_pane = true
   }
 
-  if (localStorage.param_for_duplicate) {
-    let param = JSON.parse (localStorage.param_for_duplicate)
-    localStorage.removeItem('param_for_duplicate')
+  if (url_params.has('corpus_list')) {
+    const corpus_list = url_params.get('corpus_list').split(',').filter(s => s.trim() !== '')
+    if (corpus_list.length > 0) {
+      const best_match = find_best_match_corpus (corpus_list[0])
+      app.current_group_id = best_match.group_id;
+      app.skip_history = true
+    }
+    app.multi_mode = true
+    app.selected_corpora = corpus_list
+    app.view_left_pane = true
+  }
+
+  if (localStorage.param_for_clone) {
+    let param = JSON.parse (localStorage.param_for_clone)
+    localStorage.removeItem('param_for_clone')
     open_param(param)
     return // in case of duplicata, no need to go on with other parameters
   }
@@ -393,15 +432,24 @@ async function deal_with_get_parameters() {
 
     fetch_json(`${app.backend_server}shorten/${custom_param}.json`)
     .then(data => {
-      let request = data.request ? data.request : data.pattern // backward compatibility
+      let request = 'request' in data ? data.request : data.pattern // backward compatibility
       cmEditor.setValue(request)
 
-      // if corpus is given as GET parameter, it has priority
-      if (app.current_corpus_id == undefined) {
-        if ('corpus' in data) {
-          search_corpus(data.corpus)
-        }
+      // Mono corpus custom pattern
+      if ('corpus' in data) {
+        const best_match = find_best_match_corpus(data.corpus)
+        app.current_corpus_id = best_match.corpus_id;
+        app.current_group_id = best_match.group_id;
+     }
+
+      // Multi corpus custom pattern
+      if ('corpus_list' in data) {
+        app.multi_mode = true;
+        const best_match = find_best_match_corpus (data.corpus_list[0])
+        app.current_group_id = best_match.group_id;
+        app.selected_corpora = data.corpus_list;
       }
+
       if ('clust' in data) {
         set_clust_param(data.clust)
       } else {
@@ -417,7 +465,7 @@ async function deal_with_get_parameters() {
     .catch (function (_) {
       // backup on old custom saving
       if (app.current_corpus_id == undefined) {
-        search_corpus() // if no corpus is specified, take the default
+        set_default_corpus() // if no corpus is specified, take the default
       }
       fetch(`${app.backend_server}shorten/${custom_param}`)
       .then (function (request) {
@@ -432,7 +480,7 @@ async function deal_with_get_parameters() {
   }
 
   if (app.current_corpus_id == undefined) {
-    search_corpus() // if no corpus is specified, take the default
+    set_default_corpus() // if no corpus is specified, take the default
     app.view_left_pane = true
   }
 
@@ -509,18 +557,6 @@ function search_path(path, data) {
   return search_path(tail, data[head])
 }
 
-
-// ==================================================================================
-function search_corpus(requested_corpus) {
-  log(`=== search_corpus === ${requested_corpus}`);
-
-  if (requested_corpus === undefined) {
-    set_default_corpus();
-  } else {
-    find_best_match_corpus(requested_corpus);
-  }
-}
-
 // ==================================================================================
 function set_default_corpus() {
   const first_group = app.groups[0]
@@ -552,9 +588,7 @@ function find_best_match_corpus(requested_corpus) {
       if (!corpus.id) continue;
 
       if (requested_corpus === corpus.id) {
-        app.current_corpus_id = corpus.id;
-        app.current_group_id = group.id;
-        return;
+        return { 'corpus_id':corpus.id, 'group_id': group.id }
       }
 
       const cpl = common_prefix_length(requested_corpus, corpus.id);
@@ -574,8 +608,7 @@ function find_best_match_corpus(requested_corpus) {
   // No exact match found
   app.warning_level = 2; // Initialize at 2 because the watcher `current_corpus_id` decrements later
   app.warning_message = `⚠️  ${requested_corpus} &rarr; ${best_match.corpus_id}`;
-  app.current_corpus_id = best_match.corpus_id;
-  app.current_group_id = best_match.group_id;
+  return { 'corpus_id':best_match.id, 'group_id': best_match.id }
 }
 
 // ==================================================================================
@@ -638,7 +671,7 @@ function audio_init() {
 // ==================================================================================
 function open_validation_page() {
   let param = {
-    corpus_id: app.current_corpus_id,
+    corpus: app.current_corpus_id,
     file: 'valid_sud.json'
   }
 
@@ -702,10 +735,26 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
 // ==================================================================================
 function get_clust_param () {
   let param = {}
-  if (app.clust1 == 'key') { param.clust1_key = app.clust1_key; app.row_label = app.clust1_key }
-  if (app.clust1 == 'whether') { param.clust1_whether = clust1_cm.getValue(); app.row_label = 'Whether_1' }
-  if (app.clust2 == 'key') { param.clust2_key = app.clust2_key; app.col_label = app.clust2_key }
-  if (app.clust2 == 'whether') { param.clust2_whether = clust2_cm.getValue(); app.col_label = 'Whether_2' }
+  if (app.clust1 === 'key') {
+    param.clust1_key = app.clust1_key;
+    app.row_label = app.multi_mode ? "Corpus" : app.clust1_key;
+    app.col_label = app.multi_mode ? app.clust1_key : "_";
+  }
+  if (app.clust1 === 'whether') {
+    param.clust1_whether = clust1_cm.getValue();
+    app.row_label = app.multi_mode ? "Corpus" : 'Whether_1'
+    app.col_label = app.multi_mode ? 'Whether_1' : "_"
+  }
+  if (!app.multi_mode) {
+    if (app.clust2 === 'key') {
+      param.clust2_key = app.clust2_key;
+      app.col_label = app.clust2_key
+    }
+    if (app.clust2 === 'whether') {
+      param.clust2_whether = clust2_cm.getValue();
+      app.col_label = 'Whether_2'
+    }
+  }
   return param
 }
 
@@ -752,6 +801,10 @@ function right_pane(base) {
     if (data === null) { return }
     $('#right-pane').html(data)
     $('.inter').click(function () {
+      if (app.multi_mode && (this.getAttribute('clustering2') || this.getAttribute('whether2'))) {
+        direct_warning ('Double clustering is not available in multi-corpora mode')
+        return
+      }
       let clust_param = {}
       if (this.getAttribute('clustering')) { clust_param.clust1_key = this.getAttribute('clustering') }
       if (this.getAttribute('whether')) { clust_param.clust1_whether = this.getAttribute('whether') }
@@ -832,9 +885,9 @@ function count() {
   app.wait = true
   app.search_mode = false
 
-  generic(app.backend_server, 'count', search_param())
+  generic(app.backend_server, app.multi_mode ? 'count_multi' :'count', search_param())
   .then(function (data) {
-    if (data === null) { app.wait = false; return }
+    if (!data) { app.wait = false; return }
     var message = `Hi, it seems that you sent many times (20?) the same request on different treebanks
 This usage makes the server crashes regularly
 
@@ -893,7 +946,13 @@ function open_param(param) {
   log (`open param: ${JSON.stringify(param)}`)
 
   cmEditor.setValue(param.request)
-  app.current_corpus_id = param.corpus_id
+  if ('corpus' in param) {
+    app.multi_mode = false
+    app.current_corpus_id = param.corpus
+  } else {
+    app.multi_mode = true
+    app.selected_corpora = param.corpus_list
+  }
   app.display = param.display
   set_clust_param (param.clust)
 }
@@ -902,18 +961,22 @@ function open_param(param) {
 function search_param() {
   let param = {
     request: cmEditor.getValue(),
-    corpus_id: app.current_corpus_id,
     display: app.display,
     clust: get_clust_param(),
+  }
+  if (app.multi_mode) {
+    param.corpus_list = app.selected_corpora
+  } else {
+    param.corpus = app.current_corpus_id
   }
   return param
 }
 
 // ==================================================================================
-function duplicate() {
+function clone() {
   let base_url = window.location.origin
   let param = search_param()
-  localStorage.setItem('param_for_duplicate', JSON.stringify (param))
+  localStorage.setItem('param_for_clone', JSON.stringify (param))
   let url = `${base_url}?corpus=${app.current_corpus_id}`
   window.open(url, '_blank').focus()
 }
@@ -925,33 +988,47 @@ function search() {
   app.current_cluster_path = undefined
   app.current_view = 0
   app.wait = true
+  app.search_mode = true
 
-  generic(app.backend_server, 'search', search_param())
+  generic(app.backend_server, app.multi_mode ? 'search_multi' :'search' , search_param())
   .then (data => {
-    if (data === null) { app.wait = false; return }
+    if (!data) { app.wait = false; return }
     app.search_mode = true
     app.current_uuid = data.uuid
     app.current_pivots = data.pivots
     app.current_time = data.time
     app.nb_solutions = data.nb_solutions
 
-    switch (data.status) {
-      case 'complete':
-      if (data.nb_solutions === 0) {
-        app.result_message = 'No results'
-      } else {
-        app.result_message = `${data.nb_solutions} occurrence${(data.nb_solutions > 1) ? 's' : ''}`
+    if (app.multi_mode) {
+      app.result_message =  `${app.nb_solutions} occurrences in ${app.selected_corpora.length} corpora`;
+      if (data.nb_partial > 0) {
+        app.result_message += ` (partial results in ${data.nb_partial} corp${data.nb_partial > 1 ? "ora" : "us"})`
       }
-      break
-      case 'max_results':
-      app.result_message = `More than ${data.nb_solutions} results found in ${(100 * data.ratio).toFixed(2)}% of the corpus`
-      break
-      case 'timeout':
-      app.result_message = `Timeout. ${data.nb_solutions} occurrences found in ${(100 * data.ratio).toFixed(2)}% of the corpus`
-      break
-      default:
-      direct_error(`unknown status: ${data.status}`)
+    } else {
+      switch (data.status) {
+        case 'complete':
+        if (data.nb_solutions === 0) {
+          app.result_message = 'No results'
+        } else {
+          app.result_message = `${data.nb_solutions} occurrence${(data.nb_solutions > 1) ? 's' : ''}`
+        }
+        break
+        case 'max_results':
+        app.result_message = `More than ${data.nb_solutions} results found in ${(100 * data.ratio).toFixed(2)}% of the corpus`
+        break
+        case 'timeout':
+        app.result_message = `Timeout. ${data.nb_solutions} occurrences found in ${(100 * data.ratio).toFixed(2)}% of the corpus`
+        break
+        default:
+        direct_error(`unknown status: ${data.status}`)
+      }
     }
+
+
+
+
+
+
 
     if ('cluster_single' in data) {
       app.cluster_dim = 0
@@ -1095,7 +1172,7 @@ function update_parallel() {
   if (app.parallel != 'no') {
     let param = {
       uuid: app.current_uuid,
-      corpus_id: app.parallel,
+      corpus: app.parallel,
       sent_id: app.sent_id,
     }
 
@@ -1154,7 +1231,7 @@ function code_copy() {
 // ==================================================================================
 function dowload_tgz() {
   let param = {
-    corpus_id: app.current_corpus_id,
+    corpus: app.current_corpus_id,
   }
 
   generic(app.backend_server, 'dowload_tgz', param)
@@ -1168,7 +1245,7 @@ function dowload_tgz() {
 function open_build_file(file,get_param,get_value) {
   let expanded_file = file.replace('__id__', app.current_corpus_id)
   let param = {
-    corpus_id: app.current_corpus_id,
+    corpus: app.current_corpus_id,
     file: expanded_file
   }
 
@@ -1195,14 +1272,9 @@ function open_build_file(file,get_param,get_value) {
 
 // ==================================================================================
 function save_request() {
-  let param = {
-    uuid: app.current_uuid,
-    request: cmEditor.getValue(),
-    corpus: app.current_corpus_id,
-    clust: get_clust_param(),
-    display: app.display,
-    search_mode: app.search_mode,
-  }
+  let param = search_param()
+  param.uuid = app.current_uuid
+  param.search_mode = app.search_mode
   generic(app.backend_server, 'save', param)
   .then( _ => {
     history.pushState({ id: app.current_uuid }, '', '?custom=' + app.current_uuid)
@@ -1244,7 +1316,7 @@ function update_corpus() {
   // update info button and update timestamp if needed
   if (app.check_built('desc.json')) {
     let param = {
-      corpus_id: app.current_corpus_id,
+      corpus: app.current_corpus_id,
       file: 'desc.json'
     }
 
@@ -1266,18 +1338,18 @@ function update_corpus() {
     })
   }
 
+  update_url ()
+}
 
+// ==================================================================================
 
-
-  if (app.skip_history) {
-    app.skip_history = false
+function update_url() {
+  if (app.skip_history) { app.skip_history = false; return } 
+  
+  if (app.multi_mode) {
+    history.pushState({}, '', `?corpus_list=${app.selected_corpora.join(',')}`)
   } else {
-    setTimeout(function () {
-      history.pushState({},
-        '',
-        `?corpus=${app.current_corpus_id}`
-      )
-    }, 100)
+    history.pushState({}, '', `?corpus=${app.current_corpus_id}`)
   }
 }
 
@@ -1296,4 +1368,3 @@ function select_cluster_2d(c, r) {
     }
   }
 }
-
