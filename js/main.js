@@ -139,6 +139,7 @@ let app = new Vue({
     },
 
     select_group(group_id) {
+      app.skip_history = true;
       app.current_group_id = group_id
       this.view_left_pane = true // always make left pane visible when a new group is selected
       if (app.current_group.style != 'left_pane') {
@@ -149,6 +150,8 @@ let app = new Vue({
       } else {
         app.current_corpus_id = app.current_group.corpora[0].id
       }
+      // without the delay, it makes the whole page load again.
+      setTimeout(update_url, 200)
     },
 
     update_current_cluster() { // also update app.current_cluster_size
