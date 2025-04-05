@@ -610,7 +610,7 @@ function find_best_match_corpus(requested_corpus) {
   // No exact match found
   app.warning_level = 2; // Initialize at 2 because the watcher `current_corpus_id` decrements later
   app.warning_message = `⚠️  ${requested_corpus} &rarr; ${best_match.corpus_id}`;
-  return { 'corpus_id':best_match.id, 'group_id': best_match.id }
+  return { 'corpus_id':best_match.corpus_id, 'group_id': best_match.group_id }
 }
 
 // ==================================================================================
@@ -676,7 +676,6 @@ function open_validation_page() {
     corpus: app.current_corpus_id,
     file: 'valid_sud.json'
   }
-
   generic(app.backend_server, 'get_build_file', param)
   .then(function (data) {
     if (data === null) { return }
@@ -950,7 +949,8 @@ function open_param(param) {
   cmEditor.setValue(param.request)
   if ('corpus' in param) {
     app.multi_mode = false
-    app.current_corpus_id = param.corpus
+    console.log ("7 --> " + param.corpus)
+    app.current_corpus_id = param.corpus   // XXX
   } else {
     app.multi_mode = true
     app.selected_corpora = param.corpus_list
@@ -1277,6 +1277,7 @@ function save_request() {
 
 // ==================================================================================
 function update_corpus() {
+  console.log ("enter update corpus")
   app.current_custom = ''
   $('.timeago').remove()
   app.meta_info = false
@@ -1310,7 +1311,6 @@ function update_corpus() {
       corpus: app.current_corpus_id,
       file: 'desc.json'
     }
-
     generic(app.backend_server, 'get_build_file', param)
     .then( data => {
       let json = JSON.parse(data)
