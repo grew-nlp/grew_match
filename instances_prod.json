@@ -57,6 +57,13 @@
   {
     "backend": "https://gmd-sawg.grew.fr/",
     "instance": "sawg.json"
+  },
+
+  "pt.grew.fr":
+  {
+    "backend": "https://gmd-pt.grew.fr/",
+    "instance": "pt.json"
   }
+
 
 }

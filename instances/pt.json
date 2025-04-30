@@ -1,0 +1,13 @@
+[
+  {
+    "id": "Pyramid texts",
+    "mode": "syntax",
+    "snippets": "ud",
+    "style": "left_pane",
+    "corpora":
+    [
+      "UD_Egyptian-UJaen@2.15",
+      "UD_Egyptian-UJaen@dev"
+    ]
+	}
+]
