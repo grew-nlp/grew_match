@@ -7,7 +7,8 @@
     "corpora":
     [
       "UD_Egyptian-UJaen@2.15",
-      "UD_Egyptian-UJaen@dev"
+      "UD_Egyptian-UJaen@dev",
+      "egy_ujaen_MASTER"
     ]
 	}
 ]
