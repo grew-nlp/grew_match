@@ -62,8 +62,9 @@
   "pt.grew.fr":
   {
     "backend": "https://gmd-pt.grew.fr/",
-    "instance": "pt.json"
+    "instance": "pt.json",
+    "top_project": {
+      "logo": "https://grew.fr/download/pt/Logo_PT_Small.png"
+    }
   }
-
-
 }

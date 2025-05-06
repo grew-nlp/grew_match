@@ -62,6 +62,15 @@
   {
     "backend": "http://localhost:10008/",
     "instance": "sawg.json"
+  },
+
+  "localhost:11009":
+  {
+    "backend": "http://localhost:10009/",
+    "instance": "pt.json",
+    "top_project": {
+      "logo": "https://grew.fr/download/pt/Logo_PT_Small.png"
+    }
   }
 
 }

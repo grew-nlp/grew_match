@@ -6,11 +6,13 @@
     "style": "left_pane",
     "corpora":
     [
-      "UD_Egyptian-UJaen@2.15",
-      "UD_Egyptian-UJaen@dev",
-      "egy_ujaen_PT",
-      "egy_ujaen_MISC",
-      "egy_ujaen_ALL"
+      "PT_all",
+      "PT_Unas",
+      "PT_Teti",
+      "PT_Pepi",
+      "PT_Merenre",
+      "PT_Neferkare",
+      "PT_Neith"
     ]
 	}
 ]
