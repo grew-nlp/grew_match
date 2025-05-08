@@ -69,7 +69,7 @@
     "backend": "http://localhost:10009/",
     "instance": "pt.json",
     "top_project": {
-      "logo": "https://grew.fr/download/pt/Logo_PT_Small.png"
+      "cite": "### Díaz Hernández, R. A. **PT ${spell}. ${section} ${king}**, \n ### in: Bruno Guillaume, PT.grew.fr, version 1.0, May 2025"
     }
   }
 

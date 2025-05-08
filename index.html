@@ -602,6 +602,11 @@
 												</button>
 											</a>
 
+											<button v-if='"cite" in top_project' type="button" class="btn btn-sm btn-primary tooltip-desc" onclick="show_cite()">
+												Cite&nbsp;
+												<i class="fa fa-book" aria-hidden="true"></i>
+											</button>
+
 										</div>
 
 										<div v-if="current_view >= 0">
@@ -712,6 +717,25 @@
 					</div>
 					<div class="modal-body">
 						<textarea id="code_viewer" rows="25" readonly=""></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div id="cite_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center modal-lg">
+					<div class="modal-content" style="width: inherit; margin: 0 auto;">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Please cite:</h4>
+						</div>
+						<div id="cite_viewer" class="modal-body">...</div>
 					</div>
 				</div>
 			</div>

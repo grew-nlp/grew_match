@@ -1209,6 +1209,17 @@ function show_conll() {
 }
 
 // ==================================================================================
+function show_cite() {
+  let md_text = app.top_project["cite"]
+  md_text = md_text.replace(/\$\{(.*?)\}/g, (match, key) => {
+    return app.current_item.meta[key] !== undefined ? app.current_item.meta[key] : match;
+  });
+  let text = md.render(md_text)
+  $('#cite_viewer').html(text)
+  $('#cite_modal').modal('show')
+}
+
+// ==================================================================================
 function show_code() {
   $('#code_viewer').html(app.current_item.code)
   $('#code_modal').modal('show')
