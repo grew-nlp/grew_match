@@ -629,6 +629,8 @@
 									</div>
 								</div>
 
+								<img v-if='"png" in current_corpus' v-bind:src='current_corpus["png"]+"/"+sent_id+".png"' style="width: 55vw; min-width: 330px;" alt="">
+
 								<div v-if="result_nb > 0 && current_view >= 0" id="display-svg">
 									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
 								</div>
