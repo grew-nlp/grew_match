@@ -70,8 +70,9 @@
 						<img src="portal/grew-match.svg" alt="LOGO for grew_match" style="height:50px;">
 					</a>
 
-					<a v-bind:href='top_project["website"]' v-if="top_project" class="navbar-brand" id="title-grew" style="padding:0px; background-color:white; ">
-						<img v-bind:src='top_project["logo"]' alt="LOGO for top_project site" style="height:50px;">
+					<a v-bind:href='top_project["website"]' v-if="top_project" class="navbar-brand" id="title-grew" style="padding:0px; ">
+						<img v-if='"logo" in top_project' v-bind:src='top_project["logo"]' alt="LOGO for top_project site" style="height:50px; background-color:white;">
+						<img v-if='"logo_nobg" in top_project' v-bind:src='top_project["logo_nobg"]' alt="LOGO for top_project site" style="height:50px; ">
 					</a>
 
 					<ul class="nav navbar-nav groups" style="margin-left:30px">
@@ -122,6 +123,11 @@
 
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						<li v-if='top_project && "secondary_logo" in top_project'>
+							<a v-bind:href='top_project["secondary_website"]' style="padding:0px; ">
+								<img v-bind:src='top_project["secondary_logo"]' alt="secondary_logo" style="height:40px; margin-top: 5px;">
+							</a>
+						</li>
 
 						<li class="dropdown">
 							<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
