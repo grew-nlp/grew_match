@@ -608,7 +608,7 @@
 												</button>
 											</a>
 
-											<button v-if='"cite" in top_project' type="button" class="btn btn-sm btn-primary tooltip-desc" onclick="show_cite()">
+											<button v-if='top_project && "cite" in top_project' type="button" class="btn btn-sm btn-primary tooltip-desc" onclick="show_cite()">
 												Cite&nbsp;
 												<i class="fa fa-book" aria-hidden="true"></i>
 											</button>
