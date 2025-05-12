@@ -134,7 +134,12 @@
 								<i class="fa fa-question-circle fa-lg"></i>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="https://grew.fr/grew_match/about" target="_blank">About</a></li>
+								<li v-if='top_project && "about" in top_project'>
+									<a v-bind:href='top_project["about"]' target="_blank">About</a>
+								</li>
+								<li v-else>
+									<a href="https://grew.fr/grew_match/about" target="_blank">About</a>
+								</li>
 								<li><a href="https://grew.fr/grew_match/help" target="_blank">Documentation</a></li>
 								<li><a href="https://github.com/grew-nlp/grew/issues" target="_blank">Report an issue</a></li>
 							</ul>
