@@ -1,0 +1,1 @@
+pattern { X[SubForm=AbstRel]; X -[ccomp]-> Y; }

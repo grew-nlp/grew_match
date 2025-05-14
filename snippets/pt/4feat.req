@@ -1,0 +1,1 @@
+pattern { X[SubForm=AbstRel, Tense=Fut, VerbClass="2aeinf", VerbForm=Fin] }

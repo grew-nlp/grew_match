@@ -1,0 +1,118 @@
+<div class="navbar" id="right-navbar">
+  <div class="navbar-inner">
+    <ul class="nav nav-pills">
+
+      <li class="active"><a class="grew-label" href="#step1" data-toggle="tab">Basic</a></li>
+      <li style="display: none;"> <a class="grew-label" href="#step3" data-toggle="tab">Clustering</a></li>
+      <li> <a class="grew-label" href="#step4" data-toggle="tab">Features</a></li>
+      <li> <a class="grew-label" href="#step5" data-toggle="tab">Misc</a></li>
+      <li> <a class="grew-label" href="#step2" data-toggle="tab">Sequences</a></li>
+
+    </ul>
+  </div>
+</div>
+<div class="tab-content" id="snippets">
+
+  <!-- ========= Basic ========= -->
+  <div class="tab-pane active" id="step1">
+    <b style="font-size: 100%;">Request on tokens:</b>
+    <ul style="margin-left: 10px;">
+      <li><a href="#" snippet-file="basic/search_form.req" class="inter">Search for a <code>form</code></a></li>
+      <li><a href="#" snippet-file="basic/search_lemma.req" class="inter">Search for a <code>lemma</code></a></li>
+      <li><a href="#" snippet-file="basic/search_upos.req" class="inter">Search for a <code>upos</code></a></li>
+    </ul>
+    <b style="font-size: 100%;">Request on hieroglyphic spelling:</b>
+    <ul style="margin-left: 10px;">
+      <li><a href="#" snippet-file="pt/hiero.req" class="inter">Search for a hieroglyphic spelling</a></li>
+      <li><a href="#" snippet-file="pt/clf.req" class="inter">Search for a classifier</a></li>
+      <li><a href="#" snippet-file="pt/unicode.req" class="inter">Search for a Unicode sign</a></li>
+      <li><a href="#" snippet-file="pt/spell_unicode.req" class="inter">Search for a spelling with a Unicode sign</a></li>
+    </ul>
+    <b style="font-size: 100%;">Request on dependency relations:</b>
+    <ul style="margin-left: 10px;">
+      <li><a href="#" snippet-file="basic/search_rel_ud.req" class="inter">Search for a dependency relation</a></li>
+      <li><a href="#" snippet-file="pt/mixed.req" class="inter">Search for a POS and a relation</a></li>
+    </ul>
+    <b style="font-size: 100%;">Request on metadata:</b>
+    <ul style="margin-left: 10px;">
+      <li><a href="#" snippet-file="pt/sent_id.req" class="inter">Search for a <code>sent_id</code></a></li>
+      <li><a href="#" snippet-file="pt/spell.req" class="inter">Search for a spell</a></li>
+      <li><a href="#" snippet-file="pt/section.req" class="inter">Search for a section</a></li>
+    </ul>
+  </div>
+
+  <!-- ========= Features ========= -->
+  <div class="tab-pane" id="step4">
+    <ul style="margin-left: 10px;">
+      <li><a href="#" snippet-file="pt/comb_1.req" class="inter">Search for a word and a feature</a></li>
+      <li><a href="#" snippet-file="pt/comb_2.req" class="inter">Search for a POS and a feature</a></li>
+      <li><a href="#" snippet-file="pt/comb_3.req" class="inter">Search for a POS and two features</a></li>
+      <li><a href="#" snippet-file="pt/comb_4.req" class="inter">Search for a feature and a relation</a></li>
+
+      <li><a href="#" snippet-file="pt/spc.req" class="inter">Search for a tense in the Suffix Pronoun Conjugation</a></li>
+      <li><a href="#" snippet-file="pt/pron.req" class="inter">Search for an Egyptian pronoun type </a></li>
+      <li><a href="#" snippet-file="pt/name.req" class="inter">Search for a name type</a></li>
+      <li><a href="#" snippet-file="pt/nisba.req" class="inter">Search for a derivative form of a nisba</a></li>
+
+      <li><a href="#" snippet-file="pt/1feat.req" class="inter">Search for a feature</a></li>
+      <li><a href="#" snippet-file="pt/2feat.req" class="inter">Search for two features</a></li>
+      <li><a href="#" snippet-file="pt/3feat.req" class="inter">Search for three features</a></li>
+      <li><a href="#" snippet-file="pt/4feat.req" class="inter">Search for four features</a></li>
+    </ul>
+  </div>
+
+  <!-- ========= MISC ========= -->
+  <div class="tab-pane" id="step5">
+    <b style="font-size: 100%;">Constraints can be expressed on the global structure:</b>
+    <ul style="margin-left: 10px;">
+      <li><a href="#" snippet-file="global/not_projective.req" class="inter">Search for non projective structures</a></li>
+      <li><a href="#" snippet-file="global/projective.req" class="inter">Search for projective structures</a></li>
+    </ul>
+
+    <b style="font-size: 100%;">A few other examples of more complex requests:</b>
+    <ul style="margin-left: 10px;">
+      <li><a href="#" snippet-file="basic/negation_ud.req" class="inter">Filter with NAP (Negative Application Patterns)</a></li>
+      <li><a href="#" snippet-file="ud/verb_wo_subj.req" class="inter">Search for verbs without subject</a></li>
+      <li><a href="#" snippet-file="ud/two_obj.req" class="inter">Two objects on the same node</a></li>
+    </ul>
+  </div>
+
+  <!-- ========= Sequences ========= -->
+  <div class="tab-pane" id="step2">
+    <ul style="margin-left: 10px;">
+      <li><a href="#" snippet-file="n-grams/2-gram-form.req" class="inter">Search for a sequence of two words</a></li>
+      <li><a href="#" snippet-file="n-grams/2-gram-lemma.req" class="inter">Search for a sequence of two lemmas</a></li>
+      <li><a href="#" snippet-file="n-grams/2-gram-upos.req" class="inter">Search for a sequence of two POS</a></li>
+      <li><a href="#" snippet-file="n-grams/3-gram-form.req" class="inter">Search for a sequence of three words</a></li>
+      <li><a href="#" snippet-file="n-grams/3-gram-lemma.req" class="inter">Search for a sequence of three lemmas</a></li>
+      <li><a href="#" snippet-file="n-grams/3-gram-upos.req" class="inter">Search for a sequence of three POS</a></li>
+      <li><a href="#" snippet-file="n-grams/4-gram-form.req" class="inter">Search for a sequence of four words</a></li>
+      <li><a href="#" snippet-file="n-grams/4-gram-lemma.req" class="inter">Search for a sequence of four lemmas</a></li>
+      <li><a href="#" snippet-file="n-grams/4-gram-upos.req" class="inter">Search for a sequence of four POS</a></li>
+    </ul>
+  </div>
+
+  <!-- ========= CLUSTERING (hidden for PT) ========= -->
+  <div class="tab-pane" id="step3">
+    <b style="font-size: 100%;">with a key:</b>
+    <ul style="margin-left: 10px;">
+      <li><a href="#" clustering="X.upos" snippet-file="clustering/upos.req" class="inter">Cluster results by one node "upos"</a></li>
+      <li><a href="#" clustering="X.lemma" snippet-file="clustering/lemma.req" class="inter">Cluster results by one node "lemma"</a></li>
+      <li><a href="#" clustering="X.VerbForm" snippet-file="clustering/verbform.req" class="inter">Other clustering on nodes</a></li>
+      <li><a href="#" clustering="e.label" snippet-file="clustering/edge.req" class="inter">Cluster results by edge label</a></li>
+    </ul>
+    <b style="font-size: 100%;">with a "whether":</b>
+    <ul style="margin-left: 10px;">
+      <li><a href="#" whether="X -[expl]-> E" snippet-file="clustering/post_nsubj.req" class="inter">Left-headed <code>nsubj</code>: test expletive context</a></li>
+      <li><a href="#" whether="X << Y" snippet-file="clustering/amod_ud.req" class="inter"> Is the <code>amod</code> relation left-headed?</a></li>
+      <li><a href="#" whether="X -[det]-> D" snippet-file="clustering/noun.req" class="inter"> Does <code>NOUN</code>s have a <code>det</code> dependent?</a></li>
+    </ul>
+    <b style="font-size: 100%;">double clustering:</b>
+    <ul style="margin-left: 10px;">
+      <li><a href="#" clustering="A.lemma" clustering2="e.label" snippet-file="clustering/AUX_rel_ud.req" class="inter">The auxiliaries and their dep label</a></li>
+      <li><a href="#" clustering="X.Number" whether2="X -[det]-> S" snippet-file="clustering/DET_Number.req" class="inter">NOUN without det and Number</a></li>
+      <li><a href="#" whether="X << Y" whether2="X -[expl]-> *" snippet-file="clustering/post_expl_ud.req" class="inter">[en] post verbal nsubj and expletive</a></li>
+    </ul>
+  </div>
+
+</div>

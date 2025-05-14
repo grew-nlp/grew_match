@@ -1,0 +1,4 @@
+global { 
+  section = "117a";              % <=== search for a precise section
+  % section = re"117[^0-9]*";      % <=== search for all section starting with "117"
+}

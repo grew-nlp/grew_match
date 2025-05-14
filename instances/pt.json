@@ -2,7 +2,8 @@
   {
     "id": "Pyramid texts",
     "mode": "syntax",
-    "snippets": "ud",
+    "snippets": "pt",
+    "default": "PT_all",
     "style": "left_pane",
     "corpora":
     [
