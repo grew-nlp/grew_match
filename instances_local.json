@@ -73,7 +73,17 @@
       "cite": "### Díaz Hernández, R. A. **PT ${spell}. ${section} ${king}**, \n ### in: Bruno Guillaume, PT.grew.fr, version 1.0, May 2025",
       "about": "https://grew.fr/grew_match/pt/"
     }
+  },
+
+  "localhost:11010":
+  {
+    "backend": "http://localhost:10001/",
+    "instance": "spoken.json",
+    "top_project": {
+      "logo_nobg": "https://freepngimg.com/thumb/web_design/26904-1-speaking-file.png"
+    }
   }
+
 
 }
 
