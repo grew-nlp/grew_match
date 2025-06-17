@@ -765,7 +765,10 @@
       "SUD_French-GSD@2.15",
       "SUD_French-ParisStories@2.15",
       "SUD_French-Rhapsodie@2.15",
-      "SUD_French-Sequoia@2.15"
+      "SUD_French-Sequoia@2.15",
+
+      "SUD_French-FTB",
+      "SEQ_French-FTB"
     ]
   },
   
