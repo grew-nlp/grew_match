@@ -4,8 +4,8 @@
     "snippets": "sud",
     "mode": "syntax",
 		"style": "dropdown",
-    "default": "SUD_Breton-KEBAutogramm",
-    "corpora": [ "SUD_Breton-KEBAutogramm" ]
+    "default": "SUD_Breton-KEBAutogramm@latest",
+    "corpora": [ "SUD_Breton-KEBAutogramm@latest" ]
   },
   {
     "id": "Darija",
