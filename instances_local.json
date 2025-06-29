@@ -62,7 +62,28 @@
   {
     "backend": "http://localhost:10008/",
     "instance": "sawg.json"
+  },
+
+  "localhost:11009":
+  {
+    "backend": "http://localhost:10009/",
+    "instance": "pt.json",
+    "top_project": {
+      "logo_nobg": "https://grew.fr/download/pt/Logo_PT.svg",
+      "cite": "### Díaz Hernández, R. A. **PT ${spell}. ${section} ${king}**, \n ### in: Bruno Guillaume, PT.grew.fr, version 1.0, May 2025",
+      "about": "https://grew.fr/grew_match/pt/"
+    }
+  },
+
+  "localhost:11010":
+  {
+    "backend": "http://localhost:10001/",
+    "instance": "spoken.json",
+    "top_project": {
+      "logo_nobg": "https://grew.fr/download/SP/Logo_SP.jpg"
+    }
   }
+
 
 }
 

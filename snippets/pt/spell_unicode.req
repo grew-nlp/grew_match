@@ -1,0 +1,3 @@
+% Search for a spelling that contains the sequence of signs: 𓂘, 𓏌 and C_13139
+
+pattern { X [Hiero = re".*𓂘𓏌UC_13139.*"] }

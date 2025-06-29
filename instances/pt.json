@@ -1,0 +1,19 @@
+[
+  {
+    "id": "Pyramid texts",
+    "mode": "syntax",
+    "snippets": "pt",
+    "default": "PT_all",
+    "style": "left_pane",
+    "corpora":
+    [
+      "PT_all",
+      "PT_Unas",
+      "PT_Teti",
+      "PT_Pepi",
+      "PT_Merenre",
+      "PT_Neferkare",
+      "PT_Neith"
+    ]
+	}
+]

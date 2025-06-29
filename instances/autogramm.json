@@ -1,11 +1,11 @@
  [
   {
     "id": "Breton",
-    "snippets": "autogramm",
+    "snippets": "sud",
     "mode": "syntax",
-    "style": "single",
-    "default": "Breton",
-    "corpora": [ "Breton" ]
+		"style": "dropdown",
+    "default": "SUD_Breton-KEBAutogramm@latest",
+    "corpora": [ "SUD_Breton-KEBAutogramm@latest" ]
   },
   {
     "id": "Darija",

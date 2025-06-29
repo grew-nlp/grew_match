@@ -329,3 +329,14 @@ h3 {
   background-color: yellow;
   box-shadow: 0px 0px 4px yellow;
 }
+
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+}

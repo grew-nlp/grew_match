@@ -139,6 +139,7 @@ let app = new Vue({
     },
 
     select_group(group_id) {
+      app.skip_history = true;
       app.current_group_id = group_id
       this.view_left_pane = true // always make left pane visible when a new group is selected
       if (app.current_group.style != 'left_pane') {
@@ -149,6 +150,8 @@ let app = new Vue({
       } else {
         app.current_corpus_id = app.current_group.corpora[0].id
       }
+      // without the delay, it makes the whole page load again.
+      setTimeout(update_url, 200)
     },
 
     update_current_cluster() { // also update app.current_cluster_size
@@ -608,7 +611,7 @@ function find_best_match_corpus(requested_corpus) {
   // No exact match found
   app.warning_level = 2; // Initialize at 2 because the watcher `current_corpus_id` decrements later
   app.warning_message = `⚠️  ${requested_corpus} &rarr; ${best_match.corpus_id}`;
-  return { 'corpus_id':best_match.id, 'group_id': best_match.id }
+  return { 'corpus_id':best_match.corpus_id, 'group_id': best_match.group_id }
 }
 
 // ==================================================================================
@@ -674,7 +677,6 @@ function open_validation_page() {
     corpus: app.current_corpus_id,
     file: 'valid_sud.json'
   }
-
   generic(app.backend_server, 'get_build_file', param)
   .then(function (data) {
     if (data === null) { return }
@@ -948,7 +950,8 @@ function open_param(param) {
   cmEditor.setValue(param.request)
   if ('corpus' in param) {
     app.multi_mode = false
-    app.current_corpus_id = param.corpus
+    console.log ("7 --> " + param.corpus)
+    app.current_corpus_id = param.corpus   // XXX
   } else {
     app.multi_mode = true
     app.selected_corpora = param.corpus_list
@@ -1218,6 +1221,17 @@ function show_conll() {
 }
 
 // ==================================================================================
+function show_cite() {
+  let md_text = app.top_project["cite"]
+  md_text = md_text.replace(/\$\{(.*?)\}/g, (match, key) => {
+    return app.current_item.meta[key] !== undefined ? app.current_item.meta[key] : match;
+  });
+  let text = md.render(md_text)
+  $('#cite_viewer').html(text)
+  $('#cite_modal').modal('show')
+}
+
+// ==================================================================================
 function show_code() {
   $('#code_viewer').html(app.current_item.code)
   $('#code_modal').modal('show')
@@ -1286,6 +1300,7 @@ function save_request() {
 
 // ==================================================================================
 function update_corpus() {
+  console.log ("enter update corpus")
   app.current_custom = ''
   $('.timeago').remove()
   app.meta_info = false
@@ -1319,7 +1334,6 @@ function update_corpus() {
       corpus: app.current_corpus_id,
       file: 'desc.json'
     }
-
     generic(app.backend_server, 'get_build_file', param)
     .then( data => {
       let json = JSON.parse(data)

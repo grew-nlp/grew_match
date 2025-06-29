@@ -1,0 +1,15 @@
+{ 
+	"backend": "http://localhost:4758/",
+	"desc": [
+		{
+			"id": "PUD",
+			"mode": "syntax",
+			"style": "dropdown",
+			"corpora": [
+				"UD_Arabic-PUD",
+				"UD_French-PUD",
+				"UD_Spanish-PUD"
+			]
+		}
+	]
+}

@@ -1,0 +1,4 @@
+pattern { 
+  X [upos=VERB];
+  X -[ccomp]-> Y; 
+}

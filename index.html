@@ -78,8 +78,9 @@
 						<img src="portal/grew-match.svg" alt="LOGO for grew_match" style="height:50px;">
 					</a>
 
-					<a v-bind:href='top_project["website"]' v-if="top_project" class="navbar-brand" id="title-grew" style="padding:0px; background-color:white; ">
-						<img v-bind:src='top_project["logo"]' alt="LOGO for top_project site" style="height:50px;">
+					<a v-bind:href='top_project["website"]' v-if="top_project" class="navbar-brand" id="title-grew" style="padding:0px; ">
+						<img v-if='"logo" in top_project' v-bind:src='top_project["logo"]' alt="LOGO for top_project site" style="height:50px; background-color:white;">
+						<img v-if='"logo_nobg" in top_project' v-bind:src='top_project["logo_nobg"]' alt="LOGO for top_project site" style="height:50px; ">
 					</a>
 
 					<ul class="nav navbar-nav groups" style="margin-left:30px">
@@ -130,13 +131,23 @@
 
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						<li v-if='top_project && "secondary_logo" in top_project'>
+							<a v-bind:href='top_project["secondary_website"]' style="padding:0px; ">
+								<img v-bind:src='top_project["secondary_logo"]' alt="secondary_logo" style="height:40px; margin-top: 5px;">
+							</a>
+						</li>
 
 						<li class="dropdown">
 							<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
 								<i class="fa fa-question-circle fa-lg"></i>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="https://grew.fr/grew_match/about" target="_blank">About</a></li>
+								<li v-if='top_project && "about" in top_project'>
+									<a v-bind:href='top_project["about"]' target="_blank">About</a>
+								</li>
+								<li v-else>
+									<a href="https://grew.fr/grew_match/about" target="_blank">About</a>
+								</li>
 								<li><a href="https://grew.fr/grew_match/help" target="_blank">Documentation</a></li>
 								<li><a href="https://github.com/grew-nlp/grew/issues" target="_blank">Report an issue</a></li>
 							</ul>
@@ -610,6 +621,11 @@
 												</button>
 											</a>
 
+											<button v-if='top_project && "cite" in top_project' type="button" class="btn btn-sm btn-primary tooltip-desc" onclick="show_cite()">
+												Cite&nbsp;
+												<i class="fa fa-book" aria-hidden="true"></i>
+											</button>
+
 										</div>
 
 										<div v-if="current_view >= 0">
@@ -625,6 +641,8 @@
 										</div>
 									</div>
 								</div>
+
+								<img v-if='"png" in current_corpus' v-bind:src='current_corpus["png"]+"/"+sent_id+".png"' style="width: 55vw; min-width: 330px;" alt="">
 
 								<div v-if="result_nb > 0 && current_view >= 0" id="display-svg">
 									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
@@ -726,6 +744,25 @@
 					</div>
 					<div class="modal-body">
 						<textarea id="code_viewer" rows="25" readonly=""></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div id="cite_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center modal-lg">
+					<div class="modal-content" style="width: inherit; margin: 0 auto;">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Please cite:</h4>
+						</div>
+						<div id="cite_viewer" class="modal-body">...</div>
 					</div>
 				</div>
 			</div>
