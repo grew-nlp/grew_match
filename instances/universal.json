@@ -782,6 +782,9 @@
       "SUD_French-Rhapsodie-prosody",
       "SUD_French-Rhapsodie-prosody_pauses",
       "SUD_French-Rhapsodie_db",
+      "SUD_French-FTB@latest",
+      "SEQ_French-FTB",
+
       "SUD_Hausa-WesternAutogramm@latest",
       "SUD_Igbo-Masakhane",
       "mSUD_Ika-ChibErgIS@latest",
@@ -810,10 +813,8 @@
       "SUD_French-GSD@2.15",
       "SUD_French-ParisStories@2.15",
       "SUD_French-Rhapsodie@2.15",
-      "SUD_French-Sequoia@2.15",
+      "SUD_French-Sequoia@2.15"
 
-      "SUD_French-FTB",
-      "SEQ_French-FTB"
     ]
   },
   
