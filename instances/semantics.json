@@ -25,12 +25,14 @@
     "id": "yarn",
     "name": "YARN",
     "mode": "semantics",
-    "style": "dropdown",
+    "style": "left_pane",
     "snippets": "drs",
     "default": "yarn_PUD_100",
     "corpora": [
-      "yarn_PUD_100",
-      "yarn_pmb_025"
+      "yarn_pud_100",
+      "yarn_pmb_025",
+      "yarn_chap3",
+      "yarn_chap4"
     ]
   },
   {
