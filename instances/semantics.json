@@ -1,5 +1,20 @@
 [
   {
+    "id": "yarn",
+    "name": "YARN",
+    "mode": "semantics",
+    "style": "left_pane",
+    "snippets": "drs",
+    "default": "yarn_PUD_100",
+    "corpora": [
+      "yarn_pud_100",
+      "yarn_pmb_025",
+      "yarn_lpp",
+      "yarn_chap3",
+      "yarn_chap4"
+    ]
+  },
+  {
     "id": "amr",
     "name": "AMR",
     "mode": "semantics",
@@ -19,20 +34,6 @@
       "turkish-amr-imst",
       "turkish-amr-little-prince",
       "ding-01"
-    ]
-  },
-  {
-    "id": "yarn",
-    "name": "YARN",
-    "mode": "semantics",
-    "style": "left_pane",
-    "snippets": "drs",
-    "default": "yarn_PUD_100",
-    "corpora": [
-      "yarn_pud_100",
-      "yarn_pmb_025",
-      "yarn_chap3",
-      "yarn_chap4"
     ]
   },
   {
