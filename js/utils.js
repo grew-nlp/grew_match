@@ -144,15 +144,18 @@ function direct_info(msg) {
   })
 }
 
-// ==================================================================================
-function init_tooltips() {
-
-  $('.tooltip-desc').tooltipster({
+function tt_style() {
+  return {
     contentAsHTML: true,
     theme: 'tooltipster-noir',
     interactive: true,
     position: 'bottom'
-  })
+  }
+}
+// ==================================================================================
+function init_tooltips() {
+
+  $('.tooltip-desc').tooltipster(tt_style())
 
   // Long HTML tooltip are defined in run.html
   $('#tf-wf-tooltip').tooltipster('content', $('#tf-wf-tip').html())
