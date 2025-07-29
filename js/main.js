@@ -55,7 +55,6 @@ let app = new Vue({
     sent_id: '',
 
     parallel: 'no',
-    parallels: [],
     parallel_svg: undefined,
     parallel_message: '',
 
@@ -94,6 +93,9 @@ let app = new Vue({
 
     warning_level: 0,
     warning_message: '',
+
+    active_corpus_id: undefined,
+    active_corpus: {},
   }, // end data
 
   methods: {
@@ -108,6 +110,12 @@ let app = new Vue({
       if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != index)) {
         app.current_cluster_path = [index]
         app.current_view = 0
+
+        // In Multi mode, update he active_corpus_id for correct handling of parallel corpora
+        if (app.multi_mode) {
+          app.active_corpus_id = app.cluster_list[index].value.split(" ")[0]
+        }
+
         if (app.clusters[index].length == 0) {
           more_results(true)
         } else {
@@ -174,7 +182,19 @@ let app = new Vue({
       log('current_corpus_id has changed')
       app.warning_level -= 1
       app.result_message = ''
+      app.active_corpus_id = app.current_corpus_id
       update_corpus()
+    },
+
+    active_corpus_id: function () {
+      log('active_corpus_id has changed', this.active_corpus_id)
+      if (this.active_corpus_id) {
+        const best_match = find_best_match_corpus(this.active_corpus_id)
+        app.active_corpus = best_match.corpus
+      } else {
+        app.active_corpus = {}
+      }
+      app.parallel = 'no'
     },
 
     clust1: function () { // close clust1 ==> close clust2
@@ -196,7 +216,19 @@ let app = new Vue({
       if (!app.multi_mode && app.current_corpus_id === undefined) {
         set_default_corpus()
       }
+      if (!app.mutli_mode) {
+        app.active_corpus_id = app.current_corpus_id
+      } else {
+        app.active_corpus_id = undefined
+      }
       update_url()
+
+      // In transition multi --> mono, the info-button toolpig must be re-initialized
+      if (!app.multi_mode) {
+        setTimeout(function () {
+          $('#info-button').tooltipster(tt_style());
+        }, 50)
+      }
     }
   }, // end watch
 
@@ -443,7 +475,7 @@ async function deal_with_get_parameters() {
         const best_match = find_best_match_corpus(data.corpus)
         app.current_corpus_id = best_match.corpus_id;
         app.current_group_id = best_match.group_id;
-     }
+      }
 
       // Multi corpus custom pattern
       if ('corpus_list' in data) {
@@ -592,7 +624,7 @@ function find_best_match_corpus(requested_corpus) {
       if (!corpus.id) continue;
 
       if (requested_corpus === corpus.id) {
-        return { 'corpus_id':corpus.id, 'group_id': group.id }
+        return { 'corpus_id':corpus.id, 'group_id': group.id, 'corpus': corpus }
       }
 
       const cpl = common_prefix_length(requested_corpus, corpus.id);
@@ -602,6 +634,7 @@ function find_best_match_corpus(requested_corpus) {
         best_match = {
           corpus_id: corpus.id,
           group_id: group.id,
+          corpus: corpus,
           cpl: cpl,
           ld: ld
         };
@@ -612,7 +645,7 @@ function find_best_match_corpus(requested_corpus) {
   // No exact match found
   app.warning_level = 2; // Initialize at 2 because the watcher `current_corpus_id` decrements later
   app.warning_message = `⚠️  ${requested_corpus} &rarr; ${best_match.corpus_id}`;
-  return { 'corpus_id':best_match.corpus_id, 'group_id': best_match.group_id }
+  return { 'corpus_id':best_match.corpus_id, 'group_id': best_match.group_id, 'corpus': best_match.corpus  }
 }
 
 // ==================================================================================
@@ -951,8 +984,7 @@ function open_param(param) {
   cmEditor.setValue(param.request)
   if ('corpus' in param) {
     app.multi_mode = false
-    console.log ("7 --> " + param.corpus)
-    app.current_corpus_id = param.corpus   // XXX
+    app.current_corpus_id = param.corpus
   } else {
     app.multi_mode = true
     app.selected_corpora = param.corpus_list
@@ -993,6 +1025,7 @@ function search() {
   app.current_view = 0
   app.wait = true
   app.search_mode = true
+  if (app.multi_mode) { app.active_corpus_id = undefined }
 
   generic(app.backend_server, app.multi_mode ? 'search_multi' :'search' , search_param())
   .then (data => {
@@ -1301,7 +1334,6 @@ function save_request() {
 
 // ==================================================================================
 function update_corpus() {
-  console.log ("enter update corpus")
   app.current_custom = ''
   $('.timeago').remove()
   app.meta_info = false
@@ -1315,9 +1347,6 @@ function update_corpus() {
   } else {
     $('#corpus-desc-label').tooltipster('disable')
   }
-
-  app.parallel = 'no'
-  app.parallels = app.current_corpus.parallels ? app.current_corpus.parallels : []
 
   if (app.current_corpus.snippets) {
     right_pane(app.current_corpus.snippets)
@@ -1359,8 +1388,8 @@ function update_corpus() {
 // ==================================================================================
 
 function update_url() {
-  if (app.skip_history) { app.skip_history = false; return } 
-  
+  if (app.skip_history) { app.skip_history = false; return }
+
   if (app.multi_mode) {
     history.pushState({}, '', `?corpus_list=${app.selected_corpora.join(',')}`)
   } else {
@@ -1371,7 +1400,6 @@ function update_url() {
 // ==================================================================================
 function select_cluster_2d(c, r) {
   log('=== select_cluster_2d ===')
-  log(c, r)
   if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c)) {
     app.current_cluster_path = [r, c]
     app.current_view = 0
@@ -1381,5 +1409,10 @@ function select_cluster_2d(c, r) {
       app.update_current_cluster()
       update_graph_view ()
     }
+
+    if (app.multi_mode) {
+      app.active_corpus_id = app.grid_rows[r].value.split(" ")[0]
+    }
+
   }
 }
