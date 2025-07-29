@@ -629,22 +629,22 @@
 										</div>
 
 										<div v-if="current_view >= 0">
-											<h4 id="sentence" v-bind:dir="current_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
+											<h4 id="sentence" v-bind:dir="active_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
 										</div>
 									</div>
 								</div>
 
-								<img v-if='"png" in current_corpus' v-bind:src='current_corpus["png"]+"/"+sent_id+".png"' style="width: 55vw; min-width: 330px;" alt="">
+								<img v-if='"png" in active_corpus' v-bind:src='active_corpus["png"]+"/"+sent_id+".png"' style="width: 55vw; min-width: 330px;" alt="">
 
 								<div v-if="result_nb > 0 && current_view >= 0" id="display-svg">
 									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
 								</div>
 
-								<div v-show="current_corpus.parallels && current_corpus.parallels.length > 0 && current_group_id != 'Tutorial'">
+								<div v-show="active_corpus.parallels && active_corpus.parallels.length > 0 && current_group_id != 'Tutorial'">
 									Parallel corpora:
 									<i id="para-tooltip" class="fa fa-question-circle tooltip-desc"></i>
 									<i id="para-close-tooltip" v-show="parallel != 'no'" class="fa fa-times-circle fa-lg tooltip-desc" v-on:click="parallel='no'; update_parallel_()" style="float: right; margin-top: 8px;"></i>
-									<span v-for="par in current_corpus.parallels">
+									<span v-for="par in active_corpus.parallels">
 										<button style="margin-left:20px" type="button" class="btn" v-on:click="parallel=par; update_parallel_()" v-bind:class="par == parallel ? 'btn-success' : 'btn-default'" >
 											{{ par }}
 										</button>
@@ -652,7 +652,7 @@
 									</span>
 								</div>
 
-								<div v-if="current_corpus.parallels && current_corpus.parallels.length > 0 && parallel != 'no'" id="display-parallel">
+								<div v-if="active_corpus.parallels && active_corpus.parallels.length > 0 && parallel != 'no'" id="display-parallel">
 									<div v-if="parallel_svg">
 										<img v-bind:src="parallel_svg"></img>
 									</div>

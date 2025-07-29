@@ -55,7 +55,6 @@ let app = new Vue({
     sent_id: '',
 
     parallel: 'no',
-    parallels: [],
     parallel_svg: undefined,
     parallel_message: '',
 
@@ -96,7 +95,7 @@ let app = new Vue({
     warning_message: '',
 
     active_corpus_id: undefined,
-    active_corpus: undefined,
+    active_corpus: {},
   }, // end data
 
   methods: {
@@ -114,7 +113,7 @@ let app = new Vue({
 
         // In Multi mode, update he active_corpus_id for correct handling of parallel corpora
         if (app.multi_mode) {
-          app.active_corpus_id = app.cluster_list_sorted[index].value.split(" ")[0]
+          app.active_corpus_id = app.cluster_list[index].value.split(" ")[0]
         }
 
         if (app.clusters[index].length == 0) {
@@ -193,8 +192,9 @@ let app = new Vue({
         const best_match = find_best_match_corpus(this.active_corpus_id)
         app.active_corpus = best_match.corpus
       } else {
-        app.active_corpus = undefined
+        app.active_corpus = {}
       }
+      app.parallel = 'no'
     },
 
     clust1: function () { // close clust1 ==> close clust2
@@ -475,7 +475,7 @@ async function deal_with_get_parameters() {
         const best_match = find_best_match_corpus(data.corpus)
         app.current_corpus_id = best_match.corpus_id;
         app.current_group_id = best_match.group_id;
-     }
+      }
 
       // Multi corpus custom pattern
       if ('corpus_list' in data) {
@@ -1336,9 +1336,6 @@ function update_corpus() {
     $('#corpus-desc-label').tooltipster('disable')
   }
 
-  app.parallel = 'no'
-  app.parallels = app.current_corpus.parallels ? app.current_corpus.parallels : []
-
   if (app.current_corpus.snippets) {
     right_pane(app.current_corpus.snippets)
   } else if (app.current_group.snippets) {
@@ -1379,8 +1376,8 @@ function update_corpus() {
 // ==================================================================================
 
 function update_url() {
-  if (app.skip_history) { app.skip_history = false; return } 
-  
+  if (app.skip_history) { app.skip_history = false; return }
+
   if (app.multi_mode) {
     history.pushState({}, '', `?corpus_list=${app.selected_corpora.join(',')}`)
   } else {
@@ -1391,7 +1388,6 @@ function update_url() {
 // ==================================================================================
 function select_cluster_2d(c, r) {
   log('=== select_cluster_2d ===')
-  log(`c=${c},  r=${r}`)
   if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c)) {
     app.current_cluster_path = [r, c]
     app.current_view = 0
