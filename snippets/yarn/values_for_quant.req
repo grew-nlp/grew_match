@@ -1,0 +1,4 @@
+% List the possible values for a layer.
+% The available layers are: 'aspect', 'temp', 'quant', 'num', 'def', 'deixis', 'focus', 'mod', 'neg', 'loc', 'modal', 'question', 'manner', 'degree', 'duration', 'freq', 'dir', 'mood'
+
+pattern { X [feat="quant", value] }

@@ -1,0 +1,2 @@
+% In Grew YARN structures, the relationships between concepts are represented as nodes bearing the feature 'rel'.
+pattern { X [rel = "ARG1"]; }

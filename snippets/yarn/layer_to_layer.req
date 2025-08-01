@@ -1,0 +1,6 @@
+% Layer interactions: when a layer's value ends at another layer's value node
+pattern { 
+  X [value];
+  Y [value]; 
+  X -[main_out=Yes]-> Y
+}

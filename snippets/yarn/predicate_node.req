@@ -1,0 +1,4 @@
+% In Grew YARN structures, V nodes have a feature named 'concept'.
+% For nodes referring to a PropBank frame the value of the 'concept' feature has the suffix 'xx' (e.g. 'see-01')
+
+pattern { X [concept = "see-01"]; }

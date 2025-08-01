@@ -1,0 +1,4 @@
+% In Grew YARN structures, the layer nodes carry a feature named 'feat'.
+% Note that nodes that encode the value of the layer also have a 'feat', so filtering by type is required.
+
+pattern { X [feat = "manner", type=F]; }

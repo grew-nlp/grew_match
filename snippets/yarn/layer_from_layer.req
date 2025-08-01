@@ -1,0 +1,6 @@
+% Layer interactions: the value of a layer starting from a value in another layer
+pattern { 
+  X [value];
+  Y [value]; 
+  X -[!main_out]-> Y
+}

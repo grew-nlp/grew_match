@@ -1,0 +1,62 @@
+<div class="navbar" id="right-navbar">
+  <div class="navbar-inner">
+
+    <ul class="nav nav-pills">
+      <li class="active"><a class="grew-label" href="#step1" data-toggle="tab">Basic</a></li>
+      <li>               <a class="grew-label" href="#step2" data-toggle="tab">Layers</a></li>
+      <li>               <a class="grew-label" href="#step3" data-toggle="tab">Global</a></li>
+    </ul>
+
+  </div>
+</div>
+<div class="tab-content" id="snippets">
+
+  <div class="tab-pane active" id="step1">
+    <b style="font-size: 125%;">Predicate-Argument (PA) structure:</b>
+    <ul>
+      <li><a href="#" snippet-file="yarn/predicate_node.req" class="inter">Search for a predicate node</a></li>
+      <li><a href="#" snippet-file="yarn/concept_node.req" class="inter">Search for a concept node</a></li>
+      <li><a href="#" snippet-file="yarn/relation_node.req" class="inter">Relations in the PA structure</a></li>
+    </ul>
+    <b style="font-size: 125%;">Events and discourse</b>
+    <ul>
+      <li><a href="#" snippet-file="yarn/event_node.req" class="inter">Search for an event node</a></li>
+      <li><a href="#" snippet-file="yarn/discourse_node.req" class="inter">Search for a discourse node</a></li>
+      <li><a href="#" clustering="X.disc" snippet-file="yarn/discourse_values.req" class="inter">List all discourse values</a></li>
+    </ul>
+
+    <b style="font-size: 125%;">Types</b>
+    <ul>
+      <li><a href="#" clustering="X.type" snippet-file="yarn/all_nodes.req" class="inter">All nodes, clustered by types</a></li>
+    </ul>
+
+  </div>
+
+  <div class="tab-pane" id="step2">
+    <b style="font-size: 125%;">YARN layers</b>
+    <ul>
+      <li><a href="#" snippet-file="yarn/layer_node.req" class="inter">Search for a layer node</a></li>
+      <li><a href="#" snippet-file="yarn/value_node.req" class="inter">Search for a layer's value node</a></li>
+      <li><a href="#" clustering="X.feat" snippet-file="yarn/layers.req" class="inter">List layers</a></li>
+      <li><a href="#" clustering="X.value" snippet-file="yarn/values_for_quant.req" class="inter">List the values for a given layer</a></li>
+    </ul>
+    <b style="font-size: 125%;">YARN layers interaction</b>
+    <ul>
+      <li><a href="#" snippet-file="yarn/layer_interaction.req" class="inter">Search for all layer interactions</a></li>
+      <li><a href="#" clustering="X.feat" clustering2="Y.feat" snippet-file="yarn/layer_interaction.req" class="inter">Layers interaction clutered by layer kind</a></li>
+      <li><a href="#" snippet-file="yarn/layer_to_layer.req" class="inter">Search for a layer's value that ends on another layer's value node</a></li>
+      <li><a href="#" snippet-file="yarn/layer_from_layer.req" class="inter">Search for a layer's value that starts from another layer's value node</a></li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="step3">
+    <b style="font-size: 125%;">On graph structures:</b>
+    <ul>
+      <li><a href="#" snippet-file="global/re_text.req" class="inter">Search in text (with regular expressions)</a></li>
+      <li><a href="#" snippet-file="global/sent_id.req" class="inter">Search for 'sent_id'</a></li>
+      <li><a href="#" snippet-file="global/sent_id_re.req" class="inter">Search for 'sent_id' with regular expressions</a></li>
+      <li><a href="#" snippet-file="global/cyclic.req" class="inter">Search for cyclic graphs</a></li>
+    </ul>
+  </div>
+
+</div>

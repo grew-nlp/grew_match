@@ -1,0 +1,3 @@
+% In Grew YARN structures, the nodes that encode a layer's value carry the 'value' feature.
+
+pattern { X [value = "exists"] }

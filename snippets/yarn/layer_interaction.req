@@ -1,0 +1,6 @@
+% Layer interactions: the value node of one layer is linked to the value node of another layer
+pattern { 
+  X [value];
+  Y [value]; 
+  X -> Y
+}
