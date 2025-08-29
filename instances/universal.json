@@ -796,7 +796,6 @@
       "mSUD_Tuwari-Autogramm@latest",
       "SUD_Tuwari-Autogramm@latest",
       "Ye-kwana",
-      "SUD_Hebrew-PostRab@conv",
 
       "mSUD_Taigi-DiLSi@latest",
       "mSUD_Teochew-DiLSi@latest",
@@ -874,6 +873,7 @@
       "SUD_Breton-KEB@conv",
       "SUD_German-GSD@conv",
       "SUD_Wolof-WTB@conv",
+      "SUD_Hebrew-PostRab@conv",
       "SUD_French-GSD@fix_typo",
       "SUD_French-GSD@rm_mwt",
       "SUD_French-ParisStories@rm_mwt",
