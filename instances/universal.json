@@ -740,7 +740,8 @@
       "diachronie_CRISCO@main",
       "UD_French-ECALM-coref@main",
       "svt-2022_10K",
-      "UD_Quechua_qwh"
+      "UD_Quechua_qwh",
+      "UD_Hebrew-PostRab@dev"
     ]
   },
   
@@ -795,6 +796,7 @@
       "mSUD_Tuwari-Autogramm@latest",
       "SUD_Tuwari-Autogramm@latest",
       "Ye-kwana",
+      "SUD_Hebrew-PostRab@conv",
 
       "mSUD_Taigi-DiLSi@latest",
       "mSUD_Teochew-DiLSi@latest",
