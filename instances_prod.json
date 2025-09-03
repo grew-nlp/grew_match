@@ -27,7 +27,7 @@
     "instance": "orfeo.json",
     "top_project": {
       "website": "https://www.ortolang.fr/market/corpora/cefc-orfeo/",
-      "logo": "https://repository.ortolang.fr/api/thumbs/cefc-orfeo/11/cropped-logo-orfeo-small.png"
+      "logo": "https://orfeo.grew.fr/icon/logo-orfeo.png"
     }
   },
 
@@ -43,7 +43,7 @@
     "instance": "naija.json",
     "top_project": {
       "website": "https://naijasyncor.huma-num.fr/",
-      "logo": "https://naijasyncor.huma-num.fr/images/logo.jpg"
+      "logo": "https://naija.grew.fr/icon/naija.png"
     }
   },
 
