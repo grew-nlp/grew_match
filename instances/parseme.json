@@ -1,9 +1,33 @@
 [
   {
-    "id": "latest",
+    "id": "Dev for 2.0",
     "mode": "syntax",
     "snippets": "parseme",
-    "default": "PARSEME-FR@dev",
+    "style": "left_pane",
+    "corpora": 
+    [
+      "PARSEME-EGY@dev",
+      "PARSEME-EL@dev",
+      "PARSEME-FA@dev",
+      "PARSEME-GRC@dev",
+      "PARSEME-HE@dev",
+      "PARSEME-JA@dev",
+      "PARSEME-KA@dev",
+      "PARSEME-LT@dev",
+      "PARSEME-PL@dev",
+      "PARSEME-RO@dev",
+      "PARSEME-SL@dev",
+      "PARSEME-SQ@dev",
+      "PARSEME-SR@dev",
+      "PARSEME-SV@dev",
+      "PARSEME-UK@dev"
+    ]
+  },
+
+  {
+    "id": "Other Dev",
+    "mode": "syntax",
+    "snippets": "parseme",
     "style": "left_pane",
     "corpora": 
     [
@@ -11,31 +35,24 @@
       "PARSEME-BG@dev",
       "PARSEME-CS@dev",
       "PARSEME-DE@dev",
-      "PARSEME-EL@dev",
       "PARSEME-EN@dev",
       "PARSEME-ES@dev",
       "PARSEME-EU@dev",
-      "PARSEME-FA@dev",
       "PARSEME-FR@dev",
       "PARSEME-GA@dev",
-      "PARSEME-HE@dev",
       "PARSEME-HI@dev",
       "PARSEME-HR@dev",
       "PARSEME-HU@dev",
       "PARSEME-IT@dev",
-      "PARSEME-LT@dev",
       "PARSEME-MT@dev",
       "PARSEME-NL@dev",
-      "PARSEME-PL@dev",
       "PARSEME-PT@dev",
-      "PARSEME-RO@dev",
-      "PARSEME-SL@dev",
-      "PARSEME-SR@dev",
-      "PARSEME-SV@dev",
       "PARSEME-TR@dev",
       "PARSEME-ZH@dev"
     ]
   },
+
+
   {
     "id": "Version 1.3",
     "mode": "syntax",
