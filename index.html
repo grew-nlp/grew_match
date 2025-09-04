@@ -282,7 +282,7 @@
 
 											<!-- UD validation -->
 											<a v-show='check_built("valid_ud.txt")'>
-												<button type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">
+												<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">
 													<img src="icon/ud.svg" width="20"></img>
 													<i class="fa fa-check fa-lg"></i>
 												</button>
@@ -290,10 +290,15 @@
 
 											<!-- SUD validation -->
 											<a v-show='check_built("valid_sud.json")'>
-												<button type="button" class="tooltip-desc btn btn-primary" onclick="open_validation_page()">
+												<button id="sud-valid-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_validation_page()">
 													<img src="icon/sud.svg" height="20"></img>
 													<i class="fa fa-check fa-lg"></i>
 												</button>
+											</a>
+
+											<!-- PARSEME consistency check button -->
+											<a v-show='current_corpus["consistencyCheck"]' v-bind:href='current_corpus["consistencyCheck"]' target="_blank">
+												<button id="parseme-check-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
 											</a>
 
 											<!-- Github button -->
@@ -350,10 +355,6 @@
 												<button id="link-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-link fa-lg"></i></button>
 											</a>
 
-											<!-- PARSEME validation button -->
-											<a v-show='current_corpus["consistencyCheck"]' v-bind:href='current_corpus["consistencyCheck"]' target="_blank">
-												<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary"><i class="fa fa-check fa-lg"></i></button>
-											</a>
 										</div>
 									</h2>
 
