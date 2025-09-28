@@ -779,7 +779,7 @@
       "SUD_Bokota-ChibErgIS@latest",
       "SUD_Darija-Autogramm@latest",
       "SUD_Egyptian_Arabic-Autogramm@latest",
-      "SUD_French-Rhapsodie@audio",
+      "SUD_French-Rhapsodie@p_words",
       "SUD_French-Rhapsodie-prosody",
       "SUD_French-Rhapsodie-prosody_pauses",
       "SUD_French-Rhapsodie_db",
@@ -876,8 +876,7 @@
       "SUD_Hebrew-PostRab@conv",
       "SUD_French-GSD@fix_typo",
       "SUD_French-GSD@rm_mwt",
-      "SUD_French-ParisStories@rm_mwt",
-      "SUD_French-Rhapsodie@rm_mwt"
+      "SUD_French-ParisStories@rm_mwt"
     ]
   } 
 ]
