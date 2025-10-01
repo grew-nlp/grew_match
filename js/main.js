@@ -487,6 +487,8 @@ async function deal_with_get_parameters() {
 
       if ('clust' in data) {
         set_clust_param(data.clust)
+        if (data.clust.dim === 1) { app.raw_nb = data.raw_nb }
+        if (data.clust.dim === 2) { app.grid_display = data.grid_display }
       } else {
         set_clust_param(data) // backward compatibility (clust* value at the top level)
       }
@@ -769,24 +771,28 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
 
 // ==================================================================================
 function get_clust_param () {
-  let param = {}
+  let param = { dim: 0 }
   if (app.clust1 === 'key') {
     param.clust1_key = app.clust1_key;
+    param.dim = 1;
     app.row_label = app.multi_mode ? "Corpus" : app.clust1_key;
     app.col_label = app.multi_mode ? app.clust1_key : "_";
   }
   if (app.clust1 === 'whether') {
     param.clust1_whether = clust1_cm.getValue();
+    param.dim = 1;
     app.row_label = app.multi_mode ? "Corpus" : 'Whether_1'
     app.col_label = app.multi_mode ? 'Whether_1' : "_"
   }
   if (!app.multi_mode) {
     if (app.clust2 === 'key') {
       param.clust2_key = app.clust2_key;
+      param.dim = 2;
       app.col_label = app.clust2_key
     }
     if (app.clust2 === 'whether') {
       param.clust2_whether = clust2_cm.getValue();
+      param.dim = 2;
       app.col_label = 'Whether_2'
     }
   }
@@ -1311,6 +1317,12 @@ function save_request() {
   let param = search_param()
   param.uuid = app.current_uuid
   param.search_mode = app.search_mode
+  if (param.clust.dim === 2) {
+    param.grid_display = app.grid_display
+  }
+  if (param.clust.dim === 1) {
+    param.raw_nb = app.raw_nb
+  }
   generic(app.backend_server, 'save', param)
   .then( _ => {
     history.pushState({ id: app.current_uuid }, '', '?custom=' + app.current_uuid)
