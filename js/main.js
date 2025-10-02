@@ -771,28 +771,24 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
 
 // ==================================================================================
 function get_clust_param () {
-  let param = { dim: 0 }
+  let param = { dim: app.cluster_dim }
   if (app.clust1 === 'key') {
     param.clust1_key = app.clust1_key;
-    param.dim = 1;
     app.row_label = app.multi_mode ? "Corpus" : app.clust1_key;
     app.col_label = app.multi_mode ? app.clust1_key : "_";
   }
   if (app.clust1 === 'whether') {
     param.clust1_whether = clust1_cm.getValue();
-    param.dim = 1;
     app.row_label = app.multi_mode ? "Corpus" : 'Whether_1'
     app.col_label = app.multi_mode ? 'Whether_1' : "_"
   }
   if (!app.multi_mode) {
     if (app.clust2 === 'key') {
       param.clust2_key = app.clust2_key;
-      param.dim = 2;
       app.col_label = app.clust2_key
     }
     if (app.clust2 === 'whether') {
       param.clust2_whether = clust2_cm.getValue();
-      param.dim = 2;
       app.col_label = 'Whether_2'
     }
   }
@@ -1065,11 +1061,6 @@ function search() {
         direct_error(`unknown status: ${data.status}`)
       }
     }
-
-
-
-
-
 
 
     if ('cluster_single' in data) {
