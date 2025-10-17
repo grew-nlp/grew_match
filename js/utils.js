@@ -27,7 +27,7 @@ async function generic(backend, service, data) {
     })
     const result = await response.json()
     if (result.status === 'ERROR') {
-      direct_error (JSON.stringify (result.message))
+      direct_error (`when calling service:\`${service}\`\n\n${JSON.stringify (result.message)}`)
       return
     } else {
       return (result.data)

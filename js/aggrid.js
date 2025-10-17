@@ -158,9 +158,7 @@ function build_grid(data) {
   };
   
   const gridDiv = document.querySelector('#main_grid');
-  console.log(111)
   new agGrid.Grid(gridDiv, gridOptions);
-  console.log(222)
   
   gridOptions.api.setRowData(app.json.cells);
   app.gridApi = gridOptions.api;
@@ -236,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (corpus != null && datafile != null) {
       
       let param = {
-        corpus_id: corpus,
+        corpus: corpus,
         file: datafile
       };
 

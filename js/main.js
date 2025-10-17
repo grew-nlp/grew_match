@@ -727,7 +727,7 @@ function aggrid(base_name) {
   let params = new URLSearchParams()
   params.append('corpus', app.current_corpus_id)
   params.append('datafile', `${base_name}.json`)
-  window.open(`aggrid.html?'${params.toString()}`)
+  window.open(`aggrid.html?${params.toString()}`)
 }
 
 // ==================================================================================
