@@ -190,16 +190,18 @@ function grew_match(kind, row_header, col_header) {
 
   if (app.json.kind == "DC") {
     let request = app.json.request;
-    if (kind == "row") {
-      request += build_with(app.json.row_key, row_header)
-    } else if (kind == "col") {
-      request += build_with(app.json.col_key, col_header)
-    } else if (kind == "cell") {
-      request += build_with(app.json.col_key, col_header)
+    let clust = "";
+    if (kind === "row" || kind === "cell") {
       request += build_with(app.json.row_key, row_header)
     }
+    if (kind === "col" || kind === "cell") {
+      request += build_with(app.json.col_key, col_header)
+      if (app.json.col_key.endsWith('__feature_name__')) {
+        clust = `&clust1_key=${app.json.col_key.split('.')[0]}.${col_header}`
+      }
+    }
     let treebank = app.json.treebank;
-    let url = window.location.origin + "?corpus=" + treebank + "&request=" + request
+    let url = window.location.origin + "?corpus=" + treebank + "&request=" + request + clust
     window.open(url, '_blank');
   }
 }
@@ -213,7 +215,7 @@ function build_with(key,value) {
     return "%0Awith { "+ ks[0] + "["+ value +"] }"
   } else {
     return "%0Awith { "+ key + "=\""+ value +"\" }"
-  } 
+  }
 }
 
 // setup the grid after the page has finished loading
