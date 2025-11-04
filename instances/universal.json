@@ -742,7 +742,9 @@
       "UD_French-ECALM-coref@main",
       "svt-2022_10K",
       "UD_Quechua_qwh",
-      "UD_Hebrew-PostRab@dev"
+      "UD_Hebrew-PostRab@dev",
+      "UniDive_kiparla",
+      "UniDive_kiparla_db"
     ]
   },
   
