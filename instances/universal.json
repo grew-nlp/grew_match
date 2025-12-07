@@ -769,7 +769,7 @@
     "corpora": [
       "UD_Bambara-CRB@dev",
       "UD_Breton-KEB@dev",
-      "UD_Egyptian-UJaen@dev",
+      "UD_Egyptian-PC@dev",
       "UD_English-EWT@dev",
       "UD_English-GUM@dev",
       "UD_French-FQB@dev",
