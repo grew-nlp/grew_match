@@ -1178,10 +1178,13 @@ function export_tsv(pivot) {
   $('#pivot-modal').modal('hide')
   let param = {
     uuid: app.current_uuid,
+    corpus: app.current_corpus_id,
+    request: cmEditor.getValue(),
     pivot: pivot,
+    clust: get_clust_param(),
   }
 
-  generic(app.backend_server, 'export', param)
+  generic(app.backend_server, 'tsv_export', param)
   .then( _ => {
     show_export_modal()
   })
