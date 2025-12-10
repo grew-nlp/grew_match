@@ -1194,6 +1194,7 @@ function export_tsv(pivot) {
 function conll_export() {
   let param = {
     uuid: app.current_uuid,
+    corpus: app.current_corpus_id,
   }
 
   generic(app.backend_server, 'conll_export', param)
