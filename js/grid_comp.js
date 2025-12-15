@@ -2,8 +2,6 @@
 Vue.component("cluster-grid", {
   data: function () {
     return {
-      selected_col: undefined,
-      selected_row: undefined,
     }
   },
   template: "#grid-template",
@@ -14,12 +12,12 @@ Vue.component("cluster-grid", {
     columns: Array,
     rows: Array,
     cells: Array,
+    selected_col: Number,
+    selected_row: Number,
   },
   methods: {
-     select_cluster_2d_ (c,r) {
-       this.selected_col = c;
-       this.selected_row = r;
-       select_cluster_2d(c, r);
+    select_cluster_2d_ (c,r) {
+      select_cluster_2d (c, r);
     }
   }
 });

@@ -20,6 +20,7 @@ let app = new Vue({
     grid_message: '',
     col_label: '',
     row_label: '',
+    data_copy: undefined, // used to store a stable version of the grid data, independent of sorting
 
     metadata_open: false,
 
@@ -59,10 +60,12 @@ let app = new Vue({
     parallel_message: '',
 
     wait: false,
-    sort: true,
+    sort_by_size: true,
     raw_nb: true,
 
     grid_display: Grid_display.SIZE,
+    selected_col: undefined,
+    selected_row: undefined,
 
     // printing parameters
     display: {
@@ -229,6 +232,19 @@ let app = new Vue({
           $('#info-button').tooltipster(tt_style());
         }, 50)
       }
+    },
+
+    sort_by_size: function () {
+      if (app.cluster_dim == 2) {
+        // update selected_row and selected_col to follow cell moving after (un)sorting
+        if (app.current_cluster_path) {
+          const row = app.current_cluster_path[0]
+          const col = app.current_cluster_path[1]
+          app.selected_col = app.sort_by_size ? col : app.data_copy.cluster_grid.permut_columns.indexOf(col)
+          app.selected_row = app.sort_by_size ? row : app.data_copy.cluster_grid.permut_rows.indexOf(row)
+        }
+        fill_grid(app.data_copy)
+      }
     }
   }, // end watch
 
@@ -237,7 +253,7 @@ let app = new Vue({
       return location.hostname.includes('localhost')
     },
     cluster_list_sorted: function () {
-      if (this.sort) {
+      if (this.sort_by_size) {
         var data = this.cluster_list.slice() // copy the array before sorting
         data.sort (function (c1, c2) {
           return c2.size - c1.size
@@ -867,11 +883,6 @@ function right_pane(base) {
 }
 
 
-
-
-
-
-
 // ==================================================================================
 function named_cluster_path() {
   if (app.cluster_dim == 1) {
@@ -879,8 +890,9 @@ function named_cluster_path() {
   }
   if (app.cluster_dim == 2) {
     return ([
-      app.grid_rows[app.current_cluster_path[0]].value,
-      app.grid_columns[app.current_cluster_path[1]].value
+      // get data from `data_copy` (indenpendent from sorting)
+      app.data_copy.cluster_grid.rows[app.current_cluster_path[0]].value,
+      app.data_copy.cluster_grid.columns[app.current_cluster_path[1]].value
     ])
   }
   return ([])
@@ -952,31 +964,54 @@ Thanks!`
         return elt;
       });
     } else if ('cluster_grid' in data) {
-      app.cluster_dim = 2
-      app.grid_rows = data.cluster_grid.rows.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_columns = data.cluster_grid.columns.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_message = ''
-      app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
-        return row.map((cell,col_index) => {
-          return {
-            size: cell,
-            percent: ratio(cell, data.nb_solutions),
-            percent_col: ratio(cell, app.grid_columns[col_index].size),
-            percent_row: ratio(cell, app.grid_rows[row_index].size),
-          }
-        })
-      })
+      app.data_copy = data
+      fill_grid(data)
       update_grid_message(data)
     }
     app.wait = false
   })
 } // count
+
+// ==================================================================================
+// Compute the real col from the display col
+function shift_row(row_index) {
+  return app.sort_by_size ? row_index : app.data_copy.cluster_grid.permut_rows[row_index]
+}
+
+// ==================================================================================
+// Compute the real row from the display row
+function shift_col(col_index) {
+  return app.sort_by_size ? col_index : app.data_copy.cluster_grid.permut_columns[col_index]
+}
+
+// ==================================================================================
+function fill_grid(data) {
+  app.cluster_dim = 2
+
+  app.grid_rows = data.cluster_grid.rows.map((_, index) => {
+    const shifted_row = data.cluster_grid.rows[shift_row(index)]
+    shifted_row.percent = ratio(shifted_row.size, data.nb_solutions);
+    return shifted_row;
+  });
+  app.grid_columns = data.cluster_grid.columns.map((_, index) => {
+    const shifted_col = data.cluster_grid.columns[shift_col(index)]
+    shifted_col.percent = ratio(shifted_col.size, data.nb_solutions);
+    return shifted_col;
+  });
+  app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
+    return row.map((_,col_index) => {
+      const shifted_row_index = shift_row(row_index)
+      const shifted_col_index = shift_col(col_index)
+      const shifted_cell = data.cluster_grid.cells[shifted_row_index][shifted_col_index]
+      return {
+        size: shifted_cell,
+        percent: ratio(shifted_cell, data.nb_solutions),
+        percent_col: ratio(shifted_cell, app.grid_columns[col_index].size),
+        percent_row: ratio(shifted_cell, app.grid_rows[row_index].size),
+      }
+    })
+  })
+}
 
 // ==================================================================================
 function open_param(param) {
@@ -1079,26 +1114,8 @@ function search() {
       });
       app.clusters = Array(app.cluster_list.length).fill([])
     } else if ('cluster_grid' in data) {
-      app.cluster_dim = 2
-      app.grid_rows = data.cluster_grid.rows.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_columns = data.cluster_grid.columns.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
-        return row.map((cell,col_index) => {
-          return {
-            size: cell,
-            percent: ratio(cell, data.nb_solutions),
-            percent_col: ratio(cell, app.grid_columns[col_index].size),
-            percent_row: ratio(cell, app.grid_rows[row_index].size),
-          }
-        })
-      })
-
+      app.data_copy = data
+      fill_grid(data)
       app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
       update_grid_message(data)
     }
@@ -1395,10 +1412,17 @@ function update_url() {
 // ==================================================================================
 function select_cluster_2d(c, r) {
   log('=== select_cluster_2d ===')
-  if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c)) {
-    app.current_cluster_path = [r, c]
+  // set values for cell highlighting
+  app.selected_col = (c);
+  app.selected_row = (r);
+
+  const sc = shift_col(c);
+  const sr = shift_row(r);
+
+  if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != sr || app.current_cluster_path[1] != sc)) {
+    app.current_cluster_path = [sr, sc]
     app.current_view = 0
-    if (app.clusters[r][c].length == 0) {
+    if (app.clusters[sr][sc].length == 0) {
       more_results(true)
     } else {
       app.update_current_cluster()
@@ -1406,7 +1430,7 @@ function select_cluster_2d(c, r) {
     }
 
     if (app.multi_mode) {
-      app.active_corpus_id = app.grid_rows[r].value.split(" ")[0]
+      app.active_corpus_id = app.grid_rows[sr].value.split(" ")[0]
     }
 
   }

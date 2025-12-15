@@ -491,8 +491,8 @@
 								</button>
 
 								<div class="btn-group" role="group" style="margin-right:10px">
-									<button type="button" class="btn btn-sm" v-on:click="sort=true" v-bind:class="sort ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-amount-desc'></i></button>
-									<button type="button" class="btn btn-sm" v-on:click="sort=false" v-bind:class="!sort ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-alpha-asc'></i></button>
+									<button type="button" class="btn btn-sm" v-on:click="sort_by_size=true" v-bind:class="sort_by_size ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-amount-desc'></i></button>
+									<button type="button" class="btn btn-sm" v-on:click="sort_by_size=false" v-bind:class="!sort_by_size ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-alpha-asc'></i></button>
 								</div>
 
 								<div class="btn-group" role="group" style="margin-right:10px">
@@ -528,10 +528,24 @@
 										<i class="fa fa-arrow-left"></i>
 									</button>
 								</div>
+								<div class="btn-group" role="group" style="margin-right:10px">
+									<button type="button" class="btn btn-sm" v-on:click="sort_by_size=true" v-bind:class="sort_by_size ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-amount-desc'></i></button>
+									<button type="button" class="btn btn-sm" v-on:click="sort_by_size=false" v-bind:class="!sort_by_size ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-alpha-asc'></i></button>
+								</div>
+
 								<span style="font-size: 150%; margin-left: 10px;" v-html="grid_message"></span>
 
 								<div style="overflow-y:scroll;">
-									<cluster-grid :columns="grid_columns" :rows="grid_rows" :cells="grid_cells" :col_label="col_label" :row_label="row_label" :grid_display="grid_display">
+									<cluster-grid 
+										:columns="grid_columns" 
+										:rows="grid_rows" 
+										:cells="grid_cells" 
+										:col_label="col_label" 
+										:row_label="row_label" 
+										:selected_col="selected_col" 
+										:selected_row="selected_row" 
+										:grid_display="grid_display"
+									>
 									</cluster-grid>
 								</div>
 							</div>
@@ -789,7 +803,12 @@
 						</span>
 					</th>
 					<td class="td-grid" v-for="(col,col_index) in columns">
-						<a v-if="cells[row_index][col_index].size > 0" class="btn" v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'" v-on:click="select_cluster_2d_(col_index,row_index)">
+						<a 
+							v-if="cells[row_index][col_index].size > 0" 
+							class="btn" 
+							v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'"
+							v-on:click="select_cluster_2d_(col_index,row_index)"
+						>
 							{{ grid_display === Grid_display.SIZE
 								? cells[row_index][col_index].size
 								: grid_display === Grid_display.PERCENT
