@@ -62,6 +62,15 @@ const Grid_display = Object.freeze({
   PERCENT_ROW: 3,
 });
 
+// ==================================================================================
+function new_uuid() {
+  const ts = Date.now() / 1000;
+  const seconds = Math.floor(ts);
+  const microseconds = Math.floor((ts - seconds) * 1000000);
+  // Format into hexadecimal string
+  const formattedString = `${seconds.toString(16).padStart(8, '0')}${microseconds.toString(16).padStart(5, '0')}`;
+  return(formattedString);
+}
 
 // ==================================================================================
 function common_prefix_length(s1, s2) {

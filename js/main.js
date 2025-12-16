@@ -1327,7 +1327,7 @@ function open_build_file(file,get_param,get_value) {
 // ==================================================================================
 function save_request() {
   let param = search_param()
-  param.uuid = app.current_uuid
+  param.uuid = new_uuid()
   param.search_mode = app.search_mode
   if (param.clust.dim === 2) {
     param.grid_display = app.grid_display
@@ -1337,7 +1337,7 @@ function save_request() {
   }
   generic(app.backend_server, 'save', param)
   .then( _ => {
-    history.pushState({ id: app.current_uuid }, '', '?custom=' + app.current_uuid)
+    history.pushState({ id: param.uuid }, '', '?custom=' + param.uuid)
     app.current_custom = window.location.href
     SelectText('custom-url')
   })
