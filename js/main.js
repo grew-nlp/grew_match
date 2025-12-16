@@ -1169,8 +1169,8 @@ function show_export_modal() {
     html += '</table>'
 
     $('#exportResult').html(html)
+    $('#export-modal').modal('show')
   })
-  $('#export-modal').modal('show')
 }
 
 // ==================================================================================
