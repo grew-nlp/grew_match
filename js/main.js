@@ -521,7 +521,13 @@ async function deal_with_get_parameters() {
         set_default_corpus() // if no corpus is specified, take the default
       }
       fetch(`${app.backend_server}shorten/${custom_param}`)
-      .then(response => {return response.text(); })
+      .then(response => {
+         if (!response.ok) {
+           direct_error(`${response.statusText}: \`${file}\``);
+          return
+        }
+        return response.text();
+      })
       .then (function (request) {
         cmEditor.setValue(request)
         setTimeout(search, 150) // hack: else clust*_cm value is not taken into account.

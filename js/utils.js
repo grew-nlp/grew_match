@@ -8,8 +8,8 @@ function log(msg) {
 // ==================================================================================
 async function fetch_json(url) {
   const response = await fetch(url)
-  if (response.status != 200) {
-    throw Error ('Cannot load: ' + url)
+  if (!response.ok) {
+    throw new Error(`Cannot load \`${url}\`: ${response.status} ${response.statusText}`)
   }
   const json_data = await response.json()
   return json_data
