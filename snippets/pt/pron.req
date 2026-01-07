@@ -1,1 +1,1 @@
-pattern { X [Pron = Dep] }
+pattern { X [PronClass=Suffix] }

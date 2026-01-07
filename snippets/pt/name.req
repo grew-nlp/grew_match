@@ -1,1 +1,1 @@
-pattern { X [Name = King] }
+pattern { X [NameType=Place] }
