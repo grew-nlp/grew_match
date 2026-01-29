@@ -1,4 +1,4 @@
-global { sent_id = "sent_id_to_search" }
+pattern { meta.sent_id = "sent_id_to_search" }
 
 % It is also possible to use regexp to get all sent_id containing some substring, for instance:
-% global { sent_id = re".*fiction.*" }
+% pattern { meta.sent_id = re".*fiction.*" }

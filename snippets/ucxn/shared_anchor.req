@@ -1,0 +1,5 @@
+pattern { 
+	C1 [Cxn]; C1 -[Cxn=anchor]-> X;  % a construction `C1` with node `X` as anchor
+	C2 [Cxn]; C2 -[Cxn=anchor]-> X;  % a construction `C2` with node `X` as anchor
+	C1.__id__ < C2.__id__;           % avoid duplicated solutions
+}

@@ -1,7 +1,10 @@
 % Search in the sentence text. Regexp should be used.
 % Examples:
-% Search for the word is                 -->  global { text = re".*\bis\b.*" }
-% Search for cooccurrences of two words: -->  global { text = re".*\bis\b.*"; text = re".*\bdirector\b.*" }
+% Search for the word is                     -->  pattern { meta.text = re".*\bis\b.*" }
+% Search for two words in the same sentence: -->  pattern { meta.text = re".*\bis\b.*"; meta.text = re".*\bdirector\b.*" }
 % See https://ocaml.org/api/Str.html for the syntax of Regexp used.
 
-global { text = re".*\bis\b.*"; text = re".*\bdirector\b.*"  }
+pattern { 
+	meta.text = re".*\bis\b.*";
+	meta.text = re".*\bdirector\b.*"
+}

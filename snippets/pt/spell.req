@@ -1,1 +1,1 @@
-global { spell = "412" }
+pattern { meta.spell = "412" }

@@ -1,3 +1,3 @@
-% global filtering which keeps only graphs with a cycle
+% global filtering which keeps only graphs with a cycle (not relevant for dependency syntax structures)
 
-global { is_cyclic }
+pattern { global.is_cyclic }
