@@ -1185,7 +1185,7 @@ function run_export() {
 }
 
 // ==================================================================================
-function clusters_export() {
+function export_clusters_TSV_dim1() {
   let tsv = ''
   if (app.clust1 == 'key') {
     tsv += app.clust1_key + '\tOccurrences\n'
@@ -1194,6 +1194,44 @@ function clusters_export() {
   }
   tsv += app.cluster_list_sorted.map(cl => cl.value + '\t' + cl.size).join('\n')
   download_text('clusters.tsv', tsv)
+}
+
+// ==================================================================================
+function export_clusters_JSON_dim1() {
+  const data = {}
+  app.cluster_list.forEach(cluster => {
+    data[cluster.value] = cluster.size
+  })
+  download_text('clusters.json',JSON.stringify(data,"",2))
+}
+
+// ==================================================================================
+// Build a TSV file with the double clustering table: 
+// - with all columns
+// - repecting the current sorting (name or size)
+function grid_to_TSV (full_table) {
+  const ordering = app.sort_by_size ? "by_size" : "by_name"
+  const cols_keys = full_table.cols[ordering]
+  const rows_keys = full_table.rows[ordering]
+  const col_headers = "\t" + cols_keys.join('\t');
+  const rows = rows_keys.map(row_key => {
+    const row_values = [row_key]
+    cols_keys.forEach (col_key => {
+      row_values.push (full_table.data[row_key][col_key] || 0)
+    })
+    return row_values.join('\t')
+  })
+  return [col_headers, ...rows].join('\n')
+}
+
+// ==================================================================================
+function export_clusters_TSV_dim2() {
+  download_text('clusters.tsv',grid_to_TSV(app.data_copy.cluster_grid.full_table))
+}
+
+// ==================================================================================
+function export_clusters_JSON_dim2() {
+  download_text('clusters.json',JSON.stringify(app.data_copy.cluster_grid.full_table.data,"",2))
 }
 
 // ==================================================================================

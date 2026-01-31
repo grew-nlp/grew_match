@@ -140,6 +140,7 @@ h3 {
 
 #result_message {
   margin-bottom: 0;
+  padding-top: 10px;
   padding-bottom: 10px;
 }
 
@@ -191,12 +192,23 @@ h3 {
   margin-top: 15px;
   padding-left: 0;
   padding-right: 0;
+  margin-bottom: 0px;
+}
+
+#jumbo-result {
+  background-color: #ECF0F1;
+  margin-top: 15px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-bottom: 0px;
 }
 
 #jumbo-clust {
   background-color: #ECF0F1;
   margin-top: 15px;
-  padding: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-bottom: 0px;
 }
 
 #title-grew {

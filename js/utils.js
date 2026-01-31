@@ -42,7 +42,7 @@ async function generic(backend, service, data) {
 // https://www.geeksforgeeks.org/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript/#using-a-custom-javascript-function
 function download_text(file, text) {
   var element = document.createElement('a')
-  element.setAttribute('href', 'data:text/plain;charset=utf-8, ' + encodeURIComponent(text))
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
   element.setAttribute('download', file)
   document.body.appendChild(element)
   element.click()
