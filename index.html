@@ -536,304 +536,304 @@
 								<span style="font-size: 150%; margin-left: 10px;" v-html="grid_message"></span>
 
 								<div style="overflow-y:scroll;">
-									<cluster-grid 
-										:columns="grid_columns" 
-										:rows="grid_rows" 
-										:cells="grid_cells" 
-										:col_label="col_label" 
-										:row_label="row_label" 
-										:selected_col="selected_col" 
-										:selected_row="selected_row" 
-										:grid_display="grid_display"
+									<cluster-grid
+									:columns="grid_columns"
+									:rows="grid_rows"
+									:cells="grid_cells"
+									:col_label="col_label"
+									:row_label="row_label"
+									:selected_col="selected_col"
+									:selected_row="selected_row"
+									:grid_display="grid_display"
 									>
-									</cluster-grid>
-								</div>
+								</cluster-grid>
 							</div>
-
 						</div>
+
 					</div>
 				</div>
+			</div>
 
-				<!-- Lower part: Display the results -->
-				<div class="row">
-					<div v-show="result_message != '' && current_cluster_path != undefined && result_nb > 0" class="container-fluid">
+			<!-- Lower part: Display the results -->
+			<div class="row">
+				<div v-show="result_message != '' && current_cluster_path != undefined && result_nb > 0" class="container-fluid">
 
-						<div class="row">
-							<div class="col-md-2">
-								<div class="results-navig" v-if="result_nb > 0">
-									<button class="btn btn-primary btn-results" v-bind:class="{ disabled: result_nb == current_cluster_size }" onclick="javascript:more_results()">
-										More results <i class="fa fa-plus-circle" aria-hidden="true"></i>
-									</button>
-									<br/>
-									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(0)">
-										<i class="fa fa-fast-backward fa-fw" aria-hidden="true"></i>
-									</button>
-									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(current_view-1)">
-										<i class="fa fa-step-backward fa-fw" aria-hidden="true"></i>
-									</button>
-									<span class="btn-results" style="font-size: 150%">{{ current_view + 1 }} / {{ result_nb }}</span>
-									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(current_view+1)">
-										<i class="fa fa-step-forward fa-fw" aria-hidden="true"></i>
-									</button>
-									<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(result_nb-1)">
-										<i class="fa fa-fast-forward fa-fw" aria-hidden="true"></i>
-									</button>
+					<div class="row">
+						<div class="col-md-2">
+							<div class="results-navig" v-if="result_nb > 0">
+								<button class="btn btn-primary btn-results" v-bind:class="{ disabled: result_nb == current_cluster_size }" onclick="javascript:more_results()">
+									More results <i class="fa fa-plus-circle" aria-hidden="true"></i>
+								</button>
+								<br/>
+								<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(0)">
+									<i class="fa fa-fast-backward fa-fw" aria-hidden="true"></i>
+								</button>
+								<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == 0 }" v-on:click="select_item(current_view-1)">
+									<i class="fa fa-step-backward fa-fw" aria-hidden="true"></i>
+								</button>
+								<span class="btn-results" style="font-size: 150%">{{ current_view + 1 }} / {{ result_nb }}</span>
+								<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(current_view+1)">
+									<i class="fa fa-step-forward fa-fw" aria-hidden="true"></i>
+								</button>
+								<button class="btn btn-sm btn-primary btn-results" v-bind:class="{ disabled: current_view == result_nb-1 }" v-on:click="select_item(result_nb-1)">
+									<i class="fa fa-fast-forward fa-fw" aria-hidden="true"></i>
+								</button>
 
-									<ul id="results-list">
-										<li v-for="(item, itemKey) in current_cluster" v-bind:class='{ displayed: itemKey==current_view }'>
-											<a v-on:click='select_item(itemKey)'>{{ item.sent_id }}</a>
-										</li>
-									</ul>
-								</div>
+								<ul id="results-list">
+									<li v-for="(item, itemKey) in current_cluster" v-bind:class='{ displayed: itemKey==current_view }'>
+										<a v-on:click='select_item(itemKey)'>{{ item.sent_id }}</a>
+									</li>
+								</ul>
 							</div>
-							<div class="col-md-10">
+						</div>
+						<div class="col-md-10">
 
-								<div v-show="audio_begin != undefined" >
-									<audio id="audioPlayer" preload="none" controls style="width: 100%; height: 30px;">
-										<source src="to_be_filled_dynamically">
-										Your browser does not support the audio tag.
-									</audio>
-								</div>
+							<div v-show="audio_begin != undefined" >
+								<audio id="audioPlayer" preload="none" controls style="width: 100%; height: 30px;">
+									<source src="to_be_filled_dynamically">
+									Your browser does not support the audio tag.
+								</audio>
+							</div>
 
-								<div v-if="result_nb > 0">
-									<div id="passage-text" class="passage">
+							<div v-if="result_nb > 0">
+								<div id="passage-text" class="passage">
 
-										<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
+									<div id="meta-panel" class="panel panel-default" style="margin-bottom:4px;">
 
-											<button v-if='current_view >= 0 && "meta" in current_item && Object.keys(current_item.meta).length > 0'
-												class="btn btn-primary btn-sm" type="button" v-on:click="metadata_open=!metadata_open">
-												Metadata&nbsp;
-												<i class="fa fa-fw" v-bind:class="metadata_open ? ['fa-chevron-down'] : ['fa-chevron-right']"></i>
-											</button>
-
-											<button v-show="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="show_conll()">
-												CoNLL&nbsp;
-												<i class="fa fa-rocket" aria-hidden="true"></i>
-											</button>
-
-											<!-- Link button -->
-											<a v-show='current_item["url"]' v-bind:href='current_item["url"]' target="_blank">
-												<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-link fa-lg"></i></button>
-											</a>
-
-											<button v-if="mode=='semantics'" type="button" id="code-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_code()">
-												Code&nbsp;
-												<i class="fa fa-rocket" aria-hidden="true"></i>
-											</button>
-
-											<a v-if="current_view >=0" target="_blank" v-bind:href="backend_server + 'data/' + current_cluster[current_view].filename">
-												<button type="button" class="btn btn-sm btn-primary tooltip-desc">
-													SVG&nbsp;
-													<i class="fa fa-external-link" aria-hidden="true"></i>
-												</button>
-											</a>
-
-											<button v-if='top_project && "cite" in top_project' type="button" class="btn btn-sm btn-primary tooltip-desc" onclick="show_cite()">
-												Cite&nbsp;
-												<i class="fa fa-book" aria-hidden="true"></i>
-											</button>
-
-										</div>
-
-										<div v-if="current_view >= 0">
-											<div v-show="metadata_open">
-												<p v-for='(item, itemKey) in current_item.meta'>
-													<span><b>{{itemKey}}</b>: {{item}}</span>
-												</p>
-											</div>
-										</div>
-
-										<div v-if="current_view >= 0">
-											<h4 id="sentence" v-bind:dir="active_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
-										</div>
-									</div>
-								</div>
-
-								<img v-if='"png" in active_corpus' v-bind:src='active_corpus["png"]+"/"+sent_id+".png"' style="width: 55vw; min-width: 330px;" alt="">
-
-								<div v-if="result_nb > 0 && current_view >= 0" id="display-svg">
-									<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
-								</div>
-
-								<div v-show="active_corpus.parallels && active_corpus.parallels.length > 0 && current_group_id != 'Tutorial'">
-									Parallel corpora:
-									<i id="para-tooltip" class="fa fa-question-circle tooltip-desc"></i>
-									<i id="para-close-tooltip" v-show="parallel != 'no'" class="fa fa-times-circle fa-lg tooltip-desc" v-on:click="parallel='no'; update_parallel_()" style="float: right; margin-top: 8px;"></i>
-									<span v-for="par in active_corpus.parallels">
-										<button style="margin-left:20px" type="button" class="btn" v-on:click="parallel=par; update_parallel_()" v-bind:class="par == parallel ? 'btn-success' : 'btn-default'" >
-											{{ par }}
+										<button v-if='current_view >= 0 && "meta" in current_item && Object.keys(current_item.meta).length > 0'
+											class="btn btn-primary btn-sm" type="button" v-on:click="metadata_open=!metadata_open">
+											Metadata&nbsp;
+											<i class="fa fa-fw" v-bind:class="metadata_open ? ['fa-chevron-down'] : ['fa-chevron-right']"></i>
 										</button>
-										<i aria-hidden="true" class="fa fa-lg fa-link" v-on:click="search_corpus_(par)"></i>
-									</span>
-								</div>
 
-								<div v-if="active_corpus.parallels && active_corpus.parallels.length > 0 && parallel != 'no'" id="display-parallel">
-									<div v-if="parallel_svg">
-										<img v-bind:src="parallel_svg"></img>
+										<button v-show="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="show_conll()">
+											CoNLL&nbsp;
+											<i class="fa fa-rocket" aria-hidden="true"></i>
+										</button>
+
+										<!-- Link button -->
+										<a v-show='current_item["url"]' v-bind:href='current_item["url"]' target="_blank">
+											<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-link fa-lg"></i></button>
+										</a>
+
+										<button v-if="mode=='semantics'" type="button" id="code-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_code()">
+											Code&nbsp;
+											<i class="fa fa-rocket" aria-hidden="true"></i>
+										</button>
+
+										<a v-if="current_view >=0" target="_blank" v-bind:href="backend_server + 'data/' + current_cluster[current_view].filename">
+											<button type="button" class="btn btn-sm btn-primary tooltip-desc">
+												SVG&nbsp;
+												<i class="fa fa-external-link" aria-hidden="true"></i>
+											</button>
+										</a>
+
+										<button v-if='top_project && "cite" in top_project' type="button" class="btn btn-sm btn-primary tooltip-desc" onclick="show_cite()">
+											Cite&nbsp;
+											<i class="fa fa-book" aria-hidden="true"></i>
+										</button>
+
 									</div>
-									<div v-else>
-										<h4>{{parallel_message}}</h4>
+
+									<div v-if="current_view >= 0">
+										<div v-show="metadata_open">
+											<p v-for='(item, itemKey) in current_item.meta'>
+												<span><b>{{itemKey}}</b>: {{item}}</span>
+											</p>
+										</div>
 									</div>
+
+									<div v-if="current_view >= 0">
+										<h4 id="sentence" v-bind:dir="active_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
+									</div>
+								</div>
+							</div>
+
+							<img v-if='"png" in active_corpus' v-bind:src='active_corpus["png"]+"/"+sent_id+".png"' style="width: 55vw; min-width: 330px;" alt="">
+
+							<div v-if="result_nb > 0 && current_view >= 0" id="display-svg">
+								<img v-bind:src="backend_server + 'data/' + current_cluster[current_view].filename"></img>
+							</div>
+
+							<div v-show="active_corpus.parallels && active_corpus.parallels.length > 0 && current_group_id != 'Tutorial'">
+								Parallel corpora:
+								<i id="para-tooltip" class="fa fa-question-circle tooltip-desc"></i>
+								<i id="para-close-tooltip" v-show="parallel != 'no'" class="fa fa-times-circle fa-lg tooltip-desc" v-on:click="parallel='no'; update_parallel_()" style="float: right; margin-top: 8px;"></i>
+								<span v-for="par in active_corpus.parallels">
+									<button style="margin-left:20px" type="button" class="btn" v-on:click="parallel=par; update_parallel_()" v-bind:class="par == parallel ? 'btn-success' : 'btn-default'" >
+										{{ par }}
+									</button>
+									<i aria-hidden="true" class="fa fa-lg fa-link" v-on:click="search_corpus_(par)"></i>
+								</span>
+							</div>
+
+							<div v-if="active_corpus.parallels && active_corpus.parallels.length > 0 && parallel != 'no'" id="display-parallel">
+								<div v-if="parallel_svg">
+									<img v-bind:src="parallel_svg"></img>
+								</div>
+								<div v-else>
+									<h4>{{parallel_message}}</h4>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div> <!-- container -->
-		</div> <!-- wrapper -->
+			</div>
+		</div> <!-- container -->
+	</div> <!-- wrapper -->
 
 
 
 
 
-		<!-- tooltip content -->
-		<div id="warning-tip" style="display: none;">
-			<p>No corpus found with the requested name.</p>
-			<p>The closest one (longuest common prefix then Levenshtein distance) is chosen.</p>
-		</div>
+	<!-- tooltip content -->
+	<div id="warning-tip" style="display: none;">
+		<p>No corpus found with the requested name.</p>
+		<p>The closest one (longuest common prefix then Levenshtein distance) is chosen.</p>
+	</div>
 
-		<!-- tooltip content -->
-		<div id="tf-wf-tip" style="display: none;">
-			<p>Show the two special features <b>wordform</b> and <b>textform</b>.
-				See
-				<a href="https://grew.fr/doc/conllu/#additional-features-textform-and-wordform" target="_blank">
-					<button class="btn btn-primary btn-results btn-sm">doc</button>
-				</a>
-				for more info.
-			</p>
-		</div>
+	<!-- tooltip content -->
+	<div id="tf-wf-tip" style="display: none;">
+		<p>Show the two special features <b>wordform</b> and <b>textform</b>.
+			See
+			<a href="https://grew.fr/doc/conllu/#additional-features-textform-and-wordform" target="_blank">
+				<button class="btn btn-primary btn-results btn-sm">doc</button>
+			</a>
+			for more info.
+		</p>
+	</div>
 
-		<!-- modal for pivot choice -->
-		<div id="pivot-modal" class="modal">
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<p>Chose the pivot</p>
-					</div>
-					<div id="pivot-list" class="modal-body" style="text-align: center; padding-bottom: 15px">
-						<p v-for="pivot in current_pivots">
-							<button type="button" class="btn btn-primary" v-on:click="export_tsv_(pivot)"> {{ pivot }} </button>
-						</p>
-					</div>
+	<!-- modal for pivot choice -->
+	<div id="pivot-modal" class="modal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<p>Chose the pivot</p>
+				</div>
+				<div id="pivot-list" class="modal-body" style="text-align: center; padding-bottom: 15px">
+					<p v-for="pivot in current_pivots">
+						<button type="button" class="btn btn-primary" v-on:click="export_tsv_(pivot)"> {{ pivot }} </button>
+					</p>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- modal for tsv export -->
-		<div id="export-modal" class="modal fade">
-			<div class="modal-dialog modal-lg modal-dialog-scrollable">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<button type="button" class="btn btn-primary" onclick="javascript:download()">Download TSV file&nbsp;&nbsp;</button>
-					</div>
-					<div class="modal-body" id="export-body">
-						<div id="exportResult"></div>
-					</div>
+	<!-- modal for tsv export -->
+	<div id="export-modal" class="modal fade">
+		<div class="modal-dialog modal-lg modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="btn btn-primary" onclick="javascript:download()">Download TSV file&nbsp;&nbsp;</button>
+				</div>
+				<div class="modal-body" id="export-body">
+					<div id="exportResult"></div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- modal for conll export -->
-		<div id="code_modal" class="modal">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<button type="button" class="btn btn-primary" style="width:100%" onclick="javascript:code_copy()">Copy in clipboard</button>
-					</div>
-					<div class="modal-body">
-						<textarea id="code_viewer" rows="25" readonly=""></textarea>
-					</div>
+	<!-- modal for conll export -->
+	<div id="code_modal" class="modal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="btn btn-primary" style="width:100%" onclick="javascript:code_copy()">Copy in clipboard</button>
 				</div>
-			</div>
-		</div>
-
-
-
-		<div id="cite_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="vertical-alignment-helper">
-				<div class="modal-dialog vertical-align-center modal-lg">
-					<div class="modal-content" style="width: inherit; margin: 0 auto;">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">
-								<span aria-hidden="true">&times;</span>
-								<span class="sr-only">Close</span>
-							</button>
-							<h4 class="modal-title" id="myModalLabel">Please cite:</h4>
-						</div>
-						<div id="cite_viewer" class="modal-body">...</div>
-					</div>
+				<div class="modal-body">
+					<textarea id="code_viewer" rows="25" readonly=""></textarea>
 				</div>
 			</div>
 		</div>
 	</div>
 
 
-	<!-- component template -->
-	<script type="text/x-template" id="grid-template">
-		<table class="table-bordered" style="margin-bottom: 10px;" >
-			<thead>
-				<tr>
-					<td style="padding:0px">
-						<div class="cell diag">
-							<div class="cell--topRight"><code>{{col_label}}</code></div>
-							<div class="cell--bottomLeft"><code>{{row_label}}</code></div>
-						</div>
-					</td>
-					<th class="th-grid" v-for="col in columns">
-						<span class="label label-default">
-							<span class="badge badge-pill"style="background-color: black;">
-								{{ grid_display === Grid_display.SIZE ? col.size : grid_display === Grid_display.PERCENT_COL ? "100%" : col.percent }}
-							</span>
-							{{ col.value }}
+
+	<div id="cite_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="vertical-alignment-helper">
+			<div class="modal-dialog vertical-align-center modal-lg">
+				<div class="modal-content" style="width: inherit; margin: 0 auto;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">Please cite:</h4>
+					</div>
+					<div id="cite_viewer" class="modal-body">...</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- component template -->
+<script type="text/x-template" id="grid-template">
+	<table class="table-bordered" style="margin-bottom: 10px;" >
+		<thead>
+			<tr>
+				<td style="padding:0px">
+					<div class="cell diag">
+						<div class="cell--topRight"><code>{{col_label}}</code></div>
+						<div class="cell--bottomLeft"><code>{{row_label}}</code></div>
+					</div>
+				</td>
+				<th class="th-grid" v-for="col in columns">
+					<span class="label label-default">
+						<span class="badge badge-pill"style="background-color: black;">
+							{{ grid_display === Grid_display.SIZE ? col.size : grid_display === Grid_display.PERCENT_COL ? "100%" : col.percent }}
 						</span>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="(row,row_index) in rows">
-					<th class="th-grid">
-						<span class="label label-default">
-							<span class="badge badge-pill"style="background-color: black;">
-								{{ grid_display === Grid_display.SIZE ? row.size : grid_display === Grid_display.PERCENT_ROW ? "100%" : row.percent }}
-							</span>
-							{{ row.value }}
+						{{ col.value }}
+					</span>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="(row,row_index) in rows">
+				<th class="th-grid">
+					<span class="label label-default">
+						<span class="badge badge-pill"style="background-color: black;">
+							{{ grid_display === Grid_display.SIZE ? row.size : grid_display === Grid_display.PERCENT_ROW ? "100%" : row.percent }}
 						</span>
-					</th>
-					<td class="td-grid" v-for="(col,col_index) in columns">
-						<a 
-							v-if="cells[row_index][col_index].size > 0" 
-							class="btn" 
-							v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'"
-							v-on:click="select_cluster_2d_(col_index,row_index)"
-						>
-							{{ grid_display === Grid_display.SIZE
-								? cells[row_index][col_index].size
-								: grid_display === Grid_display.PERCENT
-								? cells[row_index][col_index].percent
-								: grid_display === Grid_display.PERCENT_COL
-								? cells[row_index][col_index].percent_col
-								: cells[row_index][col_index]. percent_row
-							}}
-						</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</script>
+						{{ row.value }}
+					</span>
+				</th>
+				<td class="td-grid" v-for="(col,col_index) in columns">
+					<a
+					v-if="cells[row_index][col_index].size > 0"
+					class="btn"
+					v-bind:class="(col_index == selected_col) && (row_index == selected_row) ? 'btn-success' : 'btn-default'"
+					v-on:click="select_cluster_2d_(col_index,row_index)"
+					>
+					{{ grid_display === Grid_display.SIZE
+						? cells[row_index][col_index].size
+						: grid_display === Grid_display.PERCENT
+						? cells[row_index][col_index].percent
+						: grid_display === Grid_display.PERCENT_COL
+						? cells[row_index][col_index].percent_col
+						: cells[row_index][col_index]. percent_row
+					}}
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</script>
 
 
 
-	<!-- Grew-match specific CSS and JS -->
-	<script src="js/utils.js"></script>
-	<script src="js/grid_comp.js"></script>
-	<script src="js/main.js"></script>
-	<link rel="stylesheet" href="css/grid.css">
-	<link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="css/sidebar.css">
-	<link rel="stylesheet" href="css/tooltip.css">
+<!-- Grew-match specific CSS and JS -->
+<script src="js/utils.js"></script>
+<script src="js/grid_comp.js"></script>
+<script src="js/main.js"></script>
+<link rel="stylesheet" href="css/grid.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/sidebar.css">
+<link rel="stylesheet" href="css/tooltip.css">
 
 </body>
 
