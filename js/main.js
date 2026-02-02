@@ -736,7 +736,7 @@ function open_validation_page() {
   }
   generic(app.backend_server, 'get_build_file', param)
   .then(function (data) {
-    if (data === null) { return }
+    if (!data) { return }
     localStorage.setItem('valid_data', data)
     localStorage.setItem('top_url', window.location.origin)
     localStorage.setItem('corpus', app.current_corpus_id)
@@ -914,7 +914,7 @@ function more_results(post_update_graph_view=false) {
 
   generic(app.backend_server, 'more_results', param)
   .then(data => {
-    if (data === null) { return }
+    if (!data) { return }
     const { cluster_dim, current_cluster_path } = app;
 
     if (cluster_dim === 0) {
@@ -1070,7 +1070,7 @@ function search() {
   if (app.multi_mode) { app.active_corpus_id = undefined }
 
   generic(app.backend_server, app.multi_mode ? 'search_multi' :'search' , search_param())
-  .then (data => {
+  .then(data => {
     if (!data) { app.wait = false; return }
     app.search_mode = true
     app.current_uuid = data.uuid
@@ -1246,7 +1246,8 @@ function export_tsv(pivot) {
   }
 
   generic(app.backend_server, 'tsv_export', param)
-  .then( _ => {
+  .then(data => {
+    if (!data) { return }
     show_export_modal()
   })
 }
@@ -1259,7 +1260,8 @@ function conll_export() {
   }
 
   generic(app.backend_server, 'conll_export', param)
-  .then( () => {
+  .then(data => {
+    if (!data) { return }
     let data_folder = `${app.backend_server}data/${app.current_uuid}`
     window.location = `${data_folder}/export.conllu`
   })
@@ -1275,8 +1277,8 @@ function update_parallel() {
     }
 
     generic(app.backend_server, 'parallel', param)
-    .then( data => {
-      if (data === null) { return }
+    .then(data => {
+      if (!data) { return }
       app.parallel_svg = `${app.backend_server}data/${app.current_uuid}/${data}`
     })
   }
@@ -1298,7 +1300,8 @@ function show_conll() {
   }
 
   generic(app.backend_server, 'conll', param)
-  .then( data => {
+  .then(data => {
+    if (!data) { return }
     $('#code_viewer').html(data)
     $('#code_modal').modal('show')
   })
@@ -1333,7 +1336,8 @@ function dowload_tgz() {
   }
 
   generic(app.backend_server, 'dowload_tgz', param)
-  .then( data => {
+  .then(data => {
+    if (!data) { return }
     window.open(app.backend_server + data)
   })
 }
@@ -1348,7 +1352,8 @@ function open_build_file(file,get_param,get_value) {
   }
 
   generic(app.backend_server, 'get_build_file', param)
-  .then( data => {
+  .then(data => {
+    if (!data) { return }
     var new_window = window.open('')
     var html = ''
     if (file.endsWith('.txt')) {
@@ -1380,7 +1385,7 @@ function save_request() {
     param.raw_nb = app.raw_nb
   }
   generic(app.backend_server, 'save', param)
-  .then( _ => {
+  .then(_ => {
     history.pushState({ id: param.uuid }, '', '?custom=' + param.uuid)
     app.current_custom = window.location.href
     SelectText('custom-url')
@@ -1421,7 +1426,8 @@ function update_corpus() {
       file: 'desc.json'
     }
     generic(app.backend_server, 'get_build_file', param)
-    .then( data => {
+    .then(data => {
+      if (!data) { return }
       let json = JSON.parse(data)
       app.meta_info = true
       let html = ''
