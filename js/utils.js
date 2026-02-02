@@ -175,6 +175,9 @@ function init_tooltips() {
   $('#save-button').tooltipster('content', 'Build a permanent URL with the current session')
   $('#download-conll-button').tooltipster('content', 'Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.')
 
+  $('#tsv-dim1').tooltipster('content', 'Export a TSV table with two columns (cluster names and number of occurrences)')
+  $('#tsv-dim2').tooltipster('content', 'Export a TSV table with cluster sizes<br/>The full table is given even if the number of columns or rows is large')
+
   $('#conll-button').tooltipster('content', 'Show the CoNLL code of the current dependency tree')
 
   $('#clone').tooltipster('content', 'Open a new tab with the corpus selection and request')

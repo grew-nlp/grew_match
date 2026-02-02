@@ -494,7 +494,7 @@
 							<div v-show="cluster_dim == 1" class="row" style="margin-left: 0; margin-top: 10px; margin-bottom: 10px;">
 								<span style="font-size: 150%; margin-right:10px">{{cluster_list.length}} cluster{{ cluster_list.length > 1 ? "s" : "" }}</span>
 
-								<button class="btn btn-primary tooltip-desc btn-sm" onclick="javascript:export_clusters_TSV_dim1()" style="margin-right:10px">
+								<button id="tsv-dim1" class="btn btn-primary tooltip-desc btn-sm" onclick="javascript:export_clusters_TSV_dim1()" style="margin-right:10px">
 									TSV <i class="fa fa-download" aria-hidden="true"></i></span>
 								</button>
 								<button class="btn btn-primary tooltip-desc btn-sm" onclick="javascript:export_clusters_JSON_dim1()" style="margin-right:10px">
@@ -522,8 +522,8 @@
 
 							</div>
 
-							<div v-if="cluster_dim == 2 && nb_solutions > 0" class="row" style="margin-left: 0">
-								<button class="btn btn-primary tooltip-desc btn-sm" onclick="javascript:export_clusters_TSV_dim2()" style="margin-right:10px">
+							<div v-show="cluster_dim == 2 && nb_solutions > 0" class="row" style="margin-left: 0">
+								<button id="tsv-dim2" class="btn btn-primary tooltip-desc btn-sm" onclick="javascript:export_clusters_TSV_dim2()" style="margin-right:10px">
 									TSV <i class="fa fa-download" aria-hidden="true"></i></span>
 								</button>
 
