@@ -1246,8 +1246,7 @@ function export_tsv(pivot) {
   }
 
   generic(app.backend_server, 'tsv_export', param)
-  .then(data => {
-    if (!data) { return }
+  .then(_ => {
     show_export_modal()
   })
 }
@@ -1260,8 +1259,7 @@ function conll_export() {
   }
 
   generic(app.backend_server, 'conll_export', param)
-  .then(data => {
-    if (!data) { return }
+  .then(_ => {
     let data_folder = `${app.backend_server}data/${app.current_uuid}`
     window.location = `${data_folder}/export.conllu`
   })
