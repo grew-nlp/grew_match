@@ -793,7 +793,9 @@
       "UD_Quechua_qwh",
       "UD_Hebrew-PostRab@dev",
       "UniDive_kiparla",
-      "UniDive_kiparla_db"
+      "UniDive_kiparla_db",
+      "UD_Slovenian-SST@dev",
+      "UD_Slovenian-SST_db@dev"
     ]
   },
 
