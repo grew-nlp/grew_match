@@ -226,10 +226,10 @@ let app = new Vue({
       }
       update_url()
 
-      // In transition multi --> mono, the info-button toolpig must be re-initialized
+      // In transition multi --> mono, the info-tip tooltip must be re-initialized
       if (!app.multi_mode) {
         setTimeout(function () {
-          $('#info-button').tooltipster(tt_style());
+          $('#info-tip').tooltipster(tt_style());
         }, 50)
       }
     },
@@ -1438,7 +1438,7 @@ function update_corpus() {
           html += `<p>${key}: ${json[key]}`
         }
       }
-      $('#info-button').tooltipster('content', html)
+      $('#info-tip').tooltipster('content', html)
     })
   }
 
