@@ -177,7 +177,20 @@ let app = new Vue({
           app.current_cluster_size = this.grid_cells[this.current_cluster_path[0]][this.current_cluster_path[1]]
         }
       }
-    }
+    },
+
+    // ==================================================================================
+    meta_html(item, itemKey) {
+      if (itemKey == "TLA" && item.length > 0) {
+        const tla_list = item.split(";")
+        const url_list = tla_list.map((tla) => {
+          return `<a href="https://thesaurus-linguae-aegyptiae.de/sentence/${tla}" target="_blank"><button class="btn btn-primary btn-sm">${tla}</button></a>`
+        });
+        return `<strong>${itemKey}:</strong> ${url_list.join("; ")}`;
+      } else {
+         return `<strong>${itemKey}:</strong> ${item}`;
+      }
+    },
   },  // end methods
 
   watch: {

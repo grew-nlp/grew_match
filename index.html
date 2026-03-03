@@ -656,8 +656,8 @@
 
 									<div v-if="current_view >= 0">
 										<div v-show="metadata_open">
-											<p v-for='(item, itemKey) in current_item.meta'>
-												<span><b>{{itemKey}}</b>: {{item}}</span>
+											<p v-for='(item, itemKey) in current_item.meta' :key="itemKey">
+												<span v-html="meta_html(item, itemKey)"></span>
 											</p>
 										</div>
 									</div>
