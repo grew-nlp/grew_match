@@ -1341,12 +1341,12 @@ function code_copy() {
 }
 
 // ==================================================================================
-function dowload_tgz() {
+function download_tgz() {
   let param = {
     corpus: app.current_corpus_id,
   }
 
-  generic(app.backend_server, 'dowload_tgz', param)
+  generic(app.backend_server, 'download_tgz', param)
   .then(data => {
     if (!data) { return }
     window.open(app.backend_server + data)
