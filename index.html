@@ -656,9 +656,21 @@
 
 									<div v-if="current_view >= 0">
 										<div v-show="metadata_open">
-											<p v-for='(item, itemKey) in current_item.meta' :key="itemKey">
-												<span v-html="meta_html(item, itemKey)"></span>
-											</p>
+											<div v-for='item in current_item.meta' :key="item.key">
+												<div v-if="Object.keys(item.sub).length === 0">
+													<b>{{ item.key }}</b>: {{ item.value }}
+												</div>
+												<div v-else>
+													<details>
+														<summary style="display: list-item;"><b>{{ item.key }}</b>: {{ item.value }} </summary>
+														<div  style="padding-left: 20px;" v-for='(value, key) in item.sub' :key="key">
+															<b>{{key}}</b>:{{value}}
+														</div>
+													</details>
+
+												</div>
+											</div>
+
 										</div>
 									</div>
 
