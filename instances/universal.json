@@ -761,7 +761,7 @@
   },
 
   {
-    "id": "UD Latest",
+    "id": "UD latest",
     "mode": "syntax",
     "snippets": "ud",
     "style": "left_pane",
@@ -917,7 +917,7 @@
   },
 
   {
-    "id": "SUD Auto",
+    "id": "SUD auto",
     "mode": "syntax",
     "snippets": "sud",
     "style": "left_pane",
