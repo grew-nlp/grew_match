@@ -1,3 +1,0 @@
-% Impose several restrictions on the feature structure
-
-pattern { X [ upos=VERB, Mood=Ind, Person="1" ] }

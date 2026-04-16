@@ -1,3 +1,0 @@
-% global filtering which keeps only projective structures
-
-pattern { global.is_projective }

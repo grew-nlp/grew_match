@@ -1,4 +1,0 @@
-pattern { meta.sent_id = "sent_id_to_search" }
-
-% It is also possible to use regexp to get all sent_id containing some substring, for instance:
-% pattern { meta.sent_id = re".*fiction.*" }

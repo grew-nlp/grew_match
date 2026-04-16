@@ -1,3 +1,0 @@
-% Require a feature not to be there
-
-pattern { X [ upos=VERB, !Mood ] }

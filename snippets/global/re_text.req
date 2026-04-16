@@ -1,6 +1,0 @@
-% Request all sentences which contains some "word"
-% Note the the "\b" in the regexp stands for a "word boundary"
-
-pattern { meta.text = re".*\bman\b.*" }
-
-% without the "\b" in the regexp, you will also get sentences containing "many", "woman"…

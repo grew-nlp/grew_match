@@ -1,3 +1,0 @@
-% global filtering which keeps only forests
-
-pattern { global.is_forest }

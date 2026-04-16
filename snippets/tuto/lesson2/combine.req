@@ -1,6 +1,0 @@
-% Combine restriction on nodes and restriction on relations.
-
-pattern {
-  X [ upos=NUM ];
-  X -[compound]-> Y;
-}

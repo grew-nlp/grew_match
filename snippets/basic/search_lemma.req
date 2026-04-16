@@ -1,3 +1,0 @@
-% Search for a given lemma
-
-pattern { X [lemma="Lemma_to_search"] }

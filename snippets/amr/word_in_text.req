@@ -1,3 +1,0 @@
-% The regexp search for the form "is" (\b stands for "word boundary")
-
-pattern { meta.text = re".*\bis\b.*" }

@@ -1,3 +1,0 @@
-% Search for a token which contains the RX tag "FRA"
-
-pattern { X [RX = re".*\[FRA\].*" ]  }

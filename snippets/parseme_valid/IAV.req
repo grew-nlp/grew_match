@@ -1,9 +1,0 @@
-% an IAV must contain a VERB and an ADP
-
-pattern {
-  MWE [label = "IAV"];
-}
-without {
-  MWE -> V; V[upos=AUX|VERB];
-  MWE -> A; A[upos=ADP]
-}

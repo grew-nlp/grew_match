@@ -1,3 +1,0 @@
-% Search for a given sent_id
-
-pattern { meta.sent_id = "p18/d1396" }

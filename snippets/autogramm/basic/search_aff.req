@@ -1,3 +1,0 @@
-% Search for an affix (a form starting or ending with a "-") 
-
-pattern { X [form = re"\(-.*\)\|\(.*-\)" ]  }

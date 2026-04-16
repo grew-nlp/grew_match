@@ -1,3 +1,0 @@
-pattern { 
-	C [Cxn]; C -[Cxn=anchor]-> X;  % a construction `C` with its anchor, named `X`
-}

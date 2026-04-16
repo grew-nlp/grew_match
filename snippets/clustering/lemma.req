@@ -1,4 +1,0 @@
-% What are the lemmas of auxiliaries?
-% The clustering key X.lemma returns a clustering of the results for each possible lemma of an auxiliary
-
-pattern { X [upos = AUX]  }
