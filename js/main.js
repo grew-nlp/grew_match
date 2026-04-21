@@ -8,6 +8,8 @@ let url_params
 let app = new Vue({
   el: '#app',
   data: {
+    config: {}, // configuration: base url for snippets and instances
+
     audio_begin: undefined,   // audio_begin != undefined <==> a sound file is available
     audio_end: undefined,
     audio_speaking_index: 0,
@@ -361,29 +363,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ==================================================================================
 async function start() {
-  try {
-    await initialize_from_instance();
-  } catch (error1) {
-    try {
-      await initialize_from_instances();
-    } catch (error2) {
-      direct_error(`${error1.message}\n\n${error2.message}`, 'Config error');
-    }
+  // load config file
+  app.config = await fetch_json('config.json');
+  if ("instances" in app.config) {
+    await initialize_from_instances()
+  }
+  else if ("backend" in app.config && "desc" in app.config) {
+    await initialize_from_instance()
+  }
+  else {
+    direct_error ("Error in `config.json`")
   }
 }
 
 // ==================================================================================
 async function initialize_from_instance() {
-  const instance = await fetch_json('instance.json');
-  app.backend_server = instance.backend;
-  const param = { instance_desc: instance.desc };
+  app.backend_server = app.config.backend;
+  const param = { instance_desc: app.config.desc };
   app.groups = await generic(app.backend_server, 'get_corpora_desc', param);
   init();
 }
 
 // ==================================================================================
 async function initialize_from_instances() {
-  const instances = await fetch_json('instances.json');
+  const instances = app.config.instances
   const host = window.location.host;
 
   if (!(host in instances)) {
@@ -396,7 +399,7 @@ async function initialize_from_instances() {
   const instance = instances[host].instance;
 
   const param = {
-    instance_desc: await fetch_json(`instances/${instance}`)
+    instance_desc: await fetch_json(clean_concat(app.config.instances_url, instance))
   };
 
   app.groups = await generic(app.backend_server, 'get_corpora_desc', param);
@@ -494,7 +497,7 @@ async function deal_with_get_parameters() {
 
     app.skip_history = true
 
-    fetch_json(`${app.backend_server}shorten/${custom_param}.json`)
+    fetch_json(clean_concat(app.backend_server, "shorten", `${custom_param}.json`))
     .then(data => {
       let request = 'request' in data ? data.request : data.pattern // backward compatibility
       cmEditor.setValue(request)
@@ -533,7 +536,7 @@ async function deal_with_get_parameters() {
       if (app.current_corpus_id == undefined) {
         set_default_corpus() // if no corpus is specified, take the default
       }
-      fetch(`${app.backend_server}shorten/${custom_param}`)
+      fetch(clean_concat(app.backend_server, "shorten", custom_param))
       .then(response => {
          if (!response.ok) {
            direct_error(`${response.statusText}: \`${file}\``);
@@ -860,8 +863,8 @@ async function set_clust_param(param) {
 // ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
-  let file = `snippets/${base}.html`
-  fetch(file)
+  const url = clean_concat(app.config.snippets_url, `${base}.html`)
+  fetch(url)
   .then(response => {
     if (!response.ok) {
       direct_error(`${response.statusText}: \`${file}\``);
@@ -885,11 +888,11 @@ function right_pane(base) {
       set_clust_param (clust_param)
 
       // Update of the textarea
-      const file = `snippets/${this.getAttribute('snippet-file')}`
-      fetch(file)
+      const url = clean_concat(app.config.snippets_url, this.getAttribute('snippet-file'))
+      fetch(url)
       .then(response => {
         if (!response.ok) {
-          direct_error(`${response.statusText}: \`${file}\``);
+          direct_error(`${response.statusText}: \`${url}\``);
           return ''
         }
         return response.text()

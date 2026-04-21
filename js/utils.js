@@ -6,10 +6,17 @@ function log(msg) {
 }
 
 // ==================================================================================
+function clean_concat(base, ...parts) {
+  return [base, ...parts]
+    .join('/')
+    .replace(/(?<!:)\/+/g, '/');
+}
+
+// ==================================================================================
 async function fetch_json(url) {
   const response = await fetch(url)
   if (!response.ok) {
-    throw new Error(`Cannot load \`${url}\`: ${response.status} ${response.statusText}`)
+    direct_error  (`Cannot load \`${url}\`: ${response.status} ${response.statusText}`)
   }
   const json_data = await response.json()
   return json_data
@@ -18,7 +25,7 @@ async function fetch_json(url) {
 // ==================================================================================
 async function generic(backend, service, data) {
   try {
-    const response = await fetch(backend+service, {
+    const response = await fetch(clean_concat(backend,service), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

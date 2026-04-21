@@ -1,0 +1,66 @@
+{
+  "snippets_url": "https://raw.githubusercontent.com/grew-nlp/corpusbank/refs/heads/main/grew_match_snippets/",
+  "instances_url": "https://raw.githubusercontent.com/grew-nlp/corpusbank/refs/heads/main/grew_match_instances/",
+  "instances": {
+    "universal.grew.fr": {
+      "backend": "https://gmd-universal.grew.fr/",
+      "instance": "universal.json"
+    },
+    "parseme.grew.fr": {
+      "backend": "https://gmd-parseme.grew.fr/",
+      "instance": "parseme.json",
+      "top_project": {
+        "website": "https://gitlab.com/parseme/corpora/-/wikis/home",
+        "logo": "https://parsemefr.lis-lab.fr/parseme-st-guidelines/img/parseme-logo.png"
+      }
+    },
+    "semantics.grew.fr": {
+      "backend": "https://gmd-semantics.grew.fr/",
+      "instance": "semantics.json"
+    },
+    "orfeo.grew.fr": {
+      "backend": "https://gmd-orfeo.grew.fr/",
+      "instance": "orfeo.json",
+      "top_project": {
+        "website": "https://www.ortolang.fr/market/corpora/cefc-orfeo/",
+        "logo": "https://orfeo.grew.fr/icon/logo-orfeo.png"
+      }
+    },
+    "sequoia.grew.fr": {
+      "backend": "https://gmd-sequoia.grew.fr/",
+      "instance": "sequoia.json"
+    },
+    "naija.grew.fr": {
+      "backend": "https://gmd-naija.grew.fr/",
+      "instance": "naija.json",
+      "top_project": {
+        "website": "https://naijasyncor.huma-num.fr/",
+        "logo": "https://naija.grew.fr/icon/naija.png"
+      }
+    },
+    "autogramm.grew.fr": {
+      "backend": "https://gmd-autogramm.grew.fr/",
+      "instance": "autogramm.json"
+    },
+    "sawg.grew.fr": {
+      "backend": "https://gmd-sawg.grew.fr/",
+      "instance": "sawg.json"
+    },
+    "pt.grew.fr": {
+      "backend": "https://gmd-pt.grew.fr/",
+      "instance": "pt.json",
+      "top_project": {
+        "logo_nobg": "https://grew.fr/download/pt/Logo_PT.svg",
+        "cite": "### Díaz Hernández, R. A. **PT ${spell}. ${section} ${king}**, \n ### in: Bruno Guillaume, PT.grew.fr, version 1.0, May 2025",
+        "about": "https://grew.fr/grew_match/pt/"
+      }
+    },
+    "spoken.grew.fr": {
+      "backend": "https://gmd-universal.grew.fr/",
+      "instance": "spoken.json",
+      "top_project": {
+        "logo_nobg": "https://grew.fr/download/SP/Logo_SP.jpg"
+      }
+    }
+  }
+}
