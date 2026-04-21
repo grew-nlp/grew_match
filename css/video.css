@@ -1,0 +1,45 @@
+.videoDivSize{
+    width: 25%;
+    height:auto;
+    text-align: center;
+    resize: horizontal;
+    overflow: auto;
+    min-width: 100px;
+}
+.video{
+    width: 100%;
+    height: auto;
+}
+.resize-handle {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: ew-resize;
+    background-color: transparent;
+}
+.z-max{
+    z-index: 1000;
+}
+.fixed{
+    position:fixed
+}
+.rounded {
+    border-radius: 10px;    
+}
+.btnBlock{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;                
+    align-items: center;  
+}
+.btnSpeed{
+    background-color: transparent;
+    border: none;
+    color: aliceblue;
+}
+.bottom-right{
+    right: 4%;
+    bottom: 5%;
+}
