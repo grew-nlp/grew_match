@@ -367,10 +367,8 @@ document.addEventListener('DOMContentLoaded', function() {
   init_tooltips()
   start()
   setTimeout(() => {
-    if (isVideo()){
       video_init() 
-    }
-  }, 1000)
+    }, 1000)
 })
 
 // ==================================================================================
@@ -624,17 +622,16 @@ function update_graph_view() {
           })
         })
         app.audio_tokens[0].classList.add('speaking')
+        app.audio_speaking_index = 0
       }
       else { // Audio available without alignment
         app.audio_begin = 0
         app.audio_tokens = undefined
       }
     } else { // Audio not available
-      app.audio_begin = undefined
-      if (isVideo()){
-        update_video_graph_view()
-      }
+      app.audio_begin = undefined  
     }
+    update_video_graph_view()
   }, 100)
 }
 
@@ -956,7 +953,7 @@ function more_results(post_update_graph_view=false) {
       app.clusters[current_cluster_path[0]][current_cluster_path[1]] = app.clusters[current_cluster_path[0]][current_cluster_path[1]].concat(data.items)
     }
     app.update_current_cluster()
-
+    
     if (post_update_graph_view) {
       update_graph_view()
     }
@@ -1158,6 +1155,7 @@ function search() {
     }
     app.wait = false
   })
+  setTimeout(() => change_video_url(), 500) // load video
 } // search
 
 // ==================================================================================
@@ -1516,48 +1514,50 @@ function select_cluster_2d(c, r) {
 }
 
 // ==================================================================================
-function getVideoUrl(){
+function get_video_url(){
   const metaData = app.current_item.meta;
-  const soundUrl = metaData?.find(meta => meta.key === 'video_url');
-
-  return soundUrl ? soundUrl.value : ''
+  const video_url = metaData?.find(meta => meta.key === 'video_url');
+  return video_url ? video_url.value : ''
 }
 
-function isVideo(){
+function is_video(){
   const metaData = app.current_item.meta;
-  const videoUrl = metaData?.find(meta => meta.key === 'video_url');
-  return videoUrl !== undefined
+  const video_url = metaData?.find(meta => meta.key === 'video_url');
+  return video_url !== undefined
 }
 
-function changeVideoUrl(){
-  if (isVideo()){
-    const video = document.getElementsByClassName('video')[0]
-    const url = getVideoUrl()
+function change_video_url(){
+  if (is_video()){
+    const video = document.getElementById('video')
+    // stop update() when changing sentence
+    if(app.video_interval_id){ 
+      clearInterval(app.video_interval_id);
+    }
+    const url = get_video_url()
     if (video.src !== url){
       video.src = url;
     } 
     setTimeout(()=>{
-      video.currentTime = getToken()[0].dataset.begin
+      video.currentTime = get_tokens()[0].dataset.begin
     }, 100)
   }
 }
 
-function getToken(){
+function get_tokens(){
   const sentence = document.getElementById('sentence')
   const videoTokens = sentence?.querySelectorAll('[data-begin]')
   return videoTokens ? videoTokens : []
 }
 
+// ==================================================================================
 function video_init() {
-  changeVideoUrl() // set url when component is loaded
   let video_player = document.getElementById('video')
-  let tokens = getToken() 
+
   function update () {
     if (video_player.currentTime >= app.video_end || video_player.currentTime < app.video_begin) {
       video_player.pause()
     } else {
-      tokens = getToken()
-      let token_data = tokens[app.video_speaking_index].dataset
+      let token_data = app.video_tokens[app.video_speaking_index].dataset
       let token_end = Number(token_data.begin) + Number(token_data.dur)
       if (video_player.currentTime > token_end) {
         video_speaking_token (app.video_speaking_index + 1)
@@ -1566,13 +1566,13 @@ function video_init() {
   }
 
   video_player.addEventListener('play', function() {
-    if (tokens != undefined) {
+    if (app.video_tokens != undefined) {
       app.video_interval_id = setInterval(update, 50)
     }
   })
 
   video_player.addEventListener('pause', function() {
-    if (tokens != undefined) {
+    if (app.video_tokens != undefined) {
       if (app.video_interval_id) {
         clearInterval(app.video_interval_id)
         app.video_interval_id = undefined
@@ -1584,7 +1584,7 @@ function video_init() {
   })
 
   video_player.addEventListener('seeking', function() {
-    if (tokens != undefined) {
+    if (app.video_tokens != undefined) {
       let pos = 0
       app.video_tokens.forEach (function (node,index) {
         node.classList.remove('speaking')
@@ -1599,10 +1599,10 @@ function video_init() {
   })
 
   function video_speaking_token(position) {
-    //const tokens = getToken()
-    let prev_word = tokens[app.video_speaking_index]
+    app.video_tokens = get_tokens()
+    let prev_word = app.video_tokens[app.video_speaking_index]
     prev_word.classList.remove('speaking')
-    let new_word = tokens[position]
+    let new_word = app.video_tokens[position]
     app.video_speaking_index = position
     new_word.classList.add('speaking')
   }
@@ -1610,12 +1610,12 @@ function video_init() {
 
 // ==================================================================================
 function update_video_graph_view() {
-
-  if (isVideo()) {
-    const video_player = document.getElementById('video')
+  const video_player = document.getElementById('video')
     video_player.pause()
-    const tokens = getToken()
-    if (tokens.length > 1 ){
+
+  if (is_video()) {
+    const tokens = get_tokens()
+    if (tokens.length >= 1 ){
       app.video_begin = tokens[0].dataset.begin
       app.video_end = tokens[tokens.length - 1].dataset.begin + tokens[tokens.length - 1].dataset.dur
 
@@ -1628,16 +1628,16 @@ function update_video_graph_view() {
           video_player.currentTime = init_pos
         })
       })
-      tokens.forEach(function (token) {
+      app.video_tokens.forEach(function (token) {
         token.addEventListener('dblclick', function (_) {
           video_player.play()
         })
       })
-      tokens[0].classList.add('speaking')
+      app.video_speaking_index = 0;
     }
     else { // Video available without alignment
       app.video_begin = 0
-      app.audio_tokens = undefined
+      app.video_tokens = undefined
     }
   } else { // Video not available
     app.video_begin = undefined
