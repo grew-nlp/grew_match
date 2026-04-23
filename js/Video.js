@@ -2,7 +2,7 @@ Vue.component("video-player", {
   template: "#video-template",
 
   props: {
-    videoUrl: String
+    video_url: String
   },
 
   data: function () {
@@ -26,7 +26,7 @@ Vue.component("video-player", {
   mounted: function () {
     this.videoRef = this.$refs.video
     this.setVideoPosition()
-    this.cachedVideoUrl = this.getVideoUrl()
+    this.cachedVideoUrl = this.get_video_url()
   },
 
   methods: {
@@ -35,8 +35,8 @@ Vue.component("video-player", {
       this.hideText = this.isVideoHidden ? "Show video" : "Hide video"
     },
 
-    getVideoUrl() {
-      return this.videoUrl || ""
+    get_video_url() {
+      return this.video_url || ""
     },
 
     setSpeed(speed) {

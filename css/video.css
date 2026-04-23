@@ -23,7 +23,7 @@
     z-index: 1000;
 }
 .fixed{
-    position:fixed
+    position: fixed;
 }
 .rounded {
     border-radius: 10px;    
@@ -38,6 +38,9 @@
     background-color: transparent;
     border: none;
     color: aliceblue;
+}
+.close-btn {
+    margin-left: auto; 
 }
 .bottom-right{
     right: 4%;
