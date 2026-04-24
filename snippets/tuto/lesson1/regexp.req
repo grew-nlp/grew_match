@@ -1,5 +1,0 @@
-% Regular expression can be used for feature filtering
-
-pattern {
-  X [ form = re".*ing" ]
-}

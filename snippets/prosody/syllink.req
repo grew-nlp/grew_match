@@ -1,7 +1,0 @@
-% links between words and syllable have labels: "Syl=1", "Syl=2"… 
-
-pattern { 
-  W []; 
-  S [SylForm = "wO~"];
-  W -[Syl=*]-> S;      % the syntax "Syl=*" matches a link whatever is the syllable position
-}

@@ -1,4 +1,0 @@
-% Search for trigrams of upos
-% For instance: D, A, N
-
-pattern { X1 [upos=D]; X2 [upos=A]; X3 [upos=N]; X1 < X2; X2 < X3 }

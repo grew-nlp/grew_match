@@ -1,1 +1,0 @@
-pattern { X[upos=VERB, SubForm=AbstRel, Tense=Past] }

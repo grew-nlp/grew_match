@@ -1,5 +1,0 @@
-% Search for causative auxialiaries ([aux.caus])
-
-pattern {
-  X -[aux.caus]-> Y
-}

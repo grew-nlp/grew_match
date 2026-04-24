@@ -8,6 +8,8 @@ let url_params
 let app = new Vue({
   el: '#app',
   data: {
+    config: {}, // configuration: base url for snippets and instances
+
     audio_begin: undefined,   // audio_begin != undefined <==> a sound file is available
     audio_end: undefined,
     audio_speaking_index: 0,
@@ -20,6 +22,7 @@ let app = new Vue({
     grid_message: '',
     col_label: '',
     row_label: '',
+    data_copy: undefined, // used to store a stable version of the grid data, independent of sorting
 
     metadata_open: false,
 
@@ -59,10 +62,12 @@ let app = new Vue({
     parallel_message: '',
 
     wait: false,
-    sort: true,
+    sort_by_size: true,
     raw_nb: true,
 
     grid_display: Grid_display.SIZE,
+    selected_col: undefined,
+    selected_row: undefined,
 
     // printing parameters
     display: {
@@ -174,7 +179,20 @@ let app = new Vue({
           app.current_cluster_size = this.grid_cells[this.current_cluster_path[0]][this.current_cluster_path[1]]
         }
       }
-    }
+    },
+
+    // ==================================================================================
+    meta_html(item, itemKey) {
+      if (itemKey == "TLA" && item.length > 0) {
+        const tla_list = item.split(";")
+        const url_list = tla_list.map((tla) => {
+          return `<a href="https://thesaurus-linguae-aegyptiae.de/sentence/${tla}" target="_blank"><button class="btn btn-primary btn-sm">${tla}</button></a>`
+        });
+        return `<strong>${itemKey}:</strong> ${url_list.join("; ")}`;
+      } else {
+         return `<strong>${itemKey}:</strong> ${item}`;
+      }
+    },
   },  // end methods
 
   watch: {
@@ -223,11 +241,24 @@ let app = new Vue({
       }
       update_url()
 
-      // In transition multi --> mono, the info-button toolpig must be re-initialized
+      // In transition multi --> mono, the info-tip tooltip must be re-initialized
       if (!app.multi_mode) {
         setTimeout(function () {
-          $('#info-button').tooltipster(tt_style());
+          $('#info-tip').tooltipster(tt_style());
         }, 50)
+      }
+    },
+
+    sort_by_size: function () {
+      if (app.cluster_dim == 2) {
+        // update selected_row and selected_col to follow cell moving after (un)sorting
+        if (app.current_cluster_path) {
+          const row = app.current_cluster_path[0]
+          const col = app.current_cluster_path[1]
+          app.selected_col = app.sort_by_size ? col : app.data_copy.cluster_grid.permut_columns.indexOf(col)
+          app.selected_row = app.sort_by_size ? row : app.data_copy.cluster_grid.permut_rows.indexOf(row)
+        }
+        fill_grid(app.data_copy)
       }
     }
   }, // end watch
@@ -237,7 +268,7 @@ let app = new Vue({
       return location.hostname.includes('localhost')
     },
     cluster_list_sorted: function () {
-      if (this.sort) {
+      if (this.sort_by_size) {
         var data = this.cluster_list.slice() // copy the array before sorting
         data.sort (function (c1, c2) {
           return c2.size - c1.size
@@ -332,29 +363,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ==================================================================================
 async function start() {
-  try {
-    await initialize_from_instance();
-  } catch (error1) {
-    try {
-      await initialize_from_instances();
-    } catch (error2) {
-      direct_error(`${error1.message}\n\n${error2.message}`, 'Config error');
-    }
+  // load config file
+  app.config = await fetch_json('config.json');
+  if ("instances" in app.config) {
+    await initialize_from_instances()
+  }
+  else if ("backend" in app.config && "desc" in app.config) {
+    await initialize_from_instance()
+  }
+  else {
+    direct_error ("Error in `config.json`")
   }
 }
 
 // ==================================================================================
 async function initialize_from_instance() {
-  const instance = await fetch_json('instance.json');
-  app.backend_server = instance.backend;
-  const param = { instance_desc: instance.desc };
+  app.backend_server = app.config.backend;
+  const param = { instance_desc: app.config.desc };
   app.groups = await generic(app.backend_server, 'get_corpora_desc', param);
   init();
 }
 
 // ==================================================================================
 async function initialize_from_instances() {
-  const instances = await fetch_json('instances.json');
+  const instances = app.config.instances
   const host = window.location.host;
 
   if (!(host in instances)) {
@@ -367,7 +399,7 @@ async function initialize_from_instances() {
   const instance = instances[host].instance;
 
   const param = {
-    instance_desc: await fetch_json(`instances/${instance}`)
+    instance_desc: await fetch_json(clean_concat(app.config.instances_url, instance))
   };
 
   app.groups = await generic(app.backend_server, 'get_corpora_desc', param);
@@ -465,7 +497,7 @@ async function deal_with_get_parameters() {
 
     app.skip_history = true
 
-    fetch_json(`${app.backend_server}shorten/${custom_param}.json`)
+    fetch_json(clean_concat(app.backend_server, "shorten", `${custom_param}.json`))
     .then(data => {
       let request = 'request' in data ? data.request : data.pattern // backward compatibility
       cmEditor.setValue(request)
@@ -487,6 +519,8 @@ async function deal_with_get_parameters() {
 
       if ('clust' in data) {
         set_clust_param(data.clust)
+        if (data.clust.dim === 1) { app.raw_nb = data.raw_nb }
+        if (data.clust.dim === 2) { app.grid_display = data.grid_display }
       } else {
         set_clust_param(data) // backward compatibility (clust* value at the top level)
       }
@@ -502,8 +536,14 @@ async function deal_with_get_parameters() {
       if (app.current_corpus_id == undefined) {
         set_default_corpus() // if no corpus is specified, take the default
       }
-      fetch(`${app.backend_server}shorten/${custom_param}`)
-      .then(response => {return response.text(); })
+      fetch(clean_concat(app.backend_server, "shorten", custom_param))
+      .then(response => {
+         if (!response.ok) {
+           direct_error(`${response.statusText}: \`${file}\``);
+          return
+        }
+        return response.text();
+      })
       .then (function (request) {
         cmEditor.setValue(request)
         setTimeout(search, 150) // hack: else clust*_cm value is not taken into account.
@@ -713,7 +753,7 @@ function open_validation_page() {
   }
   generic(app.backend_server, 'get_build_file', param)
   .then(function (data) {
-    if (data === null) { return }
+    if (!data) { return }
     localStorage.setItem('valid_data', data)
     localStorage.setItem('top_url', window.location.origin)
     localStorage.setItem('corpus', app.current_corpus_id)
@@ -726,7 +766,7 @@ function aggrid(base_name) {
   let params = new URLSearchParams()
   params.append('corpus', app.current_corpus_id)
   params.append('datafile', `${base_name}.json`)
-  window.open(`aggrid.html?'${params.toString()}`)
+  window.open(`aggrid.html?${params.toString()}`)
 }
 
 // ==================================================================================
@@ -770,7 +810,7 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
 
 // ==================================================================================
 function get_clust_param () {
-  let param = {}
+  let param = { dim: app.cluster_dim }
   if (app.clust1 === 'key') {
     param.clust1_key = app.clust1_key;
     app.row_label = app.multi_mode ? "Corpus" : app.clust1_key;
@@ -824,8 +864,8 @@ async function set_clust_param(param) {
 // ==================================================================================
 // Binding for interactive part in snippets part
 function right_pane(base) {
-  let file = `snippets/${base}.html`
-  fetch(file)
+  const url = clean_concat(app.config.snippets_url, `${base}.html`)
+  fetch(url)
   .then(response => {
     if (!response.ok) {
       direct_error(`${response.statusText}: \`${file}\``);
@@ -849,11 +889,11 @@ function right_pane(base) {
       set_clust_param (clust_param)
 
       // Update of the textarea
-      const file = `snippets/${this.getAttribute('snippet-file')}`
-      fetch(file)
+      const url = clean_concat(app.config.snippets_url, this.getAttribute('snippet-file'))
+      fetch(url)
       .then(response => {
         if (!response.ok) {
-          direct_error(`${response.statusText}: \`${file}\``);
+          direct_error(`${response.statusText}: \`${url}\``);
           return ''
         }
         return response.text()
@@ -866,11 +906,6 @@ function right_pane(base) {
 }
 
 
-
-
-
-
-
 // ==================================================================================
 function named_cluster_path() {
   if (app.cluster_dim == 1) {
@@ -878,8 +913,9 @@ function named_cluster_path() {
   }
   if (app.cluster_dim == 2) {
     return ([
-      app.grid_rows[app.current_cluster_path[0]].value,
-      app.grid_columns[app.current_cluster_path[1]].value
+      // get data from `data_copy` (indenpendent from sorting)
+      app.data_copy.cluster_grid.rows[app.current_cluster_path[0]].value,
+      app.data_copy.cluster_grid.columns[app.current_cluster_path[1]].value
     ])
   }
   return ([])
@@ -895,7 +931,7 @@ function more_results(post_update_graph_view=false) {
 
   generic(app.backend_server, 'more_results', param)
   .then(data => {
-    if (data === null) { return }
+    if (!data) { return }
     const { cluster_dim, current_cluster_path } = app;
 
     if (cluster_dim === 0) {
@@ -951,31 +987,54 @@ Thanks!`
         return elt;
       });
     } else if ('cluster_grid' in data) {
-      app.cluster_dim = 2
-      app.grid_rows = data.cluster_grid.rows.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_columns = data.cluster_grid.columns.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_message = ''
-      app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
-        return row.map((cell,col_index) => {
-          return {
-            size: cell,
-            percent: ratio(cell, data.nb_solutions),
-            percent_col: ratio(cell, app.grid_columns[col_index].size),
-            percent_row: ratio(cell, app.grid_rows[row_index].size),
-          }
-        })
-      })
+      app.data_copy = data
+      fill_grid(data)
       update_grid_message(data)
     }
     app.wait = false
   })
 } // count
+
+// ==================================================================================
+// Compute the real col from the display col
+function shift_row(row_index) {
+  return app.sort_by_size ? row_index : app.data_copy.cluster_grid.permut_rows[row_index]
+}
+
+// ==================================================================================
+// Compute the real row from the display row
+function shift_col(col_index) {
+  return app.sort_by_size ? col_index : app.data_copy.cluster_grid.permut_columns[col_index]
+}
+
+// ==================================================================================
+function fill_grid(data) {
+  app.cluster_dim = 2
+
+  app.grid_rows = data.cluster_grid.rows.map((_, index) => {
+    const shifted_row = data.cluster_grid.rows[shift_row(index)]
+    shifted_row.percent = ratio(shifted_row.size, data.nb_solutions);
+    return shifted_row;
+  });
+  app.grid_columns = data.cluster_grid.columns.map((_, index) => {
+    const shifted_col = data.cluster_grid.columns[shift_col(index)]
+    shifted_col.percent = ratio(shifted_col.size, data.nb_solutions);
+    return shifted_col;
+  });
+  app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
+    return row.map((_,col_index) => {
+      const shifted_row_index = shift_row(row_index)
+      const shifted_col_index = shift_col(col_index)
+      const shifted_cell = data.cluster_grid.cells[shifted_row_index][shifted_col_index]
+      return {
+        size: shifted_cell,
+        percent: ratio(shifted_cell, data.nb_solutions),
+        percent_col: ratio(shifted_cell, app.grid_columns[col_index].size),
+        percent_row: ratio(shifted_cell, app.grid_rows[row_index].size),
+      }
+    })
+  })
+}
 
 // ==================================================================================
 function open_param(param) {
@@ -1028,7 +1087,7 @@ function search() {
   if (app.multi_mode) { app.active_corpus_id = undefined }
 
   generic(app.backend_server, app.multi_mode ? 'search_multi' :'search' , search_param())
-  .then (data => {
+  .then(data => {
     if (!data) { app.wait = false; return }
     app.search_mode = true
     app.current_uuid = data.uuid
@@ -1062,11 +1121,6 @@ function search() {
     }
 
 
-
-
-
-
-
     if ('cluster_single' in data) {
       app.cluster_dim = 0
       app.clusters = []
@@ -1083,26 +1137,8 @@ function search() {
       });
       app.clusters = Array(app.cluster_list.length).fill([])
     } else if ('cluster_grid' in data) {
-      app.cluster_dim = 2
-      app.grid_rows = data.cluster_grid.rows.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_columns = data.cluster_grid.columns.map((elt, _) => {
-        elt.percent = ratio(elt.size, data.nb_solutions);
-        return elt;
-      });
-      app.grid_cells = data.cluster_grid.cells.map((row,row_index) => {
-        return row.map((cell,col_index) => {
-          return {
-            size: cell,
-            percent: ratio(cell, data.nb_solutions),
-            percent_col: ratio(cell, app.grid_columns[col_index].size),
-            percent_row: ratio(cell, app.grid_rows[row_index].size),
-          }
-        })
-      })
-
+      app.data_copy = data
+      fill_grid(data)
       app.clusters = Array.from({ length: app.grid_rows.length }, () => Array(app.grid_columns.length).fill([]))
       update_grid_message(data)
     }
@@ -1150,8 +1186,8 @@ function show_export_modal() {
     html += '</table>'
 
     $('#exportResult').html(html)
+    $('#export-modal').modal('show')
   })
-  $('#export-modal').modal('show')
 }
 
 // ==================================================================================
@@ -1166,7 +1202,7 @@ function run_export() {
 }
 
 // ==================================================================================
-function clusters_export() {
+function export_clusters_TSV_dim1() {
   let tsv = ''
   if (app.clust1 == 'key') {
     tsv += app.clust1_key + '\tOccurrences\n'
@@ -1178,15 +1214,56 @@ function clusters_export() {
 }
 
 // ==================================================================================
+function export_clusters_JSON_dim1() {
+  const data = {}
+  app.cluster_list.forEach(cluster => {
+    data[cluster.value] = cluster.size
+  })
+  download_text('clusters.json',JSON.stringify(data,"",2))
+}
+
+// ==================================================================================
+// Build a TSV file with the double clustering table: 
+// - with all columns
+// - repecting the current sorting (name or size)
+function grid_to_TSV (full_table) {
+  const ordering = app.sort_by_size ? "by_size" : "by_name"
+  const cols_keys = full_table.cols[ordering]
+  const rows_keys = full_table.rows[ordering]
+  const col_headers = "\t" + cols_keys.join('\t');
+  const rows = rows_keys.map(row_key => {
+    const row_values = [row_key]
+    cols_keys.forEach (col_key => {
+      row_values.push (full_table.data[row_key][col_key] || 0)
+    })
+    return row_values.join('\t')
+  })
+  return [col_headers, ...rows].join('\n')
+}
+
+// ==================================================================================
+function export_clusters_TSV_dim2() {
+  download_text('clusters.tsv',grid_to_TSV(app.data_copy.cluster_grid.full_table))
+}
+
+// ==================================================================================
+function export_clusters_JSON_dim2() {
+  download_text('clusters.json',JSON.stringify(app.data_copy.cluster_grid.full_table.data,"",2))
+}
+
+// ==================================================================================
 function export_tsv(pivot) {
   $('#pivot-modal').modal('hide')
   let param = {
     uuid: app.current_uuid,
+    corpus: app.current_corpus_id,
+    request: cmEditor.getValue(),
     pivot: pivot,
+    clust: get_clust_param(),
   }
 
-  generic(app.backend_server, 'export', param)
-  .then( _ => {
+  generic(app.backend_server, 'tsv_export', param)
+  .then(_ => {
     show_export_modal()
   })
 }
@@ -1195,10 +1272,11 @@ function export_tsv(pivot) {
 function conll_export() {
   let param = {
     uuid: app.current_uuid,
+    corpus: app.current_corpus_id,
   }
 
   generic(app.backend_server, 'conll_export', param)
-  .then( () => {
+  .then(_ => {
     let data_folder = `${app.backend_server}data/${app.current_uuid}`
     window.location = `${data_folder}/export.conllu`
   })
@@ -1214,8 +1292,8 @@ function update_parallel() {
     }
 
     generic(app.backend_server, 'parallel', param)
-    .then( data => {
-      if (data === null) { return }
+    .then(data => {
+      if (!data) { return }
       app.parallel_svg = `${app.backend_server}data/${app.current_uuid}/${data}`
     })
   }
@@ -1248,7 +1326,8 @@ function show_conll() {
   }
 
   generic(app.backend_server, 'conll', param)
-  .then( data => {
+  .then(data => {
+    if (!data) { return }
     $('#code_viewer').html(data)
     $('#code_modal').modal('show')
   })
@@ -1277,13 +1356,14 @@ function code_copy() {
 }
 
 // ==================================================================================
-function dowload_tgz() {
+function download_tgz() {
   let param = {
     corpus: app.current_corpus_id,
   }
 
-  generic(app.backend_server, 'dowload_tgz', param)
-  .then( data => {
+  generic(app.backend_server, 'download_tgz', param)
+  .then(data => {
+    if (!data) { return }
     window.open(app.backend_server + data)
   })
 }
@@ -1298,7 +1378,8 @@ function open_build_file(file,get_param,get_value) {
   }
 
   generic(app.backend_server, 'get_build_file', param)
-  .then( data => {
+  .then(data => {
+    if (!data) { return }
     var new_window = window.open('')
     var html = ''
     if (file.endsWith('.txt')) {
@@ -1321,11 +1402,17 @@ function open_build_file(file,get_param,get_value) {
 // ==================================================================================
 function save_request() {
   let param = search_param()
-  param.uuid = app.current_uuid
+  param.uuid = new_uuid()
   param.search_mode = app.search_mode
+  if (param.clust.dim === 2) {
+    param.grid_display = app.grid_display
+  }
+  if (param.clust.dim === 1) {
+    param.raw_nb = app.raw_nb
+  }
   generic(app.backend_server, 'save', param)
-  .then( _ => {
-    history.pushState({ id: app.current_uuid }, '', '?custom=' + app.current_uuid)
+  .then(_ => {
+    history.pushState({ id: param.uuid }, '', '?custom=' + param.uuid)
     app.current_custom = window.location.href
     SelectText('custom-url')
   })
@@ -1365,7 +1452,8 @@ function update_corpus() {
       file: 'desc.json'
     }
     generic(app.backend_server, 'get_build_file', param)
-    .then( data => {
+    .then(data => {
+      if (!data) { return }
       let json = JSON.parse(data)
       app.meta_info = true
       let html = ''
@@ -1378,7 +1466,7 @@ function update_corpus() {
           html += `<p>${key}: ${json[key]}`
         }
       }
-      $('#info-button').tooltipster('content', html)
+      $('#info-tip').tooltipster('content', html)
     })
   }
 
@@ -1400,10 +1488,17 @@ function update_url() {
 // ==================================================================================
 function select_cluster_2d(c, r) {
   log('=== select_cluster_2d ===')
-  if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != r || app.current_cluster_path[1] != c)) {
-    app.current_cluster_path = [r, c]
+  // set values for cell highlighting
+  app.selected_col = (c);
+  app.selected_row = (r);
+
+  const sc = shift_col(c);
+  const sr = shift_row(r);
+
+  if (app.search_mode && (app.current_cluster_path == undefined || app.current_cluster_path[0] != sr || app.current_cluster_path[1] != sc)) {
+    app.current_cluster_path = [sr, sc]
     app.current_view = 0
-    if (app.clusters[r][c].length == 0) {
+    if (app.clusters[sr][sc].length == 0) {
       more_results(true)
     } else {
       app.update_current_cluster()
@@ -1411,7 +1506,7 @@ function select_cluster_2d(c, r) {
     }
 
     if (app.multi_mode) {
-      app.active_corpus_id = app.grid_rows[r].value.split(" ")[0]
+      app.active_corpus_id = app.grid_rows[sr].value.split(" ")[0]
     }
 
   }

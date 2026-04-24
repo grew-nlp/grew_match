@@ -1,4 +1,0 @@
-% What are the dependency relations used between a VERB and a NOUN?
-% NOTE: It is required to give a name ('e' here) to the edge to make reference to it in the cluster key
-
-pattern { e: X -> Y; X[upos=VERB]; Y[upos=NOUN] }

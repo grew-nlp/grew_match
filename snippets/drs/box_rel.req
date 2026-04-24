@@ -1,3 +1,0 @@
-% Search for a relation between boxes
-
-pattern { B1 -[NEGATION]-> B2 }

@@ -1,3 +1,0 @@
-% Search for a given word form
-
-pattern { X [form="Form_to_search"] }

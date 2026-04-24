@@ -1,3 +1,0 @@
-% Search for 4-grams of lemmas
-
-pattern { X1 [lemma="lemma1"]; X2 [lemma="lemma2"]; X3 [lemma="lemma3"]; X4 [lemma="lemma4"]; X1 < X2; X2 < X3; X3 < X4 }

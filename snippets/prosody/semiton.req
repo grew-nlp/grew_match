@@ -1,7 +1,0 @@
-% SemitonesFromUtteranceMean is a numeric feature
-% Ex: search for all syllables with a SemitonesFromUtteranceMean lower than -10
-
-pattern { 
-  S [SemitonesFromUtteranceMean];
-  S.SemitonesFromUtteranceMean < -10;
-}

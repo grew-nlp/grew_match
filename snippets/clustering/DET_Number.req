@@ -1,3 +1,0 @@
-% How the fact that a NOUN is used with or without a determiner is correlated with its Number 
-
-pattern { X [upos="NOUN"] }

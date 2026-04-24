@@ -1,7 +1,0 @@
-% Search for a "det" dependency relation
-% such that the governor's tag is different from NOUN, PROPN and ADJ
-
-pattern {
-  X [upos <> NOUN|ADJ|PROPN];
-  X -[det]-> Y;
-}

@@ -1,9 +1,0 @@
-% a VMWE must contain a VERB
-
-pattern {
-  MWE [label <> NotMWE];
-}
-without {
-  MWE -> V;
-  V[upos=VERB|AUX]
-}

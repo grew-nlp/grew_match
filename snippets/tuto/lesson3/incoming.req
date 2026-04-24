@@ -1,7 +1,0 @@
-% It is possible to request the presence of an incoming edge with the "*" symbol.
-% In the example below, only occurrences of the verb "make" with an incoming edge `root` are returned
-
-pattern { X [ upos=VERB, lemma="make"]; * -[root]-> X; }
-
-% Warning: the clause "* -[root]-> X" is not equivalent to the clause "Y -[root]-> X":
-% The first is just an additional constraint, the second matches a new node `Y`.

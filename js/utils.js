@@ -6,10 +6,17 @@ function log(msg) {
 }
 
 // ==================================================================================
+function clean_concat(base, ...parts) {
+  return [base, ...parts]
+    .join('/')
+    .replace(/(?<!:)\/+/g, '/');
+}
+
+// ==================================================================================
 async function fetch_json(url) {
   const response = await fetch(url)
-  if (response.status != 200) {
-    throw Error ('Cannot load: ' + url)
+  if (!response.ok) {
+    direct_error  (`Cannot load \`${url}\`: ${response.status} ${response.statusText}`)
   }
   const json_data = await response.json()
   return json_data
@@ -18,7 +25,7 @@ async function fetch_json(url) {
 // ==================================================================================
 async function generic(backend, service, data) {
   try {
-    const response = await fetch(backend+service, {
+    const response = await fetch(clean_concat(backend,service), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -27,7 +34,7 @@ async function generic(backend, service, data) {
     })
     const result = await response.json()
     if (result.status === 'ERROR') {
-      direct_error (JSON.stringify (result.message))
+      direct_error (`when calling service:\`${service}\`\n\n${JSON.stringify (result.message)}`)
       return
     } else {
       return (result.data)
@@ -42,7 +49,7 @@ async function generic(backend, service, data) {
 // https://www.geeksforgeeks.org/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript/#using-a-custom-javascript-function
 function download_text(file, text) {
   var element = document.createElement('a')
-  element.setAttribute('href', 'data:text/plain;charset=utf-8, ' + encodeURIComponent(text))
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
   element.setAttribute('download', file)
   document.body.appendChild(element)
   element.click()
@@ -62,6 +69,15 @@ const Grid_display = Object.freeze({
   PERCENT_ROW: 3,
 });
 
+// ==================================================================================
+function new_uuid() {
+  const ts = Date.now() / 1000;
+  const seconds = Math.floor(ts);
+  const microseconds = Math.floor((ts - seconds) * 1000000);
+  // Format into hexadecimal string
+  const formattedString = `${seconds.toString(16).padStart(8, '0')}${microseconds.toString(16).padStart(5, '0')}`;
+  return(formattedString);
+}
 
 // ==================================================================================
 function common_prefix_length(s1, s2) {
@@ -166,6 +182,9 @@ function init_tooltips() {
   $('#save-button').tooltipster('content', 'Build a permanent URL with the current session')
   $('#download-conll-button').tooltipster('content', 'Download a CoNLL file with the sentences<br/>Each sentence is given only once, <br/>even if there are multiple occurrences on the request in it.')
 
+  $('#tsv-dim1').tooltipster('content', 'Export a TSV table with two columns (cluster names and number of occurrences)')
+  $('#tsv-dim2').tooltipster('content', 'Export a TSV table with cluster sizes<br/>The full table is given even if the number of columns or rows is large')
+
   $('#conll-button').tooltipster('content', 'Show the CoNLL code of the current dependency tree')
 
   $('#clone').tooltipster('content', 'Open a new tab with the corpus selection and request')
@@ -175,6 +194,7 @@ function init_tooltips() {
   $('#link-button').tooltipster('content', 'External link')
   $('#sud-valid-button').tooltipster('content', 'SUD validation (new page)')
   $('#ud-valid-button').tooltipster('content', 'UD validation (new page)')
+  $('#parseme-check-button').tooltipster('content', 'Consistency checks page')
   $('#table-button').tooltipster('content', 'Relation tables (new page)')
   $('#para-tooltip').tooltipster('content', 'Select a treebank in the list to show the same sentence in this parallel corpus. Use <i aria-hidden="true" class="fa fa fa-link"></i> to select the corpus for querying')
   $('#para-close-tooltip').tooltipster('content', 'Unselect the current parallel treebank');

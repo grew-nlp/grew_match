@@ -1,3 +1,0 @@
-% Rem we exclude the form "__0__" which corresponds to a pseudo-node
-
-pattern { X [form <> "__0__"] }

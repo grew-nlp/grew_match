@@ -1,6 +1,0 @@
-% Coordination of unlikes: two nodes linked by `conj` with different `upos`
-
-pattern {
-  X1 -[conj]-> X2;
-  X1.upos <> X2.upos;
-}

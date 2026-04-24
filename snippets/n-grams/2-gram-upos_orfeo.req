@@ -1,4 +1,0 @@
-% Search for bigrams of upos
-% For instance: DET, NOM
-
-pattern { X1 [upos=DET]; X2 [upos=NOM]; X1 < X2 }

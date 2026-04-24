@@ -1,7 +1,0 @@
-% Search two relatred nodes `X1` and `X2`, in the different boxes `B1` and `B2`; clustered by relation label
-
-pattern {
- B1 -[in]-> X1;
- B2 -[in]-> X2;
- e: X1 -> X2;
-}

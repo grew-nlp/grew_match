@@ -1,8 +1,0 @@
-% MWE with 4 tokens
-
-pattern {
-  MWE [label <> NotMWE];
-  MWE -> X1; MWE -> X2; MWE -> X3; MWE -> X4;
-  X1 << X2; X2 << X3; X3 << X4;
-}
-without { MWE -> X }
