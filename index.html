@@ -902,12 +902,13 @@
 					:src="get_video_url()"
 					controls
 					disablePictureInPicture
+					v-on:play="changePlaybackSpeed"
 				></video>
 				<div class="resize-handle" v-on:mousedown="startResize"></div>
 			</div>
 		</div>
-		<button v-on:click="toggleVideo" class="fixed z-max btn btn-primary bottom-right btn-hide-video btn-grad">
-			{{ hideText }}
+		<button v-html="hideText" v-on:click="toggleVideo" class="fixed z-max btn btn-primary bottom-right btn-hide-video btn-grad">
+			
 		</button>
 	</div>
 </script>

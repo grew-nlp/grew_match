@@ -7,7 +7,7 @@ Vue.component("video-player", {
 
   data: function () {
     return {
-      hideText: 'Hide video',
+      hideText: 'Hide video <i class="fa fa-eye-slash"></i>' ,
       isVideoHidden: false,
       x: 20,
       y: 100,
@@ -32,7 +32,7 @@ Vue.component("video-player", {
   methods: {
     toggleVideo() {
       this.isVideoHidden = !this.isVideoHidden
-      this.hideText = this.isVideoHidden ? "Show video" : "Hide video"
+      this.hideText = this.isVideoHidden ? "Show video <i class='fa fa-eye'></i>" : "Hide video <i class='fa fa-eye-slash'></i>"
     },
 
     get_video_url() {
@@ -41,10 +41,10 @@ Vue.component("video-player", {
 
     setSpeed(speed) {
       this.videoSpeed = speed
-      this.changeVideoSpeed()
+      this.changePlaybackSpeed()
     },
 
-    changeVideoSpeed() {
+    changePlaybackSpeed() {
       if (this.videoRef) {
         this.videoRef.playbackRate = Number(this.videoSpeed)
       }
