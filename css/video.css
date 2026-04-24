@@ -1,48 +1,108 @@
-.videoDivSize{
-    width: 25%;
-    height:auto;
-    text-align: center;
-    resize: horizontal;
-    overflow: auto;
+.videoDivSize {
     min-width: 100px;
+    height: auto;
+    background-color: #000;
+    overflow: hidden; 
+    resize: horizontal;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    border-radius: 12px; 
 }
-.video{
+.video {
     width: 100%;
     height: auto;
+    display: block;
+    border-radius: 0 0 12px 12px;
 }
 .resize-handle {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 10px;
-    height: 10px;
-    cursor: ew-resize;
-    background-color: transparent;
+    width: 18px;
+    height: 18px;
+    cursor: sw-resize;
+    background: linear-gradient(225deg, transparent 60%, rgba(255, 255, 255, 0.4) 40%);
+    border-radius: 0 0 0 12px; 
 }
-.z-max{
-    z-index: 1000;
+.z-max { 
+    z-index: 1000; 
 }
-.fixed{
-    position: fixed;
+.fixed {
+     position: fixed; 
 }
-.rounded {
-    border-radius: 10px;    
-}
-.btnBlock{
+.bar-toolbar {
     display: flex;
-    flex-direction: row;
-    gap: 10px;                
-    align-items: center;  
+    align-items: center;
+    gap: 8px;
+    padding: 0px 12px;
+    height: 30px;
+    cursor: grab;
+    user-select: none;
+    border-radius: 12px 12px 0 0; 
+    /*background-color: #1e1e1e; /*noir*/
+    /* background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%) ; /*bleu foncé vers bleu clair*/      
+    /* background-color: #334155 ; /*gris */ 
 }
-.btnSpeed{
+.bar-toolbar:active {
+    cursor: grabbing;
+}
+.btnSpeed {
     background-color: transparent;
     border: none;
-    color: aliceblue;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    border-radius: 12px; 
+    height: 100%;
+}
+.btnSpeed:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-radius: 12px;
+}
+.btn-playback-speed{
+    padding: 5px;
+    width: 25px;
+    height: 25px;
+}
+.btn-group-toggle .btnSpeed.active {
+    background-color: rgba(255, 255, 255, 0.121);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 12px;
+}
+.btn-group-toggle{
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
 }
 .close-btn {
-    margin-left: auto; 
+    margin-left: auto;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: #fff;
+    opacity: 0.8;
 }
-.bottom-right{
-    right: 4%;
-    bottom: 5%;
+.close-btn:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.bottom-right {
+    right: 30px;
+    bottom: 30px;
+    padding: 12px 24px;
+    border-radius: 12px; 
+}
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+    transition: opacity 0.2s ease, transform 0.2s ease; 
+}
+.fade-slide-enter,
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateX(-6px);
 }
