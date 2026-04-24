@@ -943,7 +943,7 @@ function more_results(post_update_graph_view=false) {
   .then(data => {
     if (!data) { return }
     const { cluster_dim, current_cluster_path } = app;
-
+    
     if (cluster_dim === 0) {
       app.clusters = app.clusters.concat(data.items)
     } else if (cluster_dim === 1) {
@@ -1616,7 +1616,7 @@ function update_video_graph_view() {
     const tokens = get_tokens()
     if (tokens.length >= 1 ){
       app.video_begin = tokens[0].dataset.begin
-      app.video_end = tokens[tokens.length - 1].dataset.begin + tokens[tokens.length - 1].dataset.dur
+      app.video_end = Number(tokens[tokens.length - 1].dataset.begin) + Number(tokens[tokens.length - 1].dataset.dur)
 
       const sentence = document.getElementById('sentence')
       app.video_tokens = sentence.querySelectorAll('[data-begin]')
