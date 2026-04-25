@@ -1091,6 +1091,8 @@ function clone() {
 function search() {
   app.current_custom = ''
   app.result_message = ''
+  app.selected_col = undefined
+  app.selected_row = undefined
   app.current_cluster_path = undefined
   app.current_view = 0
   app.wait = true
