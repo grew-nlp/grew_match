@@ -1,3 +1,0 @@
-% In Grew YARN structures, nodes encoding layer's value carry the feature "value".
-
-pattern { X [disc] }

@@ -1,3 +1,0 @@
-% In Grew YARN structures, V-nodes have a feature called "concept".
-
-pattern { X [concept = "person"]; }
