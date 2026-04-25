@@ -348,7 +348,18 @@ let app = new Vue({
       return (this.clust1 === 'key' && this.clust1_key.trim() === '')
       || (this.clust2 === 'key' && this.clust2_key.trim() === '')
       || (this.multi_mode && this.selected_corpora.length === 0)
+    },
+
+    yarn_data: function() {
+      if 
+        (this.current_item.meta) {
+          const yarn = this.current_item.meta.find(x => x.key==="yarn")
+          if (yarn) {
+            return yarn.value
+          }
+      }
     }
+
   } // end computed
 })
 
@@ -1301,11 +1312,8 @@ function update_parallel() {
 
 // ==================================================================================
 function draw_yarn() {
-  if (app.current_item.meta !== undefined && "yarn" in app.current_item.meta) {
-    console.log ("111===draw_yarn===")
-    console.log (app.current_item.meta.yarn)
-    console.log ("222===draw_yarn===")
-    const jsonObject = JSON.parse(app.current_item.meta.yarn)
+  if (app.yarn_data) {
+    const jsonObject = JSON.parse(app.yarn_data)
     updateGraph(jsonObject)
   }
 }
