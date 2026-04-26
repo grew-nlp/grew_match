@@ -30,6 +30,7 @@ let app = new Vue({
 
     multi_mode: false, // allow multi selection
     selected_corpora: [], // list of selected corpora
+    max_multi: 15,
 
     corpora_filter: '',
 

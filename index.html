@@ -168,7 +168,7 @@
 				</div>
 
 				<div v-if="multi_mode">
-					<button class="btn btn-primary" :disabled='filtered_corpora_list.length>10' @click="selected_corpora=filtered_corpora_list.map(x => x.id)" style="margin-right:10px">Select filtered</button>
+					<button class="btn btn-primary" :disabled='filtered_corpora_list.length > max_multi' @click="selected_corpora=filtered_corpora_list.map(x => x.id)" style="margin-right:10px">Select filtered</button>
 					<button class="btn btn-primary" @click="selected_corpora=[]" style="margin-right:10px">Select none</button>
 				</div>
 
@@ -200,7 +200,7 @@
 								<tbody>
 									<tr>
 										<td class="alone" v-bind:class="{ selected: selected_corpora.includes(corpus.id) }" href="#" style="padding-left: 5px;">
-											<input v-if='!(corpus.built_files && !(corpus.built_files.includes("marshal")))' :disabled="selected_corpora.length >= 10 && !selected_corpora.includes(corpus.id)" type="checkbox" :value='corpus.id' v-model="selected_corpora" style="margin-left: 4px;">
+											<input v-if='!(corpus.built_files && !(corpus.built_files.includes("marshal")))' :disabled="selected_corpora.length >= max_multi && !selected_corpora.includes(corpus.id)" type="checkbox" :value='corpus.id' v-model="selected_corpora" style="margin-left: 4px;">
 											{{ corpus.id }}
 											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
 											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
