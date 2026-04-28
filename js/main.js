@@ -1527,6 +1527,7 @@ function is_video(){
 
 function load_video(){
   if (is_video()){
+
     // stop update() when changing sentence
     if(app.video_interval_id){ 
       clearInterval(app.video_interval_id);
