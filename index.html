@@ -470,7 +470,7 @@
 								{{ result_message }}
 								<span style="font-size: 60%">[{{current_time.toFixed(3)}}s]</span>
 							</h3>
-							<p>
+							<p class="btn-container">
 								<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_request()" style="margin-right:10px">
 									Save <i class="fa fa-link" aria-hidden="true"></i>
 								</button>
@@ -480,6 +480,14 @@
 								<button v-if="!multi_mode" id="download-conll-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
 									CoNLL <i class="fa fa-download" aria-hidden="true"></i></span>
 								</button>
+								<button v-show="video_begin" id="hideVideoButton" class=" btn btn-primary btn-hide-video " @click='toggleVideo'>
+									 <span v-if="!isVideoHidden">
+										Hide video <i class="fa fa-eye-slash"></i>
+									</span>
+									<span v-else>
+										Show video <i class="fa fa-eye"></i>
+									</span>
+  								</button>
 							</p>
 							<h5 v-show="current_custom != ''" style="margin-top:10px;">
 								<span>Request URL:
@@ -604,7 +612,7 @@
 
 								<ul id="results-list">
 									<li v-for="(item, itemKey) in current_cluster" v-bind:class='{ displayed: itemKey==current_view }'>
-										<a v-on:click='select_item(itemKey); change_video_url()'>{{ item.sent_id }}</a>
+										<a v-on:click='select_item(itemKey);  load_video()'>{{ item.sent_id }}</a>
 									</li>
 								</ul>
 							</div>
@@ -860,13 +868,15 @@
 <script type="text/x-template" id="video-template">
 	<div>
 		<div
-			v-show="!isVideoHidden"
+			id = "videoDiv"
+			ref = "videoDiv"
+			v-show="!app.isVideoHidden"
 			class="fixed z-max videoDivSize rounded"
 			:style="{ top: y + 'px', left: x + 'px', width: videoWidth + '%' }"
 		>
 			<div @mousedown="startDrag" @mouseup="stopDrag">
 
-				<div class="bar-toolbar ">
+				<div class="bar-toolbar">
 					<button @click="showSpeedBtn = !showSpeedBtn" class="btnSpeed btn-playback-speed">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer2" viewBox="0 0 16 16">
 							<path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
@@ -874,7 +884,8 @@
 						</svg>
 					</button>
 					<transition name="fade-slide">
-						<div v-show="showSpeedBtn" class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons" @click="speedBtnHandleClick($event)">
+						<div v-show="showSpeedBtn" class="btn-group btn-group-sm btn-group-toggle" 
+						data-toggle="buttons" @click="speedBtnHandleClick($event)">
 							<label class="btn btnSpeed">
 								<input type="radio" name="options" id="0.25" autocomplete="off"> x0.25
 							</label>
@@ -907,9 +918,6 @@
 				<div class="resize-handle" v-on:mousedown="startResize"></div>
 			</div>
 		</div>
-		<button v-html="hideText" v-on:click="toggleVideo" class="fixed z-max btn btn-primary bottom-right btn-hide-video btn-grad">
-			
-		</button>
 	</div>
 </script>
 

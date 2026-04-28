@@ -21,6 +21,7 @@ let app = new Vue({
     video_begin: undefined,
     video_end : undefined,
     video_speaking_index: 0,
+    isVideoHidden: false,
 
     grid_columns: [],
     grid_rows: [],
@@ -1155,7 +1156,7 @@ function search() {
     }
     app.wait = false
   })
-  setTimeout(() => change_video_url(), 500) // load video
+  setTimeout(() => load_video(), 500)
 } // search
 
 // ==================================================================================
@@ -1521,32 +1522,40 @@ function get_video_url(){
 }
 
 function is_video(){
-  const metaData = app.current_item.meta;
-  const video_url = metaData?.find(meta => meta.key === 'video_url');
-  return video_url !== undefined
+  return get_video_url() !== ''
 }
 
-function change_video_url(){
+function load_video(){
   if (is_video()){
-    const video = document.getElementById('video')
     // stop update() when changing sentence
     if(app.video_interval_id){ 
       clearInterval(app.video_interval_id);
     }
-    const url = get_video_url()
-    if (video.src !== url){
-      video.src = url;
-    } 
-    setTimeout(()=>{
+
+    change_video_url()
+    // set video at the begining
+    setTimeout(()=>{ 
       video.currentTime = get_tokens()[0].dataset.begin
     }, 100)
   }
+}
+
+function change_video_url(){
+  const video = document.getElementById('video')
+  const url = get_video_url()
+  if (video.src !== url){
+    video.src = url;
+  } 
 }
 
 function get_tokens(){
   const sentence = document.getElementById('sentence')
   const videoTokens = sentence?.querySelectorAll('[data-begin]')
   return videoTokens ? videoTokens : []
+}
+
+function toggleVideo() {
+    app.isVideoHidden = !app.isVideoHidden; 
 }
 
 // ==================================================================================

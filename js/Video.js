@@ -7,8 +7,6 @@ Vue.component("video-player", {
 
   data: function () {
     return {
-      hideText: 'Hide video <i class="fa fa-eye-slash"></i>' ,
-      isVideoHidden: false,
       x: 20,
       y: 100,
       dragging: false,
@@ -20,6 +18,8 @@ Vue.component("video-player", {
       videoWidth: 25,
       isResizing: false,
       videoRef: null,
+      boundResize: null ,
+      boundStopResize: null ,
     }
   },
 
@@ -27,14 +27,9 @@ Vue.component("video-player", {
     this.videoRef = this.$refs.video
     this.setVideoPosition()
     this.cachedVideoUrl = this.get_video_url()
+    window.addEventListener('resize', this.setVideoPosition)
   },
-
   methods: {
-    toggleVideo() {
-      this.isVideoHidden = !this.isVideoHidden
-      this.hideText = this.isVideoHidden ? "Show video <i class='fa fa-eye'></i>" : "Hide video <i class='fa fa-eye-slash'></i>"
-    },
-
     get_video_url() {
       return this.video_url || ""
     },
@@ -51,8 +46,16 @@ Vue.component("video-player", {
     },
     moveDiv(e) {
       if (!this.dragging) return
-      this.x = e.clientX - this.offsetX
-      this.y = e.clientY - this.offsetY
+      const box = this.$refs.videoDiv 
+      // calcul screen limits
+      const maxX = window.innerWidth - box.offsetWidth;
+      const maxY = window.innerHeight - box.offsetHeight;
+
+      const x = e.clientX - this.offsetX
+      const y = e.clientY - this.offsetY
+      // avoid div to go out of the screen
+      this.x = Math.max(0, Math.min(x, maxX));
+      this.y = Math.max(50, Math.min(y, maxY));
     },
 
     startDrag(e) {
@@ -73,24 +76,35 @@ Vue.component("video-player", {
     },
 
     startResize(e) {
-      this.isResizing = true
-      this.offsetX = e.clientX
-      document.addEventListener('mousemove', this.resize)
-      document.addEventListener('mouseup', this.stopResize)
+      this.isResizing = true;
+      this.offsetX = e.clientX;
+      this.offsetY = e.clientY;
+      this.boundResize = this.resize.bind(this)
+      this.boundStopResize = this.stopResize.bind(this)
+      document.addEventListener('mousemove', this.boundResize);
+      document.addEventListener('mouseup', this.boundStopResize);
     },
     resize(e) {
-      if (!this.isResizing) return
+      if (!this.isResizing) return;
+      // Calculate different of mouse position
+      const widthChange = this.offsetX - e.clientX - 0.5;
+      const prevWidth = this.videoWidth;
+      // Update width based on mouse movement
+      this.videoWidth = Math.max(10, this.videoWidth + (widthChange / window.innerWidth) * 100);
+      //move video to the left
+      const actualWidthChangePx = ((this.videoWidth - prevWidth) / 100) * window.innerWidth;
+      this.x = this.x - actualWidthChangePx;
 
-      const widthChange = this.offsetX - e.clientX - 0.5
-      this.videoWidth = Math.max(10,this.videoWidth + (widthChange / window.innerWidth) * 100 )
-
-      this.x = this.x - widthChange 
-      this.offsetX = e.clientX
+      // Update the mouse offset for next movement
+      this.offsetX = e.clientX;
+      this.offsetY = e.clientY;
     },
     stopResize() {
-      this.isResizing = false
-      document.removeEventListener('mousemove', this.resize)
-      document.removeEventListener('mouseup', this.stopResize)
+       this.isResizing = false;
+      if (this.boundResize) document.removeEventListener('mousemove', this.boundResize);
+      if (this.boundStopResize) document.removeEventListener('mouseup', this.boundStopResize);
+      this.boundResize = null;
+      this.boundStopResize = null;
     },
     speedBtnHandleClick(event) { 
       const value = event.target.children[0].id

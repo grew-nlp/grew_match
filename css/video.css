@@ -89,12 +89,6 @@
     opacity: 1;
     background-color: rgba(255, 255, 255, 0.2);
 }
-.bottom-right {
-    right: 30px;
-    bottom: 30px;
-    padding: 12px 24px;
-    border-radius: 12px; 
-}
 .fade-slide-enter-active,
 .fade-slide-leave-active {
     transition: opacity 0.2s ease, transform 0.2s ease; 
@@ -104,3 +98,9 @@
     opacity: 0;
     transform: translateX(-6px);
 }
+.btn-container{
+    display: flex;
+}
+.btn-container button:last-child {
+    margin-left: auto;
+  }
