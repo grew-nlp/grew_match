@@ -59,7 +59,7 @@ var app = new Vue({
           this.gridApi.setColumnDefs([col0,col1].concat(filtered_cols));
         } else {
           const re = new RegExp(this.filter_value, 'i');
-          let filtered_cols = this.json.columns.filter(function (l) { console.log (l); return l.field.match(re)});
+          let filtered_cols = this.json.columns.filter(l => l.field.match(re));
           this.gridApi.setColumnDefs([col0,col1].concat(filtered_cols));
           const fields = new Set()
           filtered_cols.forEach((item, i) => {
@@ -210,10 +210,9 @@ function grew_match(kind, row_header, col_header) {
 
 function build_with(key,value) {
   let ks = key.split(/[./]/)
-  console.log(ks)
-  if (ks.length == 3) {  // if key = N.upos/ExtPos and value = ADP ----> N [ExtPos="ADP"/upos="ADP"]
+  if (ks.length === 3) {  // if key = N.upos/ExtPos and value = ADP ----> N [ExtPos="ADP"/upos="ADP"]
     return "%0Awith { "+ ks[0] +" ["+ ks[1] + "=\""+ value +"\""+"/"+ ks[2] + "=\""+ value +"\""+"] }"
-  } else if (ks.length == 2 && ks[1] == "__feature_name__") {
+  } else if (ks.length === 2 && ks[1] === "__feature_name__") {
     return "%0Awith { "+ ks[0] + "["+ value +"] }"
   } else {
     return "%0Awith { "+ key + "=\""+ value +"\" }"
@@ -223,7 +222,6 @@ function build_with(key,value) {
 // setup the grid after the page has finished loading
 document.addEventListener('DOMContentLoaded', () => {
   url_params = new URLSearchParams(window.location.search);
-  $('[data-toggle="tooltip"]').tooltip()
   start()
 })
 
