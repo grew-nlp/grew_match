@@ -5,6 +5,7 @@ var md = new Remarkable();
 var app = new Vue({
   el: '#app',
   data: {
+    ago: '',
     json: {
       display_modes: [],  // need to be initialized for proper html starting
       colmuns: [],
@@ -139,8 +140,7 @@ function build_grid(data) {
     app.home = app.json.home
   }
   if (app.json.timestamp != undefined) {
-    $('#update_ago').html('&nbsp;• Updated <time class="timeago" datetime="' + app.json.timestamp + '">update time</time>');
-    $('#update_ago > time').timeago(); // make it dynamic
+    app.ago = time_ago(app.json.timestamp)
   }
 
   app.update_sorting(); // ensure that sorting is done on the right component

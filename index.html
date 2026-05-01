@@ -42,17 +42,6 @@
 	<link rel="mask-icon" href="icon/safari-pinned-tab.svg?v=2" color="#5bbad5">
 	<link rel="shortcut icon" href="icon/favicon.ico?v=2">
 
-	<script src="js/vendor/jquery.timeago.js"></script>
-	<script type="text/javascript">
-		jQuery.timeago.settings.strings.prefixAgo = "updated";
-		jQuery.timeago.settings.strings.seconds = "less than 1 minute";
-		jQuery.timeago.settings.strings.minute = "1 minute";
-		jQuery.timeago.settings.strings.hour = "1 hour";
-		jQuery.timeago.settings.strings.month = "1 month";
-		jQuery.timeago.settings.strings.hours = "%d hours";
-		jQuery.timeago.settings.strings.year = "1 year";
-	</script>
-
 	<script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js"></script>
 	<script>
 		var md = new Remarkable();
@@ -263,8 +252,7 @@
 												<i id="info-tip" class="fa fa-info-circle tooltip-desc"></i>
 											</span>
 
-											<!-- "ago" info -->
-											<span id="update_ago" style="font-size: initial;"></span>
+											<span style="font-size: initial;">{{ago}}</span>
 
 											<!-- Download button -->
 											<a v-show='check_built("__id__.tgz")'>

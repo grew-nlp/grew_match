@@ -28,9 +28,6 @@
   <!-- Sweet alert -->
 	<script src="vendor/sweetalert2.all.min.js"></script>
 
-  <!-- timeago -->
-  <script src="https://timeago.yarp.com/jquery.timeago.js"></script>
-
   <!-- local style file -->
   <link rel="stylesheet" href="css/aggrid.css" />
 </head>
@@ -40,7 +37,7 @@
     <div class="row" style="width: 100%; margin: auto">
       <div class="col-sm-2">
         <a v-bind:href="home"><i class="fa-solid fa-house"></i></a>
-        <span id="update_ago"></span>
+        <span>updated {{ago}}</span>
       </div>
 
       <div class="col-sm-2">
