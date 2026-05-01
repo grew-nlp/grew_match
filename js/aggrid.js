@@ -1,3 +1,5 @@
+let url_params
+
 var md = new Remarkable();
 
 var app = new Vue({
@@ -220,34 +222,40 @@ function build_with(key,value) {
 
 // setup the grid after the page has finished loading
 document.addEventListener('DOMContentLoaded', () => {
-  var url_params = new URLSearchParams(window.location.search);
+  url_params = new URLSearchParams(window.location.search);
   $('[data-toggle="tooltip"]').tooltip()
-  $.getJSON("instances.json")
-  .done(function (data) {
-    let host = window.location.host;
-    if (!(host in data)) {
-      direct_error("No backend associated to `"+host+"`, check `instances.json`");
-      return
-    }
-    let backend_url = data[host]["backend"]
+  start()
+})
 
-    let corpus = url_params.get('corpus');
-    let datafile = url_params.get('datafile');
-    if (corpus != null && datafile != null) {
-      
-      let param = {
-        corpus: corpus,
-        file: datafile
-      };
+// ==================================================================================
+async function start() {
 
-      generic(backend_url, "get_build_file", param)
-      .then (data_string => {
-        // console.log(data_string)
-        let data = JSON.parse(data_string)
-        build_grid(data)
-      })
-    } else {
-      direct_error ('Wrong parameters (`corpus` and `datafile` expected)')
-    }
+  const config = await fetch_json('config.json');
+  if (!config || typeof config !== 'object' || !config.instances) {
+    direct_error('Invalid or missing config.json')
+    return
+  }
+
+  const instances = config.instances
+  const host = window.location.host
+
+  const backend_url = instances[host]?.backend
+  if (!backend_url) {
+    direct_error(`Backend URL missing for host \`${host}\` in config.json`)
+    return
+  }
+
+  let corpus = url_params.get('corpus')
+  let datafile = url_params.get('datafile')
+  if (!corpus || !datafile) {
+    direct_error('Wrong parameters (`corpus` and `datafile` expected)')
+    return
+  }
+  const param = { corpus, file: datafile };
+
+  generic(backend_url, "get_build_file", param)
+  .then (data_string => {
+    let data = JSON.parse(data_string)
+    build_grid(data)
   })
-});
+}

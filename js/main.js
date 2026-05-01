@@ -391,7 +391,7 @@ async function initialize_from_instances() {
   const host = window.location.host;
 
   if (!(host in instances)) {
-    direct_error(`No backend associated with '${host}' in file 'instances.json'`);
+    direct_error(`No backend associated with '${host}' in file 'config.json'`);
     return;
   }
 
