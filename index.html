@@ -32,7 +32,7 @@
 	<script src="js/vendor/grew.js"></script>
 
 	<!-- Font awesome -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
 	<!-- favicons -->
 	<link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png?v=2">
@@ -171,9 +171,9 @@
 									<tr>
 										<td class="alone" v-bind:class="{ selected: corpus.id == current_corpus_id }" v-on:click="current_corpus_id=corpus.id" href="#" style="padding-left: 5px;">
 											{{ corpus.id }}
-											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
-											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
-											<i v-if="corpus.grs" class="fa fa-gear fa-lg" style="float: right;"></i>
+											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg align-right" style="color:red;"></i>
+											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg align-right" style="color:red; "></i>
+											<i v-if="corpus.grs" class="fa fa-gear fa-lg align-right"></i>
 											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.audio" src="icon/audio.svg" width="20" height="20" style="float: right;"></img>
@@ -191,9 +191,9 @@
 										<td class="alone" v-bind:class="{ selected: selected_corpora.includes(corpus.id) }" href="#" style="padding-left: 5px;">
 											<input v-if='!(corpus.built_files && !(corpus.built_files.includes("marshal")))' :disabled="selected_corpora.length >= max_multi && !selected_corpora.includes(corpus.id)" type="checkbox" :value='corpus.id' v-model="selected_corpora" style="margin-left: 4px;">
 											{{ corpus.id }}
-											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
-											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg" style="color:red; float: right;"></i>
-											<i v-if="corpus.grs" class="fa fa-gear fa-lg" style="float: right;"></i>
+											<i v-if="corpus.error" class="fa fa-exclamation-triangle fa-lg align-right" style="color:red;"></i>
+											<i v-if='corpus.built_files && !(corpus.built_files.includes("marshal"))' class="fa fa-exclamation-triangle fa-lg align-right" style="color:red;"></i>
+											<i v-if="corpus.grs" class="fa fa-gear fa-lg align-right"></i>
 											<img v-if="corpus.new" src="icon/new.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.enhanced" src="icon/enhanced.svg" width="20" height="20" style="float: right;"></img>
 											<img v-if="corpus.audio" src="icon/audio.svg" width="20" height="20" style="float: right;"></img>
@@ -292,7 +292,7 @@
 											<!-- Github button -->
 											<a v-show='current_corpus["github"]' v-bind:href='current_corpus["github"]' target="_blank">
 												<button id="github-button" type="button" class="tooltip-desc btn btn-primary">
-													<i class="fa fa-github fa-lg"></i>
+													<i class="fa-brands fa-github fa-lg"></i>
 												</button>
 											</a>
 
@@ -315,7 +315,7 @@
 											<!-- Gitlab button -->
 											<a v-show='current_corpus["gitlab"]' v-bind:href='current_corpus["gitlab"]' target="_blank">
 												<button id="gitlab-button" type="button" class="tooltip-desc btn btn-primary">
-													<i class="fa fa-gitlab fa-lg"></i>
+													<i class="fa-brands fa-gitlab fa-lg"></i>
 												</button>
 											</a>
 
@@ -432,7 +432,7 @@
 										</button>
 										<button id="clone" type="button" class="tooltip-desc btn btn-primary" onclick="clone()">
 											Clone
-											<i class="fa fa-files-o" aria-hidden="true"></i>
+											<i class="fa-regular fa-clone" aria-hidden="true"></i>
 										</button>
 									</p>
 								</div>
@@ -520,8 +520,8 @@
 								</button>
 
 								<div class="btn-group" role="group" style="margin-right:10px">
-									<button type="button" class="btn btn-sm" v-on:click="sort_by_size=true" v-bind:class="sort_by_size ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-amount-desc'></i></button>
-									<button type="button" class="btn btn-sm" v-on:click="sort_by_size=false" v-bind:class="!sort_by_size ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-alpha-asc'></i></button>
+									<button type="button" class="btn btn-sm" v-on:click="sort_by_size=true" v-bind:class="sort_by_size ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-amount-desc fa-lg'></i></button>
+									<button type="button" class="btn btn-sm" v-on:click="sort_by_size=false" v-bind:class="!sort_by_size ? 'btn-success' : 'btn-default'"><i class='fa fa-sort-alpha-asc fa-lg'></i></button>
 								</div>
 
 								<div class="btn-group" role="group" style="margin-top: 10px; margin-bottom: 10px;">
@@ -529,15 +529,16 @@
 										<i class='fa fa-hashtag'></i>
 									</button>
 									<button type="button" class="btn btn-sm" v-on:click="grid_display=Grid_display.PERCENT" v-bind:class="grid_display === Grid_display.PERCENT ? 'btn-success' : 'btn-default'">
-										<i class='fa fa-percent'></i>	↖
+										<i class='fa fa-percent fa-lg'></i>
+										<i class="fa-solid fa-lg fa-arrow-down-long fa-rotate-by" style="--fa-rotate-angle: 135deg;"></i>
 									</button>
 									<button type="button" class="btn btn-sm" v-on:click="grid_display=Grid_display.PERCENT_COL" v-bind:class="grid_display === Grid_display.PERCENT_COL ? 'btn-success' : 'btn-default'">
-										<i class='fa fa-percent'></i>
-										<i class="fa fa-arrow-up"></i>
+										<i class='fa fa-percent fa-lg'></i>
+										<i class="fa fa-lg fa-arrow-up"></i>
 									</button>
 									<button type="button" class="btn btn-sm" v-on:click="grid_display=Grid_display.PERCENT_ROW" v-bind:class="grid_display === Grid_display.PERCENT_ROW ? 'btn-success' : 'btn-default'">
-										<i class='fa fa-percent'></i>
-										<i class="fa fa-arrow-left"></i>
+										<i class='fa fa-percent fa-lg'></i>
+										<i class="fa fa-lg fa-arrow-left"></i>
 									</button>
 								</div>
 
