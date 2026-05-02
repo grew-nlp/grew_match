@@ -9,6 +9,7 @@ let app = new Vue({
   el: '#app',
   data: {
     config: {}, // configuration: base url for snippets and instances
+    ago: "",
 
     audio_begin: undefined,   // audio_begin != undefined <==> a sound file is available
     audio_end: undefined,
@@ -30,6 +31,7 @@ let app = new Vue({
 
     multi_mode: false, // allow multi selection
     selected_corpora: [], // list of selected corpora
+    max_multi: 15,
 
     corpora_filter: '',
 
@@ -401,7 +403,7 @@ async function initialize_from_instances() {
   const host = window.location.host;
 
   if (!(host in instances)) {
-    direct_error(`No backend associated with '${host}' in file 'instances.json'`);
+    direct_error(`No backend associated with '${host}' in file 'config.json'`);
     return;
   }
 
@@ -1456,29 +1458,30 @@ function update_corpus() {
   }
 
   // update info button and update timestamp if needed
-  if (app.check_built('desc.json')) {
-    let param = {
-      corpus: app.current_corpus_id,
-      file: 'desc.json'
-    }
-    generic(app.backend_server, 'get_build_file', param)
-    .then(data => {
-      if (!data) { return }
-      let json = JSON.parse(data)
-      app.meta_info = true
-      let html = ''
-      for (let key in json) {
-        if (key == 'update') {
-          const event = new Date(json[key])
-          $('#update_ago').html(`<time class="timeago" datetime="${event.toISOString()}">update time</time>`)
-          $('#update_ago > time').timeago() // make it dynamic
-        } else {
-          html += `<p>${key}: ${json[key]}`
-        }
-      }
-      $('#info-tip').tooltipster('content', html)
-    })
+  if (!app.check_built('desc.json')) return;
+  app.ago=''
+  const param = {
+    corpus: app.current_corpus_id,
+    file: 'desc.json'
   }
+  generic(app.backend_server, 'get_build_file', param)
+  .then(data => {
+    if (!data) return
+    let json = JSON.parse(data)
+    app.meta_info = true
+
+    const parts = [];
+    for (const [k, v] of Object.entries(json)) {
+      if (k === 'update') {
+        app.ago = time_ago(v)
+      } else {
+        parts.push(`<p>${escape_html(k)}: ${escape_html(v)}</p>`)
+      }
+    }
+    const html = parts.join('');
+
+    $('#info-tip').tooltipster('content', html)
+    })
 
   update_url ()
 }

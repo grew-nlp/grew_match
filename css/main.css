@@ -352,3 +352,8 @@ h3 {
     display: table-cell;
     vertical-align: middle;
 }
+
+.align-right {
+  float: right;
+  padding-top: 10px;
+}
