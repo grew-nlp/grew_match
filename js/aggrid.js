@@ -147,10 +147,10 @@ function build_grid(data) {
 
   col1.headerName = app.json.col_key;
 
-  const gridOptions = {  
+  const gridOptions = {
     columnDefs: [col0, col1].concat(app.json.columns),
     defaultColDef: {
-      width: 150,
+      width: 100,
       sortable: true,
       sortingOrder: ['desc', 'asc'],
       resizable: true,
