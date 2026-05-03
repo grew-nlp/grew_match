@@ -16,6 +16,13 @@ let app = new Vue({
     audio_tokens: undefined,  // audio_tokens != undefined <==> time alignement is available
     audio_interval_id: undefined,
 
+    video_tokens: undefined,
+    video_interval_id: undefined,
+    video_begin: undefined,
+    video_end : undefined,
+    video_speaking_index: 0,
+    isVideoHidden: false,
+
     grid_columns: [],
     grid_rows: [],
     grid_cells: [],
@@ -360,6 +367,9 @@ document.addEventListener('DOMContentLoaded', function() {
   audio_init()
   init_tooltips()
   start()
+  setTimeout(() => {
+      video_init() 
+    }, 1000)
 })
 
 // ==================================================================================
@@ -613,14 +623,16 @@ function update_graph_view() {
           })
         })
         app.audio_tokens[0].classList.add('speaking')
+        app.audio_speaking_index = 0
       }
       else { // Audio available without alignment
         app.audio_begin = 0
         app.audio_tokens = undefined
       }
     } else { // Audio not available
-      app.audio_begin = undefined
+      app.audio_begin = undefined  
     }
+    update_video_graph_view()
   }, 100)
 }
 
@@ -933,7 +945,7 @@ function more_results(post_update_graph_view=false) {
   .then(data => {
     if (!data) { return }
     const { cluster_dim, current_cluster_path } = app;
-
+    
     if (cluster_dim === 0) {
       app.clusters = app.clusters.concat(data.items)
     } else if (cluster_dim === 1) {
@@ -942,7 +954,7 @@ function more_results(post_update_graph_view=false) {
       app.clusters[current_cluster_path[0]][current_cluster_path[1]] = app.clusters[current_cluster_path[0]][current_cluster_path[1]].concat(data.items)
     }
     app.update_current_cluster()
-
+    
     if (post_update_graph_view) {
       update_graph_view()
     }
@@ -1144,6 +1156,7 @@ function search() {
     }
     app.wait = false
   })
+  setTimeout(() => load_video(), 500)
 } // search
 
 // ==================================================================================
@@ -1498,5 +1511,145 @@ function select_cluster_2d(c, r) {
       app.active_corpus_id = app.grid_rows[sr].value.split(" ")[0]
     }
 
+  }
+}
+
+// ==================================================================================
+function get_video_url(){
+  const metaData = app.current_item.meta;
+  const video_url = metaData?.find(meta => meta.key === 'video_url');
+  return video_url ? video_url.value : ''
+}
+
+function is_video(){
+  return get_video_url() !== ''
+}
+
+function load_video(){
+  if (is_video()){
+
+    // stop update() when changing sentence
+    if(app.video_interval_id){ 
+      clearInterval(app.video_interval_id);
+    }
+
+    change_video_url()
+    // set video at the begining
+    setTimeout(()=>{ 
+      video.currentTime = get_tokens()[0].dataset.begin
+    }, 100)
+  }
+}
+
+function change_video_url(){
+  const video = document.getElementById('video')
+  const url = get_video_url()
+  if (video.src !== url){
+    video.src = url;
+  } 
+}
+
+function get_tokens(){
+  const sentence = document.getElementById('sentence')
+  const videoTokens = sentence?.querySelectorAll('[data-begin]')
+  return videoTokens ? videoTokens : []
+}
+
+function toggleVideo() {
+    app.isVideoHidden = !app.isVideoHidden; 
+}
+
+// ==================================================================================
+function video_init() {
+  let video_player = document.getElementById('video')
+
+  function update () {
+    if (video_player.currentTime >= app.video_end || video_player.currentTime < app.video_begin) {
+      video_player.pause()
+    } else {
+      let token_data = app.video_tokens[app.video_speaking_index].dataset
+      let token_end = Number(token_data.begin) + Number(token_data.dur)
+      if (video_player.currentTime > token_end) {
+        video_speaking_token (app.video_speaking_index + 1)
+      }
+    }
+  }
+
+  video_player.addEventListener('play', function() {
+    if (app.video_tokens != undefined) {
+      app.video_interval_id = setInterval(update, 50)
+    }
+  })
+
+  video_player.addEventListener('pause', function() {
+    if (app.video_tokens != undefined) {
+      if (app.video_interval_id) {
+        clearInterval(app.video_interval_id)
+        app.video_interval_id = undefined
+      }
+      if (video_player.currentTime >= app.video_end || video_player.currentTime < app.video_begin) {
+        video_player.currentTime = app.video_begin
+      }
+    }
+  })
+
+  video_player.addEventListener('seeking', function() {
+    if (app.video_tokens != undefined) {
+      let pos = 0
+      app.video_tokens.forEach (function (node,index) {
+        node.classList.remove('speaking')
+        let begin = Number(node.dataset.begin)
+        let end = begin + Number(node.dataset.dur)
+        if (video_player.currentTime >= begin && video_player.currentTime <= end) {
+          pos = index
+        }
+      })
+      video_speaking_token(pos)
+    }
+  })
+
+  function video_speaking_token(position) {
+    app.video_tokens = get_tokens()
+    let prev_word = app.video_tokens[app.video_speaking_index]
+    prev_word.classList.remove('speaking')
+    let new_word = app.video_tokens[position]
+    app.video_speaking_index = position
+    new_word.classList.add('speaking')
+  }
+}
+
+// ==================================================================================
+function update_video_graph_view() {
+  const video_player = document.getElementById('video')
+    video_player.pause()
+
+  if (is_video()) {
+    const tokens = get_tokens()
+    if (tokens.length >= 1 ){
+      app.video_begin = tokens[0].dataset.begin
+      app.video_end = Number(tokens[tokens.length - 1].dataset.begin) + Number(tokens[tokens.length - 1].dataset.dur)
+
+      const sentence = document.getElementById('sentence')
+      app.video_tokens = sentence.querySelectorAll('[data-begin]')
+
+      app.video_tokens.forEach(function (token) {
+        token.addEventListener('click', function (_) {
+          let init_pos = Number(token.dataset.begin)
+          video_player.currentTime = init_pos
+        })
+      })
+      app.video_tokens.forEach(function (token) {
+        token.addEventListener('dblclick', function (_) {
+          video_player.play()
+        })
+      })
+      app.video_speaking_index = 0;
+    }
+    else { // Video available without alignment
+      app.video_begin = 0
+      app.video_tokens = undefined
+    }
+  } else { // Video not available
+    app.video_begin = undefined
   }
 }

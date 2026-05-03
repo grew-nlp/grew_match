@@ -62,6 +62,10 @@
 <body>
 
 	<div id="app">
+			
+		<!-- video component -->
+		<video-player v-show="video_begin"></video-player>
+		
 		<!-- Top Navbar -->
 		<nav id="navbar-grew" class="navbar navbar-inverse navbar-fixed-top" v-bind:class='{local: local}' role="navigation">
 			<div class="container-fluid">
@@ -466,7 +470,7 @@
 								{{ result_message }}
 								<span style="font-size: 60%">[{{current_time.toFixed(3)}}s]</span>
 							</h3>
-							<p>
+							<p class="btn-container">
 								<button id="save-button" class="btn btn-primary tooltip-desc" :disabled='result_message==""' onclick="javascript:save_request()" style="margin-right:10px">
 									Save <i class="fa fa-link" aria-hidden="true"></i>
 								</button>
@@ -476,6 +480,14 @@
 								<button v-if="!multi_mode" id="download-conll-button" class="btn btn-primary tooltip-desc" v-show='mode=="syntax" && search_mode && result_message!="" && result_message!="No results"' onclick="javascript:conll_export()" style="margin-right:10px">
 									CoNLL <i class="fa fa-download" aria-hidden="true"></i></span>
 								</button>
+								<button v-show="video_begin" id="hideVideoButton" class=" btn btn-primary btn-hide-video " @click='toggleVideo'>
+									 <span v-if="!isVideoHidden">
+										Hide video <i class="fa fa-eye-slash"></i>
+									</span>
+									<span v-else>
+										Show video <i class="fa fa-eye"></i>
+									</span>
+  								</button>
 							</p>
 							<h5 v-show="current_custom != ''" style="margin-top:10px;">
 								<span>Request URL:
@@ -600,7 +612,7 @@
 
 								<ul id="results-list">
 									<li v-for="(item, itemKey) in current_cluster" v-bind:class='{ displayed: itemKey==current_view }'>
-										<a v-on:click='select_item(itemKey)'>{{ item.sent_id }}</a>
+										<a v-on:click='select_item(itemKey);  load_video()'>{{ item.sent_id }}</a>
 									</li>
 								</ul>
 							</div>
@@ -654,9 +666,9 @@
 
 									</div>
 
-									<div v-if="current_view >= 0">
+									<div v-if="current_view >= 0" > 
 										<div v-show="metadata_open">
-											<div v-for='item in current_item.meta' :key="item.key">
+											<div v-for='item in current_item.meta' ><!--:key="item.key">-->
 												<div v-if="Object.keys(item.sub).length === 0">
 													<b>{{ item.key }}</b>: {{ item.value }}
 												</div>
@@ -781,8 +793,6 @@
 		</div>
 	</div>
 
-
-
 	<div id="cite_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="vertical-alignment-helper">
 			<div class="modal-dialog vertical-align-center modal-lg">
@@ -848,12 +858,70 @@
 						? cells[row_index][col_index].percent_col
 						: cells[row_index][col_index]. percent_row
 					}}
-				</a>
-			</td>
-		</tr>
-	</tbody>
-</table>
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </script>
+
+<script type="text/x-template" id="video-template">
+	<div>
+		<div
+			id = "videoDiv"
+			ref = "videoDiv"
+			v-show="!app.isVideoHidden"
+			class="fixed z-max videoDivSize rounded"
+			:style="{ top: y + 'px', left: x + 'px', width: videoWidth + '%' }"
+		>
+			<div @mousedown="startDrag" @mouseup="stopDrag">
+
+
+				<div class="bar-toolbar ">
+					<button @click="showSpeedBtn = !showSpeedBtn" class="btnSpeed btn-playback-speed">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer2" viewBox="0 0 16 16">
+							<path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
+							<path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A8 8 0 0 1 0 10m8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3"/>
+						</svg>
+					</button>
+					<transition name="fade-slide">
+						<div v-show="showSpeedBtn" class="btn-group btn-group-sm btn-group-toggle" 
+						data-toggle="buttons" @click="speedBtnHandleClick($event)">
+							<label class="btn btnSpeed">
+								<input type="radio" name="options" id="0.25" autocomplete="off"> x0.25
+							</label>
+							<label class="btn btnSpeed">
+								<input type="radio" name="options" id="0.5" autocomplete="off"> x0.5
+							</label>
+							<label class="btn active btnSpeed">
+								<input type="radio" name="options" id="1" autocomplete="off" checked> x1
+							</label>
+							<label class="btn btnSpeed">
+								<input type="radio" name="options" id="1.5" autocomplete="off"> x1.5
+							</label>
+						</div>
+					</transition>
+
+					<button v-on:click="toggleVideo" class="btnSpeed close-btn"> 
+						<span aria-hidden="true"><strong>&times;</strong></span>
+					</button>
+				</div>
+
+				<video
+					id="video"
+					ref="video"
+					class="video z-max"
+					:src="get_video_url()"
+					controls
+					disablePictureInPicture
+					v-on:play="changePlaybackSpeed"
+				></video>
+				<div class="resize-handle" v-on:mousedown="startResize"></div>
+			</div>
+		</div>
+	</div>
+</script>
+
 
 
 
@@ -861,10 +929,13 @@
 <script src="js/utils.js"></script>
 <script src="js/grid_comp.js"></script>
 <script src="js/main.js"></script>
+<script src="js/Video.js"></script>
+
 <link rel="stylesheet" href="css/grid.css">
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/sidebar.css">
 <link rel="stylesheet" href="css/tooltip.css">
+<link rel="stylesheet" href="css/video.css">
 
 </body>
 
