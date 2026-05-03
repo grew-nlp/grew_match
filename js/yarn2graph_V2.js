@@ -1448,8 +1448,6 @@ function updateGraph(jsonObject) {
 }
 
 
-updateColorScheme();
-
 ///////////////////////////////////////////
 function ifOldYarn(jsonObject) {
     // Check if all the specified keys exist in the jsonObject

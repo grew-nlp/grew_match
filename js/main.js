@@ -310,7 +310,11 @@ let app = new Vue({
     current_group: function () {
       for (let g = 0; g < this.groups.length; g++) {
         if (this.groups[g].id == this.current_group_id) {
-          return this.groups[g]
+          const group = this.groups[g]
+          if (group.yarn_display) {
+            load_yarn_libs()
+          }
+          return group
         }
       }
     },

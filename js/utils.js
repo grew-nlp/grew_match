@@ -230,3 +230,23 @@ function time_ago(date) {
   if (interval > 0) return interval + " minute"+plur(interval)+" ago";
   return seconds + " second"+plur(seconds)+" ago";
 }
+
+// ==================================================================================
+// Yarn display depends on specific libraries/css. Load them only when needed.
+var yarn_loaded = false
+function load_yarn_libs() {
+  if (yarn_loaded) return
+
+  ['js/tikzjax.js', 'js/dagre.min.js', 'js/yarn2graph_V2.js'].forEach (lib => {
+    const script = document.createElement('script')
+    script.src = lib;
+    script.type = 'text/javascript';
+    document.head.append(script);
+  })
+  const link = document.createElement('link')
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = 'https://tikzjax.com/v1/fonts.css';
+  document.head.append(link);
+  yarn_loaded = true
+}
