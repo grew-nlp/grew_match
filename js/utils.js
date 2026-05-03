@@ -237,9 +237,9 @@ var yarn_loaded = false
 function load_yarn_libs() {
   if (yarn_loaded) return
 
-  ['js/tikzjax.js', 'js/dagre.min.js', 'js/yarn2graph_V2.js'].forEach (lib => {
+  ['tikzjax.js', 'dagre.min.js', 'yarn2graph_V2.js'].forEach (lib => {
     const script = document.createElement('script')
-    script.src = lib;
+    script.src = `js/yarn/${lib}`;
     script.type = 'text/javascript';
     document.head.append(script);
   })
