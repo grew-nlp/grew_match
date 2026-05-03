@@ -430,6 +430,17 @@ async function initialize_from_instances() {
     return;
   }
 
+  if (instances[host].upload_mode) {
+    const single = url_params.get ('single')
+    const param = {
+      single: single
+    };
+    app.backend_server = instances[host].backend;
+    app.groups = await generic(app.backend_server, 'get_single', param);
+    init ()
+    return
+  }
+
   app.backend_server = instances[host].backend;
   app.top_project = instances[host].top_project;
   const instance = instances[host].instance;
