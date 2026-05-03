@@ -9,6 +9,7 @@ let app = new Vue({
   el: '#app',
   data: {
     config: {}, // configuration: base url for snippets and instances
+    ago: "",
 
     audio_begin: undefined,   // audio_begin != undefined <==> a sound file is available
     audio_end: undefined,
@@ -316,7 +317,11 @@ let app = new Vue({
     current_group: function () {
       for (let g = 0; g < this.groups.length; g++) {
         if (this.groups[g].id == this.current_group_id) {
-          return this.groups[g]
+          const group = this.groups[g]
+          if (group.yarn_display) {
+            load_yarn_libs()
+          }
+          return group
         }
       }
     },
@@ -356,7 +361,18 @@ let app = new Vue({
       return (this.clust1 === 'key' && this.clust1_key.trim() === '')
       || (this.clust2 === 'key' && this.clust2_key.trim() === '')
       || (this.multi_mode && this.selected_corpora.length === 0)
+    },
+
+    yarn_data: function() {
+      if 
+        (this.current_item.meta) {
+          const yarn = this.current_item.meta.find(x => x.key==="yarn")
+          if (yarn) {
+            return yarn.value
+          }
+      }
     }
+
   } // end computed
 })
 
@@ -600,6 +616,7 @@ function update_graph_view() {
       scrollLeft: app.current_item.shift - (document.getElementById('display-svg').offsetWidth / 2)
     }, 'fast')
     update_parallel()
+    draw_yarn()
 
     if (app.current_item.audio) {
       $('#audioPlayer').attr('src', app.current_item.audio)
@@ -1092,6 +1109,8 @@ function clone() {
 function search() {
   app.current_custom = ''
   app.result_message = ''
+  app.selected_col = undefined
+  app.selected_row = undefined
   app.current_cluster_path = undefined
   app.current_view = 0
   app.wait = true
@@ -1313,6 +1332,14 @@ function update_parallel() {
 }
 
 // ==================================================================================
+function draw_yarn() {
+  if (app.yarn_data) {
+    const jsonObject = JSON.parse(app.yarn_data)
+    updateGraph(jsonObject)
+  }
+}
+
+// ==================================================================================
 function download() {
   let data_folder = `${app.backend_server}data/${app.current_uuid}`
   window.location = data_folder + '/export.tsv'
@@ -1448,29 +1475,30 @@ function update_corpus() {
   }
 
   // update info button and update timestamp if needed
-  if (app.check_built('desc.json')) {
-    let param = {
-      corpus: app.current_corpus_id,
-      file: 'desc.json'
-    }
-    generic(app.backend_server, 'get_build_file', param)
-    .then(data => {
-      if (!data) { return }
-      let json = JSON.parse(data)
-      app.meta_info = true
-      let html = ''
-      for (let key in json) {
-        if (key == 'update') {
-          const event = new Date(json[key])
-          $('#update_ago').html(`<time class="timeago" datetime="${event.toISOString()}">update time</time>`)
-          $('#update_ago > time').timeago() // make it dynamic
-        } else {
-          html += `<p>${key}: ${json[key]}`
-        }
-      }
-      $('#info-tip').tooltipster('content', html)
-    })
+  if (!app.check_built('desc.json')) return;
+  app.ago=''
+  const param = {
+    corpus: app.current_corpus_id,
+    file: 'desc.json'
   }
+  generic(app.backend_server, 'get_build_file', param)
+  .then(data => {
+    if (!data) return
+    let json = JSON.parse(data)
+    app.meta_info = true
+
+    const parts = [];
+    for (const [k, v] of Object.entries(json)) {
+      if (k === 'update') {
+        app.ago = time_ago(v)
+      } else {
+        parts.push(`<p>${escape_html(k)}: ${escape_html(v)}</p>`)
+      }
+    }
+    const html = parts.join('');
+
+    $('#info-tip').tooltipster('content', html)
+    })
 
   update_url ()
 }

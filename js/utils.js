@@ -5,6 +5,20 @@ function log(msg) {
   }
 }
 
+function escape_html(s) {
+  if (typeof(s) === 'string') {
+    const new_s = s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+    return new_s
+  } else {
+    return s
+  }
+}
+
 // ==================================================================================
 function clean_concat(base, ...parts) {
   return [base, ...parts]
@@ -198,4 +212,41 @@ function init_tooltips() {
   $('#table-button').tooltipster('content', 'Relation tables (new page)')
   $('#para-tooltip').tooltipster('content', 'Select a treebank in the list to show the same sentence in this parallel corpus. Use <i aria-hidden="true" class="fa fa fa-link"></i> to select the corpus for querying')
   $('#para-close-tooltip').tooltipster('content', 'Unselect the current parallel treebank');
+}
+
+// ==================================================================================
+function time_ago(date) {
+  function plur (i) { return i>1 ? "s" : "" }
+  const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+  let interval = Math.floor(seconds / 31536000);
+  if (interval > 0) return interval + " year"+plur(interval)+" ago";
+  interval = Math.floor(seconds / 2592000);
+  if (interval > 0) return interval + " month"+plur(interval)+" ago";
+  interval = Math.floor(seconds / 86400);
+  if (interval > 0) return interval + " day"+plur(interval)+" ago";
+  interval = Math.floor(seconds / 3600);
+  if (interval > 0) return interval + " hour"+plur(interval)+" ago";
+  interval = Math.floor(seconds / 60);
+  if (interval > 0) return interval + " minute"+plur(interval)+" ago";
+  return seconds + " second"+plur(seconds)+" ago";
+}
+
+// ==================================================================================
+// Yarn display depends on specific libraries/css. Load them only when needed.
+var yarn_loaded = false
+function load_yarn_libs() {
+  if (yarn_loaded) return
+
+  ['tikzjax.js', 'dagre.min.js', 'yarn2graph_V2.js'].forEach (lib => {
+    const script = document.createElement('script')
+    script.src = `js/yarn/${lib}`;
+    script.type = 'text/javascript';
+    document.head.append(script);
+  })
+  const link = document.createElement('link')
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = 'https://tikzjax.com/v1/fonts.css';
+  document.head.append(link);
+  yarn_loaded = true
 }
