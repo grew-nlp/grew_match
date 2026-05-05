@@ -88,6 +88,9 @@ Vue.component("video-player", {
     },
     resize(e) {
       if (!this.isResizing) return;
+      // prevent selecting text while resize
+      const appContainer = document.getElementById('app')
+      appContainer.classList.add('no-select')
       // Calculate different of mouse position
       const widthChange = this.offsetX - e.clientX - 0.5;
       const prevWidth = this.videoWidth;
@@ -107,6 +110,9 @@ Vue.component("video-player", {
       if (this.boundStopResize) document.removeEventListener('mouseup', this.boundStopResize);
       this.boundResize = null;
       this.boundStopResize = null;
+      //allow to select text after resize
+      const appContainer = document.getElementById('app')
+      appContainer.classList.remove('no-select')
     },
     speedBtnHandleClick(event) { 
       const value = event.target.children[0].id
