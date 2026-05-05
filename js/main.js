@@ -1585,6 +1585,8 @@ function get_tokens(){
 
 function toggleVideo() {
     app.isVideoHidden = !app.isVideoHidden; 
+    let video_player = document.getElementById('video')
+    video_player.pause()
 }
 
 // ==================================================================================
