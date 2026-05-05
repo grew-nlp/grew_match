@@ -60,6 +60,7 @@ Vue.component("video-player", {
 
     startDrag(e) {
       if (this.isResizing) return
+      this.setVideoWidth()
       this.dragging = true
       this.offsetX = e.clientX - this.x
       this.offsetY = e.clientY - this.y
@@ -76,6 +77,7 @@ Vue.component("video-player", {
     },
 
     startResize(e) {
+      this.setVideoWidth()
       this.isResizing = true;
       this.offsetX = e.clientX;
       this.offsetY = e.clientY;
@@ -86,6 +88,9 @@ Vue.component("video-player", {
     },
     resize(e) {
       if (!this.isResizing) return;
+      // prevent selecting text while resize
+      const appContainer = document.getElementById('app')
+      appContainer.classList.add('no-select')
       // Calculate different of mouse position
       const widthChange = this.offsetX - e.clientX - 0.5;
       const prevWidth = this.videoWidth;
@@ -105,10 +110,20 @@ Vue.component("video-player", {
       if (this.boundStopResize) document.removeEventListener('mouseup', this.boundStopResize);
       this.boundResize = null;
       this.boundStopResize = null;
+      //allow to select text after resize
+      const appContainer = document.getElementById('app')
+      appContainer.classList.remove('no-select')
     },
     speedBtnHandleClick(event) { 
       const value = event.target.children[0].id
       this.setSpeed(value)
     },
+    setVideoWidth(){
+      const container = this.$refs.videoDiv 
+      
+      //calcul actual height and convert px into %
+      const widthInPx = container.offsetWidth;
+      this.videoWidth = (widthInPx / window.innerWidth) * 100;
+    }
   }
 })
