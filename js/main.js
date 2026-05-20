@@ -371,6 +371,15 @@ let app = new Vue({
             return yarn.value
           }
       }
+    },
+    source_url: function() {
+      if 
+        (this.current_item.meta) {
+          const source_url = this.current_item.meta.find(x => x.key==="source_url")
+          if (source_url) {
+            return source_url.value
+          }
+      }
     }
 
   } // end computed
