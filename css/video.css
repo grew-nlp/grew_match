@@ -104,4 +104,7 @@
 .btn-container button:last-child {
     margin-left: auto;
 }
+.no-select{
+    user-select: none;
+}
 
