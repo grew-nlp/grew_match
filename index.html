@@ -679,7 +679,7 @@
 									</div>
 
 									<div v-if="current_view >= 0">
-										<h4 id="sentence" v-bind:dir="active_corpus['rtl'] ? 'rtl' : 'ltr'" v-html="current_cluster[current_view].sentence"></h4>
+										<h4 id="sentence" dir="auto" v-html="current_cluster[current_view].sentence"></h4>
 									</div>
 								</div>
 							</div>
