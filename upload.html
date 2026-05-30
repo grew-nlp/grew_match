@@ -22,37 +22,49 @@
   <div id="app">
     <div class="container-fluid p-5 text-center" style="background-color: #eee; ">
       <a href=".">
-        <img src="images/grew-match.svg" alt="LOGO for grew_match" style="max-height:150px; margin-bottom: -74px;">
+        <img src="portal/grew-match.svg" alt="LOGO for grew_match" style="max-height:90px; margin-bottom: -66px;">
       </a>
     </div>
     
-    <div v-if="url == ''" class="container p-5 my-5" style="background-color: #eee;">
+    <div v-if="url == ''" class="container p-3 my-3" style="background-color: #eee;">
       <h1>Build your own corpus</h1>
-
-      <div v-for="schema in schemas" class="form-check form-check-inline">
+      <p>Select a set of CoNLL file to build a new corpus in Grew-match.</p>
+      <span v-for="schema in schemas" class="form-check form-check-inline">
         <input class="form-check-input" type="radio" name="inlineRadioOptions" :value="schema" v-model="current_schema">
         {{ schema }}
-      </div>
-
+      </span>
 
       <div class="custom-file">
-        <label class="btn btn-primary" for="corpus_input">Select CoNLL files</label>
+        <label class="btn btn-primary" for="corpus_input" style="width: 100%;">Select CoNLL files</label>
         <input type="file" style="display: none;" id="corpus_input" multiple accept=".conll,.conllu">
       </div>
-      <ul>
-        <li v-for="file in file_list" v >
-          {{ file.name }}
-          {{ file.size }}
-        </li>
-      </ul>
-      <button type="button" onclick="javascript:build_corpus()" class="btn btn-primary" :disabled="uploading || file_list.length == 0">Build corpus</button>
     </div>
-    <div v-if="url == '' && uploading" class="container p-5 my-5" style="background-color: #eee;">
-      <h1>{{upload_message}}</h1>
+
+    <div v-if="url == '' && file_array.length >0"  class="container p-3 my-3" style="background-color: #eee;">
+      <button v-if="file_array.length > 0" style="width: 100%; margin-bottom: 30px;" type="button" onclick="javascript:build_corpus()" class="btn btn-success" :disabled="uploading || file_array.length == 0">
+        <span v-if="uploading">Building…</span>
+        <span v-if="uploading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span v-else>Build corpus</span>
+      </button>
+
+
+      <table  class="table table-striped">
+        <thead class="table-primary">
+          <th>{{ file_array.length }} file{{file_array.length > 1 ? "s" : ""}}</th>
+          <th>{{ humanFileSize(total_size) }}</th>
+          <th><button class="btn btn-warning"@click="file_array=[]">remove all</button></th>
+        </thead>
+        <tr v-for="(file, idx) in file_array">
+          <td>{{ file.name }}</td>
+          <td>{{ humanFileSize(file.size) }}</td>
+          <td><button class="btn btn-warning" @click="remove_file(idx)">remove</button></td>
+        </tr>
+      </table>
+
     </div>
     
     <div v-if="url != ''" class="container p-5 my-5" style="background-color: #eee;">
-      <h1>✅ Your corpus is ready ({{sizes.nb_trees}} trees, {{sizes.nb_tokens}} tokens)!</h1>
+      <h1>✅ Your corpus is ready ({{desc.nb_trees}} trees, {{desc.nb_tokens}} tokens)!</h1>
       
       <h3>The corpus is available in a dedicated instance of Grew-match with the URL below.</h3>
       <h3>Note the the corpus will be removed one week after its creation.</h3>
