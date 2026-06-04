@@ -43,10 +43,10 @@ let app = new Vue({
     corpora_filter: '',
 
     backend_server: undefined,
+    top_project: undefined,
+    upload_mode: false,
 
     view_left_pane: false, // true iff the left_pane is open
-
-    top_project: undefined,
 
     current_group_id: undefined,
     current_corpus_id: undefined,
@@ -431,6 +431,7 @@ async function initialize_from_instances() {
   }
 
   if (instances[host].upload_mode) {
+    app.upload_mode = true
     const corpus = url_params.get ('corpus')
     if (corpus) {
       const param = {
