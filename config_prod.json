@@ -61,6 +61,11 @@
       "top_project": {
         "logo_nobg": "https://grew.fr/download/SP/Logo_SP.jpg"
       }
+    },
+    "upload.grew.fr": {
+      "upload_mode": true,
+      "backend": "https://gmd-upload.grew.fr"
     }
+
   }
 }
