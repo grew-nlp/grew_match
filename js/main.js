@@ -431,13 +431,13 @@ async function initialize_from_instances() {
   }
 
   if (instances[host].upload_mode) {
-    const single = url_params.get ('single')
-    if (single) {
+    const corpus = url_params.get ('corpus')
+    if (corpus) {
       const param = {
-        single: single
+        corpus: corpus
       };
       app.backend_server = instances[host].backend;
-      app.groups = await generic(app.backend_server, 'get_single', param);
+      app.groups = await generic(app.backend_server, 'get_corpora_desc_upload', param);
       init ()
       return
     } else {

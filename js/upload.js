@@ -64,7 +64,7 @@ async function build_corpus() {
   };
   const response = await generic_files('http://localhost:10024', 'new_corpus', files, data);
   if (response.session_id) {
-    app.url = window.location.protocol + "//" + window.location.host + "?single=" + response.session_id
+    app.url = window.location.protocol + "//" + window.location.host + "?corpus=" + response.session_id
     app.desc = response.desc
   } else {
     app.url = ''
