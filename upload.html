@@ -27,7 +27,7 @@
     </div>
     
     <div v-if="url == ''" class="container p-3 my-3" style="background-color: #eee;">
-      <h1>Build your own corpus</h1>
+      <h1>Build a new corpus</h1>
       <p>Select a set of CoNLL file to build a new corpus in Grew-match.</p>
       <span v-for="schema in schemas" class="form-check form-check-inline">
         <input class="form-check-input" type="radio" name="inlineRadioOptions" :value="schema" v-model="current_schema">
@@ -41,6 +41,11 @@
     </div>
 
     <div v-if="url == '' && file_array.length >0"  class="container p-3 my-3" style="background-color: #eee;">
+      <div style="margin-bottom: 20px;">
+        <span>Name of the corpus (optional): </span>
+        <input class="form-control" v-model="name">
+      </div>
+
       <button v-if="file_array.length > 0" style="width: 100%; margin-bottom: 30px;" type="button" onclick="javascript:build_corpus()" class="btn btn-success" :disabled="uploading || file_array.length == 0">
         <span v-if="uploading">Building…</span>
         <span v-if="uploading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>

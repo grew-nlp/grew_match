@@ -21,6 +21,8 @@ let app = new Vue({
 
     uploading: false,
 
+    name: "",
+
   },
   computed: {
     total_size: function () {
@@ -56,7 +58,10 @@ $("#corpus_input").change(function(event) {
 async function build_corpus() {
   app.uploading = true
   const files = app.file_array;
-  const data = { schema: app.current_schema };
+  const data = { 
+    schema: app.current_schema,
+    name: app.name,
+  };
   const response = await generic_files('http://localhost:10024', 'new_corpus', files, data);
   if (response.session_id) {
     app.url = window.location.protocol + "//" + window.location.host + "?single=" + response.session_id
@@ -112,6 +117,7 @@ async function generic_files(backend, service, files, data) {
     }
   } catch (error) {
     const msg = `Service \`${service}\` unavailable.\n\n${error.message}`;
-    alert(msg, "Network error");
+    direct_error(msg, "Network error");
+    app.uploading = false
   }
 }

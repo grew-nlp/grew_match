@@ -241,8 +241,7 @@
 											<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
 												<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>
 											</button>
-											<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus_id }}</span>
-
+											<span id="corpus-desc-label" class="tooltip-desc label label-default">{{ current_corpus.name ? current_corpus.name : current_corpus.id }}</span>
 											<span v-if="corpus_error">
 												⚠️ <span style="color: red" v-html="corpus_error"></span>
 											</span>
