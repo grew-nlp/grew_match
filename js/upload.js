@@ -6,7 +6,7 @@ let app = new Vue({
     schemas: ["None", "UD", "SUD", "Parseme"],
     current_schema: "UD",
     config: undefined,
-    backend_server: "http://localhost:10024/",
+    backend_server: "https://gmd-upload.grew.fr",
 
     folder_id: undefined,
 
@@ -62,7 +62,7 @@ async function build_corpus() {
     schema: app.current_schema,
     name: app.name,
   };
-  const response = await generic_files('http://localhost:10024', 'new_corpus', files, data);
+  const response = await generic_files(app.backend_server, 'new_corpus', files, data);
   if (response.session_id) {
     app.url = window.location.protocol + "//" + window.location.host + "?corpus=" + response.session_id
     app.desc = response.desc
