@@ -6,7 +6,7 @@ let app = new Vue({
     schemas: ["None", "UD", "SUD", "Parseme"],
     current_schema: "UD",
     config: undefined,
-    backend_server: "https://gmd-upload.grew.fr",
+    backend_server: "https://gmd-upload.grew.fr/",
 
     folder_id: undefined,
 
