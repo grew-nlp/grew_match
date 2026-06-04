@@ -64,7 +64,7 @@
     },
     "upload.grew.fr": {
       "upload_mode": true,
-      "backend": "https://gmd-upload.grew.fr"
+      "backend": "https://gmd-upload.grew.fr/"
     }
 
   }
