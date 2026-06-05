@@ -224,7 +224,6 @@
 										<i id="warning-tooltip" class="fa fa-question-circle fa-lg tooltip-desc"></i>
 									</h4>
 									<h2 id="corpus">
-
 										<div v-if="multi_mode">
 											<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
 												<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>
@@ -238,6 +237,12 @@
 										</div>
 
 										<div v-else>
+											<a v-show='upload_mode' href='upload.html'>
+												<button type="button" class="btn btn-primary">
+													Build a new coprus <i class="fa-solid fa-square-plus fa-lg"></i>
+												</button>
+											</a>
+
 											<button type="button" class="btn btn-primary" v-if="left_pane" onclick="javascript:app.view_left_pane = !app.view_left_pane">
 												<span>{{ view_left_pane ? "Hide corpora list" : "Show corpora list" }}</span>
 											</button>

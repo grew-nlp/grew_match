@@ -3,7 +3,7 @@
 let app = new Vue({
   el: '#app',
   data: {
-    schemas: ["None", "UD", "SUD", "Parseme"],
+    schemas: ["UD", "SUD", "Parseme"],
     current_schema: "UD",
     config: undefined,
     backend_server: "https://gmd-upload.grew.fr/",
@@ -56,6 +56,7 @@ $("#corpus_input").change(function(event) {
 
 // ====================================================================================================
 async function build_corpus() {
+  app.url = ''
   app.uploading = true
   const files = app.file_array;
   const data = { 
@@ -64,10 +65,12 @@ async function build_corpus() {
   };
   const response = await generic_files(app.backend_server, 'new_corpus', files, data);
   if (response.session_id) {
-    app.url = window.location.protocol + "//" + window.location.host + "?corpus=" + response.session_id
     app.desc = response.desc
-  } else {
-    app.url = ''
+    if (app.desc.nb_tokens === 0) {
+      direct_error ("Your corpus didn't contain any data\n\nCheck the files you send (format and files extenstions)")
+    } else {
+      app.url = window.location.protocol + "//" + window.location.host + "?corpus=" + response.session_id
+    }
   }
   app.uploading = false
 }
@@ -102,7 +105,7 @@ async function generic_files(backend, service, files, data) {
       formData.append(key, value);
     }
 
-    const response = await fetch(backend + "/" +  service, {
+    const response = await fetch(clean_concat(backend, service), {
       method: 'POST',
       body: formData
     });
