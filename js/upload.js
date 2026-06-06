@@ -16,6 +16,12 @@ const app = new Vue({
   computed: {
     total_size() {
       return this.file_array.reduce((acc, file) => acc + file.size, 0);
+    },
+    file_type() {
+      return this.current_schema === "Parseme" ? "CUPT" : "CoNNL-U"
+    },
+    extension() {
+      return this.current_schema === "Parseme" ? ".cupt" : ".conllu,.conll"
     }
   },
 
@@ -34,9 +40,7 @@ const app = new Vue({
   }
 });
 
-
 // ==================================================================================
-// Load config file and start application
 document.addEventListener('DOMContentLoaded', start);
 
 // ==================================================================================

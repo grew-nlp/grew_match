@@ -1,3 +1,5 @@
+"use strict";
+
 // ==================================================================================
 function log(msg) {
   if (false) {  // false --> turn off logging // true --> true turn on logging

@@ -28,19 +28,26 @@
     
     <div v-if="url == ''" class="container p-3 my-3" style="background-color: #eee;">
       <h1>Build a new corpus</h1>
-      <p>Select a set of files (<a href="https://universaldependencies.org/format.html">CoNNL-U</a> or <a href="https://gitlab.com/parseme/corpora/-/wikis/CUPT-format">CUPT</a>) to build a new corpus in Grew-match.</p>
-      <span v-for="schema in schemas" class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" :value="schema" v-model="current_schema">
-        {{ schema }}
+      <span style="font-size: larger;">Select the format: </span>
+      <span class="btn-group" role="group" aria-label="Choose config">
+        <button 
+          v-for="schema in schemas" 
+          type="button"
+          class="btn"
+          v-bind:class="schema === current_schema ? 'btn-success' : 'btn-secondary'"
+          v-on:click="file_array = []; current_schema = schema"
+        >
+          {{ schema }}
+        </button>
       </span>
 
       <div class="custom-file">
-        <label class="btn btn-primary" for="corpus_input" style="width: 100%;">Select CoNLL files</label>
-        <input type="file" style="display: none;" id="corpus_input" multiple accept=".conll,.conllu,.cupt">
+        <label class="btn btn-primary" for="corpus_input" style="width: 100%; margin-top: 15px;">Select {{ file_type }} files</label>
+        <input type="file" style="display: none;" id="corpus_input" multiple v-bind:accept="extension">
       </div>
     </div>
 
-    <div v-if="url == '' && file_array.length >0" class="container p-3 my-3" style="background-color: #eee;">
+    <div v-if="url === '' && file_array.length > 0" class="container p-3 my-3" style="background-color: #eee;">
       <div style="margin-bottom: 20px;">
         <span>Name of the corpus (optional): </span>
         <input class="form-control" v-model="name">
