@@ -60,6 +60,37 @@ async function generic(backend, service, data) {
 }
 
 // ==================================================================================
+async function generic_files(backend, service, files, data) {
+  try {
+    const formData = new FormData();
+    files.forEach(file => {
+      formData.append('files', file);
+    });
+
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value)
+    })
+
+    const response = await fetch(clean_concat(backend, service), {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.status === "ERROR") {
+      direct_error(JSON.stringify(result.message));
+      return null;
+    } else {
+      return result.data;
+    }
+  } catch (error) {
+    const msg = `Service \`${service}\` unavailable.\n\n${error.message}`;
+    direct_error(msg, "Network error");
+  }
+}
+
+// ==================================================================================
 // https://www.geeksforgeeks.org/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript/#using-a-custom-javascript-function
 function download_text(file, text) {
   var element = document.createElement('a')

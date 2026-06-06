@@ -1,31 +1,20 @@
 "use strict";
 
-let app = new Vue({
+const app = new Vue({
   el: '#app',
   data: {
     schemas: ["UD", "SUD", "Parseme"],
     current_schema: "UD",
-    config: undefined,
-    backend_server: "https://gmd-upload.grew.fr/",
-
+    backend_server: undefined,  // set at starting time from config.json
     folder_id: undefined,
-
-    nb_files:0,
-    count_upload:0,
-
     file_array: [],
-
     desc: {},
     url: "",
-    log: [],
-
     uploading: false,
-
     name: "",
-
   },
   computed: {
-    total_size: function () {
+    total_size() {
       return this.file_array.reduce((acc, file) => acc + file.size, 0);
     }
   },
@@ -40,34 +29,52 @@ let app = new Vue({
     },
 
     remove_file(name) {
-      console.log (name)
-      app.file_array.splice(name, 1);
+      this.file_array.splice(name, 1);
     }
-
   }
-
 });
 
+
+// ==================================================================================
+// Load config file and start application
+document.addEventListener('DOMContentLoaded', start);
+
+// ==================================================================================
+async function start() {
+  try {
+    const config = await fetch_json('config.json');
+    if ("instances" in config) {
+      const instances = config.instances;
+      const host = window.location.host;
+      app.backend_server = instances[host].backend;
+    } else if ("backend" in config) {
+      app.backend_server = config.backend;
+    } else {
+      directError("Error in `config.json`");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // ====================================================================================================
-$("#corpus_input").change(function(event) {
-  const files = event.target.files;
-  app.file_array = Array.from(files);
+$("#corpus_input").change((event) => {
+  app.file_array = Array.from(event.target.files);
 })
 
 // ====================================================================================================
 async function build_corpus() {
-  app.url = ''
   app.uploading = true
-  const files = app.file_array;
+  app.url = ''
   const data = { 
     schema: app.current_schema,
     name: app.name,
   };
-  const response = await generic_files(app.backend_server, 'new_corpus', files, data);
+  const response = await generic_files(app.backend_server, 'new_corpus', app.file_array, data);
   if (response.session_id) {
     app.desc = response.desc
     if (app.desc.nb_tokens === 0) {
-      direct_error ("Your corpus didn't contain any data\n\nCheck the files you send (format and files extenstions)")
+      direct_error ("Your corpus didn't contain any data\n\nCheck the files you send (format and files extensions)")
     } else {
       app.url = window.location.protocol + "//" + window.location.host + "?corpus=" + response.session_id
     }
@@ -75,52 +82,3 @@ async function build_corpus() {
   app.uploading = false
 }
 
-// ------------------------------------------------------------
-function read_desc () {
-  const path = app.backend_server+"/upload/"+app.folder_id+"/"+app.folder_id+"_desc.json";
-  fetch(path)
-  .then(response => response.json())
-  .then (function(desc){ app.sizes=desc })
-}
-
-// ------------------------------------------------------------
-function read_log () {
-  const path = app.backend_server+"/upload/"+app.folder_id+"/"+app.folder_id+".log";
-  return fetch (path)
-    .then (response => response.text())
-    .catch((error) => {
-      console.log(error)
-    });
-}
-
-// ==================================================================================
-async function generic_files(backend, service, files, data) {
-  try {
-    const formData = new FormData();
-    Array.from(files).forEach(file => {
-      formData.append('files', file);
-    });
-
-    for (const [key, value] of Object.entries(data)) {
-      formData.append(key, value);
-    }
-
-    const response = await fetch(clean_concat(backend, service), {
-      method: 'POST',
-      body: formData
-    });
-
-    const result = await response.json();
-
-    if (result.status === "ERROR") {
-      direct_error(JSON.stringify(result.message));
-      return null;
-    } else {
-      return result.data;
-    }
-  } catch (error) {
-    const msg = `Service \`${service}\` unavailable.\n\n${error.message}`;
-    direct_error(msg, "Network error");
-    app.uploading = false
-  }
-}
