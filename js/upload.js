@@ -12,6 +12,7 @@ const app = new Vue({
     url: "",
     uploading: false,
     name: "",
+    max_size: 100 * 1024 * 1024,  // 100 MB
   },
   computed: {
     total_size() {

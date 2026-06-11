@@ -53,12 +53,21 @@
         <input class="form-control" v-model="name">
       </div>
 
-      <button v-if="file_array.length > 0" style="width: 100%; margin-bottom: 30px;" type="button" onclick="javascript:build_corpus()" class="btn btn-success" :disabled="uploading || file_array.length == 0">
+      <button 
+        v-if="file_array.length > 0" 
+        style="width: 100%; margin-bottom: 30px;" 
+        type="button" 
+        onclick="javascript:build_corpus()" 
+        class="btn btn-success" 
+        :disabled="uploading || file_array.length == 0 || total_size > max_size">
         <span v-if="uploading">Building…</span>
         <span v-if="uploading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
         <span v-else>Build corpus</span>
       </button>
 
+      <div v-if="total_size > max_size" class="alert alert-warning" role="alert">
+        Your selection is too large: {{ humanFileSize(total_size) }}, maximum size is {{ humanFileSize(max_size) }}
+      </div>
 
       <table  class="table table-striped">
         <thead class="table-primary">
