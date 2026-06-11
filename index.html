@@ -215,7 +215,18 @@
 					<!-- Main jumbotron for a primary marketing message or call to action -->
 					<div class="jumbotron" id="jumbo-grew">
 						<div class="container-fluid">
-							<div class="row">
+							<div v-if="error_message">
+								<h4>
+									<span style="color: red" v-html="error_message"></span>
+								</h4>
+								<a v-show='upload_mode' href='upload.html'>
+									<button type="button" class="btn btn-primary" style="margin-bottom: 10px;">
+										Build a new corpus <i class="fa-solid fa-square-plus fa-lg"></i>
+									</button>
+								</a>
+							</div>
+
+							<div v-show="error_message === ''" class="row">
 
 								<!-- Upper-left part: corpus selector, textarea, buttons -->
 								<div class="col-md-8" id="console">

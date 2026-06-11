@@ -108,6 +108,8 @@ let app = new Vue({
     warning_level: 0,
     warning_message: '',
 
+    error_message: '',
+
     active_corpus_id: undefined,
     active_corpus: {},
   }, // end data
@@ -438,13 +440,18 @@ async function initialize_from_instances() {
         corpus: corpus
       };
       app.backend_server = instances[host].backend;
-      app.groups = await generic(app.backend_server, 'get_corpora_desc_upload', param);
-      init ()
-      return
+
+      const response = await generic(app.backend_server, 'get_corpora_desc_upload', param);
+      if ('error' in response) {
+        app.error_message = `No corpus "${corpus}". It has maybe expired. Check the URL or build the corpus again.`
+      } else {
+        app.groups = response
+        init ()
+      }
     } else {
       window.location.href = window.location.origin + "/upload.html"
-      return
     }
+    return
   }
   
   
