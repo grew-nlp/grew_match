@@ -545,6 +545,14 @@ async function deal_with_get_parameters() {
     }
   }
 
+  if (url_params.get ('diag_ud') == 'yes') {
+    if (app.check_built('diag_ud.txt')) {
+      open_build_file('diag_ud.txt')
+    } else {
+      direct_warning (`No diag_ud available for corpus: ${app.current_corpus_id}`)
+    }
+  }
+
   if (url_params.get ('valid_sud') == 'yes') {
     if (app.check_built('valid_sud.json')) {
       open_validation_page()

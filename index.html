@@ -283,13 +283,27 @@
 												</button>
 											</a>
 
-											<!-- UD validation -->
-											<a v-show='check_built("valid_ud.txt")'>
+											<!-- UD validation only -->
+											<a v-show='check_built("valid_ud.txt") && !check_built("diag_ud.txt")'>
 												<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">
 													<img src="icon/ud.svg" width="20"></img>
 													<i class="fa fa-check fa-lg"></i>
 												</button>
 											</a>
+
+											<!-- UD pages (diag & valid) -->
+											<span v-show='check_built("diag_ud.txt") && check_built("valid_ud.txt")' class="dropdown">
+												<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
+													<button type="button" class="btn btn-primary" style="margin-top: -3px;">
+														<img src="icon/ud.svg" width="20"></img>
+														<span class="caret"></span>
+													</button>
+												</a>
+												<ul class="dropdown-menu" style="margin-top: 10px;">
+													<li v-show='check_built("diag_ud.txt")' ><a onclick="open_build_file('diag_ud.txt', 'diag_ud', 'yes')">Diagnostic</a></li>
+													<li v-show='check_built("valid_ud.txt")' ><a onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">Validation</a></li>
+												</ul>
+											</span>
 
 											<!-- SUD validation -->
 											<a v-show='check_built("valid_sud.json")'>
