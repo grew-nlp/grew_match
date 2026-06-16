@@ -673,6 +673,14 @@
 											</button>
 										</a>
 
+										<!-- AG button -->
+										<a v-show='ag_url' v-bind:href="ag_url" target="_blank">
+											<button id="arborator_grew-button" type="button" class="tooltip-desc btn btn-primary" style="padding: 4px;">
+												<img src="icon/ag.png" width="30"></img>
+												<i class="fa fa-edit" aria-hidden="true"></i>
+											</button>
+										</a>
+
 										<a target="_blank" v-if="source_url" v-bind:href="source_url">
 											<button type="button" class="btn btn-sm btn-primary tooltip-desc">
 												Image&nbsp;
@@ -741,7 +749,7 @@
 							</div>
 
 							<div >
-								<div v-show='yarn_data'>
+								<div v-show='get_meta_value("yarn")'>
 									<div id="yarn_output"></div>
 								</div>
 							</div>

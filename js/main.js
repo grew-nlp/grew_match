@@ -204,6 +204,11 @@ let app = new Vue({
          return `<strong>${itemKey}:</strong> ${item}`;
       }
     },
+
+    // ==================================================================================
+    get_meta_value(key){
+      return this.current_item?.meta?.find((m) => m.key === key)?.value;
+    }
   },  // end methods
 
   watch: {
@@ -365,25 +370,23 @@ let app = new Vue({
       || (this.multi_mode && this.selected_corpora.length === 0)
     },
 
-    yarn_data: function() {
-      if 
-        (this.current_item.meta) {
-          const yarn = this.current_item.meta.find(x => x.key==="yarn")
-          if (yarn) {
-            return yarn.value
-          }
-      }
+    // used in UD_French-ECALM
+    source_url() { 
+      return this.get_meta_value('source_url')
     },
-    source_url: function() {
-      if 
-        (this.current_item.meta) {
-          const source_url = this.current_item.meta.find(x => x.key==="source_url")
-          if (source_url) {
-            return source_url.value
-          }
-      }
-    }
+  
+    // compute the ArboratorGrew url, if relevant
+    ag_url() {
+      const ag_project = this.current_corpus?.arborator_grew
+      if (!ag_project) return undefined
 
+      const document_id = this.get_meta_value("document_id")
+      const sent_id = this.get_meta_value("sent_id")
+      if (!document_id || !sent_id) return undefined
+
+      return `${clean_concat("https://arborator.grew.fr", "#", ag_project, document_id)}?sent=${encodeURIComponent(sent_id)}`
+
+    }
   } // end computed
 })
 
@@ -1376,9 +1379,9 @@ function update_parallel() {
 
 // ==================================================================================
 function draw_yarn() {
-  if (app.yarn_data) {
-    const jsonObject = JSON.parse(app.yarn_data)
-    updateGraph(jsonObject)
+  const yarn_data = app.get_meta_value("yarn");
+  if (yarn_data) {
+    updateGraph(JSON.parse(yarn_data))
   }
 }
 
