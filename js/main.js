@@ -570,7 +570,7 @@ async function deal_with_get_parameters() {
 
     app.skip_history = true
 
-    fetch_json(clean_concat(app.backend_server, "shorten", `${custom_param}.json`))
+    fetch_json(clean_concat(app.backend_server, "shorten", `${custom_param}.json`), true)
     .then(data => {
       let request = 'request' in data ? data.request : data.pattern // backward compatibility
       cmEditor.setValue(request)

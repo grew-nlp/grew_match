@@ -29,10 +29,13 @@ function clean_concat(base, ...parts) {
 }
 
 // ==================================================================================
-async function fetch_json(url) {
+// when [skip_error] is set to [true], the error is not reported to the user
+// used for back-off solutions (like old "custom")
+async function fetch_json(url, skip_error=false) {
   const response = await fetch(url)
   if (!response.ok) {
-    direct_error  (`Cannot load \`${url}\`: ${response.status} ${response.statusText}`)
+    if (skip_error) { throw new Error("Whoops!"); }
+    else { direct_error  (`Cannot load \`${url}\`: ${response.status} ${response.statusText}`) }
   }
   const json_data = await response.json()
   return json_data
