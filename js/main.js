@@ -377,7 +377,7 @@ let app = new Vue({
   
     // compute the ArboratorGrew url, if relevant
     ag_url() {
-      const ag_project = this.current_corpus?.arborator_grew
+      const ag_project = this.active_corpus?.arborator_grew
       if (!ag_project) return undefined
 
       const document_id = this.get_meta_value("document_id")
