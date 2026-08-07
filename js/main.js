@@ -112,6 +112,7 @@ let app = new Vue({
 
     active_corpus_id: undefined,
     active_corpus: {},
+    modal_title: "TODO",
   }, // end data
 
   methods: {
@@ -1407,6 +1408,39 @@ function show_conll() {
     $('#code_viewer').html(data)
     $('#code_modal').modal('show')
   })
+}
+
+// ==================================================================================
+function show_built_file(file, jsonl = false, title = "") {
+  let param = {
+    corpus: app.current_corpus_id,
+    file: file
+  }
+
+  generic(app.backend_server, 'get_build_file', param)
+    .then(data => {
+      if (!data) { return }
+      
+      const code_viewer = document.getElementById('code_viewer');
+      
+      if (jsonl) {
+        const lines = data.split("\n").filter(line => line.trim());
+        const jsonObjects = lines.map(line => {
+          const json = JSON.parse(line);
+          delete json["library"];
+          if ("file" in json) {
+            json["file"] = json["file"].split("/").slice(5).join("/")
+          }
+          return JSON.stringify(json, null, 2);
+        });
+        
+        code_viewer.textContent = jsonObjects.join("\n\n");
+      } else {
+        code_viewer.textContent = data;
+      }
+      app.modal_title = title;
+      $('#code_modal').modal('show');
+    })
 }
 
 // ==================================================================================
