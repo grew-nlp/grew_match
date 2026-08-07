@@ -38,10 +38,6 @@
         "logo": "https://naija.grew.fr/icon/naija.png"
       }
     },
-    "autogramm.grew.fr": {
-      "backend": "https://gmd-autogramm.grew.fr/",
-      "instance": "autogramm.json"
-    },
     "sawg.grew.fr": {
       "backend": "https://gmd-sawg.grew.fr/",
       "instance": "sawg.json"
