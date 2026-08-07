@@ -51,7 +51,9 @@
 			
 		<!-- video component -->
 		<video-player v-show="video_begin"></video-player>
-		
+
+		<codmod :show="codmod.opened" @close="codmod.opened=false" v-bind:codmod="codmod"></codmod>
+
 		<!-- Top Navbar -->
 		<nav id="navbar-grew" class="navbar navbar-inverse navbar-fixed-top" v-bind:class='{local: local}' role="navigation">
 			<div class="container-fluid">
@@ -651,7 +653,7 @@
 											<i class="fa fa-fw" v-bind:class="metadata_open ? ['fa-chevron-down'] : ['fa-chevron-right']"></i>
 										</button>
 
-										<button v-show="mode=='syntax'" type="button" id="conll-button" class="btn btn-primary btn-sm tooltip-desc" onclick="show_conll()">
+										<button v-show="mode=='syntax'" type="button" class="btn btn-primary btn-sm tooltip-desc" onclick="show_conll()">
 											View CoNLL&nbsp;
 											<i class="fa fa-rocket" aria-hidden="true"></i>
 										</button>
@@ -764,7 +766,6 @@
 
 
 
-
 	<!-- tooltip content -->
 	<div id="warning-tip" style="display: none;">
 		<p>No corpus found with the requested name.</p>
@@ -814,24 +815,6 @@
 		</div>
 	</div>
 
-	<!-- modal for conll export -->
-	<div id="code_modal" class="modal">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-						<div style="text-align: center;">
-								<span>{{modal_title}}</span>
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								<button type="button" class="btn btn-primary" style="width:100%; margin-top: 10px;" onclick="javascript:code_copy()">Copy in clipboard</button>
-						</div>
-				</div>
-				<div class="modal-body">
-					<textarea id="code_viewer" rows="25" readonly=""></textarea>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<div id="cite_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="vertical-alignment-helper">
 			<div class="modal-dialog vertical-align-center modal-lg">
@@ -850,6 +833,26 @@
 	</div>
 </div>
 
+<!-- component template for [codmod]: modal for code -->
+<script type="text/x-template" id="codmod-template">
+		<div id="codmod_id" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+						<div style="text-align: center;">
+								<span v-html="codmod.title"></span>
+								<button type="button" class="close" @click="$emit('close')" aria-hidden="true">&times;</button>
+								<button type="button" class="btn btn-primary" style="width:100%; margin-top: 10px;" @click="copy">Copy in clipboard</button>
+						</div>
+				</div>
+				<div class="modal-body">
+					<textarea id="codmod_viewer" rows="25" readonly="">{{codmod.code}}</textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</script>
 
 <!-- component template -->
 <script type="text/x-template" id="grid-template">
@@ -969,6 +972,7 @@
 <script src="js/grid_comp.js"></script>
 <script src="js/main.js"></script>
 <script src="js/Video.js"></script>
+<script src="js/codmod.js"></script>
 
 <link rel="stylesheet" href="css/grid.css">
 <link rel="stylesheet" href="css/main.css">

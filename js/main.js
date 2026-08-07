@@ -112,7 +112,12 @@ let app = new Vue({
 
     active_corpus_id: undefined,
     active_corpus: {},
-    modal_title: "TODO",
+    
+    codmod: {
+      title: "",
+      code: "",
+      opened: false,
+    }
   }, // end data
 
   methods: {
@@ -1405,8 +1410,11 @@ function show_conll() {
   generic(app.backend_server, 'conll', param)
   .then(data => {
     if (!data) { return }
-    $('#code_viewer').html(data)
-    $('#code_modal').modal('show')
+    app.codmod = {
+      title: `CoNLL of sentence <code>${app.sent_id}</code>`,
+      code: data,
+      opened: true
+    }
   })
 }
 
@@ -1421,7 +1429,7 @@ function show_built_file(file, jsonl = false, title = "") {
     .then(data => {
       if (!data) { return }
       
-      const code_viewer = document.getElementById('code_viewer');
+      var code = ""
       
       if (jsonl) {
         const lines = data.split("\n").filter(line => line.trim());
@@ -1434,12 +1442,15 @@ function show_built_file(file, jsonl = false, title = "") {
           return JSON.stringify(json, null, 2);
         });
         
-        code_viewer.textContent = jsonObjects.join("\n\n");
+        code = jsonObjects.join("\n\n");
       } else {
-        code_viewer.textContent = data;
+        code = data;
       }
-      app.modal_title = title;
-      $('#code_modal').modal('show');
+      app.codmod = {
+        title: title,
+        code: code,
+        opened: true
+      }
     })
 }
 
@@ -1456,13 +1467,11 @@ function show_cite() {
 
 // ==================================================================================
 function show_code() {
-  $('#code_viewer').html(app.current_item.code)
-  $('#code_modal').modal('show')
-}
-
-// ==================================================================================
-function code_copy() {
-  navigator.clipboard.writeText($('#code_viewer').html())
+  app.codmod = {
+    title: `Code for sentence <code>${app.sent_id}</code>`,
+    code: app.current_item.code,
+    opened: true
+  }
 }
 
 // ==================================================================================
