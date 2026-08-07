@@ -285,7 +285,7 @@
 
 											<!-- UD validation only -->
 											<a v-show='check_built("valid_ud.txt") && !check_built("diag_ud.txt")'>
-												<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary" onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">
+												<button id="ud-valid-button" type="button" class="tooltip-desc btn btn-primary" onclick="show_built_file('valid_ud.txt')">
 													<img src="icon/ud.svg" width="20"></img>
 													<i class="fa fa-check fa-lg"></i>
 												</button>
@@ -300,8 +300,8 @@
 													</button>
 												</a>
 												<ul class="dropdown-menu" style="margin-top: 10px;">
-													<li v-show='check_built("diag_ud.txt")' ><a onclick="open_build_file('diag_ud.txt', 'diag_ud', 'yes')">Diagnostic</a></li>
-													<li v-show='check_built("valid_ud.txt")' ><a onclick="open_build_file('valid_ud.txt', 'valid_ud', 'yes')">Validation</a></li>
+													<li v-show='check_built("diag_ud.txt")' ><a onclick="show_built_file('diag_ud.txt')">Diagnostic</a></li>
+													<li v-show='check_built("valid_ud.txt")' ><a onclick="show_built_file('valid_ud.txt')">Validation</a></li>
 												</ul>
 											</span>
 

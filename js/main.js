@@ -544,7 +544,7 @@ async function deal_with_get_parameters() {
 
   if (url_params.get ('valid_ud') == 'yes') {
     if (app.check_built('valid_ud.txt')) {
-      open_build_file('valid_ud.txt')
+      show_built_file('valid_ud.txt')
     } else {
       direct_warning (`No valid_ud available for corpus: ${app.current_corpus_id}`)
     }
@@ -552,7 +552,7 @@ async function deal_with_get_parameters() {
 
   if (url_params.get ('diag_ud') == 'yes') {
     if (app.check_built('diag_ud.txt')) {
-      open_build_file('diag_ud.txt')
+      show_built_file('diag_ud.txt')
     } else {
       direct_warning (`No diag_ud available for corpus: ${app.current_corpus_id}`)
     }
