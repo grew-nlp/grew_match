@@ -169,7 +169,6 @@ let app = new Vue({
     },
 
     select_group(group_id) {
-      app.skip_history = true;
       app.current_group_id = group_id
       this.view_left_pane = true // always make left pane visible when a new group is selected
       if (app.current_group.style != 'left_pane') {
@@ -180,8 +179,6 @@ let app = new Vue({
       } else {
         app.current_corpus_id = app.current_group.corpora[0].id
       }
-      // without the delay, it makes the whole page load again.
-      setTimeout(update_url, 200)
     },
 
     update_current_cluster() { // also update app.current_cluster_size
@@ -513,7 +510,7 @@ async function deal_with_get_parameters() {
   }
 
   if (url_params.has('corpus')) {
-    app.skip_history = true
+    app.skip_history = true // when [corpus] is given, history item is already recorded, avoid duplicate
     const best_match = find_best_match_corpus(url_params.get('corpus'))
     app.current_corpus_id = best_match.corpus_id;
     app.current_group_id = best_match.group_id;
@@ -575,7 +572,7 @@ async function deal_with_get_parameters() {
   if (url_params.has('custom')) {
     const custom_param = url_params.get('custom')
 
-    app.skip_history = true
+    app.skip_history = true // avoid URL to be replaced by "corpus" get param
 
     fetch_json(clean_concat(app.backend_server, "shorten", `${custom_param}.json`), true)
     .then(data => {
@@ -725,7 +722,7 @@ function set_default_corpus() {
 
   if (app.current_corpus_id === undefined) {
     const randomIndex = Math.floor(Math.random() * group.corpora.length);
-    app.skip_history = true;
+    app.skip_history = true; // when a random corpus is chosen, useless to get it as a get param
     app.current_corpus_id = group.corpora[randomIndex].id;
   }
 }
@@ -872,7 +869,7 @@ function get_param_stage2 () { // in a second stage to be put behind a timeout.
   let request_param = url_params.has('request') ? url_params.get('request') : url_params.get('pattern')
 
   if (request_param) {
-    app.skip_history = true
+    app.skip_history = true // If the request is given in the URL, keep it
     app.view_left_pane = false
     cmEditor.setValue(request_param)
     setTimeout(function () {
@@ -1563,32 +1560,33 @@ function update_corpus() {
   } else {
     right_pane('_default')
   }
-
   // update info button and update timestamp if needed
-  if (!app.check_built('desc.json')) return;
-  app.ago=''
-  const param = {
-    corpus: app.current_corpus_id,
-    file: 'desc.json'
-  }
-  generic(app.backend_server, 'get_build_file', param)
-  .then(data => {
-    if (!data) return
-    let json = JSON.parse(data)
-    app.meta_info = true
-
-    const parts = [];
-    for (const [k, v] of Object.entries(json)) {
-      if (k === 'update') {
-        app.ago = time_ago(v)
-      } else {
-        parts.push(`<p>${escape_html(k)}: ${escape_html(v)}</p>`)
-      }
+  if (app.check_built('desc.json')) {
+    app.ago=''
+    const param = {
+      corpus: app.current_corpus_id,
+      file: 'desc.json'
     }
-    const html = parts.join('');
 
-    $('#info-tip').tooltipster('content', html)
+    generic(app.backend_server, 'get_build_file', param)
+    .then(data => {
+      if (!data) return
+      let json = JSON.parse(data)
+      app.meta_info = true
+
+      const parts = [];
+      for (const [k, v] of Object.entries(json)) {
+        if (k === 'update') {
+          app.ago = time_ago(v)
+        } else {
+          parts.push(`<p>${escape_html(k)}: ${escape_html(v)}</p>`)
+        }
+      }
+      const html = parts.join('');
+
+      $('#info-tip').tooltipster('content', html)
     })
+  }
 
   update_url ()
 }
@@ -1597,11 +1595,14 @@ function update_corpus() {
 
 function update_url() {
   if (app.skip_history) { app.skip_history = false; return }
-
-  if (app.multi_mode) {
-    history.pushState({}, '', `?corpus_list=${app.selected_corpora.join(',')}`)
+  if (app.current_group_id === "Tutorial") {
+    history.pushState({}, '', `?tutorial=yes`)
   } else {
-    history.pushState({}, '', `?corpus=${app.current_corpus_id}`)
+    if (app.multi_mode) {
+      history.pushState({}, '', `?corpus_list=${app.selected_corpora.join(',')}`)
+    } else {
+      history.pushState({}, '', `?corpus=${app.current_corpus_id}`)
+    }
   }
 }
 

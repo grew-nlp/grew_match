@@ -68,7 +68,6 @@
 					</a>
 
 					<ul class="nav navbar-nav groups" style="margin-left:30px">
-
 						<li v-for="group in groups" v-bind:class='{dropdown: group["style"] == "dropdown" || group["style"] == "links", active: current_group_id == group["id"] }'>
 
 							<!-- links case -->
@@ -95,19 +94,19 @@
 
 							<ul v-if='group["style"] == "dropdown"' class="dropdown-menu">
 								<li v-for='corpus in group["corpora"]' v-bind:class='{ divider: corpus=="divider" }'>
-									<a href="#" v-if='corpus!="divider"' v-on:click='current_group_id = group["id"]; current_corpus_id = corpus["id"]'>
+									<a v-if='corpus!="divider"' v-on:click='current_group_id = group["id"]; current_corpus_id = corpus["id"]; update_url()'>
 										{{corpus["id"]}}
 									</a>
 								</li>
 							</ul>
 
 							<!-- leftpane case -->
-							<a v-if='group["style"] == "left_pane"' class="navbar-brand" v-on:click='select_group(group["id"])' href="#">
-								{{group["id"]}}
+							<a v-if='group["style"] == "left_pane"' class="navbar-brand" @click.prevent='select_group(group["id"])' href="#">
+									{{group["id"]}}
 							</a>
 
 							<!-- single case -->
-							<a v-if='group["style"] == "single"' class="navbar-brand" v-on:click='select_group(group["id"])' href="#">
+							<a v-if='group["style"] == "single"' class="navbar-brand" @click.prevent='select_group(group["id"])' href="#">
 								{{ group["id"] }}
 							</a>
 
@@ -663,7 +662,7 @@
 											<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-link fa-lg"></i></button>
 										</a>
 
-										<button v-if="mode=='semantics'" type="button" id="code-button" class="btn btn-primary btn-sm tooltip-desc" onclick="javascript:show_code()">
+										<button v-if="mode=='semantics'" type="button" class="btn btn-primary btn-sm tooltip-desc" @click="show_code">
 											Code&nbsp;
 											<i class="fa fa-rocket" aria-hidden="true"></i>
 										</button>
